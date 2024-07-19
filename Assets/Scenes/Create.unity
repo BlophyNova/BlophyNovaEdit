@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 184034004}
   - component: {fileID: 184034003}
   m_Layer: 5
-  m_Name: CreateChart
+  m_Name: "CreateChartText\u3001"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -641,7 +641,7 @@ GameObject:
   - component: {fileID: 244558796}
   - component: {fileID: 244558795}
   m_Layer: 5
-  m_Name: "\u66F2\u7ED8"
+  m_Name: IllustrarionPath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -952,7 +952,7 @@ GameObject:
   - component: {fileID: 504568998}
   - component: {fileID: 504568997}
   m_Layer: 5
-  m_Name: "\u97F3\u4E50"
+  m_Name: MusicPath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -972,7 +972,7 @@ RectTransform:
   m_Children:
   - {fileID: 1472404729}
   m_Father: {fileID: 2144416533}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2440,7 +2440,7 @@ GameObject:
   - component: {fileID: 1837405107}
   - component: {fileID: 1837405106}
   m_Layer: 5
-  m_Name: IllustrarionLocation
+  m_Name: Illustrarion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2459,7 +2459,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2144416533}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2712,7 +2712,7 @@ GameObject:
   - component: {fileID: 1930147281}
   - component: {fileID: 1930147284}
   m_Layer: 5
-  m_Name: "\u521B\u5EFA"
+  m_Name: Create
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3032,12 +3032,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -3052,8 +3052,8 @@ Canvas:
   m_GameObject: {fileID: 2002223274}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1426121499}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -3100,7 +3100,7 @@ GameObject:
   - component: {fileID: 2106979028}
   - component: {fileID: 2106979027}
   m_Layer: 5
-  m_Name: "\u66F2\u540D"
+  m_Name: MusicName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3120,7 +3120,7 @@ RectTransform:
   m_Children:
   - {fileID: 1168424797}
   m_Father: {fileID: 2144416533}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3447,9 +3447,9 @@ RectTransform:
   - {fileID: 184034002}
   - {fileID: 1865081974}
   - {fileID: 1425672980}
-  - {fileID: 1837405105}
   - {fileID: 2106979026}
   - {fileID: 504568996}
+  - {fileID: 1837405105}
   - {fileID: 244558794}
   - {fileID: 1930147280}
   m_Father: {fileID: 2002223278}
