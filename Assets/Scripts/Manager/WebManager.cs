@@ -1,6 +1,8 @@
 using Data.ChartData;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilityCode.Singleton;
@@ -40,9 +42,9 @@ namespace Manager
         }
         private IEnumerator Start()
         {
+            ChartData = JsonConvert.DeserializeObject<ChartData>(new StreamReader(new FileStream($"{Application.streamingAssetsPath}/1/ChartFile/Red/Chart.json", FileMode.Open)).ReadToEnd());
 
             yield return GlobalData.Instance.ReadResource();
-            ChartData = GlobalData.Instance.chartData;
             MusicClip = GlobalData.Instance.clip;
             Background.sprite = GlobalData.Instance.currentCp;
         }

@@ -38,7 +38,6 @@ namespace Scenes.DontDestoryOnLoad
         }
         public IEnumerator ReadResource()
         {
-            chartData = JsonConvert.DeserializeObject<ChartData>(new StreamReader(new FileStream($"{Application.streamingAssetsPath}/1/ChartFile/Red/Chart.json", FileMode.Open)).ReadToEnd());
             UnityWebRequest unityWebRequest = UnityWebRequestMultimedia.GetAudioClip($"file://{Application.streamingAssetsPath}/1/Music/Music.mp3", AudioType.MPEG);
             yield return unityWebRequest.SendWebRequest();
             clip = DownloadHandlerAudioClip.GetContent(unityWebRequest);
