@@ -31,11 +31,11 @@ public class CreateChart : MonoBehaviour
                 if (File.Exists(songLocation) & File.Exists(illustrationLocation))
                 {
                     Directory.CreateDirectory(chartLocation);
-                    Directory.CreateDirectory(chartLocation + "/" + "Background");
-                    Directory.CreateDirectory(chartLocation + "/" + "ChartFile");
-                    Directory.CreateDirectory(chartLocation + "/" + "Music");
-                    System.IO.File.Copy(songLocation, chartLocation + "/" + "Music" + "/Music.mp3");
-                    System.IO.File.Copy(illustrationLocation, chartLocation + "/" + "Background" + "/BG.png");
+                    Directory.CreateDirectory(chartLocation + "/Background");
+                    Directory.CreateDirectory(chartLocation + "/ChartFile");
+                    Directory.CreateDirectory(chartLocation + "/Music");
+                    System.IO.File.Copy(songLocation, chartLocation + "/Music/Music.mp3");
+                    System.IO.File.Copy(illustrationLocation, chartLocation + "/Background/BG.png");
                 }
                 else
                 {
