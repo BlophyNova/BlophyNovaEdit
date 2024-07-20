@@ -28,8 +28,8 @@ public class CreateChart : PublicButton
 
     private void CreatChart()
     {
-        File.Copy(musicPathText.text, $"{MusicFilePath}/{Path.GetFileName(musicPathText.text)}");
-        File.Copy(illustrationPathText.text, $"{IllustrationFilePath}/{Path.GetFileName(illustrationPathText.text)}");
+        File.Copy(musicPathText.text, $"{MusicFilePath}/music.mp3");
+        File.Copy(illustrationPathText.text, $"{IllustrationFilePath}/bg.png");
         ChartData chartData = new();
         File.WriteAllText($"{ChartFilePath}/{currentLevel}/Chart.json",JsonConvert.SerializeObject(chartData));
     }
