@@ -31,8 +31,8 @@ public class CreateChart : PublicButton
 
     private void CreatChart()
     {
-        File.Copy(musicPathText.text, $"{MusicFilePath}/music.mp3");
-        File.Copy(illustrationPathText.text, $"{IllustrationFilePath}/bg.png");
+        File.Copy(musicPathText.text, $"{MusicFilePath}/Music.mp3");
+        File.Copy(illustrationPathText.text, $"{IllustrationFilePath}/Background.png");
         ChartData chartData = new();
         File.WriteAllText($"{ChartFilePath}/{currentLevel}/Chart.json",JsonConvert.SerializeObject(chartData));
     }
@@ -71,26 +71,32 @@ public class CreateChart : PublicButton
             string indexJSONPath = $"{Application.streamingAssetsPath}/index.json";
             if (!File.Exists(indexJSONPath))
             {
-                List<ChartFileIndex> chartFileIndices = new()
-                {
-                    new() { index = 0 }
-                };
-                currentChartFileIndex = chartFileIndices[0].index;
-
-                chartFileIndices[currentChartFileIndex].musicName = musicNameText.text;
-                chartFileIndices[currentChartFileIndex].musicPath = musicPathText.text;
-                chartFileIndices[currentChartFileIndex].IllustrationPath = illustrationPathText.text;
-                File.WriteAllText(indexJSONPath, JsonConvert.SerializeObject(chartFileIndices));
-                CreateDirectory();
+                List<ChartFileIndex> chartFileIndices = new();
+                CreateNewChartIndex(indexJSONPath, chartFileIndices);
             }
             else
             {
                 string rawData = File.ReadAllText(indexJSONPath);
+                List<ChartFileIndex> chartFileIndices = JsonConvert.DeserializeObject<List<ChartFileIndex>>(rawData);
+                CreateNewChartIndex(indexJSONPath, chartFileIndices);
             }
 
             CreatChart();
         }
     }
+
+    private void CreateNewChartIndex(string indexJSONPath, List<ChartFileIndex> chartFileIndices)
+    {
+        ChartFileIndex chartFileIndex = new();
+        currentChartFileIndex = chartFileIndex.index = chartFileIndices.Count;
+        chartFileIndices.Add(chartFileIndex);
+        chartFileIndices[currentChartFileIndex].musicName = musicNameText.text;
+        chartFileIndices[currentChartFileIndex].musicPath = musicPathText.text;
+        chartFileIndices[currentChartFileIndex].IllustrationPath = illustrationPathText.text;
+        File.WriteAllText(indexJSONPath, JsonConvert.SerializeObject(chartFileIndices,Formatting.Indented));
+        CreateDirectory();
+    }
+
     private void Start()
     {
         thisButton.onClick.AddListener(() => OnClick());

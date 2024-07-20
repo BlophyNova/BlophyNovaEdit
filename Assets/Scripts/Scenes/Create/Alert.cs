@@ -13,7 +13,6 @@ public class Alert : PublicButton
     static List<string> textList=new();
     static List<Transform> parentList = new();
     static List<Action> actions = new();
-    static bool useList=true;
     private void Start()
     {
         thisButton.onClick.AddListener(() => 
@@ -52,7 +51,6 @@ public class Alert : PublicButton
         actions.RemoveAt(0);
         if (textList.Count != 0)
         {
-            useList = false;
             EnableAlertWithoutAdd2List(parentList[0], textList[0]);
         }
         Destroy(gameObject);
