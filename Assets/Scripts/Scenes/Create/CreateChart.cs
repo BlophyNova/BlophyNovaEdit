@@ -19,13 +19,13 @@ public class CreateChart : PublicButton
     public TMP_InputField musicNameText;
     public TMP_InputField musicPathText;
     public TMP_InputField illustrationPathText;
-
-    public GameObject alertContent;
+    public Transform parentObject;
 
     string currentLevel="Red";
     string ChartFilePath=>$"{Application.streamingAssetsPath}/{currentChartFileIndex}/ChartFile";
     string MusicFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Music";
     string IllustrationFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Illustration";
+
 
     public int currentChartFileIndex = -1;
 
@@ -39,26 +39,26 @@ public class CreateChart : PublicButton
 
     private bool VerifyLocalMusicExistence()
     {
-        if (Directory.Exists(musicPathText.text))
+        if (File.Exists(musicPathText.text))
         {
             return true;
         }
         else
         {
-            alertContent.GetComponent<Alert>().EnableAlert("您填写的音乐文件不存在！");
+            Alert.EnableAlert(parentObject, "您填写的音乐文件不存在！");
             return false;
         }
     }
 
     private bool VerifyLocalIllustrationExistence()
     {
-        if (Directory.Exists(illustrationPathText.text))
+        if (File.Exists(illustrationPathText.text))
         {
             return true;
         }
         else
         {
-            alertContent.GetComponent<Alert>().EnableAlert("您填写的曲绘文件不存在！");
+            Alert.EnableAlert(parentObject, "您填写的曲绘文件不存在！");
             return false;
         }
     }

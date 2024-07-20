@@ -123,11 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!224 &43544174 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-  m_PrefabInstance: {fileID: 4699475232414095123}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &184034001
 GameObject:
   m_ObjectHideFlags: 0
@@ -2408,6 +2403,121 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: -8, y: -5, z: -8, w: -5}
   m_Softness: {x: 0, y: 0}
+--- !u!1 &1498853939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1498853941}
+  - component: {fileID: 1498853940}
+  m_Layer: 0
+  m_Name: GlobalData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1498853940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498853939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce6b399b944a2046b02211d734f320d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chapters: []
+  currentChapter: 
+  currentChapterIndex: 0
+  currentMusic: 
+  currentMusicIndex: 0
+  currentHard: 
+  chartData:
+    metaData:
+      musicName: 
+      musicWriter: 
+      musicBpmText: 
+      artWriter: 
+      chartWriter: 
+      chartLevel: 
+      description: 
+    boxes: []
+    globalData:
+      offset: 0
+      musicLength: 0
+      tapCount: 0
+      holdCount: 0
+      dragCount: 0
+      flickCount: 0
+      fullFlickCount: 0
+      pointCount: 0
+    texts: []
+  clip: {fileID: 0}
+  currentCp: {fileID: 0}
+  currentCph: {fileID: 0}
+  score:
+    tapPerfect: 0
+    holdPerfect: 0
+    dragPerfect: 0
+    flickPerfect: 0
+    fullFlickPerfect: 0
+    pointPerfect: 0
+    tapGood: 0
+    holdGood: 0
+    pointGood: 0
+    tapEarlyGood: 0
+    holdEarlyGood: 0
+    pointEarlyGood: 0
+    tapLateGood: 0
+    holdLateGood: 0
+    pointLateGood: 0
+    tapBad: 0
+    tapEarlyBad: 0
+    tapLateBad: 0
+    pointBad: 0
+    pointEarlyBad: 0
+    pointLateBad: 0
+    tapMiss: 0
+    holdMiss: 0
+    dragMiss: 0
+    flickMiss: 0
+    fullFlickMiss: 0
+    pointMiss: 0
+    combo: 0
+    maxCombo: 0
+    tapCount: 0
+    holdCount: 0
+    dragCount: 0
+    flickCount: 0
+    fullFlickCount: 0
+    pointCount: 0
+    delta: -1
+    score: 0
+  isAutoplay: 1
+  offset: 0
+  whereToEnterSettings: 
+  alert: {fileID: 4699475232414095126, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
+--- !u!4 &1498853941
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498853939}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1529823428
 GameObject:
   m_ObjectHideFlags: 0
@@ -3022,7 +3132,7 @@ MonoBehaviour:
   musicNameText: {fileID: 2106979027}
   musicPathText: {fileID: 504568997}
   illustrationPathText: {fileID: 244558795}
-  alertContent: {fileID: 2133325037}
+  parentObject: {fileID: 2144416533}
   currentChartFileIndex: -1
 --- !u!1 &2002223274
 GameObject:
@@ -3118,7 +3228,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2144416533}
-  - {fileID: 43544174}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3303,11 +3412,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2106979025}
   m_CullTransparentMesh: 1
---- !u!1 &2133325037 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4699475232869458942, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-  m_PrefabInstance: {fileID: 4699475232414095123}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2144416532
 GameObject:
   m_ObjectHideFlags: 0
@@ -3394,100 +3498,3 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2144416532}
   m_CullTransparentMesh: 1
---- !u!1001 &4699475232414095123
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 2002223278}
-    m_Modifications:
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_Pivot.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: -1739.2578
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -653.3719
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 55
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668797, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4699475232372668798, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}
-      propertyPath: m_Name
-      value: Alert
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 512d2e62385fe674f88c0c1e65036122, type: 3}

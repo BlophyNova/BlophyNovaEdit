@@ -32,6 +32,8 @@ namespace Scenes.DontDestoryOnLoad
         public int ScreenHeight => Camera.main.pixelHeight;
         [FormerlySerializedAs("WhereToEnterSettings")]
         public string whereToEnterSettings;
+
+        public Alert alert;
         protected override void OnAwake()
         {
             DontDestroyOnLoad(gameObject);
