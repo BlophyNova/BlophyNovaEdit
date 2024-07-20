@@ -8,12 +8,11 @@ using UnityEngine;
 public class Alert : MonoBehaviour
 {
     public GameObject alert;
-    public GameObject alertContent;
     public TMP_Text content;
 
     private void Start()
     {
-        content = alertContent.GetComponent<TMP_Text>();
+        content = GetComponent<TMP_Text>();
     }
 
     public void EnableAlert(string text)

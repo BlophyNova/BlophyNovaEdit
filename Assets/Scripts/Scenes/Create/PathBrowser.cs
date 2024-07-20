@@ -8,7 +8,7 @@ using static SimpleFileBrowser.FileBrowser;
 public class PathBrowser : PublicButton
 {
     public TMP_InputField inputField;
-    // Start is called before the first frame update
+
     void Start()
     {
         thisButton.onClick.AddListener(() => 

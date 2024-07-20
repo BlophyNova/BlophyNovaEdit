@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
+using UnityEditor;
 using UnityEditor.Profiling;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,8 @@ public class CreateChart : PublicButton
     public TMP_InputField musicNameText;
     public TMP_InputField musicPathText;
     public TMP_InputField illustrationPathText;
+
+    public GameObject alertContent;
 
     string currentLevel="Red";
     string ChartFilePath=>$"{Application.streamingAssetsPath}/{currentChartFileIndex}/ChartFile";
@@ -34,32 +37,76 @@ public class CreateChart : PublicButton
         File.WriteAllText($"{ChartFilePath}/{currentLevel}/Chart.json",JsonConvert.SerializeObject(chartData));
     }
 
-    public void OnClick() 
+    private bool VerifyChartExistence()
     {
-        string indexJSONPath = $"{Application.streamingAssetsPath}/index.json";
-        if (!File.Exists(indexJSONPath))
+        if (Directory.Exists($"{MusicFilePath}"))
         {
-            List<ChartFileIndex> chartFileIndices = new()
-            {
-                new() { index = 0 }
-            };
-            currentChartFileIndex = chartFileIndices[0].index;
-
-            chartFileIndices[currentChartFileIndex].musicName = musicNameText.text;
-            chartFileIndices[currentChartFileIndex].musicPath = musicPathText.text;
-            chartFileIndices[currentChartFileIndex].IllustrationPath = illustrationPathText.text;
-            File.WriteAllText(indexJSONPath, JsonConvert.SerializeObject(chartFileIndices));
-            CreateDirectory();
+            return true;
         }
         else
         {
-           string rawData = File.ReadAllText(indexJSONPath);
+            alertContent.GetComponent<Alert>().EnableAlert("目录已存在同名谱面文件！");
+            return false;
         }
-        CreatChart();
+    }
+
+    private bool VerifyLocalMusicExistence()
+    {
+        if (Directory.Exists(musicPathText.text))
+        {
+            return true;
+        }
+        else
+        {
+            alertContent.GetComponent<Alert>().EnableAlert("您填写的音乐文件不存在！");
+            return false;
+        }
+    }
+
+    private bool VerifyLocalIllustrationExistence()
+    {
+        if (Directory.Exists(illustrationPathText.text))
+        {
+            return true;
+        }
+        else
+        {
+            alertContent.GetComponent<Alert>().EnableAlert("您填写的曲绘文件不存在！");
+            return false;
+        }
+    }
+
+    public void OnClick() 
+    {
+        if (VerifyChartExistence() &
+            VerifyLocalMusicExistence() &
+            VerifyLocalIllustrationExistence())
+        {
+            string indexJSONPath = $"{Application.streamingAssetsPath}/index.json";
+            if (!File.Exists(indexJSONPath))
+            {
+                List<ChartFileIndex> chartFileIndices = new()
+                {
+                    new() { index = 0 }
+                };
+                currentChartFileIndex = chartFileIndices[0].index;
+
+                chartFileIndices[currentChartFileIndex].musicName = musicNameText.text;
+                chartFileIndices[currentChartFileIndex].musicPath = musicPathText.text;
+                chartFileIndices[currentChartFileIndex].IllustrationPath = illustrationPathText.text;
+                File.WriteAllText(indexJSONPath, JsonConvert.SerializeObject(chartFileIndices));
+                CreateDirectory();
+            }
+            else
+            {
+                string rawData = File.ReadAllText(indexJSONPath);
+            }
+
+            CreatChart();
+        }
     }
     private void Start()
     {
-        
         thisButton.onClick.AddListener(() => OnClick());
     }
     void CreateDirectory()
