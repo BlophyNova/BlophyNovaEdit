@@ -641,7 +641,7 @@ GameObject:
   - component: {fileID: 244558796}
   - component: {fileID: 244558795}
   m_Layer: 5
-  m_Name: IllustrarionPath
+  m_Name: IllustrationPath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1741,6 +1741,7 @@ GameObject:
   - component: {fileID: 1078825386}
   - component: {fileID: 1078825385}
   - component: {fileID: 1078825384}
+  - component: {fileID: 1078825387}
   m_Layer: 5
   m_Name: PathBrowser
   m_TagString: Untagged
@@ -1851,6 +1852,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1078825382}
   m_CullTransparentMesh: 1
+--- !u!114 &1078825387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078825382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ca5acc34bbea3e47891430ef55fb5eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButton: {fileID: 1078825384}
+  inputField: {fileID: 504568997}
 --- !u!1 &1151150657
 GameObject:
   m_ObjectHideFlags: 0
@@ -2682,6 +2697,7 @@ GameObject:
   - component: {fileID: 1599000105}
   - component: {fileID: 1599000104}
   - component: {fileID: 1599000103}
+  - component: {fileID: 1599000106}
   m_Layer: 5
   m_Name: PathBrowser
   m_TagString: Untagged
@@ -2792,6 +2808,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1599000101}
   m_CullTransparentMesh: 1
+--- !u!114 &1599000106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599000101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ca5acc34bbea3e47891430ef55fb5eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButton: {fileID: 1599000103}
+  inputField: {fileID: 244558795}
 --- !u!1 &1783089704
 GameObject:
   m_ObjectHideFlags: 0
@@ -2954,7 +2984,7 @@ GameObject:
   - component: {fileID: 1837405107}
   - component: {fileID: 1837405106}
   m_Layer: 5
-  m_Name: Illustrarion
+  m_Name: Illustration
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3296,19 +3326,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1930147282}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1930147284}
-        m_TargetAssemblyTypeName: CreateChart, Assembly-CSharp
-        m_MethodName: onClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1930147282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3359,10 +3377,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f7346305a41f784d9d1610a9d2f53a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alertContent: {fileID: 2133325037}
-  songNameInputField: {fileID: 2106979025}
-  songLocationInputField: {fileID: 504568995}
-  illustrationLocationInputField: {fileID: 244558793}
+  thisButton: {fileID: 1930147281}
+  musicNameText: {fileID: 2106979027}
+  musicPathText: {fileID: 504568997}
+  illustrationPathText: {fileID: 244558795}
+  musicName: 
+  musicPath: 
+  illustrationPath: 
+  currentLevel: 
+  currentChartFileIndex: 0
 --- !u!1 &1978576901
 GameObject:
   m_ObjectHideFlags: 0

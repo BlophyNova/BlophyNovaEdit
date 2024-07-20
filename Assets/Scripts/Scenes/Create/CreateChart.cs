@@ -1,62 +1,73 @@
+using Data.ChartData;
+using Newtonsoft.Json;
+using Scenes.PublicScripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
+using UnityEditor.Profiling;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Windows;
+using File = System.IO.File;
 using Text = Data.ChartData.Text;
 
-public class CreateChart : MonoBehaviour
+public class CreateChart : PublicButton
 {
-    public GameObject alertContent;
-    public GameObject songNameInputField;
-    public GameObject songLocationInputField;
-    public GameObject illustrationLocationInputField;
-    private string songName;
-    private string songLocation;
-    private string illustrationLocation;
+    //public GameObject alertContent;
+    public TMP_InputField musicNameText;
+    public TMP_InputField musicPathText;
+    public TMP_InputField illustrationPathText;
 
-    private string chartLocation;
+    string currentLevel="Red";
+    string ChartFilePath=>$"{Application.streamingAssetsPath}/{currentChartFileIndex}/ChartFile";
+    string MusicFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Music";
+    string IllustrationFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Illustration";
 
-    private void creatChart()
+    public int currentChartFileIndex = -1;
+
+    private void CreatChart()
     {
-        if (songName != "" & songLocation != "" & illustrationLocation != "")
+        File.Copy(musicPathText.text, $"{MusicFilePath}/{Path.GetFileName(musicPathText.text)}");
+        File.Copy(illustrationPathText.text, $"{IllustrationFilePath}/{Path.GetFileName(illustrationPathText.text)}");
+        ChartData chartData = new();
+        File.WriteAllText($"{ChartFilePath}/{currentLevel}/Chart.json",JsonConvert.SerializeObject(chartData));
+    }
+
+    public void OnClick() 
+    {
+        string indexJSONPath = $"{Application.streamingAssetsPath}/index.json";
+        if (!File.Exists(indexJSONPath))
         {
-            chartLocation = Application.streamingAssetsPath + "/" + songName;
-            Debug.Log(chartLocation);
-            if (!Directory.Exists(chartLocation))
+            List<ChartFileIndex> chartFileIndices = new()
             {
-                if (File.Exists(songLocation) & File.Exists(illustrationLocation))
-                {
-                    Directory.CreateDirectory(chartLocation);
-                    Directory.CreateDirectory(chartLocation + "/Background");
-                    Directory.CreateDirectory(chartLocation + "/ChartFile");
-                    Directory.CreateDirectory(chartLocation + "/Music");
-                    System.IO.File.Copy(songLocation, chartLocation + "/Music/Music.mp3");
-                    System.IO.File.Copy(illustrationLocation, chartLocation + "/Background/BG.png");
-                }
-                else
-                {
-                    alertContent.GetComponent<Alert>().EnableAlert("您填写的音乐或曲绘不存在！");
-                }
-            }
-            else
-            {
-                alertContent.GetComponent<Alert>().EnableAlert("已存在同歌名谱面！");
-            }
+                new() { index = 0 }
+            };
+            currentChartFileIndex = chartFileIndices[0].index;
+
+            chartFileIndices[currentChartFileIndex].musicName = musicNameText.text;
+            chartFileIndices[currentChartFileIndex].musicPath = musicPathText.text;
+            chartFileIndices[currentChartFileIndex].IllustrationPath = illustrationPathText.text;
+            File.WriteAllText(indexJSONPath, JsonConvert.SerializeObject(chartFileIndices));
+            CreateDirectory();
         }
         else
         {
-            alertContent.GetComponent<Alert>().EnableAlert("输入内容不能为空！");
+           string rawData = File.ReadAllText(indexJSONPath);
         }
+        CreatChart();
     }
-    
-    public void onClick()
+    private void Start()
     {
-        songName = songNameInputField.GetComponent<TMP_InputField>().text;
-        songLocation = songLocationInputField.GetComponent<TMP_InputField>().text;
-        illustrationLocation = illustrationLocationInputField.GetComponent<TMP_InputField>().text;
-        creatChart();
+        
+        thisButton.onClick.AddListener(() => OnClick());
+    }
+    void CreateDirectory()
+    {
+        Directory.CreateDirectory($"{ChartFilePath}/Green");
+        Directory.CreateDirectory($"{ChartFilePath}/Yellow");
+        Directory.CreateDirectory($"{ChartFilePath}/Red");
+        Directory.CreateDirectory($"{MusicFilePath}");
+        Directory.CreateDirectory($"{IllustrationFilePath}");
     }
 }
