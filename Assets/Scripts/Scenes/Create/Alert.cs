@@ -10,9 +10,9 @@ using UnityEngine.Animations;
 public class Alert : PublicButton
 {
     public TMP_Text content;
-    Action action;
     static List<string> textList=new();
     static List<Transform> parentList = new();
+    static List<Action> actions = new();
     static bool useList=true;
     private void Start()
     {
@@ -24,28 +24,36 @@ public class Alert : PublicButton
 
     public static void EnableAlert(Transform parent, string text, Action action=null)
     {
-        if (useList)
-        {
-            textList.Add(text);
-            parentList.Add(parent);
-        }
+        textList.Add(text);
+        parentList.Add(parent);
+        actions.Add(action);
+        InstWindow(parent, text);
+    }
+
+    private static void InstWindow(Transform parent, string text)
+    {
         if (textList.Count == 1)
         {
             Alert a = Instantiate(Scenes.DontDestoryOnLoad.GlobalData.Instance.alert, parent);
             a.content.text = text;
-            a.action = action;
         }
+    }
+
+    static void EnableAlertWithoutAdd2List(Transform parent, string text)
+    {
+        InstWindow(parent, text);
     }
 
     void DisableAlert()
     {
-        action?.Invoke();
+        actions[0]?.Invoke();
         textList.RemoveAt(0);
         parentList.RemoveAt(0);
+        actions.RemoveAt(0);
         if (textList.Count != 0)
         {
             useList = false;
-            EnableAlert(parentList[0], textList[0]);
+            EnableAlertWithoutAdd2List(parentList[0], textList[0]);
         }
         Destroy(gameObject);
     }
