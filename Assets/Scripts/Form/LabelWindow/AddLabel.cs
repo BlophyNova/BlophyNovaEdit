@@ -39,7 +39,12 @@ public class AddLabel : MonoBehaviour
             newItem.labelName.text = GlobalData.Instance.labelWindowContents[index-1].labelWindowName;
             LabelWindowContent newContent = Instantiate(GlobalData.Instance.labelWindowContents[index - 1], contentParentTransform);
             newItem.labelWindowContent = newContent;
+            newItem.labelWindow = labelWindow;
             newItem.closeThisLabel.labelWindow = labelWindow;
+            foreach (var item in labelWindow.labels)
+            {
+                item.labelWindowContent.gameObject.SetActive(false);
+            }
             labelWindow.labels.Add(newItem);
             dropdown.SetValueWithoutNotify(0);
         });

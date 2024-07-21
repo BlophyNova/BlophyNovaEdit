@@ -8,5 +8,6 @@ public class LabelItem : MonoBehaviour
 {
     public TMP_Text labelName;
     public CloseLabel closeThisLabel;
+    public LabelWindow labelWindow;
     public LabelWindowContent labelWindowContent;
 }

@@ -131,13 +131,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderOrder:
   - tierCount: []
-    length_tierCount: -1
+    lengthTierCount: -1
   - tierCount:
     - {fileID: 482928321145076333}
-    length_tierCount: -1
+    lengthTierCount: -1
   - tierCount: []
-    length_tierCount: -1
-  length_renderOrder: -1
+    lengthTierCount: -1
+  lengthRenderOrder: -1
   thisNote:
     noteType: 0
     hitTime: 0
@@ -149,7 +149,7 @@ MonoBehaviour:
     hitFloorPosition: 0
   decideLineController: {fileID: 0}
   texture: {fileID: 482928321145076333}
-  commonTexture: {fileID: 21300000, guid: 5e45cd943f93a704cbc78abf3b13230a, type: 3}
+  commonTexture: {fileID: 21300000, guid: 9af7d5f4a85516c49b269837eeef7f45, type: 3}
   multiTexture: {fileID: 21300000, guid: e8996ba12c80dba42a6260fe32e6e296, type: 3}
   isOnlineNote: 0
   isJudged: 0

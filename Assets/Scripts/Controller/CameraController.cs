@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UtilityCode.Singleton;
 using static UnityEngine.Camera;
 namespace Controller
 {
     public class CameraController : MonoBehaviourSingleton<CameraController>
     {
+        public Camera otherCamera;
         private const float Is16To9 = 0.5625f;
 
         public int lastWidth;
@@ -44,13 +46,14 @@ namespace Controller
             float w = (float)Screen.height/ (float)Screen.width/Is16To9;
             //Debug.Log($"Height:{Screen.height}|Width:{Screen.width}|{Screen.height / Screen.width / Is16To9}");
             float x = (1 - w) / 2;
-            main.rect = new Rect(x, 0f, w, 1f);
+            otherCamera.rect = main.rect = new Rect(x, 0f, w, 1f);
+            
         }
         private void HeightManyLong()
         {
             float h = Screen.width * Is16To9 / Screen.height;
             float y = (1 - h) / 2;
-            main.rect = new Rect(0f, y, 1f, h);
+            otherCamera.rect = main.rect = new Rect(0f, y, 1f, h);
         }
     }
 }
