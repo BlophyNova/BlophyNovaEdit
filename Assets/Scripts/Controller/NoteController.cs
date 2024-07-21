@@ -145,7 +145,6 @@ namespace Controller
         protected virtual void PlayEffect(NoteJudge noteJudge, Color hitJudgeEffectColor, bool isEarly)
         {
             PlayEffectWithoutAddScore(noteJudge, hitJudgeEffectColor, isEarly);
-            GlobalData.Instance.score.AddScore(thisNote.noteType, noteJudge, isEarly);//加分
         }
         protected virtual void PlayEffectWithoutAddScore(NoteJudge noteJudge, Color hitJudgeEffectColor, bool isEarly)
         {

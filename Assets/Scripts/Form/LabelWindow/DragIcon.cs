@@ -18,8 +18,4 @@ public class DragIcon : MonoBehaviour
     {
         labelWindow.anchoredPosition = GetMousePosition -mouseAndLabelWindowDelta;
     }
-    private void OnMouseEnter()
-    {
-        Debug.Log($"{(Vector2)Input.mousePosition}||{labelWindow.anchoredPosition}");
-    }
 }

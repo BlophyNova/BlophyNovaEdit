@@ -17,13 +17,6 @@ namespace Manager
             set
             {
                 AssetManager.Instance.chartData = value;
-                GlobalData.Instance.score.Reset();
-                GlobalData.Instance.score.tapCount = value.globalData.tapCount;
-                GlobalData.Instance.score.holdCount = value.globalData.holdCount;
-                GlobalData.Instance.score.dragCount = value.globalData.dragCount;
-                GlobalData.Instance.score.flickCount = value.globalData.flickCount;
-                GlobalData.Instance.score.fullFlickCount = value.globalData.fullFlickCount;
-                GlobalData.Instance.score.pointCount = value.globalData.pointCount;
                 TextManager.Instance.Init(value.texts);
             }
 

@@ -24,11 +24,6 @@ namespace Controller
         }
         public override void ReturnPool()
         {
-            if (!isJudged)//如果没有判定过
-            {
-                GlobalData.Instance.score.AddScore(thisNote.noteType, NoteJudge.Miss, true);//加Miss分
-                return;
-            }
             CompletedJudge();
             PlayEffect(NoteJudge.Perfect, ValueManager.Instance.perfectJudge, true);
         }
