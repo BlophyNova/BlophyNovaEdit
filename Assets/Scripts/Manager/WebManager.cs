@@ -24,8 +24,6 @@ namespace Manager
                 GlobalData.Instance.score.flickCount = value.globalData.flickCount;
                 GlobalData.Instance.score.fullFlickCount = value.globalData.fullFlickCount;
                 GlobalData.Instance.score.pointCount = value.globalData.pointCount;
-                UIManager.Instance.musicName.text = value.metaData.musicName;
-                UIManager.Instance.level.text = value.metaData.chartLevel;
                 TextManager.Instance.Init(value.texts);
             }
 
@@ -42,7 +40,7 @@ namespace Manager
         }
         private IEnumerator Start()
         {
-            ChartData = JsonConvert.DeserializeObject<ChartData>(new StreamReader(new FileStream($"{Application.streamingAssetsPath}/1/ChartFile/Red/Chart.json", FileMode.Open)).ReadToEnd());
+            ChartData = JsonConvert.DeserializeObject<ChartData>(new StreamReader(new FileStream($"{Application.streamingAssetsPath}/-1/ChartFile/Red/Chart.json", FileMode.Open)).ReadToEnd());
 
             yield return GlobalData.Instance.ReadResource();
             MusicClip = GlobalData.Instance.clip;

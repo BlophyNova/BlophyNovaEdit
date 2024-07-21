@@ -40,14 +40,14 @@ namespace Scenes.DontDestoryOnLoad
         }
         public IEnumerator ReadResource()
         {
-            UnityWebRequest unityWebRequest = UnityWebRequestMultimedia.GetAudioClip($"file://{Application.streamingAssetsPath}/1/Music/Music.mp3", AudioType.MPEG);
+            UnityWebRequest unityWebRequest = UnityWebRequestMultimedia.GetAudioClip($"file://{Application.streamingAssetsPath}/-1/Music/Music.mp3", AudioType.MPEG);
             yield return unityWebRequest.SendWebRequest();
             clip = DownloadHandlerAudioClip.GetContent(unityWebRequest);
-            unityWebRequest = UnityWebRequestTexture.GetTexture($"file://{Application.streamingAssetsPath}/1/Background/CPH.png");
+            unityWebRequest = UnityWebRequestTexture.GetTexture($"file://{Application.streamingAssetsPath}/-1/Illustration/CPH.png");
             yield return unityWebRequest.SendWebRequest();
             Texture2D cph = DownloadHandlerTexture.GetContent(unityWebRequest);
             currentCph = Sprite.Create(cph, new Rect(0, 0, cph.width, cph.height), new Vector2(0.5f, 0.5f));
-            unityWebRequest = UnityWebRequestTexture.GetTexture($"file://{Application.streamingAssetsPath}/1/Background/CP.png");
+            unityWebRequest = UnityWebRequestTexture.GetTexture($"file://{Application.streamingAssetsPath}/-1/Illustration/CP.png");
             yield return unityWebRequest.SendWebRequest();
             Texture2D cp = DownloadHandlerTexture.GetContent(unityWebRequest);
             currentCp = Sprite.Create(cp, new Rect(0, 0, cp.width, cp.height), new Vector2(0.5f, 0.5f));
@@ -243,7 +243,6 @@ namespace Scenes.DontDestoryOnLoad
                 default:
                     throw new ArgumentOutOfRangeException(nameof(noteJudge), noteJudge, null);
             }
-            UIManager.Instance.ChangeComboAndScoreText(Combo, Score);
         }
         /// <summary>
         /// 加Miss分
