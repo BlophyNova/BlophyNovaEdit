@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using static UnityEngine.Camera;
 public class Stretch : MonoBehaviour
 {
     public RectTransform labelWindowRect;
     public LabelWindow labelWindow;
-    //public Vector2 mouseAndLabelWindowDelta;//意思就是，鼠标和标签窗口位置之间的差值（delta）
     public Vector2 GetMousePosition 
     {
         get
         {
-            Vector2 ret=(Vector2)Input.mousePosition;
-            ret.y=Screen.height-ret.y;
+            Vector2 ret=(Vector2)main.ScreenToViewportPoint(Input.mousePosition)*main.pixelRect.size;
+            Debug.Log($"{main.ScreenToViewportPoint(Input.mousePosition)}");
+            ret.y= main.pixelHeight - ret.y;
+            float scaleFactorX=1920f/main.pixelWidth;
+            float scaleFactorY=1080f/main.pixelHeight;
+            ret.Set(ret.x*scaleFactorX,ret.y*scaleFactorY);
             return ret;
         }
     }
@@ -24,9 +27,8 @@ public class Stretch : MonoBehaviour
         Vector2 size = GetMousePosition - labelWindowPosition;
         size.x = size.x < labelWindow.minX ? labelWindow.minX : size.x;
         size.y = size.y < labelWindow.minY ? labelWindow.minY : size.y;
-        size.x = size.x > labelWindow.maxX ? labelWindow.maxX : size.x;
-        size.y = size.y > labelWindow.maxY ? labelWindow.maxY : size.y;
+        size.x = size.x > labelWindow.MaxX ? labelWindow.MaxX : size.x;
+        size.y = size.y > labelWindow.MaxY ? labelWindow.MaxY : size.y;
         labelWindowRect.sizeDelta = size;
-        Debug.Log($"{GetMousePosition}||{labelWindowRect.anchoredPosition}");
     }
 }
