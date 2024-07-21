@@ -6,8 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
-using UnityEditor;
-using UnityEditor.Profiling;
 using UnityEngine;
 using UnityEngine.UI;
 using File = System.IO.File;

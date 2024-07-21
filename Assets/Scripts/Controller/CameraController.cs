@@ -1,18 +1,33 @@
 using UnityEngine;
+using UtilityCode.Singleton;
+using static UnityEngine.Camera;
 namespace Controller
 {
-    public class CameraController : MonoBehaviour
+    public class CameraController : MonoBehaviourSingleton<CameraController>
     {
         private const float Is16To9 = 0.5625f;
-        public Camera thisCamera;
+
+        public int lastWidth;
+        public int lastHeight;
         private void Start()
         {
-            CalculatedScreenArea();
+            CameraAreaUpdate();
         }
+        public void CameraAreaUpdate()
+        {
+            //if (Screen.width != lastWidth || Screen.height != lastHeight)
+            {
+                lastWidth = Screen.width;
+                lastHeight = Screen.height;
+                CalculatedScreenArea();
+                AntLineController.Instance.InitAntLine();
+            }
+        }
+
         private void CalculatedScreenArea()
         {
 
-            if (thisCamera.pixelHeight / (float)thisCamera.pixelWidth > Is16To9)
+            if (main.pixelHeight / (float)main.pixelWidth > Is16To9)
             {
                 //这里放平板的处理方法
                 //1024/16*9/768
@@ -26,19 +41,16 @@ namespace Controller
         private void WidthManyLong()
         {
             //1080/9*16/2400
-            float w = Screen.height / Is16To9 / Screen.width;
-            const float h = 1;
+            float w = (float)Screen.height/ (float)Screen.width/Is16To9;
+            //Debug.Log($"Height:{Screen.height}|Width:{Screen.width}|{Screen.height / Screen.width / Is16To9}");
             float x = (1 - w) / 2;
-            const float y = 0;
-            thisCamera.rect = new Rect(x, y, w, h);
+            main.rect = new Rect(x, 0f, w, 1f);
         }
         private void HeightManyLong()
         {
-            const float w = 1;
             float h = Screen.width * Is16To9 / Screen.height;
-            const float x = 0;
             float y = (1 - h) / 2;
-            thisCamera.rect = new Rect(x, y, w, h);
+            main.rect = new Rect(0f, y, 1f, h);
         }
     }
 }

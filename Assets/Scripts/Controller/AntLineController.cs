@@ -1,7 +1,9 @@
 using UnityEngine;
+using UtilityCode.Singleton;
+
 namespace Controller
 {
-    public class AntLineController : MonoBehaviour
+    public class AntLineController : MonoBehaviourSingleton<AntLineController>
     {
         private static readonly int MainTex = Shader.PropertyToID("_MainTex");
         public Camera mainCamera;
@@ -11,7 +13,11 @@ namespace Controller
         
         private void Start()
         {
+            InitAntLine();
+        }
 
+        public void InitAntLine()
+        {
             const float is16To9 = 0.5625f;
             lineRenderer.positionCount = lineRendererPoints.Length;
             lineRenderer.startWidth = .05f;
@@ -53,6 +59,7 @@ namespace Controller
                 lineRenderer.SetPosition(i, (Vector2)mainCamera.ViewportToWorldPoint(lineRendererPoints[i]));
             }
         }
+
         private void Update()
         {
             offset += Vector2.right * Time.deltaTime;

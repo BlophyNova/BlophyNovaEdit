@@ -5,7 +5,6 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class AddLabel : MonoBehaviour
 {
