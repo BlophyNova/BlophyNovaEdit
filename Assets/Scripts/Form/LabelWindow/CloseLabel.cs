@@ -1,18 +1,19 @@
+using Scenes.PublicScripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CloseLabel : MonoBehaviour
+public class CloseLabel : PublicButton
 {
-    // Start is called before the first frame update
-    void Start()
+    public LabelItem labelItem;
+    public LabelWindow labelWindow;
+    private void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        thisButton.onClick.AddListener(() =>
+        {
+            labelWindow.labels.Remove(labelItem);
+            Destroy(labelItem.labelWindowContent.gameObject);
+            Destroy(labelItem.gameObject);
+        });
     }
 }

@@ -270,6 +270,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1547404b2bbb5b94eaf4220e9af08464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisButton: {fileID: 8652616196224023181}
+  labelItem: {fileID: 1055482971244819106}
 --- !u!1 &8652616196366717094
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,6 +365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   labelName: {fileID: 8652616195794765311}
   closeThisLabel: {fileID: 1874411606232925316}
+  labelWindowContent: {fileID: 0}
 --- !u!1 &8652616196540880398
 GameObject:
   m_ObjectHideFlags: 0

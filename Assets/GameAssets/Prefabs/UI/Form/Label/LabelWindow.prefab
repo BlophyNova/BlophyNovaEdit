@@ -726,6 +726,7 @@ MonoBehaviour:
   dropdown: {fileID: 1169364371}
   contentParentTransform: {fileID: 8753526251135438171}
   labelParentTransform: {fileID: 8753526250465213852}
+  labelWindow: {fileID: 588198340389008037}
 --- !u!1 &1293565552
 GameObject:
   m_ObjectHideFlags: 0

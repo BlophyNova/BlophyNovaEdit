@@ -45,7 +45,7 @@ public class CreateChart : PublicButton
         }
         else
         {
-            Alert.EnableAlert(parentObject, "您填写的音乐文件不存在！");
+            Alert.EnableAlert( "您填写的音乐文件不存在！");
             return false;
         }
     }
@@ -58,7 +58,7 @@ public class CreateChart : PublicButton
         }
         else
         {
-            Alert.EnableAlert(parentObject, "您填写的曲绘文件不存在！");
+            Alert.EnableAlert( "您填写的曲绘文件不存在！");
             return false;
         }
     }
