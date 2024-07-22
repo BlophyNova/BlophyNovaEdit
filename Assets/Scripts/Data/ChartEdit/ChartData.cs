@@ -1,3 +1,4 @@
+using Scenes.DontDestoryOnLoad;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,8 @@ namespace Data.ChartEdit
     [Serializable]
     public class ChartData
     {
+        public float yScale;
+        public int beatSubdivision;
         public List<BPM> bpmList = new();
     }
     [Serializable]
@@ -33,6 +36,16 @@ namespace Data.ChartEdit
             this.denominator = bpm.denominator;
             this.integer = bpm.integer;
             this.currentBPM = bpm.currentBPM;
+        }
+        public void AddOneBeat()
+        {
+            denominator = GlobalData.Instance.chartEditData.beatSubdivision;
+            if (molecule < denominator - 1) molecule++;
+            else if (molecule + 1 >= denominator)
+            {
+                molecule = 0;
+                integer++;
+            }
         }
     }
 }
