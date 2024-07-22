@@ -16,6 +16,7 @@ namespace Scenes.DontDestoryOnLoad
     {
         public string currentHard;
         public ChartData chartData;
+        public Data.ChartEdit.ChartData chartEditData;
         public AudioClip clip;
         [FormerlySerializedAs("currentCP")]
         public Sprite currentCp;
