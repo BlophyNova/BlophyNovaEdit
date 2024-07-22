@@ -448,7 +448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790626187861, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000342412
+      value: 0.00025061658
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790798544184, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1240,7 +1240,7 @@ GameObject:
   - component: {fileID: 519420034}
   - component: {fileID: 519420035}
   - component: {fileID: 519420033}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -1317,7 +1317,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ceabd8729e99694a834604f5e82f6c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  otherCamera: {fileID: 1054270502}
   lastWidth: 0
   lastHeight: 0
 --- !u!120 &519420034
