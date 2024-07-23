@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.Camera;
@@ -7,6 +8,7 @@ public class Stretch : MonoBehaviour
 {
     public RectTransform labelWindowRect;
     public LabelWindow labelWindow;
+    public BoxCollider2D boxCollider2D;
     public Vector2 GetMousePosition 
     {
         get
@@ -20,15 +22,26 @@ public class Stretch : MonoBehaviour
             return ret;
         }
     }
+    private void Start()
+    {
+        UpdateDragArea(labelWindowRect.sizeDelta);
+    }
     private void OnMouseDrag()
     {
         Vector2 labelWindowPosition = labelWindowRect.anchoredPosition;
-        labelWindowPosition.Set(Mathf.Abs(labelWindowPosition.x),Mathf.Abs(labelWindowPosition.y));
+        labelWindowPosition.Set(Mathf.Abs(labelWindowPosition.x), Mathf.Abs(labelWindowPosition.y));
         Vector2 size = GetMousePosition - labelWindowPosition;
         size.x = size.x < labelWindow.minX ? labelWindow.minX : size.x;
         size.y = size.y < labelWindow.minY ? labelWindow.minY : size.y;
         size.x = size.x > labelWindow.MaxX ? labelWindow.MaxX : size.x;
         size.y = size.y > labelWindow.MaxY ? labelWindow.MaxY : size.y;
         labelWindowRect.sizeDelta = size;
+        UpdateDragArea(size);
+    }
+
+    private void UpdateDragArea(Vector2 size)
+    {
+        boxCollider2D.size = new(size.x, 30);
+        boxCollider2D.offset = new(size.x / 2, -15);
     }
 }

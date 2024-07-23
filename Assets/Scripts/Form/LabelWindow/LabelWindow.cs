@@ -9,6 +9,7 @@ public class LabelWindow : MonoBehaviour
     public List<LabelItem> labels;
     public DragIcon dragIcon;
     public Transform content;
+    public Image labelColor;
     public LabelWindow associateLabelWindow;
     public bool focus;
     public float minX = 100;

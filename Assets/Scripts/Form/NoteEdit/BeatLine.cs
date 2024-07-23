@@ -22,7 +22,7 @@ public class BeatLine : MonoBehaviour
         }
         float currentSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(currentBeats);
         float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
-        thisText.text = $"{thisBPM.integer}:{thisBPM.molecule}/{thisBPM.denominator}";
+        thisText.text = $"{thisBPM.integer}:{thisBPM.molecule}/{thisBPM.denominator}\t";
         transform.localPosition = Vector2.up * positionY;
         return this;
     }

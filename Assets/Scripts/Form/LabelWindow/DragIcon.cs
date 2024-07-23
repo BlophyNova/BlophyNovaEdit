@@ -23,7 +23,7 @@ public class DragIcon : MonoBehaviour
     private void OnMouseDown()
     {
         mouseAndLabelWindowDelta = GetMousePosition - labelWindow.anchoredPosition;
-        
+        labelWindow.transform.SetAsLastSibling();
     }
     private void OnMouseDrag()
     {
