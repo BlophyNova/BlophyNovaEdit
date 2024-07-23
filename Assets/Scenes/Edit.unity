@@ -570,7 +570,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790626187861, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00014147082
+      value: 0.00059041247
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790798544184, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchorMax.x
@@ -7996,6 +7996,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 174855695}
     m_Modifications:
+    - target: {fileID: 1287573326, guid: 4137ef2ede430d745bfddbc7b72d4daa, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287573326, guid: 4137ef2ede430d745bfddbc7b72d4daa, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287573326, guid: 4137ef2ede430d745bfddbc7b72d4daa, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5024659929653540869, guid: 4137ef2ede430d745bfddbc7b72d4daa, type: 3}
       propertyPath: m_Name
       value: NoteEdit
