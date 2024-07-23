@@ -8,5 +8,6 @@ public class Content : MonoBehaviour
     private void OnMouseDown()
     {
         labelWindow.transform.SetAsLastSibling();
+        LabelWindowsManager.Instance.SetFocusWindow(labelWindow);
     }
 }

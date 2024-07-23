@@ -30,6 +30,7 @@ public class Stretch : MonoBehaviour
     private void OnMouseDown()
     {
         labelWindow.transform.SetAsLastSibling();
+        LabelWindowsManager.Instance.SetFocusWindow(labelWindow);
     }
     private void OnMouseDrag()
     {

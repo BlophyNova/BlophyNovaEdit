@@ -6,7 +6,8 @@ using static UnityEngine.Camera;
 public class DragIcon : MonoBehaviour
 {
     public Image dragIcon;
-    public RectTransform labelWindow;
+    public RectTransform labelWindowRect;
+    public LabelWindow labelWindow;
     public Vector2 mouseAndLabelWindowDelta;//意思就是，鼠标和标签窗口位置之间的差值（delta）
     public Vector2 GetMousePosition 
     {
@@ -22,14 +23,15 @@ public class DragIcon : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        mouseAndLabelWindowDelta = GetMousePosition - labelWindow.anchoredPosition;
-        labelWindow.transform.SetAsLastSibling();
+        mouseAndLabelWindowDelta = GetMousePosition - labelWindowRect.anchoredPosition;
+        labelWindowRect.transform.SetAsLastSibling();
+        LabelWindowsManager.Instance.SetFocusWindow(labelWindow);
     }
     private void OnMouseDrag()
     {
         Vector2 newPosition = GetMousePosition - mouseAndLabelWindowDelta;
         newPosition.x = newPosition.x < 0 ? 0 : newPosition.x;
         newPosition.y = newPosition.y > 0 ? 0 : newPosition.y;
-        labelWindow.anchoredPosition = newPosition;
+        labelWindowRect.anchoredPosition = newPosition;
     }
 }

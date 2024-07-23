@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.UI;
 public class LabelWindow : MonoBehaviour
@@ -10,6 +11,7 @@ public class LabelWindow : MonoBehaviour
     public DragIcon dragIcon;
     public Transform content;
     public Image labelColor;
+    public int labelColorIndex;
     public LabelWindow associateLabelWindow;
     public bool focus;
     public float minX = 100;

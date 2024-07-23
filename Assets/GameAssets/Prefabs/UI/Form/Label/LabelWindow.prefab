@@ -1294,7 +1294,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragIcon: {fileID: 1804007251368728674}
-  labelWindow: {fileID: 8753526250073229151}
+  labelWindowRect: {fileID: 8753526250073229151}
+  labelWindow: {fileID: 588198340389008037}
   mouseAndLabelWindowDelta: {x: 0, y: 0}
 --- !u!61 &2115040327
 BoxCollider2D:
