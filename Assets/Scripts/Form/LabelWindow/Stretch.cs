@@ -26,6 +26,10 @@ public class Stretch : MonoBehaviour
     {
         UpdateDragArea(labelWindowRect.sizeDelta);
     }
+    private void OnMouseDown()
+    {
+        labelWindow.transform.SetAsLastSibling();
+    }
     private void OnMouseDrag()
     {
         Vector2 labelWindowPosition = labelWindowRect.anchoredPosition;
@@ -37,6 +41,8 @@ public class Stretch : MonoBehaviour
         size.y = size.y > labelWindow.MaxY ? labelWindow.MaxY : size.y;
         labelWindowRect.sizeDelta = size;
         UpdateDragArea(size);
+        foreach (LabelItem item in labelWindow.labels)
+            item.labelWindowContent.WindowSizeChanged();
     }
 
     private void UpdateDragArea(Vector2 size)

@@ -13,7 +13,11 @@ public class NoteEdit : LabelWindowContent
     {
         UpdateVerticalLineCount();
     }
-    private void UpdateVerticalLineCount()
+    public override void WindowSizeChanged()
+    {
+        UpdateVerticalLineCount();
+    }
+    public void UpdateVerticalLineCount()
     {
         for (int i = 0; i < verticalLines.Count;)
         {

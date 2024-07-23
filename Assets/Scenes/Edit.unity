@@ -650,7 +650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790626187861, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000022014603
+      value: -0.00004053116
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790798544184, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6938,7 +6938,7 @@ MonoBehaviour:
     texts: []
   chartEditData:
     yScale: 6
-    beatSubdivision: 1
+    beatSubdivision: 4
     verticalSubdivision: 10
     bpmList:
     - integer: 0

@@ -6,4 +6,5 @@ public class LabelWindowContent : MonoBehaviour
 {
     public string labelWindowName;
     public int labelWindowID;
+    public virtual void WindowSizeChanged(){}
 }
