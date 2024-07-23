@@ -8,7 +8,8 @@ public class Stretch : MonoBehaviour
 {
     public RectTransform labelWindowRect;
     public LabelWindow labelWindow;
-    public BoxCollider2D boxCollider2D;
+    public BoxCollider2D labelBoxCollider2D;
+    public BoxCollider2D contentBoxCollider2D;
     public Vector2 GetMousePosition 
     {
         get
@@ -47,7 +48,8 @@ public class Stretch : MonoBehaviour
 
     private void UpdateDragArea(Vector2 size)
     {
-        boxCollider2D.size = new(size.x, 30);
-        boxCollider2D.offset = new(size.x / 2, -15);
+        labelBoxCollider2D.size = new(size.x, 30);
+        labelBoxCollider2D.offset = new(size.x / 2, -15);
+        contentBoxCollider2D.size=new(labelWindowRect.sizeDelta.x,labelWindowRect.sizeDelta.y-30);
     }
 }
