@@ -17,7 +17,7 @@ public class BasicLine : MonoBehaviour
     public List<BeatLine> beatLines = new();//节拍线游戏物体管理列表
     public BPM nextBPMWithAriseLine = new();
     public float AriseLineAndBasicLineSeconds => AriseLineAndBasicLinePositionYDelta / 100;//基准线和出现线之间是多少秒
-    public float AriseLineAndBasicLinePositionYDelta=>Vector2.Distance(basicLine.anchoredPosition,arisePosition.anchoredPosition);//出现线和基准线的Y轴插值
+    public float AriseLineAndBasicLinePositionYDelta=>Vector2.Distance(basicLine.localPosition,arisePosition.localPosition);//出现线和基准线的Y轴插值
     public float CurrentBasicLine => YScale.Instance.GetPositionYWithSecondsTime((float)ProgressManager.Instance.CurrentTime);
     public float CurrentAriseLine => YScale.Instance.GetPositionYWithSecondsTime((float)ProgressManager.Instance.CurrentTime) + AriseLineAndBasicLineSeconds;
     private void Update()
@@ -41,15 +41,9 @@ public class BasicLine : MonoBehaviour
         float currentBeats = BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime);
         for (int i = 0; i < beatLines.Count; i++)
         {
-            while (beatLines[i].thisBPM.ThisStartBPM < currentBeats)
+            if (beatLines[i].thisBPM.ThisStartBPM < currentBeats|| beatLines[i].thisBPM.ThisStartBPM > ariseBeats)
             {
-                BeatLine thisBeatLine = beatLines[i];
-                beatLines.Remove(thisBeatLine);
-                Destroy(thisBeatLine.gameObject);
-            }
-            while (beatLines[i].thisBPM.ThisStartBPM > ariseBeats)
-            {
-                BeatLine thisBeatLine = beatLines[i];
+                BeatLine thisBeatLine = beatLines[i--];
                 beatLines.Remove(thisBeatLine);
                 Destroy(thisBeatLine.gameObject);
             }

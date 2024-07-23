@@ -570,7 +570,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790626187861, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000023930057
+      value: 0.00014147082
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790798544184, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4754,11 +4754,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8753526251135438171, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -15
+      value: -14.999878
       objectReference: {fileID: 0}
     - target: {fileID: 8753526251941649640, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -14.999908
+      value: -15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
@@ -6722,7 +6722,7 @@ MonoBehaviour:
     texts: []
   chartEditData:
     yScale: 6
-    beatSubdivision: 5
+    beatSubdivision: 1
     bpmList:
     - integer: 0
       molecule: 0
