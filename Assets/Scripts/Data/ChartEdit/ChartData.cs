@@ -9,7 +9,8 @@ namespace Data.ChartEdit
     public class ChartData
     {
         public float yScale;
-        public int beatSubdivision;
+        public int beatSubdivision;//节拍线细分(单位：份)
+        public int verticalSubdivision;//垂直线细分(单位：份)
         public List<BPM> bpmList = new();
     }
     [Serializable]

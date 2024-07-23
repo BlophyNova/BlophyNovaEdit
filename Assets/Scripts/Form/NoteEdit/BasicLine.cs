@@ -22,7 +22,7 @@ public class BasicLine : MonoBehaviour
     public float CurrentAriseLine => YScale.Instance.GetPositionYWithSecondsTime((float)ProgressManager.Instance.CurrentTime) + AriseLineAndBasicLineSeconds;
     private void Update()
     {
-        Debug.Log($"AriseLineAndBasicLineSeconds:{AriseLineAndBasicLineSeconds}|AriseLineAndBasicLinePositionYDelta:{AriseLineAndBasicLinePositionYDelta}");
+        //Debug.Log($"AriseLineAndBasicLineSeconds:{AriseLineAndBasicLineSeconds}|AriseLineAndBasicLinePositionYDelta:{AriseLineAndBasicLinePositionYDelta}");
         float currentBeats = BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime);
         currentBeatsText.text = $"{currentBeats:F2}\t";
         noteCanvas.anchoredPosition = 100 * currentBeats * YScale.Instance.CurrentYScale * Vector2.down;
