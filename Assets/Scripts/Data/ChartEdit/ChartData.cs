@@ -11,6 +11,7 @@ namespace Data.ChartEdit
         public float yScale;
         public int beatSubdivision;//节拍线细分(单位：份)
         public int verticalSubdivision;//垂直线细分(单位：份)
+        public int eventVerticalSubdivision;
         public List<BPM> bpmList = new();
     }
     [Serializable]

@@ -12,7 +12,8 @@ public class CloseLabel : PublicButton
         thisButton.onClick.AddListener(() =>
         {
             labelWindow.labels.Remove(labelItem);
-            if (labelWindow.labels.Count > 0)
+            if(labelItem.labelWindowContent.isActiveAndEnabled)
+                if (labelWindow.labels.Count > 0)
             {
                 labelWindow.labels[0].labelWindowContent.gameObject.SetActive(true);
             }
