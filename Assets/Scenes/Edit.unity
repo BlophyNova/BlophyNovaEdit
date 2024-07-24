@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ec1cfb2f299cda44bf45c17b4fe2b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: SwitchLine2
 --- !u!1 &98426808
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,6 +286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d58cb72e036a11041b3001476cbcfc98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: AddFlick
 --- !u!1 &130468146
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,7 +466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790626187861, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0003229577
+      value: -0.000013589859
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790798544184, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchorMax.x
@@ -671,6 +673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98af08227d074a347a62c005cace1e8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: AddTap
 --- !u!1 &392163392
 GameObject:
   m_ObjectHideFlags: 0
@@ -943,6 +946,7 @@ MonoBehaviour:
   - {r: 0.8, g: 0, b: 0.48000032, a: 1}
   - {r: 0, g: 0, b: 0, a: 1}
   usedColors: 01010101010100000000
+  currentFocusWindow: {fileID: 0}
 --- !u!1 &445126666
 GameObject:
   m_ObjectHideFlags: 0
@@ -987,6 +991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51e67d0c29bbba40a3b4e485505e1fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: AddEvent
 --- !u!1 &448824943
 GameObject:
   m_ObjectHideFlags: 0
@@ -1031,6 +1036,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 730ed8d47ae65e2478128eb0157afec3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: HoldPlayEdit
 --- !u!1 &454268751
 GameObject:
   m_ObjectHideFlags: 0
@@ -1683,6 +1689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ec1cfb2f299cda44bf45c17b4fe2b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: SwitchLine3
 --- !u!1 &644390904
 GameObject:
   m_ObjectHideFlags: 0
@@ -1727,6 +1734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6dda73b1d0f839478d39e59fbe9585b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: Redo
 --- !u!1 &645903703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1771,6 +1779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4097c5ef8de62164c97156f07991517f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: Undo
 --- !u!1 &676043693
 GameObject:
   m_ObjectHideFlags: 0
@@ -1815,6 +1824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d7c423d5468a7241b4aff9f0496bf68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: PlayEdit
 --- !u!114 &683617049 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1055482971244819106, guid: 6db02e9ffbeec2c4eb8301210d78979d, type: 3}
@@ -1912,6 +1922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee1ee10c0ed94a4ea33d2a7d78f2a9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: Delete
 --- !u!1 &726729555
 GameObject:
   m_ObjectHideFlags: 0
@@ -1956,6 +1967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e505b8aaffead5f49aa827ed44c4678b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: HoldPlayPlayer
 --- !u!1 &729195916
 GameObject:
   m_ObjectHideFlags: 0
@@ -2044,6 +2056,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a11a19731ece024da63978f1042deac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: PlayPlayer
 --- !u!1001 &759164184
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2121,7 +2134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22457152, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 22457152, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2629,6 +2642,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 588198340389008037, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
+      propertyPath: currentLabelWindow
+      value: 
+      objectReference: {fileID: 221855151}
+    - target: {fileID: 588198340389008037, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
       propertyPath: labels.Array.data[0]
       value: 
       objectReference: {fileID: 432660864}
@@ -2801,6 +2818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ec1cfb2f299cda44bf45c17b4fe2b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: SwitchLine5
 --- !u!1 &945565750
 GameObject:
   m_ObjectHideFlags: 0
@@ -3030,8 +3048,9 @@ Transform:
   - {fileID: 729372623}
   - {fileID: 676043694}
   - {fileID: 448824944}
+  - {fileID: 1774268782}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1054156948
 GameObject:
@@ -3077,6 +3096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c13f2a2eccca7418cde21c896a81fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: AddFullFlick
 --- !u!1 &1054270499
 GameObject:
   m_ObjectHideFlags: 0
@@ -3196,6 +3216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ec1cfb2f299cda44bf45c17b4fe2b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: SwitchLine4
 --- !u!1 &1165070292
 GameObject:
   m_ObjectHideFlags: 0
@@ -3462,6 +3483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ee449671ed3a0e478dc99f41bfbfd41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: AddHold
 --- !u!1 &1273885333
 GameObject:
   m_ObjectHideFlags: 0
@@ -3506,6 +3528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ab86cd051920349996fa402cffecba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: Copy
 --- !u!1001 &1352458339
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3657,6 +3680,10 @@ PrefabInstance:
       propertyPath: labels.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 588198340389008037, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
+      propertyPath: currentLabelWindow
+      value: 
+      objectReference: {fileID: 8069792749430917713}
     - target: {fileID: 588198340389008037, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
       propertyPath: labels.Array.data[0]
       value: 
@@ -4094,6 +4121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ec1cfb2f299cda44bf45c17b4fe2b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: SwitchLine1
 --- !u!1001 &1483553092
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4299,6 +4327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 449aa3892e8552943b8ccc01aa0801fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: AddPoint
 --- !u!1 &1572611200
 GameObject:
   m_ObjectHideFlags: 0
@@ -4343,6 +4372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c54fbb02c6f4114e945947a88347ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: AddDrag
 --- !u!1 &1599894240
 GameObject:
   m_ObjectHideFlags: 0
@@ -4387,6 +4417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c3fb3f813715840a11461a7486a720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: Paste
 --- !u!1 &1656787103
 GameObject:
   m_ObjectHideFlags: 0
@@ -4805,6 +4836,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6db02e9ffbeec2c4eb8301210d78979d, type: 3}
+--- !u!1 &1774268781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1774268782}
+  - component: {fileID: 1774268783}
+  m_Layer: 0
+  m_Name: PauseResume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1774268782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774268781}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1025664432}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1774268783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774268781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5089da9e6271b24a862676dda69903d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActionName: PauseResume
 --- !u!1 &1804528684
 GameObject:
   m_ObjectHideFlags: 0
@@ -4815,6 +4891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1804528685}
   - component: {fileID: 1804528686}
+  - component: {fileID: 1804528687}
   m_Layer: 0
   m_Name: ShortcutKeyManager
   m_TagString: Untagged
@@ -4835,7 +4912,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1804528686
 MonoBehaviour:
@@ -4850,6 +4927,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputActionsAsset: {fileID: -944628639613478452, guid: 3b36a7dc34008744c9c7599297c26cf1, type: 3}
+  playerInput: {fileID: 1804528687}
+--- !u!114 &1804528687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804528684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: 0}
+  m_NotificationBehavior: 3
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: 
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1805480267
 GameObject:
   m_ObjectHideFlags: 0
@@ -4894,6 +5002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8c9a85abfdb5c44fa0d7e792f704fc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputActionName: Save
 --- !u!1 &1853122369
 GameObject:
   m_ObjectHideFlags: 0
@@ -5084,7 +5193,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1886952041
 MonoBehaviour:

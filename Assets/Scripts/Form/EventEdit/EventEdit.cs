@@ -2,8 +2,9 @@ using Scenes.DontDestoryOnLoad;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class EventEdit : LabelWindowContent
+public class EventEdit : LabelWindowContent,IInputEventCallback
 {
 
     public RectTransform verticalLineLeft;
@@ -26,5 +27,14 @@ public class EventEdit : LabelWindowContent
         {
             verticalLines[i-1].localPosition = (verticalLineLeftAndRightDelta / subdivision * i - verticalLineLeftAndRightDelta / 2) * Vector2.right;
         }
+    }
+    public override void Started(InputAction.CallbackContext callbackContext)
+    {
+    }
+    public override void Performed(InputAction.CallbackContext callbackContext)
+    {
+    }
+    public override void Canceled(InputAction.CallbackContext callbackContext)
+    {
     }
 }

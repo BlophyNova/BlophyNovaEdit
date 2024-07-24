@@ -87,4 +87,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   labelWindowName: "\u8C31\u9762\u9884\u89C8\u5668"
-  labelWindowID: 1
+  labelWindowContentType: 1

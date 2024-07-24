@@ -10,4 +10,8 @@ public class Content : MonoBehaviour
         labelWindow.transform.SetAsLastSibling();
         LabelWindowsManager.Instance.SetFocusWindow(labelWindow);
     }
+    //private void OnMouseEnter()
+    //{
+    //    labelWindow.focus = true;
+    //}
 }

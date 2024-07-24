@@ -3900,7 +3900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   labelWindowName: "\u5DE5\u5177\u680F"
-  labelWindowID: 4
+  labelWindowContentType: 4
 --- !u!1 &6015635214474243796
 GameObject:
   m_ObjectHideFlags: 0

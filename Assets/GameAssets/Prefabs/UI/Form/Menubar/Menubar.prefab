@@ -778,7 +778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   labelWindowName: "\u83DC\u5355\u680F"
-  labelWindowID: 5
+  labelWindowContentType: 5
 --- !u!1 &3301443551021477024
 GameObject:
   m_ObjectHideFlags: 0

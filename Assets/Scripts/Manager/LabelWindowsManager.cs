@@ -9,6 +9,7 @@ public class LabelWindowsManager : MonoBehaviourSingleton<LabelWindowsManager>
     public List<LabelWindow> windows;
     public List<Color> colors;
     public bool[] usedColors;
+    public LabelWindow currentFocusWindow;
     public void SetFocusWindow(LabelWindow window)
     {
         SetAllWindowFocusAsFalse();
@@ -16,6 +17,7 @@ public class LabelWindowsManager : MonoBehaviourSingleton<LabelWindowsManager>
         float S = 1;
         window.labelColor.color = Color.HSVToRGB(H, S, V);
         window.focus = true;
+        currentFocusWindow = window;
     }
 
     private void SetAllWindowFocusAsFalse()

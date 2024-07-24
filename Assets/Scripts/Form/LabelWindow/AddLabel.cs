@@ -27,7 +27,7 @@ public class AddLabel : MonoBehaviour
         {
             foreach (LabelItem item in labelWindow.labels)
             {
-                if(index-1== item.labelWindowContent.labelWindowID)
+                if(index-1  == ((int)item.labelWindowContent.labelWindowContentType))
                 {
                     dropdown.SetValueWithoutNotify(0);
                     Alert.EnableAlert("这个窗口已经有一个相同的标签了捏~");

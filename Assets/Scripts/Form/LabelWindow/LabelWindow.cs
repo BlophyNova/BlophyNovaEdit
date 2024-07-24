@@ -12,7 +12,8 @@ public class LabelWindow : MonoBehaviour
     public Transform content;
     public Image labelColor;
     public int labelColorIndex;
-    public LabelWindow associateLabelWindow;
+    public LabelWindow associateLabelWindow;//关联LabelWindow
+    public LabelWindowContent currentLabelWindow;
     public bool focus;
     public float minX = 100;
     public float minY = 100;

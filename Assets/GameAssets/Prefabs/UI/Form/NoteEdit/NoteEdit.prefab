@@ -555,7 +555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   labelWindowName: "\u97F3\u7B26\u7F16\u8F91\u753B\u5E03"
-  labelWindowID: 2
+  labelWindowContentType: 2
   verticalLineLeft: {fileID: 381556096}
   verticalLineRight: {fileID: 3678595}
   verticalLinePrefab: {fileID: 2549698506828883797, guid: ac2da9af49fe74a428e6ad44a7fa942c, type: 3}

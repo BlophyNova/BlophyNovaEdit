@@ -15,6 +15,7 @@ public class LabelButton : PublicButton
                 item.labelWindowContent.gameObject.SetActive(false);
             }
             labelItem.labelWindowContent.gameObject.SetActive(true);
+            labelItem.labelWindow.currentLabelWindow=labelItem.labelWindowContent;
         });
     }
 }

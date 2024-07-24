@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   labelWindowName: "\u4E8B\u4EF6\u7F16\u8F91\u753B\u5E03"
-  labelWindowID: 3
+  labelWindowContentType: 3
   verticalLineLeft: {fileID: 8504017472414426716}
   verticalLineRight: {fileID: 1159330645135689484}
   verticalLines:
