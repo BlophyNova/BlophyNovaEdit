@@ -11,6 +11,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback
     public RectTransform verticalLineLeft;
     public RectTransform verticalLineRight;
     public List<RectTransform> verticalLines = new();
+    public List<RectTransform> eventVerticalLines = new();
     private void Start()
     {
         UpdateVerticalLineCount();
@@ -27,6 +28,13 @@ public class EventEdit : LabelWindowContent,IInputEventCallback
         for (int i = 1; i < subdivision; i++)
         {
             verticalLines[i-1].localPosition = (verticalLineLeftAndRightDelta / subdivision * i - verticalLineLeftAndRightDelta / 2) * Vector2.right;
+        }
+        List<RectTransform> allVerticalLines = new(verticalLines);
+        allVerticalLines.Insert(0,verticalLineLeft);
+        allVerticalLines.Add(verticalLineRight);
+        for (int i = 0; i < eventVerticalLines.Count; i++)
+        {
+            eventVerticalLines[i].localPosition= (allVerticalLines[i + 1].localPosition + allVerticalLines[i].localPosition)/2;
         }
     }
     public override void Started(InputAction.CallbackContext callbackContext)

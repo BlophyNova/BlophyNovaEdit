@@ -470,7 +470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790626187861, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00011379843
+      value: 0.0006467585
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790798544184, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6379,6 +6379,46 @@ PrefabInstance:
     - target: {fileID: 3989304463619947668, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
       propertyPath: m_Name
       value: EventEdit
+      objectReference: {fileID: 0}
+    - target: {fileID: 6655046287082752830, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
+      propertyPath: m_Color.a
+      value: 0.101960786
+      objectReference: {fileID: 0}
+    - target: {fileID: 6655046287128465912, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
+      propertyPath: m_Color.a
+      value: 0.101960786
+      objectReference: {fileID: 0}
+    - target: {fileID: 6655046287508153622, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
+      propertyPath: m_Color.a
+      value: 0.101960786
+      objectReference: {fileID: 0}
+    - target: {fileID: 6655046287516767683, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
+      propertyPath: m_Color.a
+      value: 0.101960786
+      objectReference: {fileID: 0}
+    - target: {fileID: 6655046287638052122, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
+      propertyPath: m_Color.a
+      value: 0.101960786
+      objectReference: {fileID: 0}
+    - target: {fileID: 6655046288023207876, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
+      propertyPath: m_Color.a
+      value: 0.101960786
+      objectReference: {fileID: 0}
+    - target: {fileID: 6655046288116110427, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
+      propertyPath: m_Color.a
+      value: 0.101960786
+      objectReference: {fileID: 0}
+    - target: {fileID: 6655046288273773496, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
+      propertyPath: m_Color.a
+      value: 0.101960786
+      objectReference: {fileID: 0}
+    - target: {fileID: 6655046288706597497, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
+      propertyPath: m_Color.a
+      value: 0.101960786
+      objectReference: {fileID: 0}
+    - target: {fileID: 6655046288895366281, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
+      propertyPath: m_Color.a
+      value: 0.101960786
       objectReference: {fileID: 0}
     - target: {fileID: 8069792749430917713, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
       propertyPath: labelWindow
