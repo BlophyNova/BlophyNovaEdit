@@ -35,6 +35,7 @@ namespace Scenes.DontDestoryOnLoad
         public LabelItem labelItemPrefab;
         public LabelWindow labelWindowPrefab;
 
+        public EventEditItem eventEditItem;
 
         protected override void OnAwake()
         {

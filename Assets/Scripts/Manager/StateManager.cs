@@ -26,7 +26,7 @@ namespace Manager
             get => isEnd;
             set => isEnd = value;
         }
-        private bool IsPause
+        public bool IsPause
         {
             get => isPause;
             set

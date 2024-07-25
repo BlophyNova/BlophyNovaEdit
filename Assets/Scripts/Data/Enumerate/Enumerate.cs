@@ -16,4 +16,17 @@ namespace Data.Enumerate
         Ultra,
         Special
     }
+    public enum EventType
+    {
+        Speed,
+        CenterX,
+        CenterY,
+        MoveX,
+        MoveY,
+        ScaleX,
+        ScaleY,
+        Rotate,
+        Alpha,
+        LineAlpha
+    }
 }
