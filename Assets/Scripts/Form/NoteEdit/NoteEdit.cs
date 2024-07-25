@@ -2,8 +2,9 @@ using Scenes.DontDestoryOnLoad;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class NoteEdit : LabelWindowContent
+public class NoteEdit : LabelWindowContent,IInputEventCallback
 {
     public RectTransform verticalLineLeft;
     public RectTransform verticalLineRight;
@@ -34,5 +35,15 @@ public class NoteEdit : LabelWindowContent
             newVerticalLine.localPosition = (verticalLineLeftAndRightDelta / subdivision * i - verticalLineLeftAndRightDelta / 2) * Vector2.right;
             verticalLines.Add(newVerticalLine);
         }
+    }
+    public override void Started(InputAction.CallbackContext callbackContext)
+    {
+    }
+    public override void Performed(InputAction.CallbackContext callbackContext)
+    {
+    }
+    public override void Canceled(InputAction.CallbackContext callbackContext)
+    {
+        Debug.Log($"{MousePositionInThisRectTransform}");
     }
 }

@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.Camera;
 
 public class EventEdit : LabelWindowContent,IInputEventCallback
 {
-
+    public RectTransform eventEditRect;
     public RectTransform verticalLineLeft;
     public RectTransform verticalLineRight;
     public List<RectTransform> verticalLines = new();
@@ -36,5 +37,6 @@ public class EventEdit : LabelWindowContent,IInputEventCallback
     }
     public override void Canceled(InputAction.CallbackContext callbackContext)
     {
+        Debug.Log($"{MousePositionInThisRectTransform}");
     }
 }

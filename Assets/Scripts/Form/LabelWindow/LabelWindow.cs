@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class LabelWindow : MonoBehaviour
 {
     public AddLabel addLabel;
+    public RectTransform labelWindowRect;
     public Transform labelParent;
     public List<LabelItem> labels;
     public DragIcon dragIcon;

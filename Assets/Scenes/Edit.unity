@@ -332,6 +332,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 866174815}
     m_Modifications:
+    - target: {fileID: -1199609114970133853, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
+      propertyPath: labelWindow
+      value: 
+      objectReference: {fileID: 866174814}
     - target: {fileID: 3892861789293584711, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -466,7 +470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790626187861, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000013589859
+      value: 0.00011379843
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790798544184, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2337,6 +2341,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 174855695}
     m_Modifications:
+    - target: {fileID: 2566963274845030458, guid: 44711f31440e8564f8cfb44aea0d5a1b, type: 3}
+      propertyPath: labelWindow
+      value: 
+      objectReference: {fileID: 1383144357}
     - target: {fileID: 4085081331602142886, guid: 44711f31440e8564f8cfb44aea0d5a1b, type: 3}
       propertyPath: m_Name
       value: ChartPreview
@@ -5796,6 +5804,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 174855695}
     m_Modifications:
+    - target: {fileID: 2413186719526812659, guid: 4137ef2ede430d745bfddbc7b72d4daa, type: 3}
+      propertyPath: labelWindow
+      value: 
+      objectReference: {fileID: 1383144357}
     - target: {fileID: 5024659929653540869, guid: 4137ef2ede430d745bfddbc7b72d4daa, type: 3}
       propertyPath: m_Name
       value: NoteEdit
@@ -6368,6 +6380,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EventEdit
       objectReference: {fileID: 0}
+    - target: {fileID: 8069792749430917713, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
+      propertyPath: labelWindow
+      value: 
+      objectReference: {fileID: 1383144357}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
 --- !u!114 &8053928297318471617 stripped

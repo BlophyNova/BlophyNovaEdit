@@ -1747,12 +1747,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addLabel: {fileID: 5675462394736737929}
+  labelWindowRect: {fileID: 8753526250073229151}
   labelParent: {fileID: 8753526250465213852}
   labels: []
   dragIcon: {fileID: 5736007986476294998}
   content: {fileID: 1528886913175313903}
   labelColor: {fileID: 78236813721598144}
+  labelColorIndex: 0
   associateLabelWindow: {fileID: 0}
+  currentLabelWindow: {fileID: 0}
   focus: 0
   minX: 100
   minY: 100
