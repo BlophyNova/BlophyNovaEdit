@@ -17,6 +17,7 @@ public class LabelWindowsManager : MonoBehaviourSingleton<LabelWindowsManager>
         float S = 1;
         window.labelColor.color = Color.HSVToRGB(H, S, V);
         window.focus = true;
+        window.labelWindowRect.anchoredPosition3D = new(window.labelWindowRect.anchoredPosition3D.x, window.labelWindowRect.anchoredPosition3D.y,-1);
         currentFocusWindow = window;
     }
 
@@ -28,6 +29,7 @@ public class LabelWindowsManager : MonoBehaviourSingleton<LabelWindowsManager>
             float S = .3f;
             item.labelColor.color = Color.HSVToRGB(H, S, V);
             item.focus = false;
+            item.labelWindowRect.anchoredPosition3D = new(item.labelWindowRect.anchoredPosition3D.x, item.labelWindowRect.anchoredPosition3D.y,0);
         }
     }
 }

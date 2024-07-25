@@ -10,4 +10,5 @@ public enum LabelWindowContentType
     EventEdit,
     Toolbar,
     Menubar,
+    PropertyEdit,
 }
