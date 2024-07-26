@@ -408,7 +408,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3892861790279932364}
-  - component: {fileID: -1199609114970133853}
+  - component: {fileID: 1081773229714239820}
   m_Layer: 5
   m_Name: BPMList
   m_TagString: Untagged
@@ -438,7 +438,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &-1199609114970133853
+--- !u!114 &1081773229714239820
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -447,12 +447,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3892861790279932365}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e394b57eb610cb04596f6cfe609e58f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 357da9704ec188542aa39d0442c41941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   labelWindowName: "BPM\u5217\u8868"
   labelWindow: {fileID: 0}
   labelWindowContentType: 0
+  minX: 100
+  minY: 100
 --- !u!1 &3892861790428891561
 GameObject:
   m_ObjectHideFlags: 0
@@ -712,7 +714,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.00067244284}
   m_SizeDelta: {x: 0, y: 150}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &3892861790798544185

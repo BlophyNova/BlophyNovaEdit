@@ -151,6 +151,8 @@ MonoBehaviour:
   labelWindowName: "\u4E8B\u4EF6\u7F16\u8F91\u753B\u5E03"
   labelWindow: {fileID: 0}
   labelWindowContentType: 3
+  minX: 100
+  minY: 100
   basicLine: {fileID: 8279857815255672507}
   eventEditRect: {fileID: 375927620403404222}
   verticalLineLeft: {fileID: 8504017472414426716}
@@ -177,6 +179,7 @@ MonoBehaviour:
   - {fileID: 8832123143906055231}
   - {fileID: 5172682764130601185}
   isFirstTime: 0
+  waitForPressureAgain: 0
 --- !u!1 &8279857813735328732
 GameObject:
   m_ObjectHideFlags: 0

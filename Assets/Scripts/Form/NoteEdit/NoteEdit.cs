@@ -16,6 +16,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback
     }
     public override void WindowSizeChanged()
     {
+        base.WindowSizeChanged();
         UpdateVerticalLineCount();
     }
     public void UpdateVerticalLineCount()

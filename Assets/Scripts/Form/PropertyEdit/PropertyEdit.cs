@@ -8,6 +8,7 @@ public class PropertyEdit : LabelWindowContent
     public GridLayoutGroup gridLayoutGroup;
     public override void WindowSizeChanged()
     {
+        base.WindowSizeChanged();
         Debug.Log(new Vector2(labelWindow.labelWindowRect.sizeDelta.x, gridLayoutGroup.cellSize.y));
         gridLayoutGroup.cellSize = new Vector2(labelWindow.labelWindowRect.sizeDelta.x, gridLayoutGroup.cellSize.y);
     }

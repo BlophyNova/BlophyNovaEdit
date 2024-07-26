@@ -11,4 +11,8 @@ public enum LabelWindowContentType
     Toolbar,
     Menubar,
     PropertyEdit,
+    Kawaii,
+    ProgressBar,
+    ATimeLine,
+    DebugText,
 }
