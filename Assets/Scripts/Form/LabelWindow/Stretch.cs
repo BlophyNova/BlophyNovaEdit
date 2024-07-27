@@ -37,8 +37,8 @@ public class Stretch : MonoBehaviour
         Vector2 labelWindowPosition = labelWindowRect.anchoredPosition;
         labelWindowPosition.Set(Mathf.Abs(labelWindowPosition.x), Mathf.Abs(labelWindowPosition.y));
         Vector2 size = GetMousePosition - labelWindowPosition;
-        size.x = size.x < labelWindow.minX ? labelWindow.minX : size.x;
-        size.y = size.y < labelWindow.minY ? labelWindow.minY : size.y;
+        size.x = size.x < labelWindow.MinX ? labelWindow.MinX : size.x;
+        size.y = size.y < labelWindow.MinY ? labelWindow.MinY : size.y;
         size.x = size.x > labelWindow.MaxX ? labelWindow.MaxX : size.x;
         size.y = size.y > labelWindow.MaxY ? labelWindow.MaxY : size.y;
         labelWindowRect.sizeDelta = size;

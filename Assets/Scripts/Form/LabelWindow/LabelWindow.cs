@@ -16,8 +16,8 @@ public class LabelWindow : MonoBehaviour
     public LabelWindow associateLabelWindow;//关联LabelWindow
     public LabelWindowContent currentLabelWindow;
     public bool focus;
-    public float minX => currentLabelWindow.minX;
-    public float minY => currentLabelWindow.minY;
+    public float MinX => currentLabelWindow == null ? 100 : currentLabelWindow.minX;
+    public float MinY => currentLabelWindow == null ? 100 : currentLabelWindow.minY;
     public float MaxX => 1920;
     public float MaxY => 1080;
     //public 

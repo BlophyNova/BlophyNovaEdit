@@ -11,6 +11,8 @@ public class CloseWindow : PublicButton
         thisButton.onClick.AddListener(() => 
         {
             //labelWindow.gameObject.SetActive(false);
+            LabelWindowsManager.Instance.SetUsedColor2Unused(labelWindow.labelColorIndex);
+            LabelWindowsManager.Instance.windows.Remove(labelWindow);
             Destroy(labelWindow.gameObject);
         });
     }
