@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 10
   m_Viewport: {fileID: 7094221424268120326}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 614412867748575707}
@@ -1209,7 +1209,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2674569528276994862
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1286,6 +1286,7 @@ MonoBehaviour:
   colorImage: {fileID: 7572595088795928421}
   dropdown: {fileID: 4027895556430743976}
   text: {fileID: 7831792140837247528}
+  labelWindow: {fileID: 0}
 --- !u!1 &6343006198787861457
 GameObject:
   m_ObjectHideFlags: 0

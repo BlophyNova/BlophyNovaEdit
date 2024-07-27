@@ -23,8 +23,14 @@ public class LabelWindowsManager : MonoBehaviourSingleton<LabelWindowsManager>
     }
     public void NewLabelWindow()
     {
+        int unusedColorIndex= GetUnusedColor();
+        if (unusedColorIndex < 0) 
+        { 
+            Alert.EnableAlert("已经达到了窗口上限，请关闭掉不需要的窗口后创建"); 
+            return;
+        }
         LabelWindow newItem=Instantiate(labelWindowPrefab,transform);
-        newItem.labelColorIndex = GetUnusedColor();
+        newItem.labelColorIndex = unusedColorIndex;
         newItem.labelColor.color=GetColorWithIndex(newItem.labelColorIndex);
         newItem.labelWindowRect.anchorMin = Vector2.up;
         newItem.labelWindowRect.anchorMax = Vector2.up;
@@ -40,6 +46,7 @@ public class LabelWindowsManager : MonoBehaviourSingleton<LabelWindowsManager>
             {
                 res=i;
                 usedColors[i]=true;
+                break;
             }
         }
         return res;

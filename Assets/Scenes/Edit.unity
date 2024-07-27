@@ -482,7 +482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790626187861, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000020888234
+      value: -0.000029563904
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790798544184, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchorMax.x
@@ -966,7 +966,6 @@ MonoBehaviour:
   - {r: 0, g: 0, b: 0, a: 1}
   usedColors: 01010101010101000000
   currentFocusWindow: {fileID: 1383144357}
-  newLabelWindowParent: {fileID: 0}
   labelWindowPrefab: {fileID: 588198340389008037, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
 --- !u!1 &445126666
 GameObject:
@@ -8431,6 +8430,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8268406595791942494, guid: 77f81b1e9770e0e419303621a0e33421, type: 3}
+      propertyPath: labelWindow
+      value: 
+      objectReference: {fileID: 696940614}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77f81b1e9770e0e419303621a0e33421, type: 3}
 --- !u!114 &6015635213002438332 stripped
