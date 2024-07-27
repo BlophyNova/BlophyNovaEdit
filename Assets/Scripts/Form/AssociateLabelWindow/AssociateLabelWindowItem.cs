@@ -16,7 +16,7 @@ public class AssociateLabelWindowItem : MonoBehaviour
         {
             for (int i = 0; i < LabelWindowsManager.Instance.windows.Count; i++)
             {
-                if (LabelWindowsManager.Instance.windows[i].labelColorIndex == index-1)
+                if (LabelWindowsManager.Instance.windows[i].labelColorIndex == index)
                 {
                     labelWindow.associateLabelWindow = LabelWindowsManager.Instance.windows[i];
                 }
@@ -27,14 +27,15 @@ public class AssociateLabelWindowItem : MonoBehaviour
     private void OnEnable()
     {
         dropdown.options.Clear();
-        dropdown.options.Add(new("选择窗口"));
-        for (int i = 0; i < LabelWindowsManager.Instance.usedColors.Length; i++)
+        for (int i = 0; i < LabelWindowsManager.Instance.windows.Count; i++)
         {
-            if (LabelWindowsManager.Instance.usedColors[i])
+            if (LabelWindowsManager.Instance.usedColors[LabelWindowsManager.Instance.windows[i].labelColorIndex])
             {
-                dropdown.options.Add(new($"窗口{i}"));
+                dropdown.options.Add(new($"窗口{LabelWindowsManager.Instance.windows[i].labelColorIndex}"));
             }
         }
+        dropdown.options.Add(new("选择窗口"));
+        dropdown.SetValueWithoutNotify(dropdown.options.Count-1);
         if (labelWindow.associateLabelWindow != null)
         {
             for (int i = 0; i < LabelWindowsManager.Instance.windows.Count; i++)
@@ -42,7 +43,7 @@ public class AssociateLabelWindowItem : MonoBehaviour
                 LabelWindow item = LabelWindowsManager.Instance.windows[i];
                 if (item == labelWindow.associateLabelWindow)
                 {
-                    dropdown.SetValueWithoutNotify(i + 1);
+                    dropdown.SetValueWithoutNotify(i);
                 }
             }
         }
