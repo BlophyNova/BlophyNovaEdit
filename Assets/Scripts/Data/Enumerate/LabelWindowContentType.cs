@@ -15,4 +15,6 @@ public enum LabelWindowContentType
     ProgressBar,
     ATimeLine,
     DebugText,
+    NotePropertyEdit,
+    AssociateLabelWindow,
 }

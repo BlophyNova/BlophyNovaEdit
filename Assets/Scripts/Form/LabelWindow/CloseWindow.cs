@@ -10,7 +10,8 @@ public class CloseWindow : PublicButton
     {
         thisButton.onClick.AddListener(() => 
         {
-            labelWindow.gameObject.SetActive(false);
+            //labelWindow.gameObject.SetActive(false);
+            Destroy(labelWindow.gameObject);
         });
     }
 }

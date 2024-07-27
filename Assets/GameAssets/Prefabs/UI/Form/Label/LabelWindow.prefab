@@ -39,7 +39,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 30, y: 0}
-  m_SizeDelta: {x: 200, y: 267.5086}
+  m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &221726322
 CanvasRenderer:
@@ -1757,8 +1757,6 @@ MonoBehaviour:
   associateLabelWindow: {fileID: 0}
   currentLabelWindow: {fileID: 0}
   focus: 0
-  minX: 100
-  minY: 100
 --- !u!1 &8753526250465213827
 GameObject:
   m_ObjectHideFlags: 0

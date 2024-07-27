@@ -43,6 +43,7 @@ public class Stretch : MonoBehaviour
         size.y = size.y > labelWindow.MaxY ? labelWindow.MaxY : size.y;
         labelWindowRect.sizeDelta = size;
         UpdateDragArea(size);
+
         foreach (LabelItem item in labelWindow.labels)
             item.labelWindowContent.WindowSizeChanged();
     }
