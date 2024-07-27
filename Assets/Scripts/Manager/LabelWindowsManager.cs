@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UtilityCode.Singleton;
-using static UnityEditor.Progress;
 
 public class LabelWindowsManager : MonoBehaviourSingleton<LabelWindowsManager>
 {
@@ -36,6 +35,7 @@ public class LabelWindowsManager : MonoBehaviourSingleton<LabelWindowsManager>
         newItem.labelWindowRect.anchorMax = Vector2.up;
         newItem.labelWindowRect.pivot = Vector2.up;
         windows.Add(newItem);
+        SetFocusWindow(newItem);
     }
     public int GetUnusedColor()
     {

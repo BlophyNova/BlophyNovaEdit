@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UtilityCode.Algorithm;
 
-public class BasicLine : MonoBehaviour
+public class BasicLine : MonoBehaviour,IRefresh
 {
     public TMP_Text currentBeatsText;//显示节拍线的
     public RectTransform basicLine;//基准线的position
@@ -23,15 +23,23 @@ public class BasicLine : MonoBehaviour
     private void Update()
     {
         //Debug.Log($"AriseLineAndBasicLineSeconds:{AriseLineAndBasicLineSeconds}|AriseLineAndBasicLinePositionYDelta:{AriseLineAndBasicLinePositionYDelta}");
+        
         float currentBeats = BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime);
         currentBeatsText.text = $"{currentBeats:F2}\t";
-        noteCanvas.anchoredPosition = 100 * currentBeats * YScale.Instance.CurrentYScale * Vector2.down;
+        noteCanvas.anchoredPosition = CurrentBasicLine * Vector2.down;
         UpdateBeatLines();
+    }
+    /// <summary>
+    /// 在bpm改变的时候应该被调用
+    /// </summary>
+    public void Refresh()
+    {
+        nextBPMWithAriseLine = new();
     }
     private void UpdateBeatLines()
     {
         float ariseBeats = BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)(ProgressManager.Instance.CurrentTime + AriseLineAndBasicLineSeconds * (1 / YScale.Instance.CurrentYScale)));
-        int ariseBeatLineIndex = Algorithm.BinarySearch(BPMManager.Instance.bpmList, m => m.ThisStartBPM < ariseBeats, false);
+        //int ariseBeatLineIndex = Algorithm.BinarySearch(BPMManager.Instance.bpmList, m => m.ThisStartBPM < ariseBeats, true);
         while (nextBPMWithAriseLine.ThisStartBPM < ariseBeats)
         {
             BeatLine initBeatLine = Instantiate(beatLinePrefab, noteCanvas.transform).Init(nextBPMWithAriseLine.ThisStartBPM, nextBPMWithAriseLine);

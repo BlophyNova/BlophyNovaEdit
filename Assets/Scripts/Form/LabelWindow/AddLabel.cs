@@ -43,6 +43,7 @@ public class AddLabel : MonoBehaviour
             newItem.labelWindowContent = newContent;
             newItem.labelWindow = labelWindow;
             newItem.closeThisLabel.labelWindow = labelWindow;
+            newItem.labelWindowContent.gameObject.SetActive(true);
             foreach (var item in labelWindow.labels)
             {
                 item.labelWindowContent.gameObject.SetActive(false);
