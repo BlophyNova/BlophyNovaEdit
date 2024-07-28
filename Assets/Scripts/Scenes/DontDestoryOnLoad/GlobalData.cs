@@ -36,6 +36,14 @@ namespace Scenes.DontDestoryOnLoad
         public LabelWindow labelWindowPrefab;
 
         public EventEditItem eventEditItem;
+
+        public TapEdit tapEditPrefab;
+        public DragEdit dragEditPrefab;
+        public HoldEdit holdEditPrefab;
+        public FlickEdit flickEditPrefab;
+        public PointEdit pointEditPrefab;
+        public FullFlickEdit fullFlickEditPrefab;
+
         public static void Refresh()
         {
             AssemblySystem.Exe(AssemblySystem.FindAllInterfaceByTypes<IRefresh>(), (interfaceMethod) => interfaceMethod.Refresh());

@@ -3544,6 +3544,7 @@ Transform:
   - {fileID: 676043694}
   - {fileID: 448824944}
   - {fileID: 1774268782}
+  - {fileID: 1310554089}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4320,6 +4321,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputActionName: Copy
+--- !u!1 &1310554088
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1310554089}
+  - component: {fileID: 1310554090}
+  m_Layer: 0
+  m_Name: MouseWheel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1310554089
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310554088}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1025664432}
+  m_RootOrder: 23
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1310554090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310554088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd45bed531910614ab8af66c7c641e06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActionName: MouseWheel
 --- !u!1001 &1352458339
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4515,7 +4561,7 @@ PrefabInstance:
     - target: {fileID: 588198340389008037, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
       propertyPath: currentLabelWindow
       value: 
-      objectReference: {fileID: 8069792749430917713}
+      objectReference: {fileID: 2922055652007750042}
     - target: {fileID: 588198340389008037, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
       propertyPath: associateLabelWindow
       value: 
@@ -6392,6 +6438,12 @@ MonoBehaviour:
   labelItemPrefab: {fileID: 1055482971244819106, guid: 6db02e9ffbeec2c4eb8301210d78979d, type: 3}
   labelWindowPrefab: {fileID: 588198340389008037, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
   eventEditItem: {fileID: 7081173974640190564, guid: 1e4f77c084e47824988157397f402bf6, type: 3}
+  tapEditPrefab: {fileID: 3959132380219186833, guid: dbd5b04cec444c84bb76a7e3aa7827c3, type: 3}
+  dragEditPrefab: {fileID: 4868540525419382845, guid: 1cd577cf5dff4ef4297031a222e15077, type: 3}
+  holdEditPrefab: {fileID: 6025257474911951489, guid: 6566f469aca117742a639ecc9a896335, type: 3}
+  flickEditPrefab: {fileID: 1371966795941960310, guid: 8f548929e8c3f8a41938e696fe392f52, type: 3}
+  pointEditPrefab: {fileID: 4871434625925746174, guid: 131528daee930ca47b6bb242bb2ee356, type: 3}
+  fullFlickEditPrefab: {fileID: 5270068025075690679, guid: d4f87f4e3216c7d42a7de9f174d32af6, type: 3}
 --- !u!1 &1911001488
 GameObject:
   m_ObjectHideFlags: 0
@@ -7478,7 +7530,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5024659929653540869, guid: 4137ef2ede430d745bfddbc7b72d4daa, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8633513725664827695, guid: 4137ef2ede430d745bfddbc7b72d4daa, type: 3}
       propertyPath: m_Pivot.x
@@ -8686,6 +8738,10 @@ PrefabInstance:
     - target: {fileID: 3989304463619947668, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
       propertyPath: m_Name
       value: EventEdit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989304463619947668, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4285886789649574244, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
       propertyPath: eventType

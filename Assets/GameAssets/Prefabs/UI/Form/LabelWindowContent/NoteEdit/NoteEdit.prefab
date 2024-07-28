@@ -559,7 +559,9 @@ MonoBehaviour:
   labelWindowContentType: 2
   minX: 100
   minY: 100
+  noteEditRect: {fileID: 8633513725664827695}
   verticalLineLeft: {fileID: 381556096}
   verticalLineRight: {fileID: 3678595}
   verticalLinePrefab: {fileID: 2549698506828883797, guid: ac2da9af49fe74a428e6ad44a7fa942c, type: 3}
   verticalLines: []
+  basicLine: {fileID: 333406762}
