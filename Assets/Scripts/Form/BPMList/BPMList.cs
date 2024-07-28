@@ -4,19 +4,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BPMList : LabelWindowContent
+public class BPMList : LabelWindowContent,IRefresh
 {
     public BPMItem bpmItemPrefabs;
     public List<BPMItem> bpmItems;
     public GridLayoutGroup gridLayoutGroup;
     private void Start()
     {
-        for (int i = 0; i <GlobalData.Instance.chartEditData.bpmList.Count; i++)
+        Refresh();
+    }
+    public void Refresh()
+    {
+        foreach (BPMItem item in bpmItems)
+        {
+            Destroy(item.gameObject);
+        }
+        bpmItems.Clear();
+        for (int i = 0; i < GlobalData.Instance.chartEditData.bpmList.Count; i++)
         {
             BPMItem newItem = Instantiate(bpmItemPrefabs, gridLayoutGroup.transform);
             newItem.myBPM = GlobalData.Instance.chartEditData.bpmList[i];
             newItem.bpmValue.text = newItem.myBPM.currentBPM.ToString();
-            newItem.startBeats.text= $"{newItem.myBPM.integer}:{newItem.myBPM.molecule}/{newItem.myBPM.denominator}";
+            newItem.startBeats.text = $"{newItem.myBPM.integer}:{newItem.myBPM.molecule}/{newItem.myBPM.denominator}";
             bpmItems.Add(newItem);
         }
     }

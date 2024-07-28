@@ -36,7 +36,10 @@ namespace Scenes.DontDestoryOnLoad
         public LabelWindow labelWindowPrefab;
 
         public EventEditItem eventEditItem;
-
+        public static void Refresh()
+        {
+            AssemblySystem.Exe(AssemblySystem.FindAllInterfaceByTypes<IRefresh>(), (interfaceMethod) => interfaceMethod.Refresh());
+        }
         protected override void OnAwake()
         {
             DontDestroyOnLoad(gameObject);

@@ -35,6 +35,11 @@ public class BasicLine : MonoBehaviour,IRefresh
     public void Refresh()
     {
         nextBPMWithAriseLine = new();
+        foreach (var item in beatLines)
+        {
+            Destroy(item.gameObject);
+        }
+        beatLines.Clear();
     }
     private void UpdateBeatLines()
     {
