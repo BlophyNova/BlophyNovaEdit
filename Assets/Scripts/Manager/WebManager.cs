@@ -33,7 +33,9 @@ namespace Manager
         }
         private IEnumerator Start()
         {
-            ChartData = JsonConvert.DeserializeObject<ChartData>(new StreamReader(new FileStream($"{Application.streamingAssetsPath}/-1/ChartFile/Red/Chart.json", FileMode.Open)).ReadToEnd());
+            //ChartData = JsonConvert.DeserializeObject<ChartData>(new StreamReader(new FileStream($"{Application.streamingAssetsPath}/-1/ChartFile/Red/Chart.json", FileMode.Open)).ReadToEnd());
+
+            ChartData = GlobalData.Instance.chartData;
 
             yield return GlobalData.Instance.ReadResource();
             MusicClip = GlobalData.Instance.clip;

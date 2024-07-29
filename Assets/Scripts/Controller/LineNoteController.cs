@@ -33,7 +33,7 @@ namespace Controller
                 Find_Get_Update_PassHit_Return(decideLineController.ThisLine.offlineNotes, ref lastOfflineIndex, ariseOfflineNotes, endTimeAriseOfflineNotes, false);
         }
 
-        private void Find_Get_Update_PassHit_Return(Note[] lineNotes, ref int lastIndex, List<NoteController> ariseNotes, List<NoteController> endTimeAriseTime, bool isOnlineNotes)
+        private void Find_Get_Update_PassHit_Return(List<Note> lineNotes, ref int lastIndex, List<NoteController> ariseNotes, List<NoteController> endTimeAriseTime, bool isOnlineNotes)
         {
             FindAndGetNotes(lineNotes, ref lastIndex, ariseNotes, endTimeAriseTime, isOnlineNotes);//寻找这一时刻，在判定线下方需要生成的音符
             if (ariseNotes.Count <= 0) return;
@@ -73,7 +73,7 @@ namespace Controller
         /// <param name="lastIndex">上次在什么地方结束，这次就从什么地方继续</param>
         /// <param name="arisedNotes">生成后的音符存放点</param>
         /// <param name="isOnlineNote">当前处理的是不是判定线上方的音符，true代表是判定线上方的音符，false代表不是判定线上方的音符</param>
-        private void FindAndGetNotes(Note[] notes, ref int lastIndex, List<NoteController> arisedNotes, List<NoteController> endTimeArisedNotes, bool isOnlineNote)
+        private void FindAndGetNotes(List<Note> notes, ref int lastIndex, List<NoteController> arisedNotes, List<NoteController> endTimeArisedNotes, bool isOnlineNote)
         {
             Vector3 direction = isOnlineNote switch//确定方向，如果是判定线上方，就是正值，如果是判定线下方，就是负值
             {
@@ -92,7 +92,7 @@ namespace Controller
         /// </summary>
         /// <param name="notes">寻找当前的需要出现的时间的音符</param>
         /// <returns>返回索引</returns>
-        private int FindNote(Note[] notes)
+        private int FindNote(List<Note> notes)
         {
             return Algorithm.BinarySearch(notes, m => m.hitFloorPosition < -decideLineController.onlineNote.localPosition.y + 2.00001f, false);
             //寻找这个时刻需要出现的音符，出现要提前两个单位长度的时间出现
@@ -106,7 +106,7 @@ namespace Controller
         /// <param name="isOnlineNote">是否是线上的音符</param>
         /// <param name="direction">音符朝向</param>
         /// <param name="i">当前处于什么循环</param>
-        private void GetNote(Note[] notes, List<NoteController> arisedNotes, List<NoteController> endTimeArisedNotes, bool isOnlineNote, Vector3 direction, int i)
+        private void GetNote(List<Note> notes, List<NoteController> arisedNotes, List<NoteController> endTimeArisedNotes, bool isOnlineNote, Vector3 direction, int i)
         {
             Note note = notes[i];//拿出当前遍历到的音符
             NoteController noteController = decideLineController.GetNote(note.noteType, isOnlineNote);//从对象池拿出来

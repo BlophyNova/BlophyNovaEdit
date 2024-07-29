@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Data.ChartData;
 using Manager;
 using UnityEngine;
@@ -172,9 +173,9 @@ namespace Controller
         /// </summary>
         /// <param name="events"></param>
         /// <returns></returns>
-        private static float CalculateCurrentValue(Event[] events, ref float currentTime, ref float defaultValue)
+        private static float CalculateCurrentValue(List<Event> events, ref float currentTime, ref float defaultValue)
         {
-            if (events.Length <= 0 || currentTime < events[0].startTime) return defaultValue;
+            if (events.Count <= 0 || currentTime < events[0].startTime) return defaultValue;
             int eventIndex = Algorithm.BinarySearch(events, IsCurrentEvent, true, ref currentTime);//找到当前时间下，应该是哪个事件
 
             if (currentTime > events[eventIndex].endTime)

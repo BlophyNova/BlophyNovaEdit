@@ -1,9 +1,12 @@
+using Data.ChartData;
 using Newtonsoft.Json;
 using Scenes.DontDestoryOnLoad;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GlobalData = Scenes.DontDestoryOnLoad.GlobalData;
+
 namespace Data.ChartEdit
 {
     [Serializable]
@@ -13,8 +16,8 @@ namespace Data.ChartEdit
         public int beatSubdivision;//节拍线细分(单位：份)
         public int verticalSubdivision;//垂直线细分(单位：份)
         public int eventVerticalSubdivision;
-        public List<BPM> bpmList = new(); 
-        public Box[] boxes;
+        public List<BPM> bpmList;
+        public List<Box> boxes;
     }
     [Serializable]
     public class BPM
@@ -34,6 +37,13 @@ namespace Data.ChartEdit
         public float ThisStartBPM => integer + molecule / (float)denominator;
         public float currentBPM;
         public BPM() { }
+
+        public BPM(int integer,int molecule,int denominator) 
+        { 
+            this.integer = integer;
+            this.molecule = molecule;
+            this.denominator = denominator;
+        }
         public BPM(BPM bpm)
         {
             this.molecule = bpm.molecule;
@@ -70,36 +80,41 @@ namespace Data.ChartEdit
             } while (b.ThisStartBPM>0);
             return a;
         }
+
+        public static BPM Zero => new();
+        public static BPM One => new(1, 0, 1);
     }
     [Serializable]
     public class Box
     {
         public BoxEvents boxEvents;
-        public Line[] lines;
+        public List<Line> lines=new();
     }
     [Serializable]
     public class Line
     {
-        public Note[] onlineNotes;
+        public List<Note> onlineNotes;
         public int onlineNotesLength = -1;
         public int OnlineNotesLength
         {
             get
             {
-                if (onlineNotesLength < 0) onlineNotesLength = onlineNotes.Length;
+                if (onlineNotesLength < 0) onlineNotesLength = onlineNotes.Count;
                 return onlineNotesLength;
             }
         }
-        public Note[] offlineNotes;
+        public List<Note> offlineNotes;
         public int offlineNotesLength = -1;
         public int OfflineNotesLength
         {
             get
             {
-                if (offlineNotesLength < 0) offlineNotesLength = offlineNotes.Length;
+                if (offlineNotesLength < 0) offlineNotesLength = offlineNotes.Count;
                 return offlineNotesLength;
             }
         }
+
+        public List<Event> speed;
     }
     [Serializable]
     public class Note
@@ -121,114 +136,95 @@ namespace Data.ChartEdit
         [JsonIgnore] public float hitFloorPosition;//打击地板上距离
     }
     [Serializable]
-    public enum NoteType
-    {
-        Tap = 0,
-        Hold = 1,
-        Drag = 2,
-        Flick = 3,
-        Point = 4,
-        FullFlickPink = 5,
-        FullFlickBlue = 6
-    }
-    [Flags]
-    [Serializable]
-    public enum NoteEffect
-    {
-        Ripple = 1,
-        FullLine = 2,
-        CommonEffect = 4
-    }
-    [Serializable]
     public class BoxEvents
     {
-        public Event[] moveX;
+        public List<Event> moveX;
         private int lengthMoveX = -1;
         public int LengthMoveX
         {
             get
             {
-                if (lengthMoveX < 0) lengthMoveX = moveX.Length;
+                if (lengthMoveX < 0) lengthMoveX = moveX.Count;
                 return lengthMoveX;
             }
         }
-        public Event[] moveY;
+        public List<Event> moveY;
         private int lengthMoveY = -1;
         public int LengthMoveY
         {
             get
             {
-                if (lengthMoveY < 0) lengthMoveY = moveY.Length;
+                if (lengthMoveY < 0) lengthMoveY = moveY.Count;
                 return lengthMoveY;
             }
         }
-        public Event[] rotate;
+        public List<Event> rotate;
         private int lengthRotate = -1;
         public int LengthRotate
         {
             get
             {
-                if (lengthRotate < 0) lengthRotate = rotate.Length;
+                if (lengthRotate < 0) lengthRotate = rotate.Count;
                 return lengthRotate;
             }
         }
-        public Event[] alpha;
+        public List<Event> alpha;
         private int lengthAlpha = -1;
         public int LengthAlpha
         {
             get
             {
-                if (lengthAlpha < 0) lengthAlpha = alpha.Length;
+                if (lengthAlpha < 0) lengthAlpha = alpha.Count;
                 return lengthAlpha;
             }
         }
-        public Event[] scaleX;
+        public List<Event> scaleX;
         private int lengthScaleX = -1;
         public int LengthScaleX
         {
             get
             {
-                if (lengthScaleX < 0) lengthScaleX = scaleX.Length;
+                if (lengthScaleX < 0) lengthScaleX = scaleX.Count;
                 return lengthScaleX;
             }
         }
-        public Event[] scaleY;
+        public List<Event> scaleY;
         private int lengthScaleY = -1;
         public int LengthScaleY
         {
             get
             {
-                if (lengthScaleY < 0) lengthScaleY = scaleY.Length;
+                if (lengthScaleY < 0) lengthScaleY = scaleY.Count;
                 return lengthScaleY;
             }
         }
-        public Event[] centerX;
+        public List<Event> centerX;
         private int lengthCenterX = -1;
         public int LengthCenterX
         {
             get
             {
-                if (lengthCenterX < 0) lengthCenterX = centerX.Length;
+                if (lengthCenterX < 0) lengthCenterX = centerX.Count;
                 return lengthCenterX;
             }
         }
-        public Event[] centerY;
+        public List<Event> centerY;
         private int lengthCenterY = -1;
         public int LengthCenterY
         {
             get
             {
-                if (lengthCenterY < 0) lengthCenterY = centerY.Length;
+                if (lengthCenterY < 0) lengthCenterY = centerY.Count;
                 return lengthCenterY;
             }
         }
-        public Event[] lineAlpha;
+        public List<Event> lineAlpha;
         private int lengthLineAlpha = -1;
         public int LengthLineAlpha
         {
             get
             {
-                if (lengthLineAlpha < 0) lengthLineAlpha = lineAlpha.Length;
+                if (lengthLineAlpha < 0) lengthLineAlpha = lineAlpha.Count;
                 return lengthLineAlpha;
             }
         }

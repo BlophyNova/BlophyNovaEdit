@@ -39,10 +39,10 @@ namespace UtilityCode.Algorithm
             };//返回最终结果
         }
         public delegate bool Pre(Event obj, ref float currentTime);
-        public static int BinarySearch(Event[] list, Pre match, bool isLeft, ref float currentTime)
+        public static int BinarySearch(List<Event> list, Pre match, bool isLeft, ref float currentTime)
         {
             int left = -1;//左初始化为-1
-            int right = list.Length;//右初始化为数量
+            int right = list.Count;//右初始化为数量
             while (left + 1 != right)//如果l和r的下标没有挨在一起
             {
                 int middle = (left + right) / 2;//m无默认值

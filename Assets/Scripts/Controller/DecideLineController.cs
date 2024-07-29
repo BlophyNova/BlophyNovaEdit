@@ -126,7 +126,7 @@ namespace Controller
         /// 计算音符的FloorPosition
         /// </summary>
         /// <param name="notes"></param>
-        private void CalculatedNoteFloorPosition(Note[] notes)
+        private void CalculatedNoteFloorPosition(List<Note> notes)
         {
             foreach (Note t in notes)
             {

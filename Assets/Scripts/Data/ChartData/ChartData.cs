@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Manager;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -10,9 +11,9 @@ namespace Data.ChartData
     public class ChartData
     {
         public MetaData metaData;
-        public Box[] boxes;
+        public List<Box> boxes;
         public GlobalData globalData;
-        public Text[] texts;
+        public List<Text> texts;
     }
 
     [Serializable]
@@ -50,48 +51,48 @@ namespace Data.ChartData
         public Event moveY;
 
         //先放这里，画个大饼
-        public EventString[] thisEvent;
-        public Event[] positionX;
-        public Event[] positionY;
-        public Event[] spaceBetween;
-        public Event[] textSize;
-        public Event[] r;
-        public Event[] g;
-        public Event[] b;
-        public Event[] rotate;
-        public Event[] alpha;
+        public List<EventString> thisEvent;
+        public List<Event> positionX;
+        public List<Event> positionY;
+        public List<Event> spaceBetween;
+        public List<Event> textSize;
+        public List<Event> r;
+        public List<Event> g;
+        public List<Event> b;
+        public List<Event> rotate;
+        public List<Event> alpha;
     }
     #region 下面都是依赖
     [Serializable]
     public class Box
     {
         public BoxEvents boxEvents;
-        public Line[] lines;
+        public List<Line> lines;
     }
     [Serializable]
     public class Line
     {
-        public Note[] onlineNotes;
+        public List<Note> onlineNotes;
         public int onlineNotesLength = -1;
         public int OnlineNotesLength
         {
             get
             {
-                if (onlineNotesLength < 0) onlineNotesLength = onlineNotes.Length;
+                if (onlineNotesLength < 0) onlineNotesLength = onlineNotes.Count;
                 return onlineNotesLength;
             }
         }
-        public Note[] offlineNotes;
+        public List<Note> offlineNotes;
         public int offlineNotesLength = -1;
         public int OfflineNotesLength
         {
             get
             {
-                if (offlineNotesLength < 0) offlineNotesLength = offlineNotes.Length;
+                if (offlineNotesLength < 0) offlineNotesLength = offlineNotes.Count;
                 return offlineNotesLength;
             }
         }
-        public Event[] speed;
+        public List<Event> speed;
         public AnimationCurve far;//画布偏移绝对位置，距离
         public AnimationCurve career;//速度
     }
@@ -113,6 +114,17 @@ namespace Data.ChartData
         public bool hasOther;//还有别的Note和他在统一时间被打击，简称多押标识（（
         [JsonIgnore] public float EndTime => hitTime + HoldTime;
         [JsonIgnore] public float hitFloorPosition;//打击地板上距离
+        public Note(ChartEdit.Note noteEdit)
+        {
+            noteType = noteEdit.noteType;
+            hitTime = noteEdit.hitBeats.ThisStartBPM;
+            holdTime=noteEdit.holdBeats.ThisStartBPM;
+            effect = noteEdit.effect;
+            positionX = noteEdit.positionX;
+            isClockwise = noteEdit.isClockwise;
+            hasOther = noteEdit.hasOther;
+        }
+        public Note() { }
     }
     [Serializable]
     public enum NoteType
@@ -136,93 +148,93 @@ namespace Data.ChartData
     [Serializable]
     public class BoxEvents
     {
-        public Event[] moveX;
+        public List<Event> moveX;
         private int lengthMoveX = -1;
         public int LengthMoveX
         {
             get
             {
-                if (lengthMoveX < 0) lengthMoveX = moveX.Length;
+                if (lengthMoveX < 0) lengthMoveX = moveX.Count;
                 return lengthMoveX;
             }
         }
-        public Event[] moveY;
+        public List<Event> moveY;
         private int lengthMoveY = -1;
         public int LengthMoveY
         {
             get
             {
-                if (lengthMoveY < 0) lengthMoveY = moveY.Length;
+                if (lengthMoveY < 0) lengthMoveY = moveY.Count;
                 return lengthMoveY;
             }
         }
-        public Event[] rotate;
+        public List<Event> rotate;
         private int lengthRotate = -1;
         public int LengthRotate
         {
             get
             {
-                if (lengthRotate < 0) lengthRotate = rotate.Length;
+                if (lengthRotate < 0) lengthRotate = rotate.Count;
                 return lengthRotate;
             }
         }
-        public Event[] alpha;
+        public List<Event> alpha;
         private int lengthAlpha = -1;
         public int LengthAlpha
         {
             get
             {
-                if (lengthAlpha < 0) lengthAlpha = alpha.Length;
+                if (lengthAlpha < 0) lengthAlpha = alpha.Count;
                 return lengthAlpha;
             }
         }
-        public Event[] scaleX;
+        public List<Event> scaleX;
         private int lengthScaleX = -1;
         public int LengthScaleX
         {
             get
             {
-                if (lengthScaleX < 0) lengthScaleX = scaleX.Length;
+                if (lengthScaleX < 0) lengthScaleX = scaleX.Count;
                 return lengthScaleX;
             }
         }
-        public Event[] scaleY;
+        public List<Event> scaleY;
         private int lengthScaleY = -1;
         public int LengthScaleY
         {
             get
             {
-                if (lengthScaleY < 0) lengthScaleY = scaleY.Length;
+                if (lengthScaleY < 0) lengthScaleY = scaleY.Count;
                 return lengthScaleY;
             }
         }
-        public Event[] centerX;
+        public List<Event> centerX;
         private int lengthCenterX = -1;
         public int LengthCenterX
         {
             get
             {
-                if (lengthCenterX < 0) lengthCenterX = centerX.Length;
+                if (lengthCenterX < 0) lengthCenterX = centerX.Count;
                 return lengthCenterX;
             }
         }
-        public Event[] centerY;
+        public List<Event> centerY;
         private int lengthCenterY = -1;
         public int LengthCenterY
         {
             get
             {
-                if (lengthCenterY < 0) lengthCenterY = centerY.Length;
+                if (lengthCenterY < 0) lengthCenterY = centerY.Count;
                 return lengthCenterY;
             }
         }
-        public Event[] lineAlpha;
+        public List<Event> lineAlpha;
         private int lengthLineAlpha = -1;
         public int LengthLineAlpha
         {
             get
             {
-                if (lengthLineAlpha < 0) lengthLineAlpha = lineAlpha.Length;
+                if (lengthLineAlpha < 0) lengthLineAlpha = lineAlpha.Count;
                 return lengthLineAlpha;
             }
         }

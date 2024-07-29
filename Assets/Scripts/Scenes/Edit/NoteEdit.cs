@@ -7,9 +7,10 @@ namespace Scenes.Edit
     public class NoteEdit : MonoBehaviour
     {
         public Note thisNoteData;
-        public virtual void Init(Note note)
+        public virtual NoteEdit Init(Note note)
         {
             thisNoteData = note;
+            return this;
         }
     }
 }

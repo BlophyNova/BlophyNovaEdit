@@ -1,10 +1,14 @@
+using Data.ChartData;
 using Data.ChartEdit;
 using Scenes.DontDestoryOnLoad;
+using Scenes.Edit;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UtilityCode.Algorithm;
+using GlobalData = Scenes.DontDestoryOnLoad.GlobalData;
 
 public class NoteEdit : LabelWindowContent,IInputEventCallback
 {
@@ -16,6 +20,8 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback
     public List<RectTransform> verticalLines = new();
 
     public BasicLine basicLine;
+
+    public List<Scenes.Edit.NoteEdit> notes = new();
     private void Start()
     {
         UpdateVerticalLineCount();
@@ -40,6 +46,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback
         {
             RectTransform newVerticalLine = Instantiate(verticalLinePrefab, transform);
             newVerticalLine.localPosition = (verticalLineLeftAndRightDelta / subdivision * i - verticalLineLeftAndRightDelta / 2) * Vector2.right;
+            newVerticalLine.SetAsFirstSibling();
             verticalLines.Add(newVerticalLine);
         }
     }
@@ -79,24 +86,30 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback
                 nearBeatLine = item;
             }
         }
-        RectTransform nearEventVerticalLine = new();
-        float nearEventVerticalLineDis = float.MaxValue;
+        RectTransform nearVerticalLine = new();
+        float nearVerticalLineDis = float.MaxValue;
         foreach (RectTransform item in verticalLines)
         {
             float dis = Vector2.Distance(MousePositionInThisRectTransform, (Vector2)item.transform.localPosition + labelWindow.labelWindowRect.sizeDelta / 2);
-            if (dis < nearEventVerticalLineDis)
+            if (dis < nearVerticalLineDis)
             {
-                nearEventVerticalLineDis = dis;
-                nearEventVerticalLine = item;
+                nearVerticalLineDis = dis;
+                nearVerticalLine = item;
             }
         }
-        Note note = new();
+        Data.ChartEdit.Note note = new();
+
+        note.noteType = NoteType.Tap; 
         note.hitBeats = nearBeatLine.thisBPM;
-        note.noteType = NoteType.Tap;
+        note.holdBeats = new();
         note.effect = NoteEffect.CommonEffect | NoteEffect.Ripple;
-        note.positionX = (nearEventVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2)/(verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x)*2-1;
-        Instantiate(GlobalData.Instance.tapEditPrefab, basicLine.noteCanvas).Init(note);
-        Debug.LogError("写到这里了，下次继续写");
+        note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2)/(verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x)*2-1;
+        Scenes.Edit.NoteEdit newNoteEdit = Instantiate(GlobalData.Instance.tapEditPrefab, basicLine.noteCanvas).Init(note);
+        newNoteEdit.transform.localPosition = new(nearVerticalLine.localPosition.x,nearBeatLine.transform.localPosition.y);
+        //Debug.LogError("写到这里了，下次继续写");
+        notes.Add(newNoteEdit);
+
+        GlobalData.Instance.AddNoteEdit2ChartData(note,0,0);
     }
 
     public void AddNewHold() 
