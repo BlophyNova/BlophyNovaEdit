@@ -225,4 +225,8 @@ namespace UtilityCode.GameUtility
             keys.Add(keyframe);//移除后添加
         }
     }
+    public class CalculateData
+    {
+        //public void 
+    }
 }

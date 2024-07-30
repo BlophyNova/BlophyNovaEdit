@@ -251,11 +251,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   labelWindowName: "\u5173\u8054\u5C5E\u6027\u7A97\u53E3"
   labelWindow: {fileID: 0}
-  labelWindowContentType: 12
+  labelWindowContentType: 4096
   minX: 100
   minY: 100
   associateLabelWindowItem: {fileID: 60065665265659616, guid: 34030749b94f4714f98797b7407db8a2, type: 3}
   gridLayoutGroup: {fileID: 5101116057169619020}
+  associateLabels: []
 --- !u!1 &5101116057169619018
 GameObject:
   m_ObjectHideFlags: 0

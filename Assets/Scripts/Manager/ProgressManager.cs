@@ -3,7 +3,7 @@ using UnityEngine;
 using UtilityCode.Singleton;
 namespace Manager
 {
-    public class ProgressManager : MonoBehaviourSingleton<ProgressManager>
+    internal class ProgressManager : MonoBehaviourSingleton<ProgressManager>
     {
         private readonly Stopwatch musicPlayerTime = new Stopwatch();//计时器，谱面时间和音乐时间的
         private double dspStartPlayMusic;//开始时间
@@ -22,6 +22,7 @@ namespace Manager
             this.offset = offset;//偏移
             dspStartPlayMusic = AudioSettings.dspTime + this.offset;//获取到开始播放的时间
             dspLastPlayMusic = dspStartPlayMusic;//同步LastPlayMusic
+            AssetManager.Instance.musicPlayer.time = 0;
             AssetManager.Instance.musicPlayer.PlayScheduled(dspStartPlayMusic);//在绝对的时间线上播放
             musicPlayerTime.Start();//开始计时
         }

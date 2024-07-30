@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;
 using UtilityCode.Algorithm;
+using UtilityCode.GameUtility;
 using UtilityCode.Singleton;
 namespace Scenes.DontDestoryOnLoad
 {
@@ -107,7 +108,7 @@ namespace Scenes.DontDestoryOnLoad
             chartEditBox.boxEvents.moveY.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0].thisCurve });
             chartEditBox.boxEvents.centerX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = .5f, endValue = .5f, curve = easeData[0].thisCurve });
             chartEditBox.boxEvents.centerY.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = .5f, endValue = .5f, curve = easeData[0].thisCurve });
-            chartEditBox.boxEvents.alpha.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0].thisCurve });
+            chartEditBox.boxEvents.alpha.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 1, endValue = 1, curve = easeData[0].thisCurve });
             chartEditBox.boxEvents.lineAlpha.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0].thisCurve });
             chartEditBox.boxEvents.rotate.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0].thisCurve });
             for (int i = 0; i < chartEditBox.lines.Count; i++)
@@ -161,6 +162,8 @@ namespace Scenes.DontDestoryOnLoad
                     }
                     chartDataBox.lines[i].speed = new();
                     ForeachBoxEvents(box.lines[i].speed, chartDataBox.lines[i].speed);
+                    chartDataBox.lines[i].career = new();
+                    chartDataBox.lines[i].career.keys = GameUtility.CalculatedSpeedCurve(chartDataBox.lines[i].speed.ToArray()).ToArray();
                 }
                 result.Add(chartDataBox);
             }

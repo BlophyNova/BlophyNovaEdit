@@ -6460,7 +6460,7 @@ MonoBehaviour:
           m_RotationOrder: 0
     globalData:
       offset: 0
-      musicLength: 0
+      musicLength: 138
       tapCount: 0
       holdCount: 0
       dragCount: 0
@@ -6494,6 +6494,7 @@ MonoBehaviour:
         onlineNotesLength: 0
         offlineNotes: []
         offlineNotesLength: 0
+        speed: []
   clip: {fileID: 0}
   currentCp: {fileID: 0}
   currentCph: {fileID: 0}
@@ -7211,10 +7212,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 631646099}
     m_Modifications:
-    - target: {fileID: 1702444286754283499, guid: ae4c111319d6a7b40946183125a9489d, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1702444287115633044, guid: ae4c111319d6a7b40946183125a9489d, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -7222,10 +7219,6 @@ PrefabInstance:
     - target: {fileID: 1702444287115633044, guid: ae4c111319d6a7b40946183125a9489d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1702444288055510851, guid: ae4c111319d6a7b40946183125a9489d, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1702444288108565980, guid: ae4c111319d6a7b40946183125a9489d, type: 3}
       propertyPath: m_Name

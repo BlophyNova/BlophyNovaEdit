@@ -2695,7 +2695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   labelWindowName: "\u5C5E\u6027\u7F16\u8F91"
   labelWindow: {fileID: 0}
-  labelWindowContentType: 6
+  labelWindowContentType: 64
   minX: 100
   minY: 100
   gridLayoutGroup: {fileID: 3630496179755582615}

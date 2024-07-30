@@ -339,7 +339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   labelWindowName: "BPM\u5217\u8868"
   labelWindow: {fileID: 0}
-  labelWindowContentType: 0
+  labelWindowContentType: 1
   minX: 100
   minY: 100
   bpmItemPrefabs: {fileID: 6936085696584014657, guid: a64cb441d3dc7454985f866153b242e8, type: 3}

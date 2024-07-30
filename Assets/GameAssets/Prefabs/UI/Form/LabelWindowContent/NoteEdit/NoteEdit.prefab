@@ -556,7 +556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   labelWindowName: "\u97F3\u7B26\u7F16\u8F91\u753B\u5E03"
   labelWindow: {fileID: 0}
-  labelWindowContentType: 2
+  labelWindowContentType: 4
   minX: 100
   minY: 100
   noteEditRect: {fileID: 8633513725664827695}
@@ -565,3 +565,4 @@ MonoBehaviour:
   verticalLinePrefab: {fileID: 2549698506828883797, guid: ac2da9af49fe74a428e6ad44a7fa942c, type: 3}
   verticalLines: []
   basicLine: {fileID: 333406762}
+  notes: []

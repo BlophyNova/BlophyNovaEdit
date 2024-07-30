@@ -7,6 +7,8 @@ public class EaseData
 {
     public AnimationCurve thisCurve;
     public float area;
+    //public AnimationCurve speed;
+    public AnimationCurve offset;
 }
 /// <summary>
 /// 缓动类型

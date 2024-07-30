@@ -7629,6 +7629,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   labelWindowName: "\u97F3\u7B26\u5C5E\u6027\u7F16\u8F91"
   labelWindow: {fileID: 0}
-  labelWindowContentType: 11
+  labelWindowContentType: 2048
   minX: 100
   minY: 100

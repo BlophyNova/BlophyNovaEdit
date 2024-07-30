@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   labelWindowName: "\u4E8B\u4EF6\u7F16\u8F91\u753B\u5E03"
   labelWindow: {fileID: 0}
-  labelWindowContentType: 3
+  labelWindowContentType: 8
   minX: 100
   minY: 100
   basicLine: {fileID: 8279857815255672507}

@@ -73,7 +73,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback
     }
     public void AddNewTap() 
     {
-        BeatLine nearBeatLine = new();
+        BeatLine nearBeatLine = null;
         float nearBeatLineDis = float.MaxValue;
         //第一次
         foreach (BeatLine item in basicLine.beatLines)

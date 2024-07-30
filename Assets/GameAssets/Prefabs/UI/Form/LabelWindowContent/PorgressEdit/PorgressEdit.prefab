@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1702444286462849951}
   - component: {fileID: 1702444286462849950}
   m_Layer: 5
-  m_Name: Button (4)
+  m_Name: KeepIncalzando
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 1702444286609783163}
   - component: {fileID: 1702444286609783162}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: Incalzando3Seconds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -370,7 +370,7 @@ GameObject:
   - component: {fileID: 1702444286942267628}
   - component: {fileID: 1702444286942267635}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Back3Seconds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -492,7 +492,7 @@ GameObject:
   - component: {fileID: 1702444286995819391}
   - component: {fileID: 1702444286995819390}
   m_Layer: 5
-  m_Name: Button
+  m_Name: PauseContinue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -878,7 +878,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u6301\u7EED\u5FEB\u8FDB"
+  m_text: "\u6301\u7EED\u5FEB\u9000"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
   m_sharedMaterial: {fileID: 4737349496631823484, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
@@ -1013,7 +1013,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u6301\u7EED\u5FEB\u9000"
+  m_text: "\u6301\u7EED\u5FEB\u8FDB"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
   m_sharedMaterial: {fileID: 4737349496631823484, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
@@ -1365,7 +1365,7 @@ GameObject:
   - component: {fileID: 1702444287622391163}
   - component: {fileID: 1702444287622391162}
   m_Layer: 5
-  m_Name: Button (6)
+  m_Name: Incalzando2End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1487,7 +1487,7 @@ GameObject:
   - component: {fileID: 1702444287870971233}
   - component: {fileID: 1702444287870971232}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: KeepBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1737,6 +1737,15 @@ MonoBehaviour:
   labelWindowContentType: 8
   minX: 700
   minY: 240
+  progressBar: {fileID: 1702444288176032773}
+  progressInfomation: {fileID: 1702444288152225659}
+  back2Bottom: {fileID: 1702444288516644878}
+  keepBack: {fileID: 1702444287870971232}
+  back3Seconds: {fileID: 1702444286942267635}
+  pauseContinue: {fileID: 1702444286995819390}
+  incalzando3Seconds: {fileID: 1702444286609783162}
+  KeepIncalzando: {fileID: 1702444286462849950}
+  incalzando2End: {fileID: 1702444287622391162}
 --- !u!1 &1702444288128264752
 GameObject:
   m_ObjectHideFlags: 0
@@ -1884,7 +1893,7 @@ GameObject:
   - component: {fileID: 1702444288152225652}
   - component: {fileID: 1702444288152225659}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: ProgressInfomation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1965,14 +1974,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.4
+  m_fontSize: 24
   m_fontSizeBase: 22.5
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 13.4
-  m_fontSizeMax: 72
+  m_fontSizeMax: 24
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2020,7 +2029,7 @@ GameObject:
   - component: {fileID: 1702444288176032774}
   - component: {fileID: 1702444288176032773}
   m_Layer: 5
-  m_Name: Scrollbar
+  m_Name: PorgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2282,7 +2291,7 @@ GameObject:
   - component: {fileID: 1702444288516644879}
   - component: {fileID: 1702444288516644878}
   m_Layer: 5
-  m_Name: Button (5)
+  m_Name: Back2Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

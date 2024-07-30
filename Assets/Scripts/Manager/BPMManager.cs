@@ -15,7 +15,7 @@ public class BPMManager : MonoBehaviourSingleton<BPMManager>
     /// <summary>
     /// 每分钟几拍
     /// </summary>
-    public float thisCurrentBPM => bpmList[CurrentBPMListIndex].currentBPM;
+    public float thisCurrentTotalBPM => bpmList[CurrentBPMListIndex].currentBPM;
 
     public int CurrentBPMListIndex
     {
