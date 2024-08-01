@@ -73,25 +73,11 @@ namespace Data.ChartData
     public class Line
     {
         public List<Note> onlineNotes;
-        public int onlineNotesLength = -1;
-        public int OnlineNotesLength
-        {
-            get
-            {
-                if (onlineNotesLength < 0) onlineNotesLength = onlineNotes.Count;
-                return onlineNotesLength;
-            }
-        }
+        //public int onlineNotesLength = -1;
+        public int OnlineNotesLength=>onlineNotes.Count;
         public List<Note> offlineNotes;
-        public int offlineNotesLength = -1;
-        public int OfflineNotesLength
-        {
-            get
-            {
-                if (offlineNotesLength < 0) offlineNotesLength = offlineNotes.Count;
-                return offlineNotesLength;
-            }
-        }
+        //public int offlineNotesLength = -1;
+        public int OfflineNotesLength=>offlineNotes.Count;
         public List<Event> speed;
         public AnimationCurve far;//画布偏移绝对位置，距离
         public AnimationCurve career;//速度
@@ -242,6 +228,15 @@ namespace Data.ChartData
     [Serializable]
     public class Event
     {
+        public Event(Data.ChartEdit.Event @event)
+        {
+            startTime = BPMManager.Instance.GetSecondsTimeWithBeats(@event.startBeats.ThisStartBPM);
+            endTime = BPMManager.Instance.GetSecondsTimeWithBeats(@event.endBeats.ThisStartBPM);
+            startValue = @event.startValue;
+            endValue = @event.endValue;
+            curve = @event.curve.thisCurve;
+        }
+        public Event() { }
         public float startTime;
         public float endTime;
         public float startValue;

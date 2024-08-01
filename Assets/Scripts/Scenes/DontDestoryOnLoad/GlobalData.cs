@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml.Serialization;
 using Data.ChartData;
 using Data.ChartEdit;
 using Data.Enumerate;
 using Manager;
 using Newtonsoft.Json;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;
@@ -102,21 +104,21 @@ namespace Scenes.DontDestoryOnLoad
             chartEditBox.boxEvents.alpha = new();
             chartEditBox.boxEvents.lineAlpha = new();
             chartEditBox.boxEvents.rotate = new();
-            chartEditBox.boxEvents.scaleX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 2.7f, endValue = 2.7f, curve = easeData[0].thisCurve });
-            chartEditBox.boxEvents.scaleY.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 2.7f, endValue = 2.7f, curve = easeData[0].thisCurve });
-            chartEditBox.boxEvents.moveX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0].thisCurve });
-            chartEditBox.boxEvents.moveY.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0].thisCurve });
-            chartEditBox.boxEvents.centerX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = .5f, endValue = .5f, curve = easeData[0].thisCurve });
-            chartEditBox.boxEvents.centerY.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = .5f, endValue = .5f, curve = easeData[0].thisCurve });
-            chartEditBox.boxEvents.alpha.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 1, endValue = 1, curve = easeData[0].thisCurve });
-            chartEditBox.boxEvents.lineAlpha.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0].thisCurve });
-            chartEditBox.boxEvents.rotate.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0].thisCurve });
+            chartEditBox.boxEvents.scaleX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 2.7f, endValue = 2.7f, curve = easeData[0] });
+            chartEditBox.boxEvents.scaleY.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 2.7f, endValue = 2.7f, curve = easeData[0] });
+            chartEditBox.boxEvents.moveX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0] });
+            chartEditBox.boxEvents.moveY.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0] });
+            chartEditBox.boxEvents.centerX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = .5f, endValue = .5f, curve = easeData[0] });
+            chartEditBox.boxEvents.centerY.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = .5f, endValue = .5f, curve = easeData[0] });
+            chartEditBox.boxEvents.alpha.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 1, endValue = 1, curve = easeData[0] });
+            chartEditBox.boxEvents.lineAlpha.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0] });
+            chartEditBox.boxEvents.rotate.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0] });
             for (int i = 0; i < chartEditBox.lines.Count; i++)
             {
                 chartEditBox.lines[i].offlineNotes = new();
                 chartEditBox.lines[i].onlineNotes = new();
                 chartEditBox.lines[i].speed = new();
-                chartEditBox.lines[i].speed.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 3, endValue = 3, curve = easeData[0].thisCurve });
+                chartEditBox.lines[i].speed.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 3, endValue = 3, curve = easeData[0] });
             }
             chartEditData.boxes.Add(chartEditBox);
         }
@@ -160,22 +162,26 @@ namespace Scenes.DontDestoryOnLoad
                         Data.ChartData.Note newChartDataNote = new(item);
                         chartDataBox.lines[i].onlineNotes.Add(newChartDataNote);
                     }
+                    List<Data.ChartEdit.Event> filledVoid = GameUtility.FillVoid(box.lines[i].speed);
                     chartDataBox.lines[i].speed = new();
-                    ForeachBoxEvents(box.lines[i].speed, chartDataBox.lines[i].speed);
-                    chartDataBox.lines[i].career = new();
+                    ForeachBoxEvents(filledVoid, chartDataBox.lines[i].speed);
+                    chartDataBox.lines[i].career = new() { postWrapMode=WrapMode.ClampForever,preWrapMode=WrapMode.ClampForever};
                     chartDataBox.lines[i].career.keys = GameUtility.CalculatedSpeedCurve(chartDataBox.lines[i].speed.ToArray()).ToArray();
+                    chartDataBox.lines[i].far = new() { postWrapMode=WrapMode.ClampForever,preWrapMode=WrapMode.ClampForever};
+                    chartDataBox.lines[i].far.keys = GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray();
                 }
                 result.Add(chartDataBox);
             }
             return result;
         }
 
-        private static void ForeachBoxEvents(List< Data.ChartEdit.Event> editBoxEvent, List<Data.ChartData.Event> chartDataBoxEvent)
+        private static void ForeachBoxEvents(List<Data.ChartEdit.Event> editBoxEvent, List<Data.ChartData.Event> chartDataBoxEvent)
         {
             foreach (Data.ChartEdit.Event item in editBoxEvent)
             {
-                chartDataBoxEvent.Add(new() { startTime = item.startBeats.ThisStartBPM, endTime = item.endBeats.ThisStartBPM, startValue = item.startValue, endValue = item.endValue, curve = item.curve });
+                chartDataBoxEvent.Add(new() { startTime = item.startBeats.ThisStartBPM, endTime = item.endBeats.ThisStartBPM, startValue = item.startValue, endValue = item.endValue, curve = item.curve.thisCurve });
             }
         }
+        
     }
 }

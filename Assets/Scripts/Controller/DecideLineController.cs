@@ -43,11 +43,6 @@ namespace Controller
             set
             {
                 thisLine = value;//获取到源数据
-                if (thisLine.OnlineNotesLength <= 0 && thisLine.OfflineNotesLength <= 0)
-                {
-                    lineNoteController.enabled = enabled = false;
-                    return;
-                }
                 Init();//初始化
             }
         }//这跟线的谱面元数据

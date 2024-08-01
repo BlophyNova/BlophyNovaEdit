@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 using UtilityCode.Algorithm;
 namespace Controller
 {
-    public class LineNoteController : MonoBehaviour
+    public class LineNoteController : MonoBehaviour,IRefresh
     {
         [FormerlySerializedAs("freeBox_NoteParsent"),Tooltip("如果是自由框，那就用这个作为音符的爸爸")] public Transform freeBoxNoteParsent;
 
@@ -194,6 +194,12 @@ namespace Controller
             }
             //UIManager.Instance.DebugTextString = $"onlineJudge:{onlineJudge}||offlineJudge:{offlineJudge}||Result:false||inThisLine:{inThisLine}";
             return false;//返回否
+        }
+
+        public void Refresh()
+        {
+            //lastOnlineIndex = 0;
+            //lastOfflineIndex = 0;
         }
     }
 }

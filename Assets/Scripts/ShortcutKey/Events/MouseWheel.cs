@@ -21,7 +21,7 @@ public class MouseWheel : ShortcutKeyEventBase
         {
             //LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Canceled(callbackContext);
             //ProgressManager.Instance.PausePlay();
-            float offsetTime = callbackContext.ReadValue<float>() / 100;
+            float offsetTime = callbackContext.ReadValue<float>() / 200;
             StateManager.Instance.IsPause = true;
             if (ProgressManager.Instance.CurrentTime + offsetTime < 0) 
             {

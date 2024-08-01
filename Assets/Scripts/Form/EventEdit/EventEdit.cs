@@ -99,7 +99,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback
         while (true)
         {
             if (waitForPressureAgain) break;
-            BeatLine nearBeatLine = new();
+            BeatLine nearBeatLine = null;
             float nearBeatLineDis = float.MaxValue;
             foreach (BeatLine item in basicLine.beatLines)
             {

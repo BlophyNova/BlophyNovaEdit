@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Data.ChartEdit;
 using Manager;
+using Scenes.DontDestoryOnLoad;
+using UnityEditor;
 using UnityEngine;
 using UtilityCode.Extension;
 using Event = Data.ChartData.Event;
@@ -57,6 +60,95 @@ namespace UtilityCode.GameUtility
                 keySeedSpeed.y = keys[^1].value;//将这次处理后的最后一个Value赋值
             }
             return keys;//将获得到的Key列表全部赋值,然后返回出去
+        }
+        public static List<Keyframe> CalculatedFarCurveByChartEditSpeed(List<Data.ChartEdit.Event> speeds)
+        {
+            List<Keyframe> keys = new() { new() { weightedMode = WeightedMode.Both, time = 0, value = 0} };
+            Vector2 keySeedSpeed = Vector2.zero;//Key种子，用来记录上一次循环结束时的Time和Value信息
+            for (int i = 0; i < speeds.Count; i++)//循环遍历所有事件
+            {
+                float tant = (speeds[i].endValue - speeds[i].startValue)
+                    / (BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].endBeats.ThisStartBPM)- BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].startBeats.ThisStartBPM));//这个计算的是：因为ST和ET与SV和EV形成的图形并不是正方形导致的斜率和百分比导致的误差，所以用Y/X计算出变化后的斜率
+                foreach (Keyframe item in speeds[i].curve.offset.keys)
+                {
+                    Keyframe keyframe = item;
+                    keyframe.time = (BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].endBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].startBeats.ThisStartBPM)) * keyframe.time+keys[^1].time;//（当前事件的结束时间-当前事件的开始时间）*当前key的时间+上一个key的结束时间
+                    //keyframe.value = 
+                    //    ((speeds[i].endValue - speeds[i].startValue) * 
+                    //    (BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].endBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].startBeats.ThisStartBPM))*
+                    //    keyframe.value*keyframe.time)+keys[^1].value;//（当前事件的结束值-当前事件的开始值）*（当前事件的结束时间-当前事件的开始时间）*当前key的值+上一次key的结束值
+
+                    //keyframe.value = (speeds[i].endValue - speeds[i].startValue) * (BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].endBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].startBeats.ThisStartBPM)) * keyframe.value + speeds[i].startValue * BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].endBeats.ThisStartBPM)*keyframe.time + keys[^1].value;//(当前事件的结束值-当前事件的开始值)*（当前事件的结束时间-当前事件的开始时间）*当前key的value+（当前时间的开始值*当前时间的结束时间*当前key的时间）+上一次key的结束值//中译中：把速度曲线抽象化成3个部分，第一个部分是变化的部分，就是最上层的部分+中间的矩形部分+上一个key留下的部分
+                    keyframe.value = (speeds[i].endValue - speeds[i].startValue) * (BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].endBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].startBeats.ThisStartBPM)) * keyframe.value + speeds[i].startValue*keyframe.time;//(当前事件的结束值-当前事件的开始值)*（当前事件的结束时间-当前事件的开始时间）*当前key的value+当前时间的开始值*这个key的时间+上一次key的结束值//中译中：把速度曲线抽象化成3个部分，第一个部分是变化的部分，就是最上层的部分+中间的矩形部分
+                    keyframe.outTangent *= tant;//出点的斜率适应一下变化
+                    keyframe.inTangent *= tant;//入店的斜率适应一下变化（就是消除因为非正方形导致的误差）
+                    if (keys.Count != 0 && keyframe.time == keys[^1].time && keyframe.value == keys[^1].value)
+                        AddKey2KeyList(keys, keyframe, true);//将处理好的Key，加入Key的列表中
+                    else
+                        AddKey2KeyList(keys, keyframe, false);//将处理好的Key，加入Key的列表中
+                }
+                keySeedSpeed.x = keys[^1].time;//将这次处理后的最后一个Time赋值
+                keySeedSpeed.y = keys[^1].value;//将这次处理后的最后一个Value赋值
+            }
+            return keys;
+        }  
+        /// <summary>
+        /// 处理Key
+        /// </summary>
+        /// <param name="speeds">Speed事件列表</param>
+        /// <param name="keys">存处理后的key的列表</param>
+        /// <param name="keySeed">上次处理完后最后一个Key的Time和Value值</param>
+        /// <param name="i">这次处于第几循环</param>
+        /// <param name="tant">斜率</param>
+        private static void DisposeKey(Event[] speeds, List<Keyframe> keys, Vector2 keySeed, int i, float tant)
+        {
+            for (int j = 0; j < speeds[i].curve.length; j++)//循环遍历所有的Key
+            {
+                Keyframe keyframe = InstKeyframe(speeds, keySeed, i, tant, j);//生成一个Key
+                if (i != 0 && j == 0)//如果不是第一个Speed事件并且是第一个AnimationCurve的Key
+                {
+                    keyframe.inTangent = keys[^1].inTangent;//将上次处理后的最后一个key的入点斜率拿到
+                    keyframe.inWeight = keys[^1].inWeight;//将上次处理后的最后一个key的入点百分比拿到
+                }
+                if (keys.Count != 0 && keyframe.time == keys[^1].time && keyframe.value == keys[^1].value)
+                    AddKey2KeyList(keys, keyframe, true);//将处理好的Key，加入Key的列表中
+                else
+                    AddKey2KeyList(keys, keyframe, false);//将处理好的Key，加入Key的列表中
+            }
+        }
+        public static List<Data.ChartEdit.Event> FillVoid(List<Data.ChartEdit.Event> editSpeedEvent)
+        {
+            //***这里补充Speed的事件空隙
+            List<Data.ChartEdit.Event> speedEventVoidFill = new();
+            BPM initStartBeats = BPM.Zero;
+            float initValue = 2;
+            for (int i = 0; i < editSpeedEvent.Count; i++)
+            {
+                if (BPMManager.Instance.GetSecondsTimeWithBeats(editSpeedEvent[i].startBeats.ThisStartBPM) > initStartBeats.ThisStartBPM)
+                {
+                    Data.ChartEdit.Event speedEvent = new();
+                    speedEvent.startBeats = initStartBeats;
+                    speedEvent.endBeats = editSpeedEvent[i].startBeats;
+                    speedEvent.startValue = initValue;
+                    speedEvent.endValue = initValue;
+                    speedEvent.curve = GlobalData.Instance.easeData[0];
+                    speedEventVoidFill.Add(speedEvent);
+                }
+                initValue = editSpeedEvent[i].endValue;
+                initStartBeats = editSpeedEvent[i].endBeats;
+                speedEventVoidFill.Add(new(editSpeedEvent[i]));
+            }
+            if (speedEventVoidFill[^1].endBeats.ThisStartBPM < GlobalData.Instance.chartData.globalData.musicLength)
+            {
+                Data.ChartEdit.Event speedEvent = new();
+                speedEvent.startBeats = initStartBeats;
+                speedEvent.endBeats = new((int)GlobalData.Instance.chartData.globalData.musicLength,0,1);
+                speedEvent.startValue = initValue;
+                speedEvent.endValue = initValue;
+                speedEvent.curve = GlobalData.Instance.easeData[0];
+                speedEventVoidFill.Add(speedEvent);
+            }
+            return speedEventVoidFill;
         }
         /// <summary>
         /// 根据速度图计算位移图
@@ -166,30 +258,7 @@ namespace UtilityCode.GameUtility
         /// <param name="number">需要取反的数值</param>
         private static void NegationValue(ref int number) => number = -number;
 
-        /// <summary>
-        /// 处理Key
-        /// </summary>
-        /// <param name="speeds">Speed事件列表</param>
-        /// <param name="keys">存处理后的key的列表</param>
-        /// <param name="keySeed">上次处理完后最后一个Key的Time和Value值</param>
-        /// <param name="i">这次处于第几循环</param>
-        /// <param name="tant">斜率</param>
-        private static void DisposeKey(Event[] speeds, List<Keyframe> keys, Vector2 keySeed, int i, float tant)
-        {
-            for (int j = 0; j < speeds[i].curve.length; j++)//循环遍历所有的Key
-            {
-                Keyframe keyframe = InstKeyframe(speeds, keySeed, i, tant, j);//生成一个Key
-                if (i != 0 && j == 0)//如果不是第一个Speed事件并且是第一个AnimationCurve的Key
-                {
-                    keyframe.inTangent = keys[^1].inTangent;//将上次处理后的最后一个key的入点斜率拿到
-                    keyframe.inWeight = keys[^1].inWeight;//将上次处理后的最后一个key的入点百分比拿到
-                }
-                if (keys.Count != 0 && keyframe.time == keys[^1].time && keyframe.value == keys[^1].value)
-                    AddKey2KeyList(keys, keyframe, true);//将处理好的Key，加入Key的列表中
-                else
-                    AddKey2KeyList(keys, keyframe, false);//将处理好的Key，加入Key的列表中
-            }
-        }
+
         /// <summary>
         /// 召唤一个Key
         /// </summary>
@@ -210,11 +279,24 @@ namespace UtilityCode.GameUtility
             keyframe.inTangent *= tant;//入店的斜率适应一下变化（就是消除因为非正方形导致的误差）
             return keyframe;//返回Key
         }
+        private static Keyframe InstKeyframe(List<Data.ChartEdit.Event> speeds, Vector2 keySeed, int i, float tant, int index)
+        {
+            Keyframe keyframe = speeds[i].curve.offset.keys[index];//把Key拿出来
+            keyframe.weightedMode = WeightedMode.Both;//设置一下模式
+            keyframe.time = (speeds[i].endBeats.ThisStartBPM - speeds[i].startBeats.ThisStartBPM) * keyframe.time + keySeed.x;//（当前事件的结束时间-开始时间）*当前Key的时间+上次事件处理完后的最后一个Key的时间
+            keyframe.value = (speeds[i].endValue - speeds[i].startValue) * keyframe.value + speeds[i].startValue;//（当前事件的结束值-开始值）*当前Key的值+上次事件处理完后的最后一个Key的值
+            //keyframe.value = (speeds[i].endValue - speeds[i].startValue) * (speeds[i].endBeats.ThisStartBPM - speeds[i].startBeats.ThisStartBPM) /**/*/**/ (speeds[i].endValue - speeds[i].startValue) * keyframe.value + speeds[i].startValue;//(当前事件的结束值-当前事件的开始值)*（当前事件的结束时间-当前事件的开始时间）算出这个事件中，这个时间段按照最大速度一共可以走多少路程后再*（当前事件的结束值-开始值）*当前Key的值+上次事件处理完后的最后一个Key的值
+
+            keyframe.outTangent *= tant;//出点的斜率适应一下变化
+            keyframe.inTangent *= tant;//入店的斜率适应一下变化（就是消除因为非正方形导致的误差）
+            return keyframe;//返回Key
+        }
         /// <summary>
         /// 将Key加入到Key列表
         /// </summary>
         /// <param name="keys">需要添加的Key列表</param>
         /// <param name="keyframe">需要添加的Key</param>
+        /// <param name="isMove">是否需要移除掉当前同一时间下的旧key（？</param>
         private static void AddKey2KeyList(List<Keyframe> keys, Keyframe keyframe, bool isMove)
         {
             if (keys.Count != 0 && isMove)

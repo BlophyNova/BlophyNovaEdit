@@ -236,6 +236,15 @@ namespace Data.ChartEdit
         public BPM endBeats;
         public float startValue;
         public float endValue;
-        public AnimationCurve curve;
+        public EaseData curve;
+        public Event() { }
+        public Event(Event @event)
+        {
+            endValue = @event.endValue;
+            startValue = @event.startValue;
+            curve = @event.curve;
+            startBeats= @event.startBeats;
+            endBeats= @event.endBeats;
+        }
     }
 }

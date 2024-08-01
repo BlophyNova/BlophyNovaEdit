@@ -48,6 +48,7 @@ public class BasicLine : MonoBehaviour,IRefresh
         while (nextBPMWithAriseLine.ThisStartBPM < ariseBeats)
         {
             BeatLine initBeatLine = Instantiate(beatLinePrefab, noteCanvas.transform).Init(nextBPMWithAriseLine.ThisStartBPM, nextBPMWithAriseLine);
+            initBeatLine.transform.SetAsFirstSibling();
             beatLines.Add(initBeatLine);
             nextBPMWithAriseLine.AddOneBeat();
         }
