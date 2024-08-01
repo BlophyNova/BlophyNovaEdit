@@ -1692,7 +1692,7 @@ GameObject:
   - component: {fileID: 1702444288108565981}
   - component: {fileID: 1814528201529001719}
   m_Layer: 5
-  m_Name: PorgressEdit
+  m_Name: PorgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1734,7 +1734,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   labelWindowName: "\u8FDB\u5EA6\u6761"
   labelWindow: {fileID: 0}
-  labelWindowContentType: 8
+  labelWindowContentType: 256
   minX: 700
   minY: 240
   progressBar: {fileID: 1702444288176032773}

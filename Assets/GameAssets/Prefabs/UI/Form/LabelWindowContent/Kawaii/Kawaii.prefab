@@ -91,4 +91,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   labelWindowName: Kawaii
   labelWindow: {fileID: 0}
-  labelWindowContentType: 7
+  labelWindowContentType: 128
+  minX: 100
+  minY: 100

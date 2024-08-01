@@ -110,6 +110,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback
         notes.Add(newNoteEdit);
 
         GlobalData.Instance.AddNoteEdit2ChartData(note,0,0);
+        GlobalData.Refresh();
     }
 
     public void AddNewHold() 

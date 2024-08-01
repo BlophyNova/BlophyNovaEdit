@@ -6406,9 +6406,7 @@ MonoBehaviour:
         lineAlpha: []
       lines:
       - onlineNotes: []
-        onlineNotesLength: 0
         offlineNotes: []
-        offlineNotesLength: 0
         speed: []
         far:
           serializedVersion: 2

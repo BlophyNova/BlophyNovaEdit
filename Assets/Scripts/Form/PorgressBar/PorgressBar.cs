@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PorgressEdit : LabelWindowContent
+public class PorgressBar : LabelWindowContent
 {
     public Scrollbar progressBar;
     public TMP_Text progressInfomation;

@@ -198,8 +198,27 @@ namespace Controller
 
         public void Refresh()
         {
-            //lastOnlineIndex = 0;
-            //lastOfflineIndex = 0;
+            ResetLineNoteState(ref lastOnlineIndex, ariseOnlineNotes, endTimeAriseOnlineNotes, decideLineController, decideLineController.thisLine.onlineNotes, true);
+            ResetLineNoteState(ref lastOfflineIndex, ariseOfflineNotes, endTimeAriseOfflineNotes, decideLineController, decideLineController.thisLine.offlineNotes, false);
+        }
+        public void ResetLineNoteState(ref int lastIndex, List<NoteController> ariseLineNotes, List<NoteController> endTime_ariseLineNotes, DecideLineController decideLine, List<Note> notes, bool isOnlineNote)
+        {
+            lastIndex = 0;
+            for (int i = 0; i < notes.Count; i++)
+            {
+                if (notes[i].hitTime < ProgressManager.Instance.CurrentTime)
+                {
+                    lastIndex++;
+                }
+                else break;
+            }
+            for (int i = 0; i < ariseLineNotes.Count; i++)
+            {
+                NoteController note = ariseLineNotes[i];
+                decideLine.ReturnNote(note, note.thisNote.noteType, isOnlineNote);
+            }
+            ariseLineNotes.Clear();
+            endTime_ariseLineNotes.Clear();
         }
     }
 }

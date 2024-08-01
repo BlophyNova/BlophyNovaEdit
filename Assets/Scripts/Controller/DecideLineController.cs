@@ -20,7 +20,7 @@ using Vector3 = UnityEngine.Vector3;
  */
 namespace Controller
 {
-    public class DecideLineController : MonoBehaviour
+    public class DecideLineController : MonoBehaviour,IRefresh
     {
         // public float lineDistance;//线的距离，根据每帧计算，生成这个范围内的所有Note
 
@@ -142,6 +142,12 @@ namespace Controller
                 onlineNote.localPosition = Vector3.down * currentValue;//赋值
             if (thisLine.OfflineNotesLength > 0)
                 offlineNote.localPosition = Vector3.up * currentValue;//赋值
+        }
+
+        public void Refresh()
+        {
+            CalculatedNoteFloorPosition(ThisLine.onlineNotes);//计算判定线上方的所有音符的FloorPosition
+            CalculatedNoteFloorPosition(ThisLine.offlineNotes);//计算判定线下方的所有音符的FloorPosition
         }
     }
 }
