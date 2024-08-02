@@ -15,7 +15,12 @@ namespace Data.ChartEdit
         public float yScale;
         public int beatSubdivision;//节拍线细分(单位：份)
         public int verticalSubdivision;//垂直线细分(单位：份)
+        public int boxID;
+        public int lineID;
         public int eventVerticalSubdivision;
+        public float playSpeed;
+        public float offset;
+        public bool loopPlayBack;
         public List<BPM> bpmList;
         public List<Box> boxes;
     }

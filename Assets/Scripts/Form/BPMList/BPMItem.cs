@@ -16,12 +16,12 @@ public class BPMItem : MonoBehaviour
     public Button deleteBPM;
     private void Start()
     {
-        bpmValue.onValueChanged.AddListener((v) => 
+        bpmValue.onEndEdit.AddListener((v) => 
         {
             myBPM.currentBPM = int.Parse(bpmValue.text);
             GlobalData.Refresh();
         });
-        startBeats.onValueChanged.AddListener((v) =>
+        startBeats.onEndEdit.AddListener((v) =>
         {
             Match match = Regex.Match(v, @"(\d+):(\d+)/(\d+)");
             if (match.Success)

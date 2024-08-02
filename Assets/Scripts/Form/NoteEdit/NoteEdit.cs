@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 using UtilityCode.Algorithm;
 using GlobalData = Scenes.DontDestoryOnLoad.GlobalData;
 
-public class NoteEdit : LabelWindowContent,IInputEventCallback
+public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh,IRefreshCanvas
 {
     public RectTransform noteEditRect;
 
@@ -136,5 +136,23 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback
     public void AddNewFullFlick() 
     { 
 
+    }
+
+    public void Refresh()
+    {
+        UpdateVerticalLineCount();
+    }
+
+    public void Refresh(int boxID, int lineID)
+    {
+        foreach (Scenes.Edit.NoteEdit item in notes)
+        {
+            Destroy(item.gameObject);
+        }
+        notes.Clear();
+        foreach (Data.ChartEdit.Note item in GlobalData.Instance.chartEditData.boxes[boxID].lines[lineID].onlineNotes)
+        {
+
+        }
     }
 }

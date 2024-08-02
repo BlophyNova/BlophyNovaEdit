@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static UnityEngine.Camera;
 
-public class EventEdit : LabelWindowContent,IInputEventCallback
+public class EventEdit : LabelWindowContent,IInputEventCallback,IRefreshCanvas,IRefresh
 {
     public BasicLine basicLine;
     public RectTransform eventEditRect;
@@ -16,6 +16,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback
     public RectTransform verticalLineRight;
     public List<RectTransform> verticalLines = new();
     public List<EventVerticalLine> eventVerticalLines = new();
+    public List<EventEditItem> eventEditItems = new();
     public bool isFirstTime = false;
     public bool waitForPressureAgain = false;
     private void Start()
@@ -43,12 +44,6 @@ public class EventEdit : LabelWindowContent,IInputEventCallback
         {
             eventVerticalLines[i].transform.localPosition= (allVerticalLines[i + 1].localPosition + allVerticalLines[i].localPosition)/2;
         }
-    }
-    public override void Started(InputAction.CallbackContext callbackContext)
-    {
-    }
-    public override void Performed(InputAction.CallbackContext callbackContext)
-    {
     }
     public override void Canceled(InputAction.CallbackContext callbackContext)
     {
@@ -124,7 +119,22 @@ public class EventEdit : LabelWindowContent,IInputEventCallback
         }
         else
         {
+            eventEditItems.Add(eventEditItem);
             //添加事件到对应的地方
         }
+    }
+    public void Refresh()
+    {
+        UpdateVerticalLineCount();
+    }
+
+    public void Refresh(int boxID, int lineID)
+    {
+        foreach (var item in eventEditItems)
+        {
+            Destroy(item.gameObject);
+        }
+        eventEditItems.Clear();
+        BoxEvents events = GlobalData.Instance.chartEditData.boxes[boxID].boxEvents;
     }
 }
