@@ -50,9 +50,9 @@ namespace Scenes.DontDestoryOnLoad
         public FullFlickEdit fullFlickEditPrefab;
 
         public List<EaseData> easeData;
-        public static void Refresh()
+        public static void Refresh<T>(Action<T> action)
         {
-            AssemblySystem.Exe(AssemblySystem.FindAllInterfaceByTypes<IRefresh>(), (interfaceMethod) => interfaceMethod.Refresh());
+            AssemblySystem.Exe(AssemblySystem.FindAllInterfaceByTypes<T>(), (interfaceMethod) => action?.Invoke(interfaceMethod));
         }
         public void AddNoteEdit2ChartData(Data.ChartEdit.Note noteEdit,int boxID,int lineID)
         {
@@ -60,6 +60,12 @@ namespace Scenes.DontDestoryOnLoad
             Data.ChartData.Note note = new(noteEdit);
             chartEditData.boxes[boxID].lines[lineID].onlineNotes.Insert(index_noteEdits, noteEdit);
             chartData.boxes[boxID].lines[lineID].onlineNotes.Insert(index_noteEdits,note);
+        }
+        public void RefreshChartEventByChartEditEvent(List<Data.ChartData.Event> chartDataEvent,Data.ChartEdit.Event chartEditDataEvent)
+        {
+            int index_noteEdits = Algorithm.BinarySearch(chartDataEvent, m => m.startTime <BPMManager.Instance.GetSecondsTimeWithBeats(chartEditDataEvent.startBeats.ThisStartBPM), false);
+            Data.ChartData.Event @event = new(chartEditDataEvent);
+            chartDataEvent.Insert(index_noteEdits, @event);
         }
         protected override void OnAwake()
         {
@@ -104,6 +110,7 @@ namespace Scenes.DontDestoryOnLoad
             chartEditBox.boxEvents.alpha = new();
             chartEditBox.boxEvents.lineAlpha = new();
             chartEditBox.boxEvents.rotate = new();
+            chartEditBox.boxEvents.speed = new();
             chartEditBox.boxEvents.scaleX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 2.7f, endValue = 2.7f, curve = easeData[0] });
             chartEditBox.boxEvents.scaleY.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 2.7f, endValue = 2.7f, curve = easeData[0] });
             chartEditBox.boxEvents.moveX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0] });
@@ -113,13 +120,11 @@ namespace Scenes.DontDestoryOnLoad
             chartEditBox.boxEvents.alpha.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 1, endValue = 1, curve = easeData[0] });
             chartEditBox.boxEvents.lineAlpha.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0] });
             chartEditBox.boxEvents.rotate.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0] });
+            chartEditBox.boxEvents.speed.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 3, endValue = 3, curve = easeData[0] });
             for (int i = 0; i < chartEditBox.lines.Count; i++)
             {
                 chartEditBox.lines[i].offlineNotes = new();
-                chartEditBox.lines[i].onlineNotes = new();
-                chartEditBox.lines[i].speed = new();
-                chartEditBox.lines[i].speed.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 3, endValue = 3, curve = easeData[0] });
-            }
+                chartEditBox.lines[i].onlineNotes = new();}
             chartEditData.boxes.Add(chartEditBox);
         }
         public List<Data.ChartData.Box> ConvertChartEdit2ChartData(List<Data.ChartEdit.Box> boxes)
@@ -162,7 +167,7 @@ namespace Scenes.DontDestoryOnLoad
                         Data.ChartData.Note newChartDataNote = new(item);
                         chartDataBox.lines[i].onlineNotes.Add(newChartDataNote);
                     }
-                    List<Data.ChartEdit.Event> filledVoid = GameUtility.FillVoid(box.lines[i].speed);
+                    List<Data.ChartEdit.Event> filledVoid = GameUtility.FillVoid(box.boxEvents.speed);
                     chartDataBox.lines[i].speed = new();
                     ForeachBoxEvents(filledVoid, chartDataBox.lines[i].speed);
                     chartDataBox.lines[i].career = new() { postWrapMode=WrapMode.ClampForever,preWrapMode=WrapMode.ClampForever};

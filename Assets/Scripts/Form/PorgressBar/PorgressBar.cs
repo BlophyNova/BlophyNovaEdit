@@ -23,7 +23,8 @@ public class PorgressBar : LabelWindowContent
         {
             float result = GlobalData.Instance.chartData.globalData.musicLength * theValue;
             ProgressManager.Instance.SetTime(result);
-            GlobalData.Refresh();
+
+            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
         });
     }
     private void Update()
@@ -34,7 +35,8 @@ public class PorgressBar : LabelWindowContent
         {
             StateManager.RestartTime(true);
             Debug.LogError($"循环播放做好后用在这里");
-            GlobalData.Refresh();
+
+            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
         }
 
         progressInfomation.text = $"当前时间：{(int)(ProgressManager.Instance.CurrentTime / 60):D2}:" +

@@ -31,7 +31,8 @@ public class MouseWheel : ShortcutKeyEventBase
             {
                 ProgressManager.Instance.OffsetTime(offsetTime);
             }
-            GlobalData.Refresh();
+
+            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
         }
 
         Debug.Log($"MousePerformed：{callbackContext.ReadValue<float>()}");

@@ -11,7 +11,8 @@ public class Add : PublicButton
         thisButton.onClick.AddListener(() => 
         {
             GlobalData.Instance.chartEditData.bpmList.Add(new(GlobalData.Instance.chartEditData.bpmList[^1]));
-            GlobalData.Refresh();
+
+            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
         });
     }
 }

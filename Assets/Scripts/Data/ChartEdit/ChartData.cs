@@ -15,8 +15,6 @@ namespace Data.ChartEdit
         public float yScale;
         public int beatSubdivision;//节拍线细分(单位：份)
         public int verticalSubdivision;//垂直线细分(单位：份)
-        public int boxID;
-        public int lineID;
         public int eventVerticalSubdivision;
         public float playSpeed;
         public float offset;
@@ -118,8 +116,6 @@ namespace Data.ChartEdit
                 return offlineNotesLength;
             }
         }
-
-        public List<Event> speed;
     }
     [Serializable]
     public class Note
@@ -143,6 +139,17 @@ namespace Data.ChartEdit
     [Serializable]
     public class BoxEvents
     {
+
+        public List<Event> speed;
+        private int lengthSpeed = -1;
+        public int LengthSpeed
+        {
+            get
+            {
+                if (lengthSpeed < 0) lengthSpeed = speed.Count;
+                return lengthSpeed;
+            }
+        }
         public List<Event> moveX;
         private int lengthMoveX = -1;
         public int LengthMoveX

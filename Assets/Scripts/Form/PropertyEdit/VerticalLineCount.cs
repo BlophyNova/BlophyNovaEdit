@@ -17,14 +17,16 @@ public class VerticalLineCount : MonoBehaviour
             GlobalData.Instance.chartEditData.verticalSubdivision++;
             GlobalData.Instance.chartEditData.eventVerticalSubdivision++;
             thisText.text = $"垂直线：{GlobalData.Instance.chartEditData.verticalSubdivision}";
-            GlobalData.Refresh();
+
+            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
         });
         subtraction.onClick.AddListener(() => 
         {
             GlobalData.Instance.chartEditData.verticalSubdivision--;
             GlobalData.Instance.chartEditData.eventVerticalSubdivision--;
             thisText.text = $"垂直线：{GlobalData.Instance.chartEditData.verticalSubdivision}";
-            GlobalData.Refresh();
+
+            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
         });
     }
 }

@@ -5,13 +5,20 @@ using Scenes.Edit;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UtilityCode.Algorithm;
 using GlobalData = Scenes.DontDestoryOnLoad.GlobalData;
 
-public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh,IRefreshCanvas
+public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
 {
+
+    public int currentBoxID;
+    public int currentLineID;
+
+
+
     public RectTransform noteEditRect;
 
     public RectTransform verticalLineLeft;
@@ -86,7 +93,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh,IRefresh
                 nearBeatLine = item;
             }
         }
-        RectTransform nearVerticalLine = new();
+        RectTransform nearVerticalLine = null;
         float nearVerticalLineDis = float.MaxValue;
         foreach (RectTransform item in verticalLines)
         {
@@ -109,8 +116,8 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh,IRefresh
         //Debug.LogError("写到这里了，下次继续写");
         notes.Add(newNoteEdit);
 
-        GlobalData.Instance.AddNoteEdit2ChartData(note,0,0);
-        GlobalData.Refresh();
+        GlobalData.Instance.AddNoteEdit2ChartData(note,currentBoxID,currentLineID);
+        GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
     }
 
     public void AddNewHold() 
@@ -142,17 +149,37 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh,IRefresh
     {
         UpdateVerticalLineCount();
     }
-
-    public void Refresh(int boxID, int lineID)
+    public void RefreshNotes(int boxID,int lineID)
     {
+        currentBoxID = boxID<0?currentBoxID:boxID;
+        currentLineID = lineID<0?currentLineID:lineID;
         foreach (Scenes.Edit.NoteEdit item in notes)
         {
-            Destroy(item.gameObject);
+            Destroy(item);
         }
         notes.Clear();
-        foreach (Data.ChartEdit.Note item in GlobalData.Instance.chartEditData.boxes[boxID].lines[lineID].onlineNotes)
+        List<Data.ChartEdit.Note> needInstNotes = GlobalData.Instance.chartEditData.boxes[boxID].lines[lineID].onlineNotes;
+        foreach (Data.ChartEdit.Note item in needInstNotes)
         {
+            Scenes.Edit.NoteEdit noteEditType = item.noteType switch
+            {
+                NoteType.Tap => GlobalData.Instance.tapEditPrefab,
+                NoteType.Hold => GlobalData.Instance.holdEditPrefab,
+                NoteType.Drag => GlobalData.Instance.dragEditPrefab,
+                NoteType.Flick => GlobalData.Instance.flickEditPrefab,
+                NoteType.Point => GlobalData.Instance.pointEditPrefab,
+                NoteType.FullFlickPink => GlobalData.Instance.fullFlickEditPrefab,
+                NoteType.FullFlickBlue => GlobalData.Instance.fullFlickEditPrefab,
+                _=>throw new Exception("滴滴~滴滴~错误~找不到音符拉~")
+            };
 
+            float currentSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(item.hitBeats.ThisStartBPM);
+            float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
+
+            Scenes.Edit.NoteEdit newNoteEdit = Instantiate(noteEditType, basicLine.noteCanvas).Init(item);
+            newNoteEdit.transform.localPosition = new(0, positionY);
+            //Debug.LogError("写到这里了，下次继续写");
+            notes.Add(newNoteEdit);
         }
     }
 }

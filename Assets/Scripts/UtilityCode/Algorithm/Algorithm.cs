@@ -111,5 +111,19 @@ namespace UtilityCode.Algorithm
             if (list.Length == 0) return -1;
             return Math.Abs(list[l].time - targetTime) < 0.0000000001 ? l : -1;//返回最终结果
         }
+        public static void BubbleSort<T>(List<T> list, Comparison<T> match)
+        {
+            int n = list.Count;
+            for (int i = 0; i < n - 1; i++)
+            {
+                for (int j = 0; j < n - i - 1; j++)
+                {
+                    if (match(list[j], list[j + 1]) > 0)
+                    {
+                        (list[j + 1], list[j]) = (list[j], list[j + 1]);
+                    }
+                }
+            }
+        }
     }
 }

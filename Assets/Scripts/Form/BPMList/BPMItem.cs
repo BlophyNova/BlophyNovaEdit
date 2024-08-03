@@ -19,7 +19,8 @@ public class BPMItem : MonoBehaviour
         bpmValue.onEndEdit.AddListener((v) => 
         {
             myBPM.currentBPM = int.Parse(bpmValue.text);
-            GlobalData.Refresh();
+
+            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
         });
         startBeats.onEndEdit.AddListener((v) =>
         {
@@ -29,7 +30,8 @@ public class BPMItem : MonoBehaviour
                 myBPM.integer = int.Parse(match.Groups[1].Value);
                 myBPM.molecule = int.Parse(match.Groups[2].Value);
                 myBPM.denominator = int.Parse(match.Groups[3].Value);
-                GlobalData.Refresh();
+
+                GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
             }
         });
         deleteBPM.onClick.AddListener(() => 
@@ -37,7 +39,8 @@ public class BPMItem : MonoBehaviour
             if (BPMManager.Instance.bpmList.Count > 1)
             {
                 BPMManager.Instance.bpmList.Remove(myBPM);
-                GlobalData.Refresh();
+
+                GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
                 Destroy(gameObject);
             }
             else
