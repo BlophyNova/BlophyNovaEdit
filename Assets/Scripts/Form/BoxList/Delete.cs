@@ -1,3 +1,5 @@
+using Controller;
+using Manager;
 using Scenes.DontDestoryOnLoad;
 using Scenes.PublicScripts;
 using System.Collections;
@@ -14,8 +16,11 @@ namespace Form.BoxList
             {
                 boxListItem.boxList.boxListItems.Remove(boxListItem);
                 GlobalData.Instance.chartEditData.boxes.Remove(boxListItem.thisBox);
-                Destroy(boxListItem.gameObject); 
+                Destroy(boxListItem.gameObject);
+                GlobalData.Instance.chartData.boxes = GlobalData.Instance.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
+                SpeckleManager.Instance.allLineNoteControllers.Clear();
                 GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+                GameController.Instance.RefreshChartPreview();
             });
         }
     }

@@ -95,6 +95,7 @@ MonoBehaviour:
   labelWindowContentType: 1024
   minX: 100
   minY: 100
+  debugText: {fileID: 3607416353321605097}
 --- !u!1 &3607416353321605099
 GameObject:
   m_ObjectHideFlags: 0

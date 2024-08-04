@@ -116,8 +116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc41cdd0f9957842aaf6a0db4597172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineDistance: 0
-  isHorizontal: 1
   canvasSpeed:
     serializedVersion: 2
     m_Curve: []
@@ -139,9 +137,7 @@ MonoBehaviour:
   lineNoteController: {fileID: 5122208234408603399}
   thisLine:
     onlineNotes: []
-    onlineNotesLength: -1
     offlineNotes: []
-    offlineNotesLength: -1
     speed: []
     far:
       serializedVersion: 2
@@ -167,12 +163,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc34c809a0f626f4cb7ebf64f886ae83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freeBox_NoteParsent: {fileID: 6519659997534465197}
+  freeBoxNoteParsent: {fileID: 6519659997534465197}
   decideLineController: {fileID: 8574961970696007938}
   ariseOnlineNotes: []
-  endTime_ariseOnlineNotes: []
+  endTimeAriseOnlineNotes: []
   ariseOfflineNotes: []
-  endTime_ariseOfflineNotes: []
+  endTimeAriseOfflineNotes: []
   lastOnlineIndex: 0
   lastOfflineIndex: 0
   movedOnlineNotesCount: 0
@@ -225,8 +221,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc41cdd0f9957842aaf6a0db4597172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineDistance: 0
-  isHorizontal: 1
   canvasSpeed:
     serializedVersion: 2
     m_Curve: []
@@ -248,9 +242,7 @@ MonoBehaviour:
   lineNoteController: {fileID: 323890600802986010}
   thisLine:
     onlineNotes: []
-    onlineNotesLength: -1
     offlineNotes: []
-    offlineNotesLength: -1
     speed: []
     far:
       serializedVersion: 2
@@ -276,12 +268,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc34c809a0f626f4cb7ebf64f886ae83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freeBox_NoteParsent: {fileID: 6519659997534465197}
+  freeBoxNoteParsent: {fileID: 6519659997534465197}
   decideLineController: {fileID: 8467052956719726910}
   ariseOnlineNotes: []
-  endTime_ariseOnlineNotes: []
+  endTimeAriseOnlineNotes: []
   ariseOfflineNotes: []
-  endTime_ariseOfflineNotes: []
+  endTimeAriseOfflineNotes: []
   lastOnlineIndex: 0
   lastOfflineIndex: 0
   movedOnlineNotesCount: 0
@@ -334,8 +326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc41cdd0f9957842aaf6a0db4597172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineDistance: 0
-  isHorizontal: 1
   canvasSpeed:
     serializedVersion: 2
     m_Curve: []
@@ -357,9 +347,7 @@ MonoBehaviour:
   lineNoteController: {fileID: 555974982157619623}
   thisLine:
     onlineNotes: []
-    onlineNotesLength: -1
     offlineNotes: []
-    offlineNotesLength: -1
     speed: []
     far:
       serializedVersion: 2
@@ -385,12 +373,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc34c809a0f626f4cb7ebf64f886ae83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freeBox_NoteParsent: {fileID: 6519659997534465197}
+  freeBoxNoteParsent: {fileID: 6519659997534465197}
   decideLineController: {fileID: 2188726653390802360}
   ariseOnlineNotes: []
-  endTime_ariseOnlineNotes: []
+  endTimeAriseOnlineNotes: []
   ariseOfflineNotes: []
-  endTime_ariseOfflineNotes: []
+  endTimeAriseOfflineNotes: []
   lastOnlineIndex: 0
   lastOfflineIndex: 0
   movedOnlineNotesCount: 0
@@ -531,7 +519,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -615,7 +603,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -673,8 +661,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc41cdd0f9957842aaf6a0db4597172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineDistance: 0
-  isHorizontal: 0
   canvasSpeed:
     serializedVersion: 2
     m_Curve: []
@@ -696,9 +682,7 @@ MonoBehaviour:
   lineNoteController: {fileID: 3474532405289055257}
   thisLine:
     onlineNotes: []
-    onlineNotesLength: -1
     offlineNotes: []
-    offlineNotesLength: -1
     speed: []
     far:
       serializedVersion: 2
@@ -724,12 +708,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc34c809a0f626f4cb7ebf64f886ae83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freeBox_NoteParsent: {fileID: 6519659997534465197}
+  freeBoxNoteParsent: {fileID: 6519659997534465197}
   decideLineController: {fileID: 2713727041374984722}
   ariseOnlineNotes: []
-  endTime_ariseOnlineNotes: []
+  endTimeAriseOnlineNotes: []
   ariseOfflineNotes: []
-  endTime_ariseOfflineNotes: []
+  endTimeAriseOfflineNotes: []
   lastOnlineIndex: 0
   lastOfflineIndex: 0
   movedOnlineNotesCount: 0
@@ -839,7 +823,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1073,8 +1057,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc41cdd0f9957842aaf6a0db4597172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineDistance: 0
-  isHorizontal: 0
   canvasSpeed:
     serializedVersion: 2
     m_Curve: []
@@ -1096,9 +1078,7 @@ MonoBehaviour:
   lineNoteController: {fileID: 2332721750854021627}
   thisLine:
     onlineNotes: []
-    onlineNotesLength: -1
     offlineNotes: []
-    offlineNotesLength: -1
     speed: []
     far:
       serializedVersion: 2
@@ -1124,12 +1104,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc34c809a0f626f4cb7ebf64f886ae83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freeBox_NoteParsent: {fileID: 6519659997534465197}
+  freeBoxNoteParsent: {fileID: 6519659997534465197}
   decideLineController: {fileID: 4892590778536622743}
   ariseOnlineNotes: []
-  endTime_ariseOnlineNotes: []
+  endTimeAriseOnlineNotes: []
   ariseOfflineNotes: []
-  endTime_ariseOfflineNotes: []
+  endTimeAriseOfflineNotes: []
   lastOnlineIndex: 0
   lastOfflineIndex: 0
   movedOnlineNotesCount: 0
@@ -1239,7 +1219,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1295,6 +1275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   squarePosition: {fileID: 450407355890572104}
+  mainCamera: {fileID: 0}
   decideLineControllers:
   - {fileID: 2188726653390802360}
   - {fileID: 8467052956719726910}
@@ -1310,23 +1291,14 @@ MonoBehaviour:
   box:
     boxEvents:
       moveX: []
-      length_moveX: -1
       moveY: []
-      length_moveY: -1
       rotate: []
-      length_rotate: -1
       alpha: []
-      length_alpha: -1
       scaleX: []
-      length_scaleX: -1
       scaleY: []
-      length_scaleY: -1
       centerX: []
-      length_centerX: -1
       centerY: []
-      length_centerY: -1
       lineAlpha: []
-      length_lineAlpha: -1
     lines: []
   sortSeed: 0
   spriteMask: {fileID: 3551648482430810191}
@@ -1340,7 +1312,26 @@ MonoBehaviour:
   currentMoveY: 0
   currentRotate: 0
   boxFineness: 0
-  raw_center: {x: 0.5, y: 0.5}
+  lastCurrentScaleX: 0
+  lastCurrentScaleY: 0
+  lastCurrentAlpha: 0
+  lastCurrentCenterX: 0
+  lastCurrentCenterY: 0
+  lastCurrentLineAlpha: 0
+  lastCurrentMoveX: 0
+  lastCurrentMoveY: 0
+  lastCurrentRotate: 0
+  lastBoxFineness: 0
+  indexCurrentScaleX: 0
+  indexCurrentScaleY: 0
+  indexCurrentAlpha: 0
+  indexCurrentCenterX: 0
+  indexCurrentCenterY: 0
+  indexCurrentLineAlpha: 0
+  indexCurrentMoveX: 0
+  indexCurrentMoveY: 0
+  indexCurrentRotate: 0
+  rawCenter: {x: 0.5, y: 0.5}
   center: {x: 0.5, y: 0.5}
   alpha: {r: 0, g: 0, b: 0, a: 1}
   lineAlpha: {r: 0, g: 0, b: 0, a: 0}
@@ -1454,7 +1445,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
