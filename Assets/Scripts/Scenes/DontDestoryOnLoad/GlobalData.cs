@@ -95,9 +95,12 @@ namespace Scenes.DontDestoryOnLoad
         public void CreateNewChart()
         {
             chartEditData.boxes = new();
+            Data.ChartEdit.Box chartEditBox = CreateNewBox();
+            chartEditData.boxes.Add(chartEditBox);
+        }
 
-
-
+        public Data.ChartEdit.Box CreateNewBox()
+        {
             Data.ChartEdit.Box chartEditBox = new();
             chartEditBox.lines = new() { new(), new(), new(), new(), new() };
             chartEditBox.boxEvents = new();
@@ -124,9 +127,12 @@ namespace Scenes.DontDestoryOnLoad
             for (int i = 0; i < chartEditBox.lines.Count; i++)
             {
                 chartEditBox.lines[i].offlineNotes = new();
-                chartEditBox.lines[i].onlineNotes = new();}
-            chartEditData.boxes.Add(chartEditBox);
+                chartEditBox.lines[i].onlineNotes = new();
+            }
+
+            return chartEditBox;
         }
+
         public List<Data.ChartData.Box> ConvertChartEdit2ChartData(List<Data.ChartEdit.Box> boxes)
         {
             List<Data.ChartData.Box> result = new();

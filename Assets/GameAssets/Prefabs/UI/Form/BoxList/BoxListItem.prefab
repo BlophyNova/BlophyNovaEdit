@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 7524770548370906012}
   - component: {fileID: 4908375850325992288}
   - component: {fileID: 2961560575268775505}
+  - component: {fileID: 4627277082125572697}
   m_Layer: 5
   m_Name: Delete
   m_TagString: Untagged
@@ -257,6 +258,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4627277082125572697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934733748036031122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92be227f577cb1541a91c567eab1cd48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButton: {fileID: 2961560575268775505}
+  boxListItem: {fileID: 6633848793843205528}
 --- !u!1 &2089163630058246788
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,6 +335,19 @@ MonoBehaviour:
   boxList: {fileID: 0}
   boxIDText: {fileID: 6338823136016138683}
   delete: {fileID: 2961560575268775505}
+  thisBox:
+    boxEvents:
+      speed: []
+      moveX: []
+      moveY: []
+      rotate: []
+      alpha: []
+      scaleX: []
+      scaleY: []
+      centerX: []
+      centerY: []
+      lineAlpha: []
+    lines: []
 --- !u!1 &7826752273833371290
 GameObject:
   m_ObjectHideFlags: 0

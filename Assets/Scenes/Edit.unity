@@ -8178,7 +8178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6738368107682211937, guid: 3a95785c26ce17440bc6310210475214, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6815545226283633346, guid: 3a95785c26ce17440bc6310210475214, type: 3}
       propertyPath: labelWindow
@@ -8210,7 +8210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8691830840161595738, guid: 3a95785c26ce17440bc6310210475214, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a95785c26ce17440bc6310210475214, type: 3}

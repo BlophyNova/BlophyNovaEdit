@@ -1,3 +1,4 @@
+using Data.ChartEdit;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,5 +10,6 @@ public class BoxListItem : MonoBehaviour
     public BoxList boxList;
     public TMP_Text boxIDText;
     public Button delete;
+    public Box thisBox;
 
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BoxList : LabelWindowContent
+public class BoxList : LabelWindowContent,IRefresh
 {
 
     public BoxListItem boxListItemPrefabs;
@@ -26,6 +26,7 @@ public class BoxList : LabelWindowContent
             BoxListItem newItem = Instantiate(boxListItemPrefabs, gridLayoutGroup.transform);
             newItem.boxIDText.text = $"{i}号方框";
             newItem.boxList = this;
+            newItem.thisBox = GlobalData.Instance.chartEditData.boxes[i];
             boxListItems.Add(newItem);
         }
     }
