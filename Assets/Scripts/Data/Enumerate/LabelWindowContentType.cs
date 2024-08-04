@@ -18,4 +18,5 @@ public enum LabelWindowContentType
     DebugText=1024,
     NotePropertyEdit=2048,
     AssociateLabelWindow=4096,
+    BoxList=8192,
 }

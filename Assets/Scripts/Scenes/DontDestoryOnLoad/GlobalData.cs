@@ -180,7 +180,7 @@ namespace Scenes.DontDestoryOnLoad
             return result;
         }
 
-        private static void ForeachBoxEvents(List<Data.ChartEdit.Event> editBoxEvent, List<Data.ChartData.Event> chartDataBoxEvent)
+        public static void ForeachBoxEvents(List<Data.ChartEdit.Event> editBoxEvent, List<Data.ChartData.Event> chartDataBoxEvent)
         {
             foreach (Data.ChartEdit.Event item in editBoxEvent)
             {

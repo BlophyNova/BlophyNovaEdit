@@ -14,11 +14,7 @@ public class LineID : MonoBehaviour,IRefresh
     public PropertyEdit propertyEdit;
     public void Refresh()
     {
-        if (propertyEdit.labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NoteEdit)
-        {
-            NoteEdit noteEdit = (NoteEdit)propertyEdit.labelWindow.associateLabelWindow.currentLabelWindow;
-            noteEdit.RefreshNotes(-1, lineID);
-        }
+
     }
 
     private void Start()
@@ -33,7 +29,7 @@ public class LineID : MonoBehaviour,IRefresh
             lineID++;
             thisText.text = $"线号：{lineID}";
 
-            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+            RefreshNote();
         });
         subtraction.onClick.AddListener(() =>
         {
@@ -45,7 +41,16 @@ public class LineID : MonoBehaviour,IRefresh
             lineID--;
             thisText.text = $"线号：{lineID}";
 
-            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+            RefreshNote();
         });
+    }
+
+    private void RefreshNote()
+    {
+        if (propertyEdit.labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NoteEdit)
+        {
+            NoteEdit noteEdit = (NoteEdit)propertyEdit.labelWindow.associateLabelWindow.currentLabelWindow;
+            noteEdit.RefreshNotes(-1, lineID);
+        }
     }
 }

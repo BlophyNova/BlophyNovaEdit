@@ -12,7 +12,12 @@ public class BoxID : MonoBehaviour,IRefresh
     public Button add;
     public Button subtraction;
     public PropertyEdit propertyEdit;
+
     public void Refresh()
+    {
+    }
+
+    public void RefreshNote()
     {
         if (propertyEdit.labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.EventEdit)
         {
@@ -37,8 +42,7 @@ public class BoxID : MonoBehaviour,IRefresh
             }
             boxID++;
             thisText.text = $"框号：{boxID}";
-
-            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+            RefreshNote();
         });
         subtraction.onClick.AddListener(() =>
         {
@@ -49,8 +53,7 @@ public class BoxID : MonoBehaviour,IRefresh
             }
             boxID--;
             thisText.text = $"框号：{boxID}";
-
-            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+            RefreshNote();
         });
     }
 }

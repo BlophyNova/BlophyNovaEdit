@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UtilityCode.Algorithm;
+using UtilityCode.GameUtility;
 using static UnityEngine.Camera;
 
 public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
@@ -157,7 +158,6 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
             });
             List<Data.ChartData.Event> chartDataEvents = eventEditItem.eventType switch
             {
-                Data.Enumerate.EventType.Speed => GlobalData.Instance.chartData.boxes[currentBoxID].lines[0].speed,
                 Data.Enumerate.EventType.CenterX => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.centerX,
                 Data.Enumerate.EventType.CenterY => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.centerY,
                 Data.Enumerate.EventType.MoveX => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.moveX,
@@ -170,12 +170,31 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                 _ => null
             };
             GlobalData.Instance.RefreshChartEventByChartEditEvent(chartDataEvents, eventEditItem.@event);
-            GlobalData.Instance.chartData.boxes[currentBoxID].lines[4].speed =
-            GlobalData.Instance.chartData.boxes[currentBoxID].lines[3].speed =
-            GlobalData.Instance.chartData.boxes[currentBoxID].lines[2].speed =
-            GlobalData.Instance.chartData.boxes[currentBoxID].lines[1].speed =
-            GlobalData.Instance.chartData.boxes[currentBoxID].lines[0].speed;
-            Debug.LogError("错误记忆");
+            //GlobalData.Instance.chartData.boxes[currentBoxID].lines[4].speed =
+            //GlobalData.Instance.chartData.boxes[currentBoxID].lines[3].speed =
+            //GlobalData.Instance.chartData.boxes[currentBoxID].lines[2].speed =
+            //GlobalData.Instance.chartData.boxes[currentBoxID].lines[1].speed =
+            //GlobalData.Instance.chartData.boxes[currentBoxID].lines[0].speed;
+            //GlobalData.Instance.chartData.boxes[currentBoxID].lines[0].career
+            //GlobalData.Instance.chartData.boxes[currentBoxID].lines[0].far
+            if (eventEditItem.eventType != Data.Enumerate.EventType.Speed) yield break;
+            List<Data.ChartEdit.Event> filledVoid = GameUtility.FillVoid(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed);
+            for (int i = 0; i < GlobalData.Instance.chartData.boxes[currentBoxID].lines.Count; i++)
+            {
+                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].speed = new();
+
+
+                GlobalData.ForeachBoxEvents(filledVoid, GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].speed);
+                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].career = new() { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
+                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].career.keys = GameUtility.CalculatedSpeedCurve(GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].speed.ToArray()).ToArray();
+
+
+                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].far = new() { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
+                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].far.keys = GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray();
+            }
+            //chartDataBox.lines[i].speed = new();
+
+            //Debug.LogError("错误记忆");
         }
     }
     public void Refresh()

@@ -112,7 +112,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
         note.effect = NoteEffect.CommonEffect | NoteEffect.Ripple;
         note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2)/(verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x)*2-1;
         Scenes.Edit.NoteEdit newNoteEdit = Instantiate(GlobalData.Instance.tapEditPrefab, basicLine.noteCanvas).Init(note);
-        newNoteEdit.transform.localPosition = new(nearVerticalLine.localPosition.x,nearBeatLine.transform.localPosition.y);
+        newNoteEdit.transform.localPosition = new(nearVerticalLine.localPosition.x, nearBeatLine.transform.localPosition.y);
         //Debug.LogError("写到这里了，下次继续写");
         notes.Add(newNoteEdit);
 
@@ -155,10 +155,10 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
         currentLineID = lineID<0?currentLineID:lineID;
         foreach (Scenes.Edit.NoteEdit item in notes)
         {
-            Destroy(item);
+            Destroy(item.gameObject);
         }
         notes.Clear();
-        List<Data.ChartEdit.Note> needInstNotes = GlobalData.Instance.chartEditData.boxes[boxID].lines[lineID].onlineNotes;
+        List<Data.ChartEdit.Note> needInstNotes = GlobalData.Instance.chartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes;
         foreach (Data.ChartEdit.Note item in needInstNotes)
         {
             Scenes.Edit.NoteEdit noteEditType = item.noteType switch
@@ -177,7 +177,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
 
             Scenes.Edit.NoteEdit newNoteEdit = Instantiate(noteEditType, basicLine.noteCanvas).Init(item);
-            newNoteEdit.transform.localPosition = new(0, positionY);
+            newNoteEdit.transform.localPosition = new(((verticalLineRight.localPosition.x-verticalLineLeft.localPosition.x)- (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x)/2) * item.positionX, positionY);
             //Debug.LogError("写到这里了，下次继续写");
             notes.Add(newNoteEdit);
         }
