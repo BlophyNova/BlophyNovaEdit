@@ -135,3 +135,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 7081173974640190563}
+  event:
+    startBeats:
+      integer: 0
+      molecule: 0
+      denominator: 1
+      currentBPM: 0
+    endBeats:
+      integer: 0
+      molecule: 0
+      denominator: 1
+      currentBPM: 0
+    startValue: 0
+    endValue: 0
+    curve:
+      thisCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      area: 0
+      offset:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+  eventType: 0

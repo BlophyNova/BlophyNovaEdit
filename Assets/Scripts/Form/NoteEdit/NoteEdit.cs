@@ -38,6 +38,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
     private void Start()
     {
         UpdateVerticalLineCount();
+        RefreshNotes(currentBoxID, currentLineID);
     }
     public override void WindowSizeChanged()
     {
@@ -180,12 +181,8 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             if (waitForPressureAgain) break;
             FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
 
-            newHoldEdit.thisNoteRect.sizeDelta =
-                new(
-                    newHoldEdit.thisNoteRect.sizeDelta.x, 
-                    nearBeatLine.transform.localPosition.y -
-                    newHoldEdit.transform.localPosition.y);
-            newHoldEdit.thisNoteData.holdBeats =new(new BPM( nearBeatLine.thisBPM) - new BPM(newHoldEdit.thisNoteData.hitBeats));
+            newHoldEdit.thisNoteRect.sizeDelta =new(newHoldEdit.thisNoteRect.sizeDelta.x, nearBeatLine.transform.localPosition.y -newHoldEdit.transform.localPosition.y);
+            newHoldEdit.thisNoteData.holdBeats =new(new BPM(nearBeatLine.thisBPM) - new BPM(newHoldEdit.thisNoteData.hitBeats));
             yield return new WaitForEndOfFrame();
         }
         waitForPressureAgain = false;

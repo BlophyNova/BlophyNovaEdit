@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UtilityCode.Algorithm;
 using UtilityCode.GameUtility;
+using static UnityEditor.Progress;
 using static UnityEngine.Camera;
 
 public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
@@ -27,6 +28,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     private void Start()
     {
         UpdateVerticalLineCount();
+        RefreshNotes(currentBoxID);
     }
     public override void WindowSizeChanged()
     {
@@ -203,6 +205,48 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     }
     public void RefreshNotes(int boxID)
     {
-        currentBoxID= boxID;
+        currentBoxID = boxID < 0 ? currentBoxID : boxID;
+        foreach (var item in eventEditItems)
+        {
+            Destroy(item.gameObject);
+        }
+        eventEditItems.Clear();
+        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,Data.Enumerate.EventType.Speed);
+        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,Data.Enumerate.EventType.CenterX);
+        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,Data.Enumerate.EventType.CenterY);
+        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,Data.Enumerate.EventType.MoveX);
+        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,Data.Enumerate.EventType.MoveY);
+        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,Data.Enumerate.EventType.ScaleX);
+        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,Data.Enumerate.EventType.ScaleY);
+        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,Data.Enumerate.EventType.Rotate);
+        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,Data.Enumerate.EventType.Alpha);
+        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,Data.Enumerate.EventType.LineAlpha);
+    }
+    void RefreshEvent(List<Data.ChartEdit.Event> events, Data.Enumerate.EventType eventType)
+    {
+        foreach (Data.ChartEdit.Event @event in events)
+        {
+            foreach (EventVerticalLine eventVerticalLine in eventVerticalLines)
+            {
+                if (eventVerticalLine.eventType == eventType)
+                {
+                    EventEditItem newEventEditItem = Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
+
+
+                    float currentSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(@event.startBeats.ThisStartBPM);
+                    float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
+
+                    newEventEditItem.transform.localPosition = new Vector2(eventVerticalLine.transform.localPosition.x, positionY);
+
+                    float endBeatsSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(@event.endBeats.ThisStartBPM);
+                    float endBeatspositionY = YScale.Instance.GetPositionYWithSecondsTime(endBeatsSecondsTime);
+
+                    newEventEditItem.rectTransform.sizeDelta = new(newEventEditItem.rectTransform.sizeDelta.x, endBeatspositionY - positionY);
+                    newEventEditItem.@event = @event;
+                    newEventEditItem.eventType = eventType;
+                    eventEditItems.Add(newEventEditItem);
+                }
+            }
+        }
     }
 }
