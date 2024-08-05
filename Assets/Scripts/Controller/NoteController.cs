@@ -5,7 +5,7 @@ using Data.Enumerate;
 using Manager;
 using UnityEngine;
 using UnityEngine.Serialization;
-using GlobalData = Scenes.DontDestoryOnLoad.GlobalData;
+using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 namespace Controller
 {
     public class NoteController : MonoBehaviour

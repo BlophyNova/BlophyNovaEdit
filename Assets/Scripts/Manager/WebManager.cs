@@ -6,7 +6,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilityCode.Singleton;
-using GlobalData = Scenes.DontDestoryOnLoad.GlobalData;
+using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 namespace Manager
 {
     public class WebManager : MonoBehaviourSingleton<WebManager>

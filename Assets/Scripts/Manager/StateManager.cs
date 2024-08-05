@@ -1,4 +1,4 @@
-using Scenes.DontDestoryOnLoad;
+using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 using UtilityCode.Singleton;
 namespace Manager

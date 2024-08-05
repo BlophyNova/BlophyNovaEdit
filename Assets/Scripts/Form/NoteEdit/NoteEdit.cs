@@ -1,6 +1,6 @@
 using Data.ChartData;
 using Data.ChartEdit;
-using Scenes.DontDestoryOnLoad;
+using Scenes.DontDestroyOnLoad;
 using Scenes.Edit;
 using System;
 using System.Collections;
@@ -9,7 +9,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UtilityCode.Algorithm;
-using GlobalData = Scenes.DontDestoryOnLoad.GlobalData;
+using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 
 public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
 {

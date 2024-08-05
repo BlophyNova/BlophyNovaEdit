@@ -10,7 +10,8 @@ namespace Manager
         private double dspLastPlayMusic;//上一次暂停后的时间
         private double offset;//偏移
         private double skipTime;//时间跳转
-        public double CurrentTime => musicPlayerTime.ElapsedMilliseconds / 1000d + skipTime;//当前时间
+        public float playSpeed = 1;
+        public double CurrentTime => musicPlayerTime.ElapsedMilliseconds * playSpeed / 1000d + skipTime;//当前时间
 
 
         /// <summary>
@@ -25,6 +26,11 @@ namespace Manager
             AssetManager.Instance.musicPlayer.time = 0;
             AssetManager.Instance.musicPlayer.PlayScheduled(dspStartPlayMusic);//在绝对的时间线上播放
             musicPlayerTime.Start();//开始计时
+        }
+        public void SetPlaySpeed(float playSpeed)
+        {
+            this.playSpeed = playSpeed;
+            AssetManager.Instance.musicPlayer.pitch = playSpeed;
         }
         /// <summary>
         /// 暂停播放

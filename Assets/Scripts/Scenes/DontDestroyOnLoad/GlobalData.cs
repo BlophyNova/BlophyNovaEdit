@@ -15,7 +15,7 @@ using UnityEngine.Serialization;
 using UtilityCode.Algorithm;
 using UtilityCode.GameUtility;
 using UtilityCode.Singleton;
-namespace Scenes.DontDestoryOnLoad
+namespace Scenes.DontDestroyOnLoad
 {
     public class GlobalData : MonoBehaviourSingleton<GlobalData>
     {
@@ -29,6 +29,7 @@ namespace Scenes.DontDestoryOnLoad
         public Sprite currentCph;
         public bool isAutoplay = true;
         public float offset;
+        public float playSpeed=1;
         public int ScreenWidth => Camera.main.pixelWidth;
         public int ScreenHeight => Camera.main.pixelHeight;
 

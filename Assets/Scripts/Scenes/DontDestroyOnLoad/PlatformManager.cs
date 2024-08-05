@@ -1,6 +1,6 @@
 using UnityEngine;
 using UtilityCode.Singleton;
-namespace Scenes.DontDestoryOnLoad
+namespace Scenes.DontDestroyOnLoad
 {
     public class PlatformManager : MonoBehaviourSingleton<PlatformManager>
     {

@@ -1,6 +1,6 @@
 using Data.Enumerate;
 using Manager;
-using Scenes.DontDestoryOnLoad;
+using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 namespace Controller
 {

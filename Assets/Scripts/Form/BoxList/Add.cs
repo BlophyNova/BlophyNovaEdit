@@ -1,6 +1,6 @@
 using Controller;
 using Manager;
-using Scenes.DontDestoryOnLoad;
+using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
 using System.Collections;
 using System.Collections.Generic;

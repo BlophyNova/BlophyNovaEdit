@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Manager;
-using Scenes.DontDestoryOnLoad;
+using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 using UtilityCode.Singleton;
 namespace Controller

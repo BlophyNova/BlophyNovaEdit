@@ -31,7 +31,7 @@ public class Alert : PublicButton
     {
         if (textList.Count == 1)
         {
-            Alert a = Instantiate(Scenes.DontDestoryOnLoad.GlobalData.Instance.alert);
+            Alert a = Instantiate(Scenes.DontDestroyOnLoad.GlobalData.Instance.alert);
             a.content.text = text;
         }
     }

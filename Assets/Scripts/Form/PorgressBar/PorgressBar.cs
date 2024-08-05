@@ -1,5 +1,5 @@
 using Manager;
-using Scenes.DontDestoryOnLoad;
+using Scenes.DontDestroyOnLoad;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -33,8 +33,8 @@ public class PorgressBar : LabelWindowContent
         progressBar.SetValueWithoutNotify(currentProgress);
         if (currentProgress >= .9999f)
         {
-            StateManager.RestartTime(true);
-            Debug.LogError($"循环播放做好后用在这里");
+            StateManager.RestartTime(LoopPlayback.Instance.isOn);
+            //Debug.LogError($"循环播放做好后用在这里");
 
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
         }

@@ -1,6 +1,6 @@
 using Data.ChartEdit;
 using Manager;
-using Scenes.DontDestoryOnLoad;
+using Scenes.DontDestroyOnLoad;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Data.ChartEdit;
 using Manager;
-using Scenes.DontDestoryOnLoad;
+using Scenes.DontDestroyOnLoad;
 using UnityEditor;
 using UnityEngine;
 using UtilityCode.Extension;

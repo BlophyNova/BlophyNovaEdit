@@ -1,11 +1,11 @@
 using Data.ChartData;
 using Newtonsoft.Json;
-using Scenes.DontDestoryOnLoad;
+using Scenes.DontDestroyOnLoad;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GlobalData = Scenes.DontDestoryOnLoad.GlobalData;
+using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 
 namespace Data.ChartEdit
 {
