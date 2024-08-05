@@ -9,6 +9,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UtilityCode.Algorithm;
+using static TreeEditor.TreeEditorHelper;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 
 public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
@@ -29,6 +30,11 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
     public BasicLine basicLine;
 
     public List<Scenes.Edit.NoteEdit> notes = new();
+
+
+
+    public bool isFirstTime = false;
+    public bool waitForPressureAgain = false;
     private void Start()
     {
         UpdateVerticalLineCount();
@@ -78,9 +84,46 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
         };
         action();
     }
-    public void AddNewTap() 
+    public void AddNewTap()
     {
-        BeatLine nearBeatLine = null;
+        AddNewNote(NoteType.Tap, NoteEffect.CommonEffect | NoteEffect.Ripple, currentBoxID,currentLineID);
+    }
+
+    private void AddNewNote(NoteType noteType, NoteEffect noteEffect, int boxID, int lineID)
+    {
+        FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
+        Data.ChartEdit.Note note = new();
+
+        note.noteType = noteType;
+        note.hitBeats = nearBeatLine.thisBPM;
+        note.holdBeats = new();
+        note.effect = noteEffect;
+        note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
+        Scenes.Edit.NoteEdit instNewNoteEditPrefab = note.noteType switch 
+        { 
+            NoteType.Tap=> GlobalData.Instance.tapEditPrefab,
+            NoteType.Drag=>GlobalData.Instance.dragEditPrefab,
+            NoteType.Flick=>GlobalData.Instance.flickEditPrefab,
+            NoteType.Point=>GlobalData.Instance.pointEditPrefab,
+            _ => throw new Exception("怎么回事呢···有非通用note代码进入了通用生成note的通道")
+        };
+        Scenes.Edit.NoteEdit newNoteEdit = Instantiate(instNewNoteEditPrefab, basicLine.noteCanvas).Init(note);
+        newNoteEdit.transform.localPosition = new(nearVerticalLine.localPosition.x, nearBeatLine.transform.localPosition.y);
+        //Debug.LogError("写到这里了，下次继续写");
+        notes.Add(newNoteEdit);
+
+        AddNoteAndRedresh(note, boxID,lineID);
+    }
+
+    private void AddNoteAndRedresh(Data.ChartEdit.Note note,int boxID,int lineID)
+    {
+        GlobalData.Instance.AddNoteEdit2ChartData(note, boxID, lineID);
+        GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+    }
+
+    private void FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine)
+    {
+        nearBeatLine = null;
         float nearBeatLineDis = float.MaxValue;
         //第一次
         foreach (BeatLine item in basicLine.beatLines)
@@ -93,7 +136,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
                 nearBeatLine = item;
             }
         }
-        RectTransform nearVerticalLine = null;
+        nearVerticalLine = null;
         float nearVerticalLineDis = float.MaxValue;
         foreach (RectTransform item in verticalLines)
         {
@@ -104,47 +147,115 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
                 nearVerticalLine = item;
             }
         }
+    }
+    public void AddNewHold() 
+    {
+        Debug.Log($"{MousePositionInThisRectTransform}");
+        if (!isFirstTime)
+        {
+            isFirstTime = true;
+
+            FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
+            Data.ChartEdit.Note note = new();
+            note.noteType = NoteType.Hold;
+            note.hitBeats = nearBeatLine.thisBPM;
+            note.effect = NoteEffect.Ripple | NoteEffect.CommonEffect;
+            note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
+            Scenes.Edit.NoteEdit newHoldEdit = Instantiate(GlobalData.Instance.holdEditPrefab,basicLine.noteCanvas).Init(note);
+            newHoldEdit.transform.localPosition = new Vector2(nearVerticalLine.transform.localPosition.x, nearBeatLine.transform.localPosition.y);
+            StartCoroutine(WaitForPressureAgain(newHoldEdit, currentBoxID, currentLineID));
+        }
+        else if (isFirstTime)
+        {
+            //第二次
+            isFirstTime = false;
+            waitForPressureAgain = true;
+        }
+        else {/*报错*/}
+    }
+    public IEnumerator WaitForPressureAgain(Scenes.Edit.NoteEdit newHoldEdit,int boxID,int lineID)
+    {
+        while (true)
+        {
+            if (waitForPressureAgain) break;
+            FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
+
+            newHoldEdit.thisNoteRect.sizeDelta =
+                new(
+                    newHoldEdit.thisNoteRect.sizeDelta.x, 
+                    nearBeatLine.transform.localPosition.y -
+                    newHoldEdit.transform.localPosition.y);
+            newHoldEdit.thisNoteData.holdBeats =new(new BPM( nearBeatLine.thisBPM) - new BPM(newHoldEdit.thisNoteData.hitBeats));
+            yield return new WaitForEndOfFrame();
+        }
+        waitForPressureAgain = false;
+
+        if (newHoldEdit.thisNoteData.holdBeats.ThisStartBPM <= .0001f)
+        {
+            Debug.LogError("哒咩哒咩，长度为0的Hold！");
+            Destroy(newHoldEdit.gameObject);
+        }
+        else
+        {
+            notes.Add(newHoldEdit);
+            //添加事件到对应的地方
+            AddNoteAndRedresh(newHoldEdit.thisNoteData, boxID, lineID);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public void AddNewFullFlick()
+    {
+        FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
         Data.ChartEdit.Note note = new();
 
-        note.noteType = NoteType.Tap; 
+        note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
+        note.noteType = note.positionX switch 
+        {
+            <= 0 =>NoteType.FullFlickPink,
+            > 0 =>NoteType.FullFlickBlue,
+            _=>throw new Exception("呜呜呜，怎么找不到究竟是粉色的FullFlick还是蓝色的FullFlick呢...")
+        };
         note.hitBeats = nearBeatLine.thisBPM;
         note.holdBeats = new();
-        note.effect = NoteEffect.CommonEffect | NoteEffect.Ripple;
-        note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2)/(verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x)*2-1;
-        Scenes.Edit.NoteEdit newNoteEdit = Instantiate(GlobalData.Instance.tapEditPrefab, basicLine.noteCanvas).Init(note);
+        note.effect = NoteEffect.Ripple;
+        note.isClockwise = note.positionX switch
+        {
+            <= 0 => true,
+            > 0 => false,
+            _ => throw new Exception("呜呜呜，怎么找不到究竟是顺时针还是逆时针呢...")
+        };
+        Scenes.Edit.NoteEdit newNoteEdit = Instantiate(GlobalData.Instance.fullFlickEditPrefab, basicLine.noteCanvas).Init(note);
         newNoteEdit.transform.localPosition = new(nearVerticalLine.localPosition.x, nearBeatLine.transform.localPosition.y);
         //Debug.LogError("写到这里了，下次继续写");
         notes.Add(newNoteEdit);
 
-        GlobalData.Instance.AddNoteEdit2ChartData(note,currentBoxID,currentLineID);
-        GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+        AddNoteAndRedresh(note, currentBoxID, currentLineID);
+    }
+    public void AddNewDrag()
+    {
+        AddNewNote(NoteType.Drag, NoteEffect.CommonEffect | NoteEffect.Ripple, currentBoxID, currentLineID);
     }
 
-    public void AddNewHold() 
+    public void AddNewFlick()
     {
-
-    }
-
-    public void AddNewDrag() 
-    {
-
-    }
-
-    public void AddNewFlick() 
-    {
-
+        AddNewNote(NoteType.Flick, NoteEffect.CommonEffect | NoteEffect.Ripple, currentBoxID, currentLineID);
     }
 
     public void AddNewPoint()
     {
 
+        AddNewNote(NoteType.Point, NoteEffect.Ripple, currentBoxID, 4);
     }
-
-    public void AddNewFullFlick() 
-    { 
-
-    }
-
     public void Refresh()
     {
         UpdateVerticalLineCount();

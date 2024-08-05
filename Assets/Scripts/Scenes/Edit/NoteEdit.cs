@@ -6,6 +6,7 @@ namespace Scenes.Edit
 {
     public class NoteEdit : MonoBehaviour
     {
+        public RectTransform thisNoteRect;
         public Note thisNoteData;
         public virtual NoteEdit Init(Note note)
         {

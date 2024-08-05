@@ -83,6 +83,15 @@ namespace Data.ChartEdit
             } while (b.ThisStartBPM>0);
             return a;
         }
+        public static BPM operator -(BPM a, BPM b)
+        {
+            do
+            {
+                a.SubtractionOneBeat();
+                b.SubtractionOneBeat();
+            } while (b.ThisStartBPM > 0);
+            return a;
+        }
 
         public static BPM Zero => new();
         public static BPM One => new(1, 0, 1);
