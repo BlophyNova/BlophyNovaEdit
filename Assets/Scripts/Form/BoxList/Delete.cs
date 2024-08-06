@@ -17,7 +17,7 @@ namespace Form.BoxList
                 boxListItem.boxList.boxListItems.Remove(boxListItem);
                 GlobalData.Instance.chartEditData.boxes.Remove(boxListItem.thisBox);
                 Destroy(boxListItem.gameObject);
-                GlobalData.Instance.chartData.boxes = GlobalData.Instance.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
+                GlobalData.Instance.chartData.boxes = ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
                 SpeckleManager.Instance.allLineNoteControllers.Clear();
                 GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
                 GameController.Instance.RefreshChartPreview();

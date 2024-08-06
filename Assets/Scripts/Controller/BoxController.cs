@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Data.ChartData;
 using Manager;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UtilityCode.Algorithm;
@@ -16,6 +17,7 @@ namespace Controller
         public Transform squarePosition;//方框的位置
         public Camera mainCamera;
 
+        public TMP_Text boxIDText;
         public DecideLineController[] decideLineControllers;//所有的判定线控制器
         public SpriteRenderer[] spriteRenderers;//所有的渲染组件
         public ObjectPoolQueue<RippleController> ripples;
@@ -119,6 +121,11 @@ namespace Controller
             boxFineness = ValueManager.Instance.boxFineness;
             ripples = new(AssetManager.Instance.ripple, 0, squarePosition);
             return this;//返回自身
+        }
+        public BoxController SetBoxID(int boxID)
+        {
+            boxIDText.text = $"{boxID}";
+            return this;
         }
         public void PlayRipple() => StartCoroutine(Play());
         private IEnumerator Play()

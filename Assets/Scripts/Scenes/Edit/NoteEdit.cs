@@ -7,6 +7,7 @@ namespace Scenes.Edit
 {
     public class NoteEdit : PublicButton
     {
+        public LabelWindow labelWindow;
         public RectTransform thisNoteRect;
         public Note thisNoteData;
         public virtual NoteEdit Init(Note note)
@@ -14,9 +15,16 @@ namespace Scenes.Edit
             thisNoteData = note;
             return this;
         }
-        //public void Start()
-        //{
-        //    thisButton.onClick.AddListener(()=>Debug.Log("dfgburkhujfokjifokmejiokfjifeop"));
-        //}
+        private void Start()
+        {
+            thisButton.onClick.AddListener(() =>
+            {
+                if (labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
+                {
+                    NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelWindow;
+                    notePropertyEdit.SelectedNote(this);
+                }
+            });
+        }
     }
 }

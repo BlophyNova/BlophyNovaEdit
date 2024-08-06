@@ -113,16 +113,17 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             _ => throw new Exception("怎么回事呢···有非通用note代码进入了通用生成note的通道")
         };
         Scenes.Edit.NoteEdit newNoteEdit = Instantiate(instNewNoteEditPrefab, basicLine.noteCanvas).Init(note);
+        newNoteEdit.labelWindow = labelWindow;
         newNoteEdit.transform.localPosition = new(nearVerticalLine.localPosition.x, nearBeatLine.transform.localPosition.y);
         //Debug.LogError("写到这里了，下次继续写");
         notes.Add(newNoteEdit);
 
-        AddNoteAndRedresh(note, boxID,lineID);
+        AddNoteAndRefresh(note, boxID,lineID);
     }
 
-    private void AddNoteAndRedresh(Data.ChartEdit.Note note,int boxID,int lineID)
+    private void AddNoteAndRefresh(Data.ChartEdit.Note note,int boxID,int lineID)
     {
-        GlobalData.Instance.AddNoteEdit2ChartData(note, boxID, lineID);
+        ChartTool.AddNoteEdit2ChartData(note, boxID, lineID,GlobalData.Instance.chartEditData,GlobalData.Instance.chartData);
         GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
     }
 
@@ -167,6 +168,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             note.effect = NoteEffect.Ripple | NoteEffect.CommonEffect;
             note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
             Scenes.Edit.NoteEdit newHoldEdit = Instantiate(GlobalData.Instance.holdEditPrefab,basicLine.noteCanvas).Init(note);
+            newHoldEdit.labelWindow = labelWindow;
             newHoldEdit.transform.localPosition = new Vector2(nearVerticalLine.transform.localPosition.x, nearBeatLine.transform.localPosition.y);
             StartCoroutine(WaitForPressureAgain(newHoldEdit, currentBoxID, currentLineID));
         }
@@ -200,20 +202,9 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
         {
             notes.Add(newHoldEdit);
             //添加事件到对应的地方
-            AddNoteAndRedresh(newHoldEdit.thisNoteData, boxID, lineID);
+            AddNoteAndRefresh(newHoldEdit.thisNoteData, boxID, lineID);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
     public void AddNewFullFlick()
     {
         FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
@@ -236,11 +227,12 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             _ => throw new Exception("呜呜呜，怎么找不到究竟是顺时针还是逆时针呢...")
         };
         Scenes.Edit.NoteEdit newNoteEdit = Instantiate(GlobalData.Instance.fullFlickEditPrefab, basicLine.noteCanvas).Init(note);
+        newNoteEdit.labelWindow = labelWindow;
         newNoteEdit.transform.localPosition = new(nearVerticalLine.localPosition.x, nearBeatLine.transform.localPosition.y);
         //Debug.LogError("写到这里了，下次继续写");
         notes.Add(newNoteEdit);
 
-        AddNoteAndRedresh(note, currentBoxID, currentLineID);
+        AddNoteAndRefresh(note, currentBoxID, currentLineID);
     }
     public void AddNewDrag()
     {
@@ -289,6 +281,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
 
             Scenes.Edit.NoteEdit newNoteEdit = Instantiate(noteEditType, basicLine.noteCanvas).Init(item);
+            newNoteEdit.labelWindow = labelWindow;
             newNoteEdit.transform.localPosition = new(((verticalLineRight.localPosition.x-verticalLineLeft.localPosition.x)- (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x)/2) * item.positionX, positionY);
             if (item.noteType == NoteType.Hold)
             {

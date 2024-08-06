@@ -101,6 +101,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                 }
             }
             EventEditItem newEventEditItem =Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
+            newEventEditItem.labelWindow = labelWindow;
             newEventEditItem.transform.localPosition = new Vector2(nearEventVerticalLine.transform.localPosition.x,nearBeatLine.transform.localPosition.y);
             newEventEditItem.@event.startBeats = new(nearBeatLine.thisBPM);
             newEventEditItem.eventType = nearEventVerticalLine.eventType;
@@ -189,7 +190,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                 Data.Enumerate.EventType.LineAlpha => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.lineAlpha,
                 _ => null
             };
-            GlobalData.Instance.RefreshChartEventByChartEditEvent(chartDataEvents, eventEditItem.@event);
+            ChartTool.RefreshChartEventByChartEditEvent(chartDataEvents, eventEditItem.@event);
             //GlobalData.Instance.chartData.boxes[currentBoxID].lines[4].speed =
             //GlobalData.Instance.chartData.boxes[currentBoxID].lines[3].speed =
             //GlobalData.Instance.chartData.boxes[currentBoxID].lines[2].speed =
@@ -204,7 +205,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                 GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].speed = new();
 
 
-                GlobalData.ForeachBoxEvents(filledVoid, GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].speed);
+                ChartTool.ForeachBoxEvents(filledVoid, GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].speed);
                 GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].career = new() { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
                 GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].career.keys = GameUtility.CalculatedSpeedCurve(GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].speed.ToArray()).ToArray();
 
@@ -239,6 +240,8 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,Data.Enumerate.EventType.Rotate);
         RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,Data.Enumerate.EventType.Alpha);
         RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,Data.Enumerate.EventType.LineAlpha);
+
+        UpdateNoteLocalPosition();
     }
     void RefreshEvent(List<Data.ChartEdit.Event> events, Data.Enumerate.EventType eventType)
     {
@@ -259,6 +262,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                     float endBeatsSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(@event.endBeats.ThisStartBPM);
                     float endBeatspositionY = YScale.Instance.GetPositionYWithSecondsTime(endBeatsSecondsTime);
 
+                    newEventEditItem.labelWindow = labelWindow;
                     newEventEditItem.rectTransform.sizeDelta = new(newEventEditItem.rectTransform.sizeDelta.x, endBeatspositionY - positionY);
                     newEventEditItem.@event = @event;
                     newEventEditItem.eventType = eventType;

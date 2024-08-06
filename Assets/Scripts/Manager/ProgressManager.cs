@@ -1,3 +1,7 @@
+using Controller;
+using Data.ChartData;
+using Scenes.DontDestroyOnLoad;
+using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UtilityCode.Singleton;
@@ -9,6 +13,7 @@ namespace Manager
         private double dspStartPlayMusic;//开始时间
         private double dspLastPlayMusic;//上一次暂停后的时间
         private double offset;//偏移
+        //public double Offset => GlobalData.Instance.chartData.globalData.offset;//偏移
         private double skipTime;//时间跳转
         public float playSpeed = 1;
         public double CurrentTime => musicPlayerTime.ElapsedMilliseconds * playSpeed / 1000d + skipTime;//当前时间
@@ -75,6 +80,8 @@ namespace Manager
         {
             AssetManager.Instance.musicPlayer.time += (float)time;
             skipTime += time;
+
+            ResetAllLineNoteState();
         }
         /// <summary>
         /// 重置时间
@@ -91,6 +98,42 @@ namespace Manager
         {
             skipTime = 0;
             musicPlayerTime.Restart();
+        }
+        void ResetAllLineNoteState()
+        {
+            for (int i = 0; i < SpeckleManager.Instance.allLineNoteControllers.Count; i++)
+            {
+                ResetLineNoteState(ref SpeckleManager.Instance.allLineNoteControllers[i].lastOnlineIndex,
+                    SpeckleManager.Instance.allLineNoteControllers[i].ariseOnlineNotes,
+                    SpeckleManager.Instance.allLineNoteControllers[i].endTimeAriseOnlineNotes,
+                    SpeckleManager.Instance.allLineNoteControllers[i].decideLineController,
+                    SpeckleManager.Instance.allLineNoteControllers[i].decideLineController.ThisLine.onlineNotes, true);
+
+                ResetLineNoteState(ref SpeckleManager.Instance.allLineNoteControllers[i].lastOfflineIndex,
+                    SpeckleManager.Instance.allLineNoteControllers[i].ariseOfflineNotes,
+                    SpeckleManager.Instance.allLineNoteControllers[i].endTimeAriseOfflineNotes,
+                    SpeckleManager.Instance.allLineNoteControllers[i].decideLineController,
+                    SpeckleManager.Instance.allLineNoteControllers[i].decideLineController.ThisLine.offlineNotes, false);
+            }
+        }
+        public void ResetLineNoteState(ref int lastIndex, List<NoteController> ariseLineNotes, List<NoteController> endTime_ariseLineNotes, DecideLineController decideLine, List<Note> notes, bool isOnlineNote)
+        {
+            lastIndex = 0;
+            for (int i = 0; i < notes.Count; i++)
+            {
+                if (notes[i].hitTime < CurrentTime)
+                {
+                    lastIndex++;
+                }
+                else break;
+            }
+            for (int i = 0; i < ariseLineNotes.Count; i++)
+            {
+                NoteController note = ariseLineNotes[i];
+                decideLine.ReturnNote(note, note.thisNote.noteType, isOnlineNote);
+            }
+            ariseLineNotes.Clear();
+            endTime_ariseLineNotes.Clear();
         }
     }
 }

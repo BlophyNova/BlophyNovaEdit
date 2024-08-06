@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca5cfd406d3559c448432cf7ab6ee348, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisButton: {fileID: 7081173974640190567}
   rectTransform: {fileID: 7081173974640190563}
   event:
     startBeats:
