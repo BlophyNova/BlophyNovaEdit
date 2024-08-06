@@ -3,6 +3,7 @@ using Scenes.DontDestroyOnLoad;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -27,13 +28,30 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     public bool waitForPressureAgain = false;
     private void Start()
     {
-        UpdateVerticalLineCount();
         RefreshNotes(currentBoxID);
+        UpdateVerticalLineCount();
+        UpdateNoteLocalPosition();
     }
     public override void WindowSizeChanged()
     {
         base.WindowSizeChanged();
-        UpdateVerticalLineCount();
+        UpdateVerticalLineCount(); 
+        UpdateNoteLocalPosition();
+    }
+    public void UpdateNoteLocalPosition()
+    {
+        for (int i = 0; i < eventEditItems.Count; i++)
+        {
+            foreach (EventVerticalLine item in eventVerticalLines)
+            {
+                if(item.eventType == eventEditItems[i].eventType)
+                {
+                    float positionX=item.transform.localPosition.x;
+                    eventEditItems[i].transform.localPosition = new(positionX, YScale.Instance.GetPositionYWithBeats(eventEditItems[i].@event.startBeats.ThisStartBPM));
+                    eventEditItems[i].rectTransform.sizeDelta = new(Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition), eventEditItems[i].rectTransform.sizeDelta.y);
+                }
+            }
+        }
     }
     public void UpdateVerticalLineCount()
     {

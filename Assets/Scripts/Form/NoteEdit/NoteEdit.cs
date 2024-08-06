@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UtilityCode.Algorithm;
 using static TreeEditor.TreeEditorHelper;
+using static UnityEditor.Progress;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 
 public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
@@ -37,13 +38,22 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
     public bool waitForPressureAgain = false;
     private void Start()
     {
-        UpdateVerticalLineCount();
         RefreshNotes(currentBoxID, currentLineID);
+        UpdateVerticalLineCount();
+        UpdateNoteLocalPosition();
     }
     public override void WindowSizeChanged()
     {
         base.WindowSizeChanged();
         UpdateVerticalLineCount();
+        UpdateNoteLocalPosition();
+    }
+    public void UpdateNoteLocalPosition()
+    {
+        for (int i = 0; i < notes.Count; i++)
+        {
+            notes[i].transform.localPosition = new(((verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) - (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) * notes[i].thisNoteData.positionX, YScale.Instance.GetPositionYWithBeats(notes[i].thisNoteData.hitBeats.ThisStartBPM));
+        }
     }
     public void UpdateVerticalLineCount()
     {
@@ -63,12 +73,6 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             newVerticalLine.SetAsFirstSibling();
             verticalLines.Add(newVerticalLine);
         }
-    }
-    public override void Started(InputAction.CallbackContext callbackContext)
-    {
-    }
-    public override void Performed(InputAction.CallbackContext callbackContext)
-    {
     }
     public override void Canceled(InputAction.CallbackContext callbackContext)
     {

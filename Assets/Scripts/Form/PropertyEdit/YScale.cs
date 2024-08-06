@@ -1,3 +1,4 @@
+using Manager;
 using Scenes.DontDestroyOnLoad;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,5 +36,9 @@ public class YScale : MonoBehaviourSingleton<YScale>
     {
         float currentTime = secondsTime * 100;
         return currentTime * CurrentYScale;
+    }
+    public float GetPositionYWithBeats(float beats)
+    {
+        return GetPositionYWithSecondsTime(BPMManager.Instance.GetSecondsTimeWithBeats(beats));
     }
 }
