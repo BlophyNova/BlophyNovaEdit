@@ -86,7 +86,9 @@ GameObject:
   m_Component:
   - component: {fileID: 375927620403404222}
   - component: {fileID: 8069792749430917713}
-  - component: {fileID: 2204463258017573469}
+  - component: {fileID: 7506219346781707699}
+  - component: {fileID: 8250625353876711219}
+  - component: {fileID: 1578384568379618585}
   m_Layer: 5
   m_Name: EventEdit
   m_TagString: Untagged
@@ -183,7 +185,7 @@ MonoBehaviour:
   eventEditItems: []
   isFirstTime: 0
   waitForPressureAgain: 0
---- !u!114 &2204463258017573469
+--- !u!114 &7506219346781707699
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -192,11 +194,48 @@ MonoBehaviour:
   m_GameObject: {fileID: 3989304463619947668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Padding: {x: 0, y: 0, z: 0, w: 0}
-  m_Softness: {x: 0, y: 0}
+  m_ShowMaskGraphic: 1
+--- !u!222 &8250625353876711219
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3989304463619947668}
+  m_CullTransparentMesh: 1
+--- !u!114 &1578384568379618585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3989304463619947668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 6ff773ea42aedd04c8bb96a1fe9a73b8, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8279857813735328732
 GameObject:
   m_ObjectHideFlags: 0
