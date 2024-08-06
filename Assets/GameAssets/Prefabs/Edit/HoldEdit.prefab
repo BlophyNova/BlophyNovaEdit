@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 860be6f7659584349acd1643911f9562, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisButton: {fileID: 6025257474911951500}
   thisNoteRect: {fileID: 6025257474911951501}
   thisNoteData:
     noteType: 0

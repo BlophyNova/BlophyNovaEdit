@@ -251,7 +251,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
     public void AddNewPoint()
     {
 
-        AddNewNote(NoteType.Point, NoteEffect.Ripple, currentBoxID, 4);
+        AddNewNote(NoteType.Point, NoteEffect.Ripple, currentBoxID, currentLineID);
     }
     public void Refresh()
     {
@@ -286,6 +286,12 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
 
             Scenes.Edit.NoteEdit newNoteEdit = Instantiate(noteEditType, basicLine.noteCanvas).Init(item);
             newNoteEdit.transform.localPosition = new(((verticalLineRight.localPosition.x-verticalLineLeft.localPosition.x)- (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x)/2) * item.positionX, positionY);
+            if (item.noteType == NoteType.Hold)
+            {
+                //float endBeatsSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(item.EndBeats.ThisStartBPM);
+                float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(item.holdBeats.ThisStartBPM);
+                newNoteEdit.thisNoteRect.sizeDelta = new(newNoteEdit.thisNoteRect.sizeDelta.x, endBeatsPositionY);
+            }
             //Debug.LogError("写到这里了，下次继续写");
             notes.Add(newNoteEdit);
         }

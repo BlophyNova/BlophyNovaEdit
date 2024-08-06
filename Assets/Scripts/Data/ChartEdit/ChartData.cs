@@ -142,7 +142,7 @@ namespace Data.ChartEdit
         public float positionX;
         public bool isClockwise;//是逆时针
         public bool hasOther;//还有别的Note和他在统一时间被打击，简称多押标识（（
-        [JsonIgnore] public BPM EndTime => hitBeats + HoldBeats;
+        [JsonIgnore] public BPM EndBeats => hitBeats + HoldBeats;
         [JsonIgnore] public float hitFloorPosition;//打击地板上距离
     }
     [Serializable]

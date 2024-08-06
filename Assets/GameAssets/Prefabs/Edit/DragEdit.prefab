@@ -135,6 +135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaf7ef894a6739442a0384c43531fe91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thisButton: {fileID: 4868540525419382818}
+  thisNoteRect: {fileID: 0}
   thisNoteData:
     noteType: 0
     hitBeats:

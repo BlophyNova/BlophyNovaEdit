@@ -58,9 +58,18 @@ namespace Scenes.DontDestroyOnLoad
         public void AddNoteEdit2ChartData(Data.ChartEdit.Note noteEdit,int boxID,int lineID)
         {
             int index_noteEdits = Algorithm.BinarySearch(chartEditData.boxes[boxID].lines[lineID].onlineNotes, m => m.hitBeats.ThisStartBPM < noteEdit.hitBeats.ThisStartBPM, false);
-            Data.ChartData.Note note = new(noteEdit);
             chartEditData.boxes[boxID].lines[lineID].onlineNotes.Insert(index_noteEdits, noteEdit);
-            chartData.boxes[boxID].lines[lineID].onlineNotes.Insert(index_noteEdits,note);
+
+            Data.ChartData.Note note = new(noteEdit);
+            int index_noteChartData = Algorithm.BinarySearch(chartData.boxes[boxID].lines[lineID].onlineNotes, m => m.hitTime < note.hitTime, false);
+            if (noteEdit.noteType != NoteType.Point) chartData.boxes[boxID].lines[lineID].onlineNotes.Insert(index_noteChartData, note);
+            else
+                chartData.boxes[boxID].lines[4].onlineNotes.Insert(Algorithm.BinarySearch(chartData.boxes[boxID].lines[4].onlineNotes, m => m.hitTime < note.hitTime, false), note);
+            //else
+            //{
+            //    int index_pointEdits = Algorithm.BinarySearch(chartEditData.boxes[boxID].lines[4].onlineNotes, m => m.hitBeats.ThisStartBPM < noteEdit.hitBeats.ThisStartBPM, false);
+            //    chartData.boxes[boxID].lines[4].onlineNotes.Insert(index_pointEdits, note);
+            //}
         }
         public void RefreshChartEventByChartEditEvent(List<Data.ChartData.Event> chartDataEvent,Data.ChartEdit.Event chartEditDataEvent)
         {
