@@ -92,7 +92,18 @@ namespace Data.ChartEdit
             } while (b.ThisStartBPM > 0);
             return a;
         }
-
+        public static BPM operator *(BPM a, int b)
+        {
+            BPM res = new(a);
+            res.integer *= b;
+            res.molecule *= b;
+            while (a.molecule >= a.denominator)
+            {
+                res.integer++;
+                res.molecule -= a.denominator;
+            }
+            return res;
+        }
         public static BPM Zero => new();
         public static BPM One => new(1, 0, 1);
     }

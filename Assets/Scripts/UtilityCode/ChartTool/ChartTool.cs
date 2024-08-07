@@ -56,19 +56,23 @@ public class ChartTool
     /// <returns></returns>
     public static Data.ChartEdit.Box CreateNewBox(List<EaseData> easeData)
     {
-        Data.ChartEdit.Box chartEditBox = new();
-        chartEditBox.lines = new() { new(), new(), new(), new(), new() };
-        chartEditBox.boxEvents = new();
-        chartEditBox.boxEvents.scaleX = new();
-        chartEditBox.boxEvents.scaleY = new();
-        chartEditBox.boxEvents.moveX = new();
-        chartEditBox.boxEvents.moveY = new();
-        chartEditBox.boxEvents.centerX = new();
-        chartEditBox.boxEvents.centerY = new();
-        chartEditBox.boxEvents.alpha = new();
-        chartEditBox.boxEvents.lineAlpha = new();
-        chartEditBox.boxEvents.rotate = new();
-        chartEditBox.boxEvents.speed = new();
+        Data.ChartEdit.Box chartEditBox = new()
+        {
+            lines = new() { new(), new(), new(), new(), new() },
+            boxEvents = new()
+            {
+                scaleX = new(),
+                scaleY = new(),
+                moveX = new(),
+                moveY = new(),
+                centerX = new(),
+                centerY = new(),
+                alpha = new(),
+                lineAlpha = new(),
+                rotate = new(),
+                speed = new()
+            }
+        };
         chartEditBox.boxEvents.scaleX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 2.7f, endValue = 2.7f, curve = easeData[0] });
         chartEditBox.boxEvents.scaleY.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 2.7f, endValue = 2.7f, curve = easeData[0] });
         chartEditBox.boxEvents.moveX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0] });
@@ -78,7 +82,7 @@ public class ChartTool
         chartEditBox.boxEvents.alpha.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 1, endValue = 1, curve = easeData[0] });
         chartEditBox.boxEvents.lineAlpha.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0] });
         chartEditBox.boxEvents.rotate.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0] });
-        chartEditBox.boxEvents.speed.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 3, endValue = 3, curve = easeData[0] });
+        chartEditBox.boxEvents.speed.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One*3, startValue = 3, endValue = 6, curve = easeData[22] });
         for (int i = 0; i < chartEditBox.lines.Count; i++)
         {
             chartEditBox.lines[i].offlineNotes = new();
@@ -97,18 +101,22 @@ public class ChartTool
         List<Data.ChartData.Box> result = new();
         foreach (Data.ChartEdit.Box box in boxes)
         {
-            Data.ChartData.Box chartDataBox = new();
-            chartDataBox.lines = new() { new(), new(), new(), new(), new() };
-            chartDataBox.boxEvents = new();
-            chartDataBox.boxEvents.scaleX = new();
-            chartDataBox.boxEvents.scaleY = new();
-            chartDataBox.boxEvents.moveX = new();
-            chartDataBox.boxEvents.moveY = new();
-            chartDataBox.boxEvents.centerX = new();
-            chartDataBox.boxEvents.centerY = new();
-            chartDataBox.boxEvents.alpha = new();
-            chartDataBox.boxEvents.lineAlpha = new();
-            chartDataBox.boxEvents.rotate = new();
+            Data.ChartData.Box chartDataBox = new()
+            {
+                lines = new() { new(), new(), new(), new(), new() },
+                boxEvents = new()
+                {
+                    scaleX = new(),
+                    scaleY = new(),
+                    moveX = new(),
+                    moveY = new(),
+                    centerX = new(),
+                    centerY = new(),
+                    alpha = new(),
+                    lineAlpha = new(),
+                    rotate = new()
+                }
+            };
             ForeachBoxEvents(box.boxEvents.scaleX, chartDataBox.boxEvents.scaleX);
             ForeachBoxEvents(box.boxEvents.scaleY, chartDataBox.boxEvents.scaleY);
             ForeachBoxEvents(box.boxEvents.moveX, chartDataBox.boxEvents.moveX);
@@ -124,10 +132,18 @@ public class ChartTool
                 List<Data.ChartEdit.Event> filledVoid = GameUtility.FillVoid(box.boxEvents.speed);
                 chartDataBox.lines[i].speed = new();
                 ForeachBoxEvents(filledVoid, chartDataBox.lines[i].speed);
-                chartDataBox.lines[i].career = new() { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
-                chartDataBox.lines[i].career.keys = GameUtility.CalculatedSpeedCurve(chartDataBox.lines[i].speed.ToArray()).ToArray();
-                chartDataBox.lines[i].far = new() { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
-                chartDataBox.lines[i].far.keys = GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray();
+                chartDataBox.lines[i].career = new()
+                {
+                    postWrapMode = WrapMode.ClampForever,
+                    preWrapMode = WrapMode.ClampForever,
+                    keys = GameUtility.CalculatedSpeedCurve(chartDataBox.lines[i].speed.ToArray()).ToArray()
+                };
+                chartDataBox.lines[i].far = new()
+                {
+                    postWrapMode = WrapMode.ClampForever,
+                    preWrapMode = WrapMode.ClampForever,
+                    keys = GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray()
+                };
             }
             result.Add(chartDataBox);
         }
