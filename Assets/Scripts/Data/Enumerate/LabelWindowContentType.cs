@@ -19,4 +19,6 @@ public enum LabelWindowContentType
     NotePropertyEdit=2048,
     AssociateLabelWindow=4096,
     BoxList=8192,
+    RuntimeInspector=16384,
+    RuntimeHierarchy=32768
 }

@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Undo : ShortcutKeyEventBase
+namespace ShortcutKey.Events
 {
-    private void Start()
+    public class Undo : ShortcutKeyEventBase
     {
-        Init();
+        private void Start()
+        {
+            Init();
+        }
     }
 }

@@ -1,5 +1,13 @@
 {
   "dependencies": {
+    "com.giantparticle.inspector_graph": {
+      "version": "file:com.giantparticle.inspector_graph",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.modules.uielements": "1.0.0"
+      }
+    },
     "com.unity.2d.animation": {
       "version": "7.1.0",
       "depth": 1,

@@ -82,7 +82,7 @@ public class ChartTool
         chartEditBox.boxEvents.alpha.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 1, endValue = 1, curve = easeData[0] });
         chartEditBox.boxEvents.lineAlpha.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0] });
         chartEditBox.boxEvents.rotate.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0] });
-        chartEditBox.boxEvents.speed.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One*3, startValue = 3, endValue = 6, curve = easeData[22] });
+        chartEditBox.boxEvents.speed.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 3, endValue = 3, curve = easeData[0] });
         for (int i = 0; i < chartEditBox.lines.Count; i++)
         {
             chartEditBox.lines[i].offlineNotes = new();
