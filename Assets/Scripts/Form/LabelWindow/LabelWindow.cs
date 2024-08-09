@@ -15,10 +15,17 @@ public class LabelWindow : MonoBehaviour
     public int labelColorIndex;
     public LabelWindow associateLabelWindow;//关联LabelWindow
     public LabelWindowContent currentLabelWindow;
+    public Content labelWindowContent;
+    public delegate void OnWindowSizeChanged();
+    public event OnWindowSizeChanged onWindowSizeChanged = () => { };
+    public delegate void OnWindowMoved();
+    public event OnWindowMoved onWindowMoved = () => { };
     public bool focus;
     public float MinX => currentLabelWindow == null ? 100 : currentLabelWindow.minX;
     public float MinY => currentLabelWindow == null ? 100 : currentLabelWindow.minY;
     public float MaxX => 1920;
     public float MaxY => 1080;
+    public void WindowSizeChanged()=>onWindowSizeChanged();
+    public void WindowMoved() => onWindowMoved();
     //public 
 }

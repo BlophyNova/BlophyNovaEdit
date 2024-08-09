@@ -5,6 +5,7 @@ using UnityEngine;
 public class Content : MonoBehaviour
 {
     public LabelWindow labelWindow;
+    public RectTransform contentRectTransform;
     private void OnMouseDown()
     {
         labelWindow.transform.SetAsLastSibling();

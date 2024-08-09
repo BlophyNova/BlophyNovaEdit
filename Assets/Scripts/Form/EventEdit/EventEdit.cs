@@ -1,5 +1,6 @@
 using Data.ChartEdit;
 using Scenes.DontDestroyOnLoad;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,6 +27,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     public List<EventEditItem> eventEditItems = new();
     public bool isFirstTime = false;
     public bool waitForPressureAgain = false;
+    public float VerticalLineYDelta=> Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition);
     private void Start()
     {
         RefreshNotes(currentBoxID);

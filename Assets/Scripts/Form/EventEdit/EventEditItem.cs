@@ -8,6 +8,7 @@ public class EventEditItem : PublicButton
 {
     public LabelWindow labelWindow;
     public RectTransform rectTransform;
+    public EaseRenderer easeRenderer;
     public Data.ChartEdit.Event @event;
     public Data.Enumerate.EventType eventType;
     private void Start()

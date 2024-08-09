@@ -33,5 +33,6 @@ public class DragIcon : MonoBehaviour
         newPosition.x = newPosition.x < 0 ? 0 : newPosition.x;
         newPosition.y = newPosition.y > 0 ? 0 : newPosition.y;
         labelWindowRect.anchoredPosition = newPosition;
+        labelWindow.WindowMoved();
     }
 }

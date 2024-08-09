@@ -39,9 +39,9 @@ public class PorgressBar : LabelWindowContent
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
         }
 
-        progressInfomation.text = $"当前时间：{(int)(ProgressManager.Instance.CurrentTime / 60):D2}:" +
+        progressInfomation.text = $"{(int)(ProgressManager.Instance.CurrentTime / 60):D2}:" +
             $"{(int)(ProgressManager.Instance.CurrentTime - (int)(ProgressManager.Instance.CurrentTime / 60) * 60):D2}:" +
-            $"{(int)((ProgressManager.Instance.CurrentTime - (int)ProgressManager.Instance.CurrentTime) * 1000):D3}\t总时间：" +
+            $"{(int)((ProgressManager.Instance.CurrentTime - (int)ProgressManager.Instance.CurrentTime) * 1000):D3} / " +
             $"{(int)(GlobalData.Instance.chartData.globalData.musicLength / 60):D2}:" +
             $"{(int)(GlobalData.Instance.chartData.globalData.musicLength - (int)(GlobalData.Instance.chartData.globalData.musicLength / 60) * 60):D2}:" +
             $"{(int)((GlobalData.Instance.chartData.globalData.musicLength - (int)GlobalData.Instance.chartData.globalData.musicLength) * 1000):D3}\t当前BPM：" +

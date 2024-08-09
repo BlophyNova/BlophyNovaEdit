@@ -49,6 +49,7 @@ namespace Scenes.DontDestroyOnLoad
         public FlickEdit flickEditPrefab;
         public PointEdit pointEditPrefab;
         public FullFlickEdit fullFlickEditPrefab;
+        public VectrosityLineMask vectrosityLineMask;
 
         public List<EaseData> easeData;
         public static void Refresh<T>(Action<T> action)

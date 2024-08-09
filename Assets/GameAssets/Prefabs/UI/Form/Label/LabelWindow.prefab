@@ -1756,6 +1756,7 @@ MonoBehaviour:
   labelColorIndex: 0
   associateLabelWindow: {fileID: 0}
   currentLabelWindow: {fileID: 0}
+  labelWindowContent: {fileID: 6109633435724943127}
   focus: 0
 --- !u!1 &8753526250465213827
 GameObject:
@@ -1993,6 +1994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   labelWindow: {fileID: 588198340389008037}
+  contentRectTransform: {fileID: 8753526251135438171}
 --- !u!1 &8753526251512636324
 GameObject:
   m_ObjectHideFlags: 0

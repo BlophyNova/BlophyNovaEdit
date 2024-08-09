@@ -42,10 +42,12 @@ public class Stretch : MonoBehaviour
         size.x = size.x > labelWindow.MaxX ? labelWindow.MaxX : size.x;
         size.y = size.y > labelWindow.MaxY ? labelWindow.MaxY : size.y;
         labelWindowRect.sizeDelta = size;
+        //labelWindow.vectrosityLineMask.rectTransform.anchoredPosition = labelWindowRect.anchoredPosition;
         UpdateDragArea(size);
 
         foreach (LabelItem item in labelWindow.labels)
             item.labelWindowContent.WindowSizeChanged();
+        labelWindow.WindowSizeChanged();
     }
 
     private void UpdateDragArea(Vector2 size)
