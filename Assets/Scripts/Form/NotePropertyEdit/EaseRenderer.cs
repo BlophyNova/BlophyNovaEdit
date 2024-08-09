@@ -31,7 +31,8 @@ public class EaseRenderer : MonoBehaviour
     }
     void UpdateEaseLineArea()
     {
-        maskObject.rectTransform.sizeDelta = new(ThisEventEdit.VerticalLineYDelta, eventEditItem.labelWindow.labelWindowRect.sizeDelta.y - 80);
+        maskObject.rectTransform.sizeDelta = new(ThisEventEdit.VerticalLineDistance*(main.pixelWidth/1920f),ThisEventEdit.basicLine.AriseLineAndBasicLinePositionYDelta*(main.pixelHeight/1080f));
+        Debug.Log($"ThisEventEdit.basicLine.AriseLineAndBasicLinePositionYDelta:{ThisEventEdit.basicLine.AriseLineAndBasicLinePositionYDelta}");
     }
     void updateEaseLinePosition()
     {

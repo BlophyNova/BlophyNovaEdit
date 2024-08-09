@@ -27,7 +27,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     public List<EventEditItem> eventEditItems = new();
     public bool isFirstTime = false;
     public bool waitForPressureAgain = false;
-    public float VerticalLineYDelta=> Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition);
+    public float VerticalLineDistance=> Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition);
     private void Start()
     {
         RefreshNotes(currentBoxID);
