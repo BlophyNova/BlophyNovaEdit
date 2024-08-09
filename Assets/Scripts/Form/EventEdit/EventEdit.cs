@@ -78,7 +78,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         if (!isFirstTime)
         {
             isFirstTime = true;
-            BeatLine nearBeatLine=new();
+            BeatLine nearBeatLine=null;
             float nearBeatLineDis= float.MaxValue;
             //第一次
             foreach (BeatLine item in basicLine.beatLines)
@@ -91,7 +91,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                     nearBeatLine = item;
                 }
             }
-            EventVerticalLine nearEventVerticalLine = new();
+            EventVerticalLine nearEventVerticalLine =null;
             float nearEventVerticalLineDis = float.MaxValue;
             foreach (EventVerticalLine item in eventVerticalLines)
             {
@@ -103,6 +103,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                 }
             }
             EventEditItem newEventEditItem =Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
+            eventEditItems.Add(newEventEditItem); WindowSizeChanged();
             newEventEditItem.labelWindow = labelWindow;
             newEventEditItem.transform.localPosition = new Vector2(nearEventVerticalLine.transform.localPosition.x,nearBeatLine.transform.localPosition.y);
             newEventEditItem.@event.startBeats = new(nearBeatLine.thisBPM);
@@ -143,12 +144,14 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         if (eventEditItem.@event.endBeats.ThisStartBPM - eventEditItem.@event.startBeats.ThisStartBPM <= .0001f)
         {
             Debug.LogError("哒咩哒咩，长度为0的Hold！");
+            eventEditItems.Remove(eventEditItem);
+            Destroy(eventEditItem.easeRenderer.line.rectTransform.gameObject);
             Destroy(eventEditItem.gameObject);
         }
         else
         {
             eventEditItem.Init();
-            eventEditItems.Add(eventEditItem);
+            eventEditItem.easeRenderer.RefreshUI();
             //添加事件到对应的地方
             List<Data.ChartEdit.Event> events = eventEditItem.eventType switch
             {
@@ -270,6 +273,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                     newEventEditItem.@event = @event;
                     newEventEditItem.eventType = eventType;
                     newEventEditItem.Init();
+                    newEventEditItem.easeRenderer.RefreshUI();
                     eventEditItems.Add(newEventEditItem);
                 }
             }

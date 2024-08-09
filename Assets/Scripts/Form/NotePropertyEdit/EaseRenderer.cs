@@ -61,21 +61,12 @@ public class EaseRenderer : MonoBehaviour,IRefreshUI
     }
     void UpdateCurveLine()
     {
-        //line.points2.Clear();
-        Vector2 a1 = main.WorldToScreenPoint(transform.TransformPoint(Viewport2LocalPosition(Vector2.zero)));
-        Vector2 a2 = main.WorldToScreenPoint(transform.TransformPoint(Viewport2LocalPosition(Vector2.one)));
-        //a1 = main.WorldToScreenPoint(new(a1.x, a1.y));
-        //a2 = main.WorldToScreenPoint(new(a2.x, a2.y));
-        //a1=UIVectrosity.Instance.transform.InverseTransformPoint(a1);
-        //a1= eventEditItem.labelWindow.vectrosityLineMask.transform.InverseTransformPoint(a1);
-        //a2 = UIVectrosity.Instance.transform.InverseTransformPoint(a2);
-        //a2 = eventEditItem.labelWindow.vectrosityLineMask.transform.InverseTransformPoint(a2);
-        //for (int i = 0; i < line.points2.Count; i++)
-        //{
-        //    line.points2[i] = a1;
-        //}
-        line.points2[0] = a1;
-        line.points2[1] = a2;
+        List<Vector2> screenSpacePoints = new();
+        for (int i = 0; i < points.Count; i++)
+        {
+            screenSpacePoints.Add(main.WorldToScreenPoint(transform.TransformPoint(Viewport2LocalPosition(points[i]))));
+        }
+        line.points2 = screenSpacePoints;
         //line.points2 = points;
         line.Draw();
         //Debug.Log($"鼠标位置:{Input.mousePosition},a1:{a1},a2:{a2}");
@@ -86,7 +77,7 @@ public class EaseRenderer : MonoBehaviour,IRefreshUI
         if(line.rectTransform!=null) Destroy(line.rectTransform.gameObject);
         if(maskObject!=null) Destroy(maskObject.gameObject);
         if (line != null) line=null;
-        line = new("Line",points, 2);
+        line = new("Line",points, 2,LineType.Continuous,Joins.Fill);
         line.SetCanvas(UIVectrosity.Instance.gameObject);
         //line.SetMask(eventEditItem.labelWindow.vectrosityLineMask.mask);
         line.color = new(92, 206, 250, 1);
