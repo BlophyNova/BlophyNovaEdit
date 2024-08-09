@@ -37,7 +37,7 @@ namespace Controller
                     lineRendererPoints[3].y = 1;
                     lineRendererPoints[4].y = 0;
                     break;
-                case < is16To9:
+                case <= is16To9:
                     lineRendererPoints[0].x = 0;
                     lineRendererPoints[1].x = 0;
                     lineRendererPoints[2].x = 1;
@@ -48,10 +48,6 @@ namespace Controller
                     lineRendererPoints[2].y = 1;
                     lineRendererPoints[3].y = 0;
                     lineRendererPoints[4].y = 0;
-                    break;
-                default:
-                    Destroy(lineRenderer);
-                    Destroy(this);
                     break;
             }
             for (int i = 0; i < lineRenderer.positionCount; i++)

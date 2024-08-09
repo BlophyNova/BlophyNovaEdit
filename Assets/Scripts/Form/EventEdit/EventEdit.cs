@@ -147,6 +147,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         }
         else
         {
+            eventEditItem.Init();
             eventEditItems.Add(eventEditItem);
             //添加事件到对应的地方
             List<Data.ChartEdit.Event> events = eventEditItem.eventType switch
@@ -268,6 +269,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                     newEventEditItem.rectTransform.sizeDelta = new(newEventEditItem.rectTransform.sizeDelta.x, endBeatspositionY - positionY);
                     newEventEditItem.@event = @event;
                     newEventEditItem.eventType = eventType;
+                    newEventEditItem.Init();
                     eventEditItems.Add(newEventEditItem);
                 }
             }

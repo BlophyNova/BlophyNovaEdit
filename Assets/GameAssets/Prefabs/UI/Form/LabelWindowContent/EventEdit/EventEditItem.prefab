@@ -145,7 +145,9 @@ MonoBehaviour:
     m_trigger: 0
     m_physicsMaterial: {fileID: 0}
     m_alignOddWidthToPixels: 0
-  lineRenderer: {fileID: 2096927686929900519}
+  points:
+  - {x: 0, y: 0}
+  - {x: 1, y: 1}
   maskObject: {fileID: 0}
 --- !u!223 &5783720380990876144
 Canvas:

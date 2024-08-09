@@ -1,4 +1,5 @@
 using Controller;
+using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ public class RefreshUI : PublicButton
         thisButton.onClick.AddListener(() => 
         { 
             CameraController.Instance.CameraAreaUpdate();
+            GlobalData.Refresh<IRefreshUI>((interfaceMethod)=>interfaceMethod.RefreshUI());
         });
     }
 }
