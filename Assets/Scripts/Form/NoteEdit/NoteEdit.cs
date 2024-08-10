@@ -85,10 +85,25 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             "AddFlick" => () => AddNewFlick(),
             "AddPoint" => () => AddNewPoint(),
             "AddFullFlick" => () => AddNewFullFlick(),
+            "Delete"=> () => DeleteNote(),
             _ => () => Alert.EnableAlert($"欸···？怎么回事，怎么会找不到你想添加的是哪个音符呢···")
         };
         action();
     }
+
+    private void DeleteNote()
+    {
+        if (labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
+        {
+            NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelWindow;
+            List<Data.ChartEdit.Note> notes = GlobalData.Instance.chartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes;
+            //events.Remove(notePropertyEdit.@event.@event);
+            notes.Remove(notePropertyEdit.note.thisNoteData);
+            notePropertyEdit.RefreshNotes();
+            GlobalData.Refresh<IRefresh>((interfaceMethod)=>interfaceMethod.Refresh());
+        }
+    }
+
     public void AddNewTap()
     {
         AddNewNote(NoteType.Tap, NoteEffect.CommonEffect | NoteEffect.Ripple, currentBoxID,currentLineID);

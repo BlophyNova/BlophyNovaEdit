@@ -32,15 +32,15 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     {
         RefreshNotes(currentBoxID);
         UpdateVerticalLineCount();
-        UpdateNoteLocalPosition();
+        UpdateNoteLocalPositionAndSize();
     }
     public override void WindowSizeChanged()
     {
         base.WindowSizeChanged();
         UpdateVerticalLineCount(); 
-        UpdateNoteLocalPosition();
+        UpdateNoteLocalPositionAndSize();
     }
-    public void UpdateNoteLocalPosition()
+    public void UpdateNoteLocalPositionAndSize()
     {
         for (int i = 0; i < eventEditItems.Count; i++)
         {
@@ -74,24 +74,62 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     }
     public override void Canceled(InputAction.CallbackContext callbackContext)
     {
+
+        Action action = callbackContext.action.name switch
+        {
+            "AddEvent" => () => AddEvent(),
+            "Delete"=> () => DeleteEvent(),
+            _ => () => Alert.EnableAlert($"欸···？怎么回事，怎么会找不到你想添加的是哪个音符呢···")
+        };
+        action();
+    }
+
+    private void DeleteEvent()
+    {
+        if (labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
+        {
+            NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelWindow;
+            List<Data.ChartEdit.Event> events = notePropertyEdit.@event.eventType switch
+            {
+                Data.Enumerate.EventType.Speed=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
+                Data.Enumerate.EventType.Rotate=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
+                Data.Enumerate.EventType.Alpha=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
+                Data.Enumerate.EventType.LineAlpha=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
+                Data.Enumerate.EventType.MoveX=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
+                Data.Enumerate.EventType.MoveY=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
+                Data.Enumerate.EventType.ScaleX=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
+                Data.Enumerate.EventType.ScaleY=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
+                Data.Enumerate.EventType.CenterX=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
+                Data.Enumerate.EventType.CenterY=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
+                _=>throw new Exception("耳朵耷拉下来，呜呜呜，没找到事件类型")
+            };
+            events.Remove(notePropertyEdit.@event.@event);
+
+            notePropertyEdit.RefreshEvents();
+        }
+        
+    }
+
+    private void AddEvent()
+    {
         Debug.Log($"{MousePositionInThisRectTransform}");
         if (!isFirstTime)
         {
             isFirstTime = true;
-            BeatLine nearBeatLine=null;
-            float nearBeatLineDis= float.MaxValue;
+            BeatLine nearBeatLine = null;
+            float nearBeatLineDis = float.MaxValue;
             //第一次
             foreach (BeatLine item in basicLine.beatLines)
             {
                 Debug.Log($@"{eventEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)eventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
-                float dis= Vector2.Distance(MousePositionInThisRectTransform, (Vector2)eventEditRect.InverseTransformPoint(item.transform.position)+ labelWindow.labelWindowRect.sizeDelta /2);
+                float dis = Vector2.Distance(MousePositionInThisRectTransform, (Vector2)eventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2);
                 if (dis < nearBeatLineDis)
                 {
                     nearBeatLineDis = dis;
                     nearBeatLine = item;
                 }
             }
-            EventVerticalLine nearEventVerticalLine =null;
+            EventVerticalLine nearEventVerticalLine = null;
             float nearEventVerticalLineDis = float.MaxValue;
             foreach (EventVerticalLine item in eventVerticalLines)
             {
@@ -102,10 +140,10 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                     nearEventVerticalLine = item;
                 }
             }
-            EventEditItem newEventEditItem =Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
+            EventEditItem newEventEditItem = Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
             eventEditItems.Add(newEventEditItem); WindowSizeChanged();
             newEventEditItem.labelWindow = labelWindow;
-            newEventEditItem.transform.localPosition = new Vector2(nearEventVerticalLine.transform.localPosition.x,nearBeatLine.transform.localPosition.y);
+            newEventEditItem.transform.localPosition = new Vector2(nearEventVerticalLine.transform.localPosition.x, nearBeatLine.transform.localPosition.y);
             newEventEditItem.@event.startBeats = new(nearBeatLine.thisBPM);
             newEventEditItem.eventType = nearEventVerticalLine.eventType;
             StartCoroutine(WaitForPressureAgain(newEventEditItem));
@@ -118,6 +156,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         }
         else {/*报错*/}
     }
+
     public IEnumerator WaitForPressureAgain(EventEditItem eventEditItem)
     {
         while (true)
@@ -150,8 +189,6 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         }
         else
         {
-            eventEditItem.Init();
-            eventEditItem.easeRenderer.RefreshUI();
             //添加事件到对应的地方
             List<Data.ChartEdit.Event> events = eventEditItem.eventType switch
             {
@@ -219,6 +256,8 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                 GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].far = new() { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
                 GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].far.keys = GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray();
             }
+            eventEditItem.Init();
+            eventEditItem.easeRenderer.RefreshUI();
             //chartDataBox.lines[i].speed = new();
 
             //Debug.LogError("错误记忆");
@@ -228,26 +267,36 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     {
         UpdateVerticalLineCount();
     }
+    [SerializeField] bool isRef = true;
     public void RefreshNotes(int boxID)
     {
         currentBoxID = boxID < 0 ? currentBoxID : boxID;
-        foreach (var item in eventEditItems)
+        StartCoroutine(RefreshNotes());
+    }
+    public IEnumerator RefreshNotes()
+    {
+        yield return new WaitForEndOfFrame();
+        foreach (EventEditItem item in eventEditItems)
         {
+            Destroy(item.easeRenderer.line.rectTransform.gameObject);
             Destroy(item.gameObject);
         }
         eventEditItems.Clear();
-        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,Data.Enumerate.EventType.Speed);
-        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,Data.Enumerate.EventType.CenterX);
-        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,Data.Enumerate.EventType.CenterY);
-        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,Data.Enumerate.EventType.MoveX);
-        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,Data.Enumerate.EventType.MoveY);
-        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,Data.Enumerate.EventType.ScaleX);
-        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,Data.Enumerate.EventType.ScaleY);
-        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,Data.Enumerate.EventType.Rotate);
-        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,Data.Enumerate.EventType.Alpha);
-        RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,Data.Enumerate.EventType.LineAlpha);
+        if (isRef)
+        {
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed, Data.Enumerate.EventType.Speed);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX, Data.Enumerate.EventType.CenterX);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY, Data.Enumerate.EventType.CenterY);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX, Data.Enumerate.EventType.MoveX);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY, Data.Enumerate.EventType.MoveY);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX, Data.Enumerate.EventType.ScaleX);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY, Data.Enumerate.EventType.ScaleY);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate, Data.Enumerate.EventType.Rotate);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha, Data.Enumerate.EventType.Alpha);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha, Data.Enumerate.EventType.LineAlpha);
+        }
+        UpdateNoteLocalPositionAndSize();
 
-        UpdateNoteLocalPosition();
     }
     void RefreshEvent(List<Data.ChartEdit.Event> events, Data.Enumerate.EventType eventType)
     {
@@ -272,9 +321,10 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                     newEventEditItem.rectTransform.sizeDelta = new(newEventEditItem.rectTransform.sizeDelta.x, endBeatspositionY - positionY);
                     newEventEditItem.@event = @event;
                     newEventEditItem.eventType = eventType;
+                    Debug.Log($"{currentBoxID}号方框的{eventVerticalLine.eventType}生成了一个新的eei");
+                    eventEditItems.Add(newEventEditItem);
                     newEventEditItem.Init();
                     newEventEditItem.easeRenderer.RefreshUI();
-                    eventEditItems.Add(newEventEditItem);
                 }
             }
         }

@@ -20,11 +20,13 @@ public class EaseRenderer : MonoBehaviour,IRefreshUI
     {
         eventEditItem.labelWindow.onWindowSizeChanged += () =>
         {
+            if (eventEditItem.labelWindow.currentLabelWindow.labelWindowContentType != LabelWindowContentType.EventEdit) return;
             UpdateEaseLineArea();
             UpdateEaseLinePosition();
         };
         eventEditItem.labelWindow.onWindowMoved += () =>
         {
+            if (eventEditItem.labelWindow.currentLabelWindow.labelWindowContentType != LabelWindowContentType.EventEdit) return;
             UpdateEaseLinePosition();
         };
         DrawCurveLine();
@@ -71,7 +73,14 @@ public class EaseRenderer : MonoBehaviour,IRefreshUI
         line.Draw();
         //Debug.Log($"鼠标位置:{Input.mousePosition},a1:{a1},a2:{a2}");
     }
-
+    private void OnEnable()
+    {
+        line.color = new(line.color.r, line.color.g, line.color.b, 1);
+    }
+    private void OnDisable()
+    {
+        line.color = new(line.color.r, line.color.g, line.color.b, 0);
+    }
     public void RefreshUI()
     {
         if(line.rectTransform!=null) Destroy(line.rectTransform.gameObject);
@@ -87,6 +96,7 @@ public class EaseRenderer : MonoBehaviour,IRefreshUI
         //updateEaseLinePosition();
         StartCoroutine(UpdateAreaAndPosition());
     }
+    
     IEnumerator UpdateAreaAndPosition()
     {
         yield return new WaitForEndOfFrame();
