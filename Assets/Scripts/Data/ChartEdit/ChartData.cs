@@ -18,6 +18,7 @@ namespace Data.ChartEdit
         public int eventVerticalSubdivision;
         public float playSpeed;
         public float offset;
+        public float musicLength;
         public bool loopPlayBack;
         public List<BPM> bpmList;
         public List<Box> boxes;

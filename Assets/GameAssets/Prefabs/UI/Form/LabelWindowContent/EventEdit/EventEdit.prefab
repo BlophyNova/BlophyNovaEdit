@@ -185,6 +185,7 @@ MonoBehaviour:
   eventEditItems: []
   isFirstTime: 0
   waitForPressureAgain: 0
+  isRef: 1
 --- !u!114 &7506219346781707699
 MonoBehaviour:
   m_ObjectHideFlags: 0

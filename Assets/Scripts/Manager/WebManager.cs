@@ -13,7 +13,7 @@ namespace Manager
     {
         public static ChartData ChartData
         {
-            //get => AssetManager.Instance.chartData;
+            get => AssetManager.Instance.chartData;
             set
             {
                 AssetManager.Instance.chartData = value;
@@ -40,6 +40,7 @@ namespace Manager
             yield return GlobalData.Instance.ReadResource();
             MusicClip = GlobalData.Instance.clip;
             Background.sprite = GlobalData.Instance.currentCp;
+            ChartData.globalData.musicLength = GlobalData.Instance.chartEditData.musicLength <= 1 ? MusicClip.length : GlobalData.Instance.chartEditData.musicLength;
         }
     }
 }

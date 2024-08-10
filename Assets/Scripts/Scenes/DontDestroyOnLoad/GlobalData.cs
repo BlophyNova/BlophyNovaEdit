@@ -30,6 +30,7 @@ namespace Scenes.DontDestroyOnLoad
         public bool isAutoplay = true;
         public float offset;
         public float playSpeed=1;
+        public int currentChartIndex = -1;
         public int ScreenWidth => Camera.main.pixelWidth;
         public int ScreenHeight => Camera.main.pixelHeight;
 
@@ -63,26 +64,30 @@ namespace Scenes.DontDestroyOnLoad
         }
         public IEnumerator ReadResource()
         {
-            UnityWebRequest unityWebRequest = UnityWebRequestMultimedia.GetAudioClip($"file://{Application.streamingAssetsPath}/-1/Music/Music.mp3", AudioType.MPEG);
+            yield return new WaitForEndOfFrame();
+            UnityWebRequest unityWebRequest = UnityWebRequestMultimedia.GetAudioClip($"file://{Application.streamingAssetsPath}/{currentChartIndex}/Music/Music.mp3", AudioType.MPEG);
             yield return unityWebRequest.SendWebRequest();
             clip = DownloadHandlerAudioClip.GetContent(unityWebRequest);
-            unityWebRequest = UnityWebRequestTexture.GetTexture($"file://{Application.streamingAssetsPath}/-1/Illustration/CPH.png");
+            unityWebRequest = UnityWebRequestTexture.GetTexture($"file://{Application.streamingAssetsPath}/{currentChartIndex}/Illustration/Background.png");
             yield return unityWebRequest.SendWebRequest();
             Texture2D cph = DownloadHandlerTexture.GetContent(unityWebRequest);
             currentCph = Sprite.Create(cph, new Rect(0, 0, cph.width, cph.height), new Vector2(0.5f, 0.5f));
-            unityWebRequest = UnityWebRequestTexture.GetTexture($"file://{Application.streamingAssetsPath}/-1/Illustration/CP.png");
-            yield return unityWebRequest.SendWebRequest();
-            Texture2D cp = DownloadHandlerTexture.GetContent(unityWebRequest);
-            currentCp = Sprite.Create(cp, new Rect(0, 0, cp.width, cp.height), new Vector2(0.5f, 0.5f));
+            //unityWebRequest = UnityWebRequestTexture.GetTexture($"file://{Application.streamingAssetsPath}/{currentChartIndex}/Illustration/CP.png");
+            //yield return unityWebRequest.SendWebRequest();
+            //Texture2D cp = DownloadHandlerTexture.GetContent(unityWebRequest);
+            //currentCp = Sprite.Create(cp, new Rect(0, 0, cp.width, cp.height), new Vector2(0.5f, 0.5f));
         }
+        public bool isNewEditData;
         private void Start()
         {
             Application.targetFrameRate = 9999;
-            easeData = JsonConvert.DeserializeObject<List<EaseData>>(File.ReadAllText($"{Application.streamingAssetsPath}/Config/EaseData.json")); 
-            ChartTool.CreateNewChart(chartEditData,easeData);
-            chartData.boxes= ChartTool.ConvertChartEdit2ChartData(chartEditData.boxes);
+            easeData = JsonConvert.DeserializeObject<List<EaseData>>(File.ReadAllText($"{Application.streamingAssetsPath}/Config/EaseData.json"));
+            if (isNewEditData)
+            {
+                ChartTool.CreateNewChart(chartEditData, easeData);
+                chartData.boxes = ChartTool.ConvertChartEdit2ChartData(chartEditData.boxes);
+            }
+
         }
-        
-        
     }
 }

@@ -75,8 +75,7 @@ public class ChartTool
         };
         chartEditBox.boxEvents.scaleX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 2.7f, endValue = 2.7f, curve = easeData[0] });
         chartEditBox.boxEvents.scaleY.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 2.7f, endValue = 2.7f, curve = easeData[0] });
-        chartEditBox.boxEvents.moveX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One*3, startValue = 4.5f, endValue = 0, curve = easeData[22] });
-        chartEditBox.boxEvents.moveX.Add(new() { startBeats = BPM.One*3, endBeats = BPM.One*6, startValue = 3.5f, endValue = 1, curve = easeData[22] });
+        chartEditBox.boxEvents.moveX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 2.7f, endValue = 2.7f, curve = easeData[0] });
         chartEditBox.boxEvents.moveY.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = 0, endValue = 0, curve = easeData[0] });
         chartEditBox.boxEvents.centerX.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = .5f, endValue = .5f, curve = easeData[0] });
         chartEditBox.boxEvents.centerY.Add(new() { startBeats = BPM.Zero, endBeats = BPM.One, startValue = .5f, endValue = .5f, curve = easeData[0] });
