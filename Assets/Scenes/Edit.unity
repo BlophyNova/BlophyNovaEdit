@@ -3158,6 +3158,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 156ea90e0a8ec6b44a74a1edbabe8f23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dspStartPlayMusic: 0
+  dspLastPlayMusic: 0
+  offset: 0
+  skipTime: 0
   playSpeed: 1
 --- !u!1001 &861213167
 PrefabInstance:
@@ -6803,7 +6807,7 @@ MonoBehaviour:
     verticalSubdivision: 10
     eventVerticalSubdivision: 10
     playSpeed: 0
-    offset: 0
+    offset: 10
     musicLength: 0
     loopPlayBack: 0
     bpmList:
@@ -6832,8 +6836,6 @@ MonoBehaviour:
   currentCp: {fileID: 0}
   currentCph: {fileID: 0}
   isAutoplay: 1
-  offset: 0
-  playSpeed: 1
   currentChartIndex: 0
   alert: {fileID: 2499663701850979086, guid: 9093c4fef1f2e6f44acb97b1f220d24c, type: 3}
   labelWindowContents:

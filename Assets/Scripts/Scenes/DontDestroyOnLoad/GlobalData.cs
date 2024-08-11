@@ -27,8 +27,6 @@ namespace Scenes.DontDestroyOnLoad
         [FormerlySerializedAs("currentCPH")]
         public Sprite currentCph;
         public bool isAutoplay = true;
-        public float offset;
-        public float playSpeed=1;
         public int currentChartIndex = -1;
         public int ScreenWidth => Camera.main.pixelWidth;
         public int ScreenHeight => Camera.main.pixelHeight;

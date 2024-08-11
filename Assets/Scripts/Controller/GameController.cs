@@ -14,8 +14,9 @@ namespace Controller
         {
             isLoading = false;
             InstNewBox();
-            yield return new WaitForSeconds(3);//等8秒
+            yield return new WaitForSeconds(1);//等1秒
             StateManager.Instance.IsStart = true;//设置状态IsStart为True
+            StateManager.Instance.IsPause = true;
 
         }
 

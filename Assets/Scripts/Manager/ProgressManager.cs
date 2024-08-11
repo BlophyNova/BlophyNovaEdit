@@ -9,12 +9,12 @@ namespace Manager
 {
     internal class ProgressManager : MonoBehaviourSingleton<ProgressManager>
     {
-        private readonly Stopwatch musicPlayerTime = new Stopwatch();//计时器，谱面时间和音乐时间的
-        private double dspStartPlayMusic;//开始时间
-        private double dspLastPlayMusic;//上一次暂停后的时间
-        private double offset;//偏移
+        [SerializeField]private readonly Stopwatch musicPlayerTime = new Stopwatch();//计时器，谱面时间和音乐时间的
+        [SerializeField]private double dspStartPlayMusic;//开始时间
+        [SerializeField]private double dspLastPlayMusic;//上一次暂停后的时间
+        [SerializeField] private double offset;//偏移
         //public double Offset => GlobalData.Instance.chartData.globalData.offset;//偏移
-        private double skipTime;//时间跳转
+        [SerializeField] private double skipTime;//时间跳转
         public float playSpeed = 1;
         public double CurrentTime => musicPlayerTime.ElapsedMilliseconds * playSpeed / 1000d + skipTime;//当前时间
 
@@ -68,9 +68,22 @@ namespace Manager
         /// <param name="time">跳转到哪里</param>
         public void SetTime(double time)
         {
-            double timeDelta = time - CurrentTime;
-            AssetManager.Instance.musicPlayer.time = (float)time;
-            skipTime += timeDelta;
+            UnityEngine.Debug.LogError($"这里不对，时间不对");
+            if (offset > 0)
+            {
+                if (time < offset)
+                {
+                    AssetManager.Instance.musicPlayer.Pause();
+                    AssetManager.Instance.musicPlayer.time = 0;
+                }
+                else if (time > offset)
+                {
+
+                    double timeDelta = time - CurrentTime;
+                    AssetManager.Instance.musicPlayer.time = (float)(time - offset);
+                    skipTime += timeDelta;
+                }
+            }
         }
         /// <summary>
         /// 在当前时间的基础上加或者减时间
@@ -90,15 +103,17 @@ namespace Manager
         {
             skipTime = 0;
             musicPlayerTime.Reset();
+            AssetManager.Instance.musicPlayer.Stop();
+            AssetManager.Instance.musicPlayer.time = 0;
         }
-        /// <summary>
-        /// 让时间重新开始计算
-        /// </summary>
-        public void RestartTime()
-        {
-            skipTime = 0;
-            musicPlayerTime.Restart();
-        }
+        ///// <summary>
+        ///// 让时间重新开始计算
+        ///// </summary>
+        //public void RestartTime()
+        //{
+        //    skipTime = 0;
+        //    musicPlayerTime.Restart();
+        //}
         void ResetAllLineNoteState()
         {
             for (int i = 0; i < SpeckleManager.Instance.allLineNoteControllers.Count; i++)
