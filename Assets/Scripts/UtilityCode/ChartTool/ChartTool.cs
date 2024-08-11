@@ -171,7 +171,7 @@ public class ChartTool
         chartDataBoxEvent.Clear();
         foreach (Data.ChartEdit.Event item in editBoxEvent)
         {
-            chartDataBoxEvent.Add(new() { startTime =BPMManager.Instance.GetSecondsTimeWithBeats( item.startBeats.ThisStartBPM), endTime = BPMManager.Instance.GetSecondsTimeWithBeats(item.endBeats.ThisStartBPM), startValue = item.startValue, endValue = item.endValue, curve = item.curve.thisCurve });
+            chartDataBoxEvent.Add(new(item));
         }
     }
 }
