@@ -69,7 +69,7 @@ namespace Manager
         public void SetTime(double time)
         {
             double timeDelta = time - CurrentTime;
-            AssetManager.Instance.musicPlayer.time += (float)timeDelta;
+            AssetManager.Instance.musicPlayer.time = (float)time;
             skipTime += timeDelta;
         }
         /// <summary>

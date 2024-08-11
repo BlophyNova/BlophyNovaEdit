@@ -15,8 +15,9 @@ public class PlaySpeed : MonoBehaviour
         ok.onClick.AddListener(() =>
         {
             if (!float.TryParse(inputField.text, out float playSpeed)) return;
+            GlobalData.Instance.chartEditData.playSpeed = playSpeed;
             double currentTime = ProgressManager.Instance.CurrentTime;
-            ProgressManager.Instance.SetPlaySpeed(playSpeed);
+            ProgressManager.Instance.SetPlaySpeed(GlobalData.Instance.chartEditData.playSpeed);
             ProgressManager.Instance.SetTime(currentTime);
 
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
