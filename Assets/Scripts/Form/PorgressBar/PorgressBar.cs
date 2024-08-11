@@ -39,13 +39,13 @@ public class PorgressBar : LabelWindowContent
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
         }
 
-        progressInfomation.text = $"{(int)(ProgressManager.Instance.CurrentTime / 60):D2}:" +
+        progressInfomation.text = $"\t{(int)(ProgressManager.Instance.CurrentTime / 60):D2}:" +
             $"{(int)(ProgressManager.Instance.CurrentTime - (int)(ProgressManager.Instance.CurrentTime / 60) * 60):D2}:" +
-            $"{(int)((ProgressManager.Instance.CurrentTime - (int)ProgressManager.Instance.CurrentTime) * 1000):D3} / " +
+            $"{(int)((ProgressManager.Instance.CurrentTime - (int)ProgressManager.Instance.CurrentTime) * 1000):D3} \t/\t " +
             $"{(int)(GlobalData.Instance.chartData.globalData.musicLength / 60):D2}:" +
             $"{(int)(GlobalData.Instance.chartData.globalData.musicLength - (int)(GlobalData.Instance.chartData.globalData.musicLength / 60) * 60):D2}:" +
             $"{(int)((GlobalData.Instance.chartData.globalData.musicLength - (int)GlobalData.Instance.chartData.globalData.musicLength) * 1000):D3}\t当前BPM：" +
             $"{BPMManager.Instance.thisCurrentTotalBPM}\t当前Beats：" +
-            $"{BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime)}";
+            $"{BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime):F3}\t";
     }
 }

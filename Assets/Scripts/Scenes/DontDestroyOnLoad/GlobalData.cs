@@ -8,7 +8,6 @@ using Data.ChartEdit;
 using Data.Enumerate;
 using Manager;
 using Newtonsoft.Json;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;

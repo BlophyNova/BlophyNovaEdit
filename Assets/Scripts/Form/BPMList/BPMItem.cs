@@ -18,7 +18,7 @@ public class BPMItem : MonoBehaviour
     {
         bpmValue.onEndEdit.AddListener((v) => 
         {
-            myBPM.currentBPM = int.Parse(bpmValue.text);
+            myBPM.currentBPM = float.Parse(bpmValue.text);
 
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
         });

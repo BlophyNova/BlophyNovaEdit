@@ -4,13 +4,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UtilityCode.Algorithm;
 using UtilityCode.GameUtility;
-using static UnityEditor.Progress;
 using static UnityEngine.Camera;
 
 public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh

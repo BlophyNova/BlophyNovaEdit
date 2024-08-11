@@ -41,6 +41,12 @@ namespace Data.ChartEdit
         public float ThisStartBPM => integer + molecule / (float)denominator;
         public float currentBPM;
         public BPM() { }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="integer"></param>
+        /// <param name="molecule">分子</param>
+        /// <param name="denominator">分母</param>
 
         public BPM(int integer,int molecule,int denominator) 
         { 

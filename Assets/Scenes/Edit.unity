@@ -6828,12 +6828,13 @@ MonoBehaviour:
     eventVerticalSubdivision: 10
     playSpeed: 0
     offset: 0
+    musicLength: 0
     loopPlayBack: 0
     bpmList:
     - integer: 0
       molecule: 0
       denominator: 1
-      currentBPM: 60
+      currentBPM: 204
     boxes:
     - boxEvents:
         speed: []
@@ -6857,6 +6858,7 @@ MonoBehaviour:
   isAutoplay: 1
   offset: 0
   playSpeed: 1
+  currentChartIndex: -1
   alert: {fileID: 2499663701850979086, guid: 9093c4fef1f2e6f44acb97b1f220d24c, type: 3}
   labelWindowContents:
   - {fileID: 1081773229714239820, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}

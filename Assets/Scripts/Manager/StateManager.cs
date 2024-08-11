@@ -56,22 +56,5 @@ namespace Manager
                 Instance.IsStart = true;
             }
         }
-        /// <summary>
-        /// 当程序获得或者失去焦点时候调用
-        /// </summary>
-        /// <param name="focus"></param>
-        private void OnApplicationFocus(bool focus)
-        {
-            if (Application.platform == RuntimePlatform.WindowsEditor) return;
-            switch (focus)
-            {
-                case true:
-                    if (IsStart && !IsPlaying) IsPause = false;
-                    break;
-                case false:
-                    if (IsStart && IsPlaying) IsPause = true;
-                    break;
-            }
-        }
     }
 }
