@@ -12,6 +12,7 @@ namespace Manager
 
         [Header("音乐播放")]
         public AudioSource musicPlayer;
+        //public Koreography MusicPlayer=>musicPlayer.GetKoreographyAtIndex(0);
 
         [Header("方框以及他们的爹爹~")]
         public Transform box;
