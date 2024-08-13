@@ -2652,7 +2652,7 @@ MonoBehaviour:
           m_RotationOrder: 0
     globalData:
       offset: 0
-      musicLength: 138
+      musicLength: 0
       tapCount: 0
       holdCount: 0
       dragCount: 0
@@ -2667,6 +2667,7 @@ MonoBehaviour:
     eventVerticalSubdivision: 10
     playSpeed: 0
     offset: 0
+    musicLength: 0
     loopPlayBack: 0
     bpmList:
     - integer: 0
@@ -2694,8 +2695,7 @@ MonoBehaviour:
   currentCp: {fileID: 0}
   currentCph: {fileID: 0}
   isAutoplay: 1
-  offset: 0
-  playSpeed: 1
+  currentChartIndex: -1
   alert: {fileID: 2499663701850979086, guid: 9093c4fef1f2e6f44acb97b1f220d24c, type: 3}
   labelWindowContents:
   - {fileID: 1081773229714239820, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
@@ -2725,6 +2725,7 @@ MonoBehaviour:
   fullFlickEditPrefab: {fileID: 5270068025075690679, guid: d4f87f4e3216c7d42a7de9f174d32af6, type: 3}
   vectrosityLineMask: {fileID: 2844732879230495711, guid: f31fdcb35cdf2874ea13d2f46bd7c44d, type: 3}
   easeData: []
+  isNewEditData: 0
 --- !u!4 &829883600
 Transform:
   m_ObjectHideFlags: 0

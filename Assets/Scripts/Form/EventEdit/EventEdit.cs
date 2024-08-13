@@ -26,8 +26,11 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     public bool isFirstTime = false;
     public bool waitForPressureAgain = false;
     public float VerticalLineDistance=> Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition);
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return new WaitUntil(() => GlobalData.Instance.chartData.globalData.musicLength > 1);
+        Debug.Log($"GlobalData.Instance.chartData.globalData.musicLength:{GlobalData.Instance.chartData.globalData.musicLength}");
+        GlobalData.Instance.chartData.boxes = ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
         RefreshNotes(currentBoxID);
         UpdateVerticalLineCount();
         UpdateNoteLocalPositionAndSize();

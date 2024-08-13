@@ -152,7 +152,7 @@ namespace UtilityCode.GameUtility
             {
                 Data.ChartEdit.Event speedEvent = new();
                 speedEvent.startBeats = initStartBeats;
-                speedEvent.endBeats = new((int)GlobalData.Instance.chartData.globalData.musicLength,0,1);
+                speedEvent.endBeats = new(BPMManager.Instance.GetBeatsBySeconds(GlobalData.Instance.chartData.globalData.musicLength));
                 speedEvent.startValue = initValue;
                 speedEvent.endValue = initValue;
                 speedEvent.curve = GlobalData.Instance.easeData[0];
