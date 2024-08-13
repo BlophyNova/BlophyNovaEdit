@@ -6873,7 +6873,7 @@ MonoBehaviour:
     eventVerticalSubdivision: 10
     playSpeed: 0
     offset: 10
-    musicLength: 0
+    musicLength: 0.1
     loopPlayBack: 0
     bpmList:
     - integer: 0
@@ -8108,6 +8108,14 @@ PrefabInstance:
       propertyPath: labelWindow
       value: 
       objectReference: {fileID: 1682545557}
+    - target: {fileID: 3642268182100716229, guid: ae4c111319d6a7b40946183125a9489d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3642268182100716229, guid: ae4c111319d6a7b40946183125a9489d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae4c111319d6a7b40946183125a9489d, type: 3}
 --- !u!1001 &2048843915214629687

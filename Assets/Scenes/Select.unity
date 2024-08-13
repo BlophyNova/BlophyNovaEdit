@@ -2652,7 +2652,7 @@ MonoBehaviour:
           m_RotationOrder: 0
     globalData:
       offset: 0
-      musicLength: 0
+      musicLength: 0.1
       tapCount: 0
       holdCount: 0
       dragCount: 0
@@ -2667,7 +2667,7 @@ MonoBehaviour:
     eventVerticalSubdivision: 10
     playSpeed: 0
     offset: 0
-    musicLength: 0
+    musicLength: 0.1
     loopPlayBack: 0
     bpmList:
     - integer: 0
