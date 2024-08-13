@@ -30,7 +30,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     {
         yield return new WaitUntil(() => GlobalData.Instance.chartData.globalData.musicLength > 1);
         Debug.Log($"GlobalData.Instance.chartData.globalData.musicLength:{GlobalData.Instance.chartData.globalData.musicLength}");
-        GlobalData.Instance.chartData.boxes = ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
+        //GlobalData.Instance.chartData.boxes = ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
         RefreshNotes(currentBoxID);
         UpdateVerticalLineCount();
         UpdateNoteLocalPositionAndSize();

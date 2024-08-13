@@ -12,6 +12,7 @@ namespace Controller
         public List<BoxController> boxes;
         private IEnumerator Start()
         {
+            yield return new WaitUntil(() => GlobalData.Instance.chartData.globalData.musicLength > 1);
             isLoading = false;
             InstNewBox();
             yield return new WaitForSeconds(1);//等1秒
