@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class PropertyEdit : LabelWindowContent
     public BoxID boxID;
     public LineID lineID;
     public VerticalLineCount verticalLineCount;
+    public BeatLineCount beatLineCount;
     public PlaySpeed playSpeed;
     public Offset offset;
     public YScale yScale;
