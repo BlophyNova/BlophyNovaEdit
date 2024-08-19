@@ -298,8 +298,10 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             if (item.noteType == NoteType.Hold)
             {
                 //float endBeatsSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(item.EndBeats.ThisStartBPM);
-                float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(item.HoldBeats.ThisStartBPM);
-                newNoteEdit.thisNoteRect.sizeDelta = new(newNoteEdit.thisNoteRect.sizeDelta.x, endBeatsPositionY);
+                //float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(item.EndBeats.ThisStartBPM);
+                //float hitBeatsPositionY= YScale.Instance.GetPositionYWithSecondsTime(item.HitBeats.ThisStartBPM);
+                float holdBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(BPMManager.Instance.GetSecondsTimeWithBeats( item.HoldBeats.ThisStartBPM));
+                newNoteEdit.thisNoteRect.sizeDelta = new(newNoteEdit.thisNoteRect.sizeDelta.x, holdBeatsPositionY);
             }
             //Debug.LogError("写到这里了，下次继续写");
             notes.Add(newNoteEdit);
