@@ -10,6 +10,7 @@ namespace Scenes.Edit
         public LabelWindow labelWindow;
         public RectTransform thisNoteRect;
         public Note thisNoteData;
+        public RectTransform isSelectedRect;
         public virtual NoteEdit Init(Note note)
         {
             thisNoteData = note;

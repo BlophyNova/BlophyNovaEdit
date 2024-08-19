@@ -14,7 +14,7 @@ public class Play : PublicButton
         {
             SceneManager.LoadSceneAsync(1, LoadSceneMode.Single).completed += (asyncOperation) =>
             {
-                GlobalData.Instance.chartData.boxes = ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
+                //GlobalData.Instance.chartData.boxes = ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
             };
         });
         //chartData.boxes= ChartTool.ConvertChartEdit2ChartData(chartEditData.boxes);

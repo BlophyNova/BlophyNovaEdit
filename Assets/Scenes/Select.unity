@@ -2674,23 +2674,7 @@ MonoBehaviour:
       molecule: 0
       denominator: 1
       currentBPM: 60
-    boxes:
-    - boxEvents:
-        speed: []
-        moveX: []
-        moveY: []
-        rotate: []
-        alpha: []
-        scaleX: []
-        scaleY: []
-        centerX: []
-        centerY: []
-        lineAlpha: []
-      lines:
-      - onlineNotes: []
-        onlineNotesLength: 0
-        offlineNotes: []
-        offlineNotesLength: 0
+    boxes: []
   clip: {fileID: 0}
   currentCp: {fileID: 0}
   currentCph: {fileID: 0}
