@@ -103,8 +103,8 @@ namespace Data.ChartData
         public Note(ChartEdit.Note noteEdit)
         {
             noteType = noteEdit.noteType;
-            hitTime =BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.hitBeats.ThisStartBPM);
-            holdTime= BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.holdBeats.ThisStartBPM+ noteEdit.hitBeats.ThisStartBPM)- hitTime;
+            hitTime =BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.HitBeats.ThisStartBPM);
+            holdTime= BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.endBeats.ThisStartBPM)- BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.HitBeats.ThisStartBPM);
             effect = noteEdit.effect;
             positionX = noteEdit.positionX;
             isClockwise = noteEdit.isClockwise;

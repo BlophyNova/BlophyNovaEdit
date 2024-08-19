@@ -148,19 +148,36 @@ namespace Data.ChartEdit
     public class Note
     {
         public NoteType noteType;
-        public BPM hitBeats;//打击时间
-        public BPM holdBeats;
+        BPM hitBeats;//打击时间
+        public BPM HitBeats
+        {
+            get => hitBeats;
+            set 
+            { 
+                hitBeats = value;
+                Debug.Log($@"有人在碰我敏感肌呜呜呜···");
+            }
+        }
+        BPM holdBeats;
         [JsonIgnore]
         public BPM HoldBeats
         {
             get => holdBeats;
-            set => holdBeats = value;
+            set 
+            { 
+                holdBeats = value;
+                BPM cloneHitBeats = new(hitBeats);
+                BPM cloneHoldBeats = new(holdBeats);
+                endBeats = cloneHitBeats + cloneHoldBeats;
+            }
         }
+        public BPM endBeats;
         public NoteEffect effect;
         public float positionX;
         public bool isClockwise;//是逆时针
         public bool hasOther;//还有别的Note和他在统一时间被打击，简称多押标识（（
         [JsonIgnore] public BPM EndBeats => hitBeats + HoldBeats;
+        [JsonIgnore] public float EndBeatsValue => hitBeats.ThisStartBPM + holdBeats.ThisStartBPM;
         [JsonIgnore] public float hitFloorPosition;//打击地板上距离
     }
     [Serializable]

@@ -57,7 +57,9 @@ public class BasicLine : MonoBehaviour,IRefresh
         {
             if (beatLines[i].thisBPM.ThisStartBPM < currentBeats|| beatLines[i].thisBPM.ThisStartBPM > ariseBeats)
             {
+                Debug.Log($@"删除了一个thisBeatLine：{beatLines[i].thisBPM.ThisStartBPM},if表达式结果为：{beatLines[i].thisBPM.ThisStartBPM < currentBeats}||{beatLines[i].thisBPM.ThisStartBPM > ariseBeats}；{beatLines[i].thisBPM.ThisStartBPM}>{ariseBeats}；index：{i}/{beatLines.Count-1}");
                 BeatLine thisBeatLine = beatLines[i--];
+
                 beatLines.Remove(thisBeatLine);
                 Destroy(thisBeatLine.gameObject);
             }

@@ -109,7 +109,7 @@ public class NotePropertyEdit : LabelWindowContent
         if (match.Success)
         {
             BPM hitBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
-            note.thisNoteData.hitBeats = hitBeats;
+            note.thisNoteData.HitBeats = hitBeats;
             RefreshChartPreviewAndChartEditCanvas();
         }
     }
@@ -119,9 +119,9 @@ public class NotePropertyEdit : LabelWindowContent
         if (match.Success)
         {
             BPM endBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
-            BPM hitBeats = new(note.thisNoteData.hitBeats);
+            BPM hitBeats = new(note.thisNoteData.HitBeats);
             BPM holdBeats =endBeats - hitBeats;
-            note.thisNoteData.holdBeats = holdBeats;
+            note.thisNoteData.HoldBeats = holdBeats;
             RefreshChartPreviewAndChartEditCanvas();
         }
     }
@@ -217,7 +217,7 @@ public class NotePropertyEdit : LabelWindowContent
         noteType.SetValueWithoutNotify((int)this.note.thisNoteData.noteType);
         commonEffect.SetIsOnWithoutNotify(this.note.thisNoteData.effect.HasFlag(Data.ChartData.NoteEffect.CommonEffect));
         ripple.SetIsOnWithoutNotify(this.note.thisNoteData.effect.HasFlag(Data.ChartData.NoteEffect.Ripple));
-        startTime.SetTextWithoutNotify($"{this.note.thisNoteData.hitBeats.integer}:{this.note.thisNoteData.hitBeats.molecule}/{this.note.thisNoteData.hitBeats.denominator}");
+        startTime.SetTextWithoutNotify($"{this.note.thisNoteData.HitBeats.integer}:{this.note.thisNoteData.HitBeats.molecule}/{this.note.thisNoteData.HitBeats.denominator}");
         if (this.note.thisNoteData.noteType == Data.ChartData.NoteType.Hold)
         {
             endTime.SetTextWithoutNotify($"{this.note.thisNoteData.EndBeats.integer}:{this.note.thisNoteData.EndBeats.molecule}/{this.note.thisNoteData.EndBeats.denominator}");

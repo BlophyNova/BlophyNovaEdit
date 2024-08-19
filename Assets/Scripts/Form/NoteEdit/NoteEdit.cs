@@ -49,7 +49,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
     {
         for (int i = 0; i < notes.Count; i++)
         {
-            notes[i].transform.localPosition = new(((verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) - (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) * notes[i].thisNoteData.positionX, YScale.Instance.GetPositionYWithBeats(notes[i].thisNoteData.hitBeats.ThisStartBPM));
+            notes[i].transform.localPosition = new(((verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) - (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) * notes[i].thisNoteData.positionX, YScale.Instance.GetPositionYWithBeats(notes[i].thisNoteData.HitBeats.ThisStartBPM));
         }
     }
     public void UpdateVerticalLineCount()
@@ -112,8 +112,8 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
         Data.ChartEdit.Note note = new();
 
         note.noteType = noteType;
-        note.hitBeats = nearBeatLine.thisBPM;
-        note.holdBeats = new();
+        note.HitBeats = nearBeatLine.thisBPM;
+        note.HoldBeats = new();
         note.effect = noteEffect;
         note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
         Scenes.Edit.NoteEdit instNewNoteEditPrefab = note.noteType switch 
@@ -176,7 +176,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
             Data.ChartEdit.Note note = new();
             note.noteType = NoteType.Hold;
-            note.hitBeats = nearBeatLine.thisBPM;
+            note.HitBeats =new(nearBeatLine.thisBPM);
             note.effect = NoteEffect.Ripple | NoteEffect.CommonEffect;
             note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
             Scenes.Edit.NoteEdit newHoldEdit = Instantiate(GlobalData.Instance.holdEditPrefab,basicLine.noteCanvas).Init(note);
@@ -200,12 +200,12 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
 
             newHoldEdit.thisNoteRect.sizeDelta =new(newHoldEdit.thisNoteRect.sizeDelta.x, nearBeatLine.transform.localPosition.y -newHoldEdit.transform.localPosition.y);
-            newHoldEdit.thisNoteData.holdBeats =new(new BPM(nearBeatLine.thisBPM) - new BPM(newHoldEdit.thisNoteData.hitBeats));
+            newHoldEdit.thisNoteData.HoldBeats =new(new BPM(nearBeatLine.thisBPM) - new BPM(newHoldEdit.thisNoteData.HitBeats));
             yield return new WaitForEndOfFrame();
         }
         waitForPressureAgain = false;
 
-        if (newHoldEdit.thisNoteData.holdBeats.ThisStartBPM <= .0001f)
+        if (newHoldEdit.thisNoteData.HoldBeats.ThisStartBPM <= .0001f)
         {
             Debug.LogError("哒咩哒咩，长度为0的Hold！");
             Destroy(newHoldEdit.gameObject);
@@ -229,8 +229,8 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             > 0 =>NoteType.FullFlickBlue,
             _=>throw new Exception("呜呜呜，怎么找不到究竟是粉色的FullFlick还是蓝色的FullFlick呢...")
         };
-        note.hitBeats = nearBeatLine.thisBPM;
-        note.holdBeats = new();
+        note.HitBeats = nearBeatLine.thisBPM;
+        note.HoldBeats = new();
         note.effect = NoteEffect.Ripple;
         note.isClockwise = note.positionX switch
         {
@@ -289,7 +289,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
                 _=>throw new Exception("滴滴~滴滴~错误~找不到音符拉~")
             };
 
-            float currentSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(item.hitBeats.ThisStartBPM);
+            float currentSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(item.HitBeats.ThisStartBPM);
             float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
 
             Scenes.Edit.NoteEdit newNoteEdit = Instantiate(noteEditType, basicLine.noteCanvas).Init(item);
@@ -298,7 +298,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             if (item.noteType == NoteType.Hold)
             {
                 //float endBeatsSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(item.EndBeats.ThisStartBPM);
-                float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(item.holdBeats.ThisStartBPM);
+                float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(item.HoldBeats.ThisStartBPM);
                 newNoteEdit.thisNoteRect.sizeDelta = new(newNoteEdit.thisNoteRect.sizeDelta.x, endBeatsPositionY);
             }
             //Debug.LogError("写到这里了，下次继续写");

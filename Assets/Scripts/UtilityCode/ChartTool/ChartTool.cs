@@ -18,7 +18,7 @@ public class ChartTool
     /// <param name="chartData"></param>
     public static void AddNoteEdit2ChartData(Data.ChartEdit.Note noteEdit, int boxID, int lineID, Data.ChartEdit.ChartData chartEditData, Data.ChartData.ChartData chartData)
     {
-        int index_noteEdits = Algorithm.BinarySearch(chartEditData.boxes[boxID].lines[lineID].onlineNotes, m => m.hitBeats.ThisStartBPM < noteEdit.hitBeats.ThisStartBPM, false);
+        int index_noteEdits = Algorithm.BinarySearch(chartEditData.boxes[boxID].lines[lineID].onlineNotes, m => m.HitBeats.ThisStartBPM < noteEdit.HitBeats.ThisStartBPM, false);
         chartEditData.boxes[boxID].lines[lineID].onlineNotes.Insert(index_noteEdits, noteEdit);
 
         Data.ChartData.Note note = new(noteEdit);
