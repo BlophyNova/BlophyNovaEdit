@@ -6779,7 +6779,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1886952040
 Transform:
   m_ObjectHideFlags: 0
@@ -6817,69 +6817,7 @@ MonoBehaviour:
       chartWriter: 
       chartLevel: 
       description: 
-    boxes:
-    - boxEvents:
-        moveX: []
-        moveY: []
-        rotate: []
-        alpha: []
-        scaleX: []
-        scaleY: []
-        centerX: []
-        centerY: []
-        lineAlpha: []
-      lines:
-      - onlineNotes: []
-        offlineNotes: []
-        speed: []
-        far:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 1
-            outSlope: 1
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 1
-            outSlope: 1
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 0
-        career:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 1
-            outSlope: 1
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 1
-            outSlope: 1
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 0
+    boxes: []
     globalData:
       offset: 0
       musicLength: 138
@@ -6896,7 +6834,7 @@ MonoBehaviour:
     verticalSubdivision: 10
     eventVerticalSubdivision: 10
     playSpeed: 0
-    offset: 1
+    offset: 10
     musicLength: 0.1
     loopPlayBack: 0
     bpmList:

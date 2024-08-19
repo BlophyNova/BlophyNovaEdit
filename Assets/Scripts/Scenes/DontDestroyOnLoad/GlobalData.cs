@@ -82,7 +82,7 @@ namespace Scenes.DontDestroyOnLoad
             if (isNewEditData)
             {
                 ChartTool.CreateNewChart(chartEditData, easeData);
-                chartData.boxes = ChartTool.ConvertChartEdit2ChartData(chartEditData.boxes);
+                //chartData.boxes = ChartTool.ConvertChartEdit2ChartData(chartEditData.boxes);
             }
 
         }
