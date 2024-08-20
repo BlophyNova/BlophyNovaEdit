@@ -25,6 +25,8 @@ namespace Scenes.Edit
                 {
                     NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelWindow;
                     notePropertyEdit.note?.isSelectedRect.gameObject.SetActive(false);
+                    notePropertyEdit.@event?.isSelectedRect.gameObject.SetActive(false);
+                    notePropertyEdit.@event = null;
                     notePropertyEdit.SelectedNote(this);
                     isSelectedRect.gameObject.SetActive(true);
                 }

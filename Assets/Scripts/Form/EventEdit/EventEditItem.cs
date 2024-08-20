@@ -11,6 +11,7 @@ public class EventEditItem : PublicButton
     public LabelWindow labelWindow;
     public RectTransform rectTransform;
     public EaseRenderer easeRenderer;
+    public RectTransform isSelectedRect;
     public EventEdit ThisEventEdit => (EventEdit)labelWindow.currentLabelWindow;
     public Data.ChartEdit.Event @event;
     public Data.Enumerate.EventType eventType;
@@ -21,12 +22,18 @@ public class EventEditItem : PublicButton
             if (labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
             {
                 NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelWindow;
+                notePropertyEdit.@event?.isSelectedRect.gameObject.SetActive(false);
+                notePropertyEdit.note?.isSelectedRect.gameObject.SetActive(false);
+                notePropertyEdit.note = null;
                 notePropertyEdit.SelectedNote(this);
+                isSelectedRect.gameObject.SetActive(true);
             }
         });
     }
     public EventEditItem Init()
     {
+        isSelectedRect.gameObject.SetActive(false);
+
         float minValue=float.MaxValue; 
         float maxValue=float.MinValue;
         List<Data.ChartEdit.Event> events = eventType switch

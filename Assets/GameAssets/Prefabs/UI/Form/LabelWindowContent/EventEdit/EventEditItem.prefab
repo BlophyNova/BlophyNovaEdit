@@ -486,6 +486,7 @@ MonoBehaviour:
   labelWindow: {fileID: 0}
   rectTransform: {fileID: 7081173974640190563}
   easeRenderer: {fileID: 3722231669987265894}
+  isSelectedRect: {fileID: 7951502086329462197}
   event:
     startBeats:
       integer: 0
