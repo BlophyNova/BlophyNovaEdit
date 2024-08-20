@@ -217,12 +217,7 @@ MonoBehaviour:
   thisNoteRect: {fileID: 0}
   thisNoteData:
     noteType: 0
-    hitBeats:
-      integer: 0
-      molecule: 0
-      denominator: 1
-      currentBPM: 0
-    holdBeats:
+    endBeats:
       integer: 0
       molecule: 0
       denominator: 1
@@ -232,6 +227,7 @@ MonoBehaviour:
     isClockwise: 0
     hasOther: 0
     hitFloorPosition: 0
+  isSelectedRect: {fileID: 7141932108110536617}
   thisTexture: {fileID: 5270068024459402525}
   fullFlickBlue: {fileID: 2800000, guid: d38a6c35845018447ab98012eb11a329, type: 3}
   fullFlickPink: {fileID: 2800000, guid: 05d03a1d297e23b40aac605aa005e0c7, type: 3}

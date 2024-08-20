@@ -14,6 +14,7 @@ namespace Scenes.Edit
         public virtual NoteEdit Init(Note note)
         {
             thisNoteData = note;
+            isSelectedRect.gameObject.SetActive(false);
             return this;
         }
         private void Start()
@@ -23,7 +24,9 @@ namespace Scenes.Edit
                 if (labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
                 {
                     NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelWindow;
+                    notePropertyEdit.note?.isSelectedRect.gameObject.SetActive(false);
                     notePropertyEdit.SelectedNote(this);
+                    isSelectedRect.gameObject.SetActive(true);
                 }
             });
         }

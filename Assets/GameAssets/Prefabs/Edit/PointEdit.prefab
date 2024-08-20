@@ -293,12 +293,7 @@ MonoBehaviour:
   thisNoteRect: {fileID: 0}
   thisNoteData:
     noteType: 0
-    hitBeats:
-      integer: 0
-      molecule: 0
-      denominator: 1
-      currentBPM: 0
-    holdBeats:
+    endBeats:
       integer: 0
       molecule: 0
       denominator: 1
@@ -308,3 +303,4 @@ MonoBehaviour:
     isClockwise: 0
     hasOther: 0
     hitFloorPosition: 0
+  isSelectedRect: {fileID: 4181911907297149201}
