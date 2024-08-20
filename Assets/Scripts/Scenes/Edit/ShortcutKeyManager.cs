@@ -16,7 +16,7 @@ public class ShortcutKeyManager : MonoBehaviourSingleton<ShortcutKeyManager>
         //Debug.Log($"{inputActionsAsset.ToJson()}");
         //File.WriteAllText($"{Application.streamingAssetsPath}/Config/ShortcutKeyConfig.HuaWaterED", inputActionsAsset.ToJson());
         
-        playerInput.actions= InputActionAsset.FromJson(File.ReadAllText($"{Application.streamingAssetsPath}/Config/ShortcutKeyConfig.HuaWaterED"));
+        playerInput.actions= inputActionsAsset/* ? InputActionAsset.FromJson(File.ReadAllText($"{Application.streamingAssetsPath}/Config/ShortcutKeyConfig.HuaWaterED")):inputActionsAsset*/;
         //playerInput.actions = inputActionsAsset;
 
         //InputAction hit = playerInput.actions["Fire"];

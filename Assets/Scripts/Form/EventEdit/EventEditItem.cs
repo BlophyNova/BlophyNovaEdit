@@ -9,7 +9,7 @@ using UnityEngine;
 public class EventEditItem : PublicButton
 {
     public LabelWindow labelWindow;
-    public RectTransform rectTransform;
+    public RectTransform thisEventEditItemRect;
     public EaseRenderer easeRenderer;
     public RectTransform isSelectedRect;
     public EventEdit ThisEventEdit => (EventEdit)labelWindow.currentLabelWindow;

@@ -11,15 +11,16 @@ using UtilityCode.Algorithm;
 using UtilityCode.GameUtility;
 using static UnityEngine.Camera;
 
-public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
+public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh,ISelectBox
 {
     public int currentBoxID;
 
 
     public BasicLine basicLine;
-    public RectTransform eventEditRect;
+    public RectTransform thisEventEditRect;
     public RectTransform verticalLineLeft;
     public RectTransform verticalLineRight;
+    public SelectBox selectBox;
     public List<RectTransform> verticalLines = new();
     public List<EventVerticalLine> eventVerticalLines = new();
     public List<EventEditItem> eventEditItems = new();
@@ -51,7 +52,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                 {
                     float positionX=item.transform.localPosition.x;
                     eventEditItems[i].transform.localPosition = new(positionX, YScale.Instance.GetPositionYWithBeats(eventEditItems[i].@event.startBeats.ThisStartBPM));
-                    eventEditItems[i].rectTransform.sizeDelta = new(Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition), eventEditItems[i].rectTransform.sizeDelta.y);
+                    eventEditItems[i].thisEventEditItemRect.sizeDelta = new(Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition), eventEditItems[i].thisEventEditItemRect.sizeDelta.y);
                 }
             }
         }
@@ -73,9 +74,14 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
             eventVerticalLines[i].transform.localPosition= (allVerticalLines[i + 1].localPosition + allVerticalLines[i].localPosition)/2;
         }
     }
+    public override void Performed(InputAction.CallbackContext callbackContext)
+    {
+        //鼠标按下抬起的时候调用
+        selectBox.isPressing = !selectBox.isPressing;
+    }
     public override void Canceled(InputAction.CallbackContext callbackContext)
     {
-
+        //事件w抬起的时候调用
         Action action = callbackContext.action.name switch
         {
             "AddEvent" => () => AddEvent(),
@@ -122,8 +128,8 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
             //第一次
             foreach (BeatLine item in basicLine.beatLines)
             {
-                Debug.Log($@"{eventEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)eventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
-                float dis = Vector2.Distance(MousePositionInThisRectTransform, (Vector2)eventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2);
+                Debug.Log($@"{thisEventEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
+                float dis = Vector2.Distance(MousePositionInThisRectTransform, (Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2);
                 if (dis < nearBeatLineDis)
                 {
                     nearBeatLineDis = dis;
@@ -167,15 +173,15 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
             float nearBeatLineDis = float.MaxValue;
             foreach (BeatLine item in basicLine.beatLines)
             {
-                Debug.Log($@"{eventEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)eventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
-                float dis = Vector2.Distance(MousePositionInThisRectTransform, (Vector2)eventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2);
+                Debug.Log($@"{thisEventEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
+                float dis = Vector2.Distance(MousePositionInThisRectTransform, (Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2);
                 if (dis < nearBeatLineDis)
                 {
                     nearBeatLineDis = dis;
                     nearBeatLine = item;
                 }
             }
-            eventEditItem.rectTransform.sizeDelta = new(eventEditItem.rectTransform.sizeDelta.x, nearBeatLine.transform.localPosition.y - eventEditItem.transform.localPosition.y);
+            eventEditItem.thisEventEditItemRect.sizeDelta = new(eventEditItem.thisEventEditItemRect.sizeDelta.x, nearBeatLine.transform.localPosition.y - eventEditItem.transform.localPosition.y);
             eventEditItem.@event.endBeats = new(nearBeatLine.thisBPM);
             yield return new WaitForEndOfFrame();
         }
@@ -319,7 +325,7 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                     float endBeatspositionY = YScale.Instance.GetPositionYWithSecondsTime(endBeatsSecondsTime);
 
                     newEventEditItem.labelWindow = labelWindow;
-                    newEventEditItem.rectTransform.sizeDelta = new(newEventEditItem.rectTransform.sizeDelta.x, endBeatspositionY - positionY);
+                    newEventEditItem.thisEventEditItemRect.sizeDelta = new(newEventEditItem.thisEventEditItemRect.sizeDelta.x, endBeatspositionY - positionY);
                     newEventEditItem.@event = @event;
                     newEventEditItem.eventType = eventType;
                     Debug.Log($"{currentBoxID}号方框的{eventVerticalLine.eventType}生成了一个新的eei");
@@ -329,5 +335,17 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                 }
             }
         }
+    }
+
+    public List<Vector3[]> TransmitObjects()
+    {
+        List<Vector3[]> res = new();
+        foreach (EventEditItem item in eventEditItems)
+        {
+            Vector3[] corners = new Vector3[4];
+            item.thisEventEditItemRect.GetLocalCorners(corners);
+            res.Add(corners);
+        }
+        return res;
     }
 }

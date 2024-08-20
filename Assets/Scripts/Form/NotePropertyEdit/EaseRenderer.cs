@@ -39,7 +39,7 @@ public class EaseRenderer : MonoBehaviour,IRefreshUI
     }
     void UpdateEaseLinePosition()
     {
-        Vector3 eventEditItemWorldPosition = eventEditItem.rectTransform.transform.position;
+        Vector3 eventEditItemWorldPosition = eventEditItem.thisEventEditItemRect.transform.position;
         eventEditItemWorldPosition.y = ThisEventEdit.eventVerticalLines[0].transform.position.y - Vector2.Distance(ThisEventEdit.basicLine.arisePosition.transform.position, ThisEventEdit.basicLine.basicLine.transform.position) / 2;
         maskObject.transform.position = main.WorldToScreenPoint(eventEditItemWorldPosition);
     }
@@ -48,8 +48,8 @@ public class EaseRenderer : MonoBehaviour,IRefreshUI
     {
         Vector2 res = new()
         {
-            x = eventEditItem.rectTransform.sizeDelta.x * viewport.x,
-            y = eventEditItem.rectTransform.sizeDelta.y * viewport.y
+            x = eventEditItem.thisEventEditItemRect.sizeDelta.x * viewport.x,
+            y = eventEditItem.thisEventEditItemRect.sizeDelta.y * viewport.y
         };
         return res;
     }

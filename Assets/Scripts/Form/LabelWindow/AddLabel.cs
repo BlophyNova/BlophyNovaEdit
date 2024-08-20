@@ -15,8 +15,10 @@ public class AddLabel : MonoBehaviour
     private void Start()
     {
         dropdown.ClearOptions();
-        List<string> labelWindowNames = new();
-        labelWindowNames.Add("请选择您想添加的标签窗口");
+        List<string> labelWindowNames = new()
+        {
+            "请选择您想添加的标签窗口"
+        };
         foreach (LabelWindowContent item in GlobalData.Instance.labelWindowContents)
         {
             labelWindowNames.Add(item.labelWindowName);

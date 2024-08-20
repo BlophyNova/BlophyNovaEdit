@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 using UtilityCode.Algorithm;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 
-public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
+public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh,ISelectBox
 {
 
     public int currentBoxID;
@@ -23,6 +23,7 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
     public RectTransform verticalLineLeft;
     public RectTransform verticalLineRight;
     public RectTransform verticalLinePrefab;
+    public SelectBox selectBox;
     public List<RectTransform> verticalLines = new();
 
     public BasicLine basicLine;
@@ -70,6 +71,11 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             newVerticalLine.SetAsFirstSibling();
             verticalLines.Add(newVerticalLine);
         }
+    }
+    public override void Performed(InputAction.CallbackContext callbackContext)
+    {
+        //鼠标按下抬起的时候调用
+        selectBox.isPressing = !selectBox.isPressing;
     }
     public override void Canceled(InputAction.CallbackContext callbackContext)
     {
@@ -306,5 +312,17 @@ public class NoteEdit : LabelWindowContent,IInputEventCallback,IRefresh
             //Debug.LogError("写到这里了，下次继续写");
             notes.Add(newNoteEdit);
         }
+    }
+
+    public List<Vector3[]> TransmitObjects()
+    {
+        List<Vector3[]> res=new();
+        foreach (Scenes.Edit.NoteEdit item in notes)
+        {
+            Vector3[] corners = new Vector3[4];
+            item.thisNoteRect.GetLocalCorners(corners);
+            res.Add(corners);
+        }
+        return res;
     }
 }
