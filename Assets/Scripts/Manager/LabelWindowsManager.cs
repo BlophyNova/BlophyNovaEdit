@@ -18,6 +18,7 @@ public class LabelWindowsManager : MonoBehaviourSingleton<LabelWindowsManager>
         window.labelColor.color = Color.HSVToRGB(H, S, V);
         window.focus = true;
         window.labelWindowRect.anchoredPosition3D = new(window.labelWindowRect.anchoredPosition3D.x, window.labelWindowRect.anchoredPosition3D.y,-1);
+        window.WindowGetFocus();
         currentFocusWindow = window;
     }
     public void NewLabelWindow()
