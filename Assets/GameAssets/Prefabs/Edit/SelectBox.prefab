@@ -92,3 +92,4 @@ MonoBehaviour:
   noteEdit: {fileID: 0}
   eventEdit: {fileID: 0}
   isPressing: 0
+  selectBoxTexture: {fileID: 7296878264245791493}

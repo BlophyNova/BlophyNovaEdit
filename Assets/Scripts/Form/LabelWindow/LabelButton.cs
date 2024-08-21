@@ -8,14 +8,16 @@ public class LabelButton : PublicButton
     public LabelItem labelItem;
     private void Start()
     {
-        thisButton.onClick.AddListener(() => 
+        thisButton.onClick.AddListener(() =>
         {
+            labelItem.labelWindow.currentLabelWindow.labelWindow.LabelLostFocus();
+            labelItem.labelWindow.currentLabelWindow = labelItem.labelWindowContent;
+            labelItem.labelWindow.currentLabelWindow.labelWindow.LabelGetFocus();
             foreach (var item in labelItem.labelWindow.labels)
             { 
                 item.labelWindowContent.gameObject.SetActive(false);
             }
             labelItem.labelWindowContent.gameObject.SetActive(true);
-            labelItem.labelWindow.currentLabelWindow=labelItem.labelWindowContent;
         });
     }
 }
