@@ -22,6 +22,8 @@ public class LabelWindow : MonoBehaviour
     public event OnWindowMoved onWindowMoved = () => { };
     public delegate void OnWindowGetFocus();
     public event OnWindowGetFocus onWindowGetFocus = () => { };
+    public delegate void OnWindowLostFocus();
+    public event OnWindowLostFocus onWindowLostFocus = () => { };
     public bool focus;
     public float MinX => currentLabelWindow == null ? 100 : currentLabelWindow.minX;
     public float MinY => currentLabelWindow == null ? 100 : currentLabelWindow.minY;
@@ -30,5 +32,6 @@ public class LabelWindow : MonoBehaviour
     public void WindowSizeChanged()=>onWindowSizeChanged();
     public void WindowMoved() => onWindowMoved();
     public void WindowGetFocus()=>onWindowGetFocus();
+    public void WindowLostFocus()=>onWindowLostFocus();
     //public 
 }

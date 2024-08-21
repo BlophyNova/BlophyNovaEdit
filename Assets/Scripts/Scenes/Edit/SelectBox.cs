@@ -14,10 +14,12 @@ public class SelectBox : MonoBehaviour
         Debug.Log($"这里有问题，isPressing的正确性和窗口切换焦点事件被抢，导致对不上号");
         if (noteEdit != null)
         {
+            noteEdit.labelWindow.onWindowLostFocus += () => isPressing = false;
             noteEdit.labelWindow.onWindowGetFocus += () => isPressing = true;
         }
         if (eventEdit != null)
         {
+            eventEdit.labelWindow.onWindowLostFocus += () => isPressing = false;
             eventEdit.labelWindow.onWindowGetFocus += () => isPressing = true;
         }
     }
