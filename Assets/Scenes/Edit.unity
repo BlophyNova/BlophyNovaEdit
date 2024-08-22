@@ -7431,7 +7431,7 @@ GameObject:
   - component: {fileID: 1992435849}
   - component: {fileID: 1992435850}
   m_Layer: 0
-  m_Name: MouseLeft
+  m_Name: SelectBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7464,7 +7464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebdcd2238e023d74baeef9851bdc2629, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputActionName: MouseLeft
+  inputActionName: SelectBox
 --- !u!1 &2000752362
 GameObject:
   m_ObjectHideFlags: 0

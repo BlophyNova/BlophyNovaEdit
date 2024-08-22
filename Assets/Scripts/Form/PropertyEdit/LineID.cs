@@ -1,3 +1,4 @@
+using Form.NoteEdit;
 using Scenes.DontDestroyOnLoad;
 using System.Collections;
 using System.Collections.Generic;

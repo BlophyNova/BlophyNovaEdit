@@ -91,5 +91,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noteEdit: {fileID: 0}
   eventEdit: {fileID: 0}
-  isPressing: 0
+  thisSelectBoxRect: {fileID: 4343869100445026132}
   selectBoxTexture: {fileID: 7296878264245791493}
+  enableSelectBoxTextureColor: {r: 1, g: 1, b: 1, a: 1}
+  disableSelectBoxTextureColor: {r: 1, g: 1, b: 1, a: 0}
+  firstFramePositionInLabelWindow: {x: 0, y: 0}
+  isPressing: 0

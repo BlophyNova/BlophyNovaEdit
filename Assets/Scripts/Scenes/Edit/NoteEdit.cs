@@ -1,4 +1,5 @@
 using Data.ChartEdit;
+using Form.NotePropertyEdit;
 using Scenes.PublicScripts;
 using System.Collections;
 using System.Collections.Generic;

@@ -231,7 +231,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "MouseLeft",
+                    "name": "SelectBox",
                     "type": "Button",
                     "id": "3bfedc6c-1af6-4ebb-8de9-145981876a2e",
                     "expectedControlType": "Button",
@@ -699,7 +699,7 @@
                     "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "",
-                    "action": "MouseLeft",
+                    "action": "SelectBox",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
