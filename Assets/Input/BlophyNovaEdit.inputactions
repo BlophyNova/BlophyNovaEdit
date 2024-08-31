@@ -693,15 +693,37 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "3d2e7e64-dbfe-4a7a-b371-5b4f9b20f14f",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "Press(behavior=2)",
+                    "name": "One Modifier",
+                    "id": "37647d94-8f4c-4a3f-982f-a114a2a6d7ac",
+                    "path": "OneModifier",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "SelectBox",
-                    "isComposite": false,
+                    "isComposite": true,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "e6acb69d-5efa-4822-9239-45291be9a5c1",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SelectBox",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "6e1456cb-e304-4620-a4fd-87eef2e3dcd2",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SelectBox",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

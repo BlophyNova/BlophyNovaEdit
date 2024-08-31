@@ -214,7 +214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisButton: {fileID: 3959132380219186838}
   labelWindow: {fileID: 0}
-  thisNoteRect: {fileID: 0}
+  thisNoteRect: {fileID: 3959132380219186837}
   thisNoteData:
     noteType: 0
     endBeats:

@@ -12,6 +12,19 @@ namespace ShortcutKey.Events
         {
             Init();
         }
+
+        public override void Started(InputAction.CallbackContext callbackContext)
+        {
+            base.Started(callbackContext); 
+
+            LabelWindowContentType labelWindowContentType = LabelWindowContentType.NoteEdit | LabelWindowContentType.EventEdit;
+
+            if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.labelWindowContentType))
+            {
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Started(callbackContext);
+            }
+        }
+
         public override void Performed(InputAction.CallbackContext callbackContext)
         {
             base.Performed(callbackContext);
@@ -21,6 +34,18 @@ namespace ShortcutKey.Events
             if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.labelWindowContentType))
             {
                 LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Performed(callbackContext);
+            }
+        }
+
+        public override void Canceled(InputAction.CallbackContext callbackContext)
+        {
+            base.Canceled(callbackContext);
+
+            LabelWindowContentType labelWindowContentType = LabelWindowContentType.NoteEdit | LabelWindowContentType.EventEdit;
+
+            if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.labelWindowContentType))
+            {
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Canceled(callbackContext);
             }
         }
     }

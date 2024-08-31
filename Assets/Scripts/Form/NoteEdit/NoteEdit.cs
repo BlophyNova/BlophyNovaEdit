@@ -12,7 +12,7 @@ using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 using Form.NotePropertyEdit;
 namespace Form.NoteEdit
 {
-    public class NoteEdit : LabelWindowContent, IInputEventCallback, IRefresh, ISelectBox
+    public partial class NoteEdit : LabelWindowContent, IInputEventCallback, IRefresh, ISelectBox
     {
 
         public int currentBoxID;
@@ -74,10 +74,21 @@ namespace Form.NoteEdit
                 verticalLines.Add(newVerticalLine);
             }
         }
+
+        public override void Started(InputAction.CallbackContext callbackContext)
+        {
+            Action action = callbackContext.action.name switch
+            {
+                "SelectBox" => ()=>SelectBoxDown(),
+                _=>()=> Debug.Log($"欸···？怎么回事，怎么会找不到事件呢···")
+            };
+            action();
+        }
+
         public override void Performed(InputAction.CallbackContext callbackContext)
         {
             //鼠标按下抬起的时候调用
-            selectBox.isPressing = !selectBox.isPressing;
+            //selectBox.isPressing = !selectBox.isPressing;
         }
         public override void Canceled(InputAction.CallbackContext callbackContext)
         {
@@ -91,7 +102,8 @@ namespace Form.NoteEdit
                 "AddPoint" => () => AddNewPoint(),
                 "AddFullFlick" => () => AddNewFullFlick(),
                 "Delete" => () => DeleteNote(),
-                _ => () => Alert.EnableAlert($"欸···？怎么回事，怎么会找不到你想添加的是哪个音符呢···")
+                "SelectBox" => ()=>SelectBoxUp(),
+                _ => () => Alert.EnableAlert($"欸···？怎么回事，怎么会找不到事件呢···")
             };
             action();
         }
@@ -316,14 +328,14 @@ namespace Form.NoteEdit
             }
         }
 
-        public List<Vector3[]> TransmitObjects()
+        public List<ISelectBoxItem> TransmitObjects()
         {
-            List<Vector3[]> res = new();
+            List<ISelectBoxItem> res = new();
             foreach (Scenes.Edit.NoteEdit item in notes)
             {
-                Vector3[] corners = new Vector3[4];
-                item.thisNoteRect.GetLocalCorners(corners);
-                res.Add(corners);
+                //Vector3[] corners = new Vector3[4];
+                //item.thisNoteRect.GetLocalCorners(corners);
+                res.Add(item);
             }
             return res;
         }

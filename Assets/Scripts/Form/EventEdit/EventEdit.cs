@@ -13,7 +13,7 @@ using UtilityCode.Algorithm;
 using UtilityCode.GameUtility;
 using static UnityEngine.Camera;
 
-public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh,ISelectBox
+public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh,ISelectBox
 {
     public int currentBoxID;
 
@@ -76,10 +76,20 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh,ISelect
             eventVerticalLines[i].transform.localPosition= (allVerticalLines[i + 1].localPosition + allVerticalLines[i].localPosition)/2;
         }
     }
+
+    public override void Started(InputAction.CallbackContext callbackContext)
+    {
+        Action action = callbackContext.action.name switch
+        {
+            "SelectBox" =>()=> SelectBoxDown(),
+            _ => () => Alert.EnableAlert($"欸···？怎么回事，怎么会找不到事件呢···")
+        };
+        action();
+    }
     public override void Performed(InputAction.CallbackContext callbackContext)
     {
         //鼠标按下抬起的时候调用
-        selectBox.isPressing = !selectBox.isPressing;
+        //selectBox.isPressing = !selectBox.isPressing;
     }
     public override void Canceled(InputAction.CallbackContext callbackContext)
     {
@@ -88,11 +98,11 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh,ISelect
         {
             "AddEvent" => () => AddEvent(),
             "Delete"=> () => DeleteEvent(),
+            "SelectBox"=>()=> SelectBoxUp(),
             _ => () => Alert.EnableAlert($"欸···？怎么回事，怎么会找不到你想添加的是哪个音符呢···")
         };
         action();
     }
-
     private void DeleteEvent()
     {
         if (labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
@@ -324,10 +334,10 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh,ISelect
                     newEventEditItem.transform.localPosition = new Vector2(eventVerticalLine.transform.localPosition.x, positionY);
 
                     float endBeatsSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(@event.endBeats.ThisStartBPM);
-                    float endBeatspositionY = YScale.Instance.GetPositionYWithSecondsTime(endBeatsSecondsTime);
+                    float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(endBeatsSecondsTime);
 
                     newEventEditItem.labelWindow = labelWindow;
-                    newEventEditItem.thisEventEditItemRect.sizeDelta = new(newEventEditItem.thisEventEditItemRect.sizeDelta.x, endBeatspositionY - positionY);
+                    newEventEditItem.thisEventEditItemRect.sizeDelta = new(newEventEditItem.thisEventEditItemRect.sizeDelta.x, endBeatsPositionY - positionY);
                     newEventEditItem.@event = @event;
                     newEventEditItem.eventType = eventType;
                     Debug.Log($"{currentBoxID}号方框的{eventVerticalLine.eventType}生成了一个新的eei");
@@ -339,14 +349,14 @@ public class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh,ISelect
         }
     }
 
-    public List<Vector3[]> TransmitObjects()
+    public List<ISelectBoxItem> TransmitObjects()
     {
-        List<Vector3[]> res = new();
+        List<ISelectBoxItem> res = new();
         foreach (EventEditItem item in eventEditItems)
         {
-            Vector3[] corners = new Vector3[4];
-            item.thisEventEditItemRect.GetLocalCorners(corners);
-            res.Add(corners);
+            //Vector3[] corners = new Vector3[4];
+            //item.thisEventEditItemRect.GetLocalCorners(corners);
+            res.Add(item);
         }
         return res;
     }

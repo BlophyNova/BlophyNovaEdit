@@ -7,33 +7,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventEditItem : PublicButton
+public class EventEditItem : PublicButton, ISelectBoxItem
 {
     public LabelWindow labelWindow;
     public RectTransform thisEventEditItemRect;
     public EaseRenderer easeRenderer;
     public RectTransform isSelectedRect;
     public EventEdit ThisEventEdit => (EventEdit)labelWindow.currentLabelWindow;
+    public bool IsNoteEdit => false;
     public Data.ChartEdit.Event @event;
     public Data.Enumerate.EventType eventType;
     private void Start()
     {
         thisButton.onClick.AddListener(() =>
         {
-            if (labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
-            {
-                NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelWindow;
-                notePropertyEdit.@event?.isSelectedRect.gameObject.SetActive(false);
-                notePropertyEdit.note?.isSelectedRect.gameObject.SetActive(false);
-                notePropertyEdit.note = null;
-                notePropertyEdit.SelectedNote(this);
-                isSelectedRect.gameObject.SetActive(true);
-            }
+            ThisEventEdit.selectBox.SetSingleNote(this);
         });
     }
     public EventEditItem Init()
     {
-        isSelectedRect.gameObject.SetActive(false);
+        SetSelectState(false);
 
         float minValue=float.MaxValue; 
         float maxValue=float.MinValue;
@@ -74,5 +67,18 @@ public class EventEditItem : PublicButton
         }
         easeRenderer.points = points;
         return this;
+    }
+
+    public Vector3[] GetCorners()
+    {
+        Vector3[] corners = new Vector3[4];
+        thisEventEditItemRect.GetWorldCorners(corners);
+        return corners;
+    }
+
+    public void SetSelectState(bool active)
+    {
+        isSelectedRect.gameObject.SetActive(active);
+        Debug.Log($@"选择状态：{isSelectedRect.gameObject.activeSelf}");
     }
 }
