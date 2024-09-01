@@ -123,6 +123,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Mirror",
+                    "type": "Button",
+                    "id": "28a0b18d-8767-4e65-92a4-d8b2d9fe126d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "SwitchLine1",
                     "type": "Button",
                     "id": "f661cd96-1e34-440b-a00d-6d2d1c088f38",
@@ -724,6 +733,17 @@
                     "action": "SelectBox",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "139afa4e-85ec-4246-9a45-1de0ea610555",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Mirror",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

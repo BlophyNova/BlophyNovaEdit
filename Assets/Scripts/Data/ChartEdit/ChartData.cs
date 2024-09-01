@@ -298,8 +298,23 @@ namespace Data.ChartEdit
             endValue = @event.endValue;
             startValue = @event.startValue;
             curve = @event.curve;
-            startBeats= @event.startBeats;
-            endBeats= @event.endBeats;
+            startBeats=new(@event.startBeats);
+            endBeats= new(@event.endBeats);
+        }
+
+        public override bool Equals(object obj)
+        {
+            bool res = false;
+            if (obj is Event)
+            {
+                var my_obj = obj as Event;
+                if (Mathf.Abs(startBeats.ThisStartBPM - my_obj.startBeats.ThisStartBPM) > .001f) return false;
+                if (Mathf.Abs(endBeats.ThisStartBPM - my_obj.endBeats.ThisStartBPM) > .001f) return false;
+                if (Mathf.Abs(startValue - my_obj.startValue) > .001f) return false;
+                if (Mathf.Abs(endValue - my_obj.endValue) > .001f) return false;
+                res = true;
+            }
+            return res;
         }
     }
 }

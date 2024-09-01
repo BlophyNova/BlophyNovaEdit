@@ -103,6 +103,12 @@ namespace Form.NoteEdit
                 "AddFullFlick" => () => AddNewFullFlick(),
                 "Delete" => () => DeleteNote(),
                 "SelectBox" => ()=>SelectBoxUp(),
+                "Undo" => ()=>UndoNote(),
+                "Redo" => ()=>RedoNote(),
+                "Copy" => () => CopyNote(),
+                "Paste" => () => PasteNote(),
+                "Cut" => () => CutNote(),
+                "Mirror" => () => MirrorNote(),
                 _ => () => Alert.EnableAlert($"欸···？怎么回事，怎么会找不到事件呢···")
             };
             action();
@@ -116,6 +122,7 @@ namespace Form.NoteEdit
                 List<Data.ChartEdit.Note> notes = GlobalData.Instance.chartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes;
                 //events.Remove(notePropertyEdit.@event.@event);
                 notes.Remove(notePropertyEdit.note.thisNoteData);
+                onNoteDeleted(notePropertyEdit.note);
                 notePropertyEdit.RefreshNotes();
                 GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
             }

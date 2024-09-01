@@ -82,7 +82,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         Action action = callbackContext.action.name switch
         {
             "SelectBox" =>()=> SelectBoxDown(),
-            _ => () => Alert.EnableAlert($"欸···？怎么回事，怎么会找不到事件呢···")
+            _ => () => Debug.Log($"欸···？怎么回事，怎么会找不到事件呢···")
         };
         action();
     }
@@ -123,7 +123,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                 _=>throw new Exception("耳朵耷拉下来，呜呜呜，没找到事件类型")
             };
             events.Remove(notePropertyEdit.@event.@event);
-
+            onEventDeleted(notePropertyEdit.@event);
             notePropertyEdit.RefreshEvents();
         }
         
@@ -209,77 +209,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         else
         {
             //添加事件到对应的地方
-            List<Data.ChartEdit.Event> events = eventEditItem.eventType switch
-            {
-                Data.Enumerate.EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
-                Data.Enumerate.EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
-                Data.Enumerate.EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
-                Data.Enumerate.EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
-                Data.Enumerate.EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
-                Data.Enumerate.EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
-                Data.Enumerate.EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
-                Data.Enumerate.EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
-                Data.Enumerate.EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
-                Data.Enumerate.EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
-                _ =>null
-            };
-
-            eventEditItem.@event.startValue = eventEditItem.@event.endValue = events[^1].endValue;
-            eventEditItem.@event.curve = GlobalData.Instance.easeData[0];
-            events.Add(eventEditItem.@event);
-            Algorithm.BubbleSort(events, (a, b) =>//排序
-            {
-                if (a.startBeats.ThisStartBPM > b.startBeats.ThisStartBPM)
-                {
-                    return 1;
-                }
-                else if (a.startBeats.ThisStartBPM < b.startBeats.ThisStartBPM)
-                {
-                    return -1;
-                }
-                return 0;
-            });
-            List<Data.ChartData.Event> chartDataEvents = eventEditItem.eventType switch
-            {
-                Data.Enumerate.EventType.CenterX => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.centerX,
-                Data.Enumerate.EventType.CenterY => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.centerY,
-                Data.Enumerate.EventType.MoveX => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.moveX,
-                Data.Enumerate.EventType.MoveY => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.moveY,
-                Data.Enumerate.EventType.ScaleX => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.scaleX,
-                Data.Enumerate.EventType.ScaleY => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.scaleY,
-                Data.Enumerate.EventType.Rotate => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.rotate,
-                Data.Enumerate.EventType.Alpha => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.alpha,
-                Data.Enumerate.EventType.LineAlpha => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.lineAlpha,
-                _ => null
-            };
-            ChartTool.RefreshChartEventByChartEditEvent(chartDataEvents, eventEditItem.@event);
-            //GlobalData.Instance.chartData.boxes[currentBoxID].lines[4].speed =
-            //GlobalData.Instance.chartData.boxes[currentBoxID].lines[3].speed =
-            //GlobalData.Instance.chartData.boxes[currentBoxID].lines[2].speed =
-            //GlobalData.Instance.chartData.boxes[currentBoxID].lines[1].speed =
-            //GlobalData.Instance.chartData.boxes[currentBoxID].lines[0].speed;
-            //GlobalData.Instance.chartData.boxes[currentBoxID].lines[0].career
-            //GlobalData.Instance.chartData.boxes[currentBoxID].lines[0].far
-            if (eventEditItem.eventType != Data.Enumerate.EventType.Speed) yield break;
-            List<Data.ChartEdit.Event> filledVoid = GameUtility.FillVoid(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed);
-            for (int i = 0; i < GlobalData.Instance.chartData.boxes[currentBoxID].lines.Count; i++)
-            {
-                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].speed = new();
-
-
-                ChartTool.ForeachBoxEvents(filledVoid, GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].speed);
-                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].career = new() { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
-                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].career.keys = GameUtility.CalculatedSpeedCurve(GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].speed.ToArray()).ToArray();
-
-
-                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].far = new() { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
-                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].far.keys = GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray();
-            }
-            eventEditItem.Init();
-            eventEditItem.easeRenderer.RefreshUI();
-            //chartDataBox.lines[i].speed = new();
-
-            //Debug.LogError("错误记忆");
+            AddNewEvent2EventList(eventEditItem);
         }
     }
     public void Refresh()

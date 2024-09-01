@@ -14,16 +14,17 @@ public class BeatLine : MonoBehaviour
     public BeatLine Init(float currentBeats, BPM thisBPM)
     {
         this.thisBPM = new(thisBPM);
+        float currentSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(currentBeats);
+        float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
+        thisText.text = $"{thisBPM.integer}\t";
+        transform.localPosition = Vector2.up * positionY;
         if (thisBPM.molecule != 0)
         {
             RectTransform rt = texture.GetComponent<RectTransform>();
             rt.sizeDelta = new(rt.sizeDelta.x, 3);
             texture.color = color;
+            thisText.text = string.Empty;
         }
-        float currentSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(currentBeats);
-        float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
-        thisText.text = $"{thisBPM.integer}:{thisBPM.molecule}/{thisBPM.denominator}\t";
-        transform.localPosition = Vector2.up * positionY;
         return this;
     }
 }
