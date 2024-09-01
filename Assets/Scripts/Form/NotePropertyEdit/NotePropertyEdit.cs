@@ -140,6 +140,10 @@ namespace Form.NotePropertyEdit
                 for (int i = 0; i < scaleY.Count; i++)
                 {
                     Debug.Log($@"scaleY中第{i}个事件的结果为：{eventMemory.Equals(scaleY[i])}");
+                    if (eventMemory.Equals(scaleY[i]))
+                    {
+                        scaleY[i] = new(@event.@event);
+                    }
                 }
             }
             eventEdit.RefreshNotes(-1);
