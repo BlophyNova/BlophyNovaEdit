@@ -221,6 +221,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     {
         currentBoxID = boxID < 0 ? currentBoxID : boxID;
         StartCoroutine(RefreshNotes());
+        onEventRefreshed(eventEditItems);
     }
     public IEnumerator RefreshNotes()
     {

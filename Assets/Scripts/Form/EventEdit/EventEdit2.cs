@@ -11,6 +11,9 @@ public partial class EventEdit
 {
     public delegate void OnEventDeleted(EventEditItem eventEditItem);
     public event OnEventDeleted onEventDeleted = eventEditItem => { };
+
+    public delegate void OnEventRefreshed(List<EventEditItem> eventEditItems);
+    public event OnEventRefreshed onEventRefreshed=eventEditItems => { };
     void SelectBoxDown()
     {
         selectBox.isPressing = true;

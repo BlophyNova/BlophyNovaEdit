@@ -7,11 +7,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilityCode.GameUtility;
+using Event = Data.ChartEdit.Event;
+using EventType = Data.Enumerate.EventType;
 
 namespace Form.NotePropertyEdit
 {
     public class NotePropertyEdit : LabelWindowContent
     {
+        public Event eventMemory;
+
         public EventEditItem @event;
         public Scenes.Edit.NoteEdit note;
 
@@ -71,49 +75,49 @@ namespace Form.NotePropertyEdit
             //@event.eventType
             List<Data.ChartEdit.Event> editBoxEvent = @event.eventType switch
             {
-                Data.Enumerate.EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
+                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
                     .boxEvents.scaleX,
-                Data.Enumerate.EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
+                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
                     .boxEvents.scaleY,
-                Data.Enumerate.EventType.MoveX => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
+                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
                     .boxEvents.moveX,
-                Data.Enumerate.EventType.MoveY => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
+                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
                     .boxEvents.moveY,
-                Data.Enumerate.EventType.CenterX => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
+                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
                     .boxEvents.centerX,
-                Data.Enumerate.EventType.CenterY => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
+                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
                     .boxEvents.centerY,
-                Data.Enumerate.EventType.Alpha => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
+                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
                     .boxEvents.alpha,
-                Data.Enumerate.EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
+                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
                     .boxEvents.lineAlpha,
-                Data.Enumerate.EventType.Rotate => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
+                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
                     .boxEvents.rotate,
                 _ => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID].boxEvents.speed
             };
             List<Data.ChartData.Event> chartDataBoxEvent = @event.eventType switch
             {
-                Data.Enumerate.EventType.ScaleX => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
+                EventType.ScaleX => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
                     .scaleX,
-                Data.Enumerate.EventType.ScaleY => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
+                EventType.ScaleY => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
                     .scaleY,
-                Data.Enumerate.EventType.MoveX => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
+                EventType.MoveX => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
                     .moveX,
-                Data.Enumerate.EventType.MoveY => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
+                EventType.MoveY => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
                     .moveY,
-                Data.Enumerate.EventType.CenterX => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID]
+                EventType.CenterX => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID]
                     .boxEvents.centerX,
-                Data.Enumerate.EventType.CenterY => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID]
+                EventType.CenterY => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID]
                     .boxEvents.centerY,
-                Data.Enumerate.EventType.Alpha => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
+                EventType.Alpha => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
                     .alpha,
-                Data.Enumerate.EventType.LineAlpha => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID]
+                EventType.LineAlpha => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID]
                     .boxEvents.lineAlpha,
-                Data.Enumerate.EventType.Rotate => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
+                EventType.Rotate => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
                     .rotate,
                 _ => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].lines[0].speed,
             };
-            if (@event.eventType != Data.Enumerate.EventType.Speed)
+            if (@event.eventType != EventType.Speed)
                 ChartTool.ForeachBoxEvents(editBoxEvent, chartDataBoxEvent);
             else
             {
@@ -130,6 +134,14 @@ namespace Form.NotePropertyEdit
                 }
             }
 
+            if (@event.eventType == EventType.ScaleX)
+            {
+                List<Event> scaleY = GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID].boxEvents.scaleY;
+                for (int i = 0; i < scaleY.Count; i++)
+                {
+                    Debug.Log($@"scaleY中第{i}个事件的结果为：{eventMemory.Equals(scaleY[i])}");
+                }
+            }
             eventEdit.RefreshNotes(-1);
             //GlobalData.Refresh<IRefreshUI>((interfaceMethod) => interfaceMethod.RefreshUI());
         }
@@ -280,6 +292,7 @@ namespace Form.NotePropertyEdit
         public void SelectedNote(EventEditItem @event)
         {
             this.@event = @event;
+            eventMemory = new(@event.@event);
             noteType.interactable = false;
             commonEffect.interactable = false;
             ripple.interactable = false;

@@ -43,16 +43,19 @@ namespace Scenes.Edit
             #endregion
 
             selectBoxTexture.color = new(1, 1, 1, 0);
-            if(noteEdit!=null)
-                noteEdit.onNoteDeleted += noteEdit =>
-                {
-                    selectedBoxItems.Remove(noteEdit);
-                };
+            if (noteEdit != null)
+            {
+                noteEdit.onNoteDeleted += noteEdit => selectedBoxItems.Remove(noteEdit);
+            }
+
             if (eventEdit != null)
-                eventEdit.onEventDeleted += eventEditItem =>
+            {
+                eventEdit.onEventDeleted += eventEditItem => selectedBoxItems.Remove(eventEditItem);
+                eventEdit.onEventRefreshed += eventEditItems =>
                 {
-                    selectedBoxItems.Remove(eventEditItem);
+                    selectedBoxItems.Clear();
                 };
+            }
 
         }
         private void Update()
