@@ -104,7 +104,7 @@ namespace Data.ChartData
         {
             noteType = noteEdit.noteType;
             hitTime =BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.HitBeats.ThisStartBPM);
-            holdTime= BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.endBeats.ThisStartBPM)- BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.HitBeats.ThisStartBPM);
+            holdTime= BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.EndBeats.ThisStartBPM)- BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.HitBeats.ThisStartBPM);
             effect = noteEdit.effect;
             positionX = noteEdit.positionX;
             isClockwise = noteEdit.isClockwise;

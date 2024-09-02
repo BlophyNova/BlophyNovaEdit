@@ -140,7 +140,7 @@ namespace Form.NoteEdit
 
             note.noteType = noteType;
             note.HitBeats = nearBeatLine.thisBPM;
-            note.HoldBeats = new();
+            note.holdBeats = new();
             note.effect = noteEffect;
             note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
             Scenes.Edit.NoteEdit instNewNoteEditPrefab = note.noteType switch
@@ -163,7 +163,7 @@ namespace Form.NoteEdit
         private void AddNoteAndRefresh(Data.ChartEdit.Note note, int boxID, int lineID)
         {
             ChartTool.AddNoteEdit2ChartData(note, boxID, lineID, GlobalData.Instance.chartEditData, GlobalData.Instance.chartData);
-            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+            GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
         }
 
         private void FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine)
@@ -227,12 +227,12 @@ namespace Form.NoteEdit
                 FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
 
                 newHoldEdit.thisNoteRect.sizeDelta = new(newHoldEdit.thisNoteRect.sizeDelta.x, nearBeatLine.transform.localPosition.y - newHoldEdit.transform.localPosition.y);
-                newHoldEdit.thisNoteData.HoldBeats = new(new BPM(nearBeatLine.thisBPM) - new BPM(newHoldEdit.thisNoteData.HitBeats));
+                newHoldEdit.thisNoteData.holdBeats = new(new BPM(nearBeatLine.thisBPM) - new BPM(newHoldEdit.thisNoteData.HitBeats));
                 yield return new WaitForEndOfFrame();
             }
             waitForPressureAgain = false;
 
-            if (newHoldEdit.thisNoteData.HoldBeats.ThisStartBPM <= .0001f)
+            if (newHoldEdit.thisNoteData.holdBeats.ThisStartBPM <= .0001f)
             {
                 Debug.LogError("哒咩哒咩，长度为0的Hold！");
                 Destroy(newHoldEdit.gameObject);
@@ -257,7 +257,7 @@ namespace Form.NoteEdit
                 _ => throw new Exception("呜呜呜，怎么找不到究竟是粉色的FullFlick还是蓝色的FullFlick呢...")
             };
             note.HitBeats = nearBeatLine.thisBPM;
-            note.HoldBeats = new();
+            note.holdBeats = new();
             note.effect = NoteEffect.Ripple;
             note.isClockwise = note.positionX switch
             {
@@ -327,12 +327,14 @@ namespace Form.NoteEdit
                     //float endBeatsSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(item.EndBeats.ThisStartBPM);
                     //float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(item.EndBeats.ThisStartBPM);
                     //float hitBeatsPositionY= YScale.Instance.GetPositionYWithSecondsTime(item.HitBeats.ThisStartBPM);
-                    float holdBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(BPMManager.Instance.GetSecondsTimeWithBeats(item.HoldBeats.ThisStartBPM));
+                    float holdBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(BPMManager.Instance.GetSecondsTimeWithBeats(item.holdBeats.ThisStartBPM));
                     newNoteEdit.thisNoteRect.sizeDelta = new(newNoteEdit.thisNoteRect.sizeDelta.x, holdBeatsPositionY);
                 }
                 //Debug.LogError("写到这里了，下次继续写");
                 notes.Add(newNoteEdit);
             }
+
+            onNoteRefreshed(notes);
         }
 
         public List<ISelectBoxItem> TransmitObjects()

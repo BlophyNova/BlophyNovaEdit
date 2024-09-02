@@ -22,7 +22,8 @@ public class LineID : MonoBehaviour,IRefresh
     {
         add.onClick.AddListener(() =>
         {
-            if (lineID + 1 >4)
+            //if (lineID + 1 > 4)
+            if (lineID + 1 > 3)
             {
                 Alert.EnableAlert("呜呜呜，前方好像是不存在的区域呢...");
                 return;

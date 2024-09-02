@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Scenes.Edit
 {
-    public class SelectBox : MonoBehaviour
+    public class SelectBox : MonoBehaviour, ISelectBox
     {
         public Form.NoteEdit.NoteEdit noteEdit;
         public EventEdit eventEdit;
@@ -46,15 +46,13 @@ namespace Scenes.Edit
             if (noteEdit != null)
             {
                 noteEdit.onNoteDeleted += noteEdit => selectedBoxItems.Remove(noteEdit);
+                noteEdit.onNoteRefreshed += notes => selectedBoxItems.Clear();
             }
 
             if (eventEdit != null)
             {
                 eventEdit.onEventDeleted += eventEditItem => selectedBoxItems.Remove(eventEditItem);
-                eventEdit.onEventRefreshed += eventEditItems =>
-                {
-                    selectedBoxItems.Clear();
-                };
+                eventEdit.onEventRefreshed += eventEditItems => selectedBoxItems.Clear();
             }
 
         }
@@ -151,5 +149,7 @@ namespace Scenes.Edit
             selectBoxTexture.color = enableSelectBoxTextureColor;
             firstFramePositionInLabelWindow = labelWindowContent.MousePositionInThisRectTransformCenter;
         }
+
+        public List<ISelectBoxItem> TransmitObjects() => selectedBoxItems;
     }
 }

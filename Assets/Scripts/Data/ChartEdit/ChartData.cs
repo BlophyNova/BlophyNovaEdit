@@ -158,26 +158,35 @@ namespace Data.ChartEdit
                 Debug.Log($@"有人在碰我敏感肌呜呜呜···");
             }
         }
-        BPM holdBeats;
-        [JsonIgnore]
-        public BPM HoldBeats
-        {
-            get => holdBeats;
-            set 
-            { 
-                holdBeats = value;
-                BPM cloneHitBeats = new(hitBeats);
-                BPM cloneHoldBeats = new(holdBeats);
-                endBeats = cloneHitBeats + cloneHoldBeats;
-            }
-        }
-        public BPM endBeats;
+        public BPM holdBeats;
+        //public BPM endBeats;
         public NoteEffect effect;
         public float positionX;
         public bool isClockwise;//是逆时针
         public bool hasOther;//还有别的Note和他在统一时间被打击，简称多押标识（（
-        [JsonIgnore] public BPM EndBeats => endBeats;
+        [JsonIgnore] public BPM EndBeats
+        {
+            get
+            {
+                BPM cloneHitBeats = new(hitBeats);
+                BPM cloneHoldBeats = new(holdBeats);
+                return cloneHitBeats + cloneHoldBeats;
+            }
+        }
+
         [JsonIgnore] public float hitFloorPosition;//打击地板上距离
+        public Note(){}
+        public Note(Note note)
+        {
+            noteType = note.noteType;
+            hitBeats = note.hitBeats;
+            holdBeats = note.holdBeats;
+            effect=note.effect;
+            positionX = note.positionX;
+            isClockwise = note.isClockwise;
+            hasOther = note.hasOther;
+        }
+
     }
     [Serializable]
     public class BoxEvents

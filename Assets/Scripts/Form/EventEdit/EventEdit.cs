@@ -12,6 +12,7 @@ using UnityEngine.UI;
 using UtilityCode.Algorithm;
 using UtilityCode.GameUtility;
 using static UnityEngine.Camera;
+using EventType = Data.Enumerate.EventType;
 
 public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh,ISelectBox
 {
@@ -158,6 +159,12 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                     nearEventVerticalLineDis = dis;
                     nearEventVerticalLine = item;
                 }
+            }
+
+            if (nearEventVerticalLine.eventType == EventType.LineAlpha)
+            {
+                isFirstTime = false;
+                return;
             }
             EventEditItem newEventEditItem = Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
             eventEditItems.Add(newEventEditItem); WindowSizeChanged();

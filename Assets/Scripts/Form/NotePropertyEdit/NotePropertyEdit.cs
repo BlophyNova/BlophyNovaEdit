@@ -171,7 +171,7 @@ namespace Form.NotePropertyEdit
                     int.Parse(match.Groups[3].Value));
                 BPM hitBeats = new(note.thisNoteData.HitBeats);
                 BPM holdBeats = endBeats - hitBeats;
-                note.thisNoteData.HoldBeats = holdBeats;
+                note.thisNoteData.holdBeats = holdBeats;
                 RefreshChartPreviewAndChartEditCanvas();
             }
         }
