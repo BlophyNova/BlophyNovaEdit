@@ -47,10 +47,12 @@ namespace Form.NoteEdit
 
         void AddNote2NoteClipboard()
         {
+            noteClipboard.Clear();
             foreach (Scenes.Edit.NoteEdit selectedNote in selectBox.selectedBoxItems)
             {
                 noteClipboard.Add(selectedNote.thisNoteData);
             }
+            Debug.Log($@"已将{noteClipboard.Count}个音符发送至剪切板！");
         }
 
         void PasteNote()

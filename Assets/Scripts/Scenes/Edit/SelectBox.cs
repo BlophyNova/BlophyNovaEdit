@@ -123,7 +123,7 @@ namespace Scenes.Edit
             var points = selectBoxObjects.TransmitObjects();
             foreach (var item in points)
             {
-                foreach (var point in item.GetCorners())
+                foreach (Vector3 point in item.GetCorners())
                 {
                     if (point.x > selectBoxPoints[0].x && point.y > selectBoxPoints[0].y &&
                         point.x < selectBoxPoints[2].x && point.y < selectBoxPoints[2].y)
@@ -131,9 +131,13 @@ namespace Scenes.Edit
                         item.SetSelectState(true);
                         selectedBoxItems.Add(item);
                         Debug.Log($"0:{selectBoxPoints[0]};\n1:{selectBoxPoints[1]};\n2:{selectBoxPoints[2]};\n3{selectBoxPoints[3]};\np:{point}");
+                        break;
                     }
                 }
+
+
             }
+            Debug.Log($@"已选择{selectedBoxItems.Count}个音符！");
         }
 
         private void HoldHandle()
