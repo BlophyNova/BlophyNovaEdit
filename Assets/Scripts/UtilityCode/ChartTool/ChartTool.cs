@@ -103,7 +103,12 @@ public class ChartTool
         {
             Data.ChartData.Box chartDataBox = new()
             {
-                lines = new() { new(), new(), new(), new(), new() },
+                lines = new() { 
+                    new() { offlineNotes = new(), onlineNotes = new() }, 
+                    new() { offlineNotes = new(), onlineNotes = new() }, 
+                    new() { offlineNotes = new(), onlineNotes = new() }, 
+                    new() { offlineNotes = new(), onlineNotes = new() }, 
+                    new() { offlineNotes = new(), onlineNotes = new() } },
                 boxEvents = new()
                 {
                     scaleX = new(),
@@ -152,17 +157,17 @@ public class ChartTool
 
     public static void ConvertEditLine2ChartDataLine(Data.ChartEdit.Box box, Data.ChartData.Box chartDataBox, int i)
     {
-        chartDataBox.lines[i].offlineNotes = new();
         foreach (Data.ChartEdit.Note item in box.lines[i].offlineNotes)
         {
             Data.ChartData.Note newChartDataNote = new(item);
-            chartDataBox.lines[i].offlineNotes.Add(newChartDataNote);
+            if (newChartDataNote.noteType == NoteType.Point) chartDataBox.lines[4].offlineNotes.Add(newChartDataNote);
+            else chartDataBox.lines[i].offlineNotes.Add(newChartDataNote);
         }
-        chartDataBox.lines[i].onlineNotes = new();
         foreach (Data.ChartEdit.Note item in box.lines[i].onlineNotes)
         {
             Data.ChartData.Note newChartDataNote = new(item);
-            chartDataBox.lines[i].onlineNotes.Add(newChartDataNote);
+            if(newChartDataNote.noteType==NoteType.Point) chartDataBox.lines[4].onlineNotes.Add(newChartDataNote);
+            else chartDataBox.lines[i].onlineNotes.Add(newChartDataNote);
         }
     }
 
