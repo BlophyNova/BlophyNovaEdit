@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UtilityCode.Algorithm;
 using UtilityCode.GameUtility;
+using Box = Data.ChartData.Box;
 
 public class ChartTool
 {
@@ -99,60 +100,74 @@ public class ChartTool
     public static List<Data.ChartData.Box> ConvertChartEdit2ChartData(List<Data.ChartEdit.Box> boxes)
     {
         List<Data.ChartData.Box> result = new();
-        foreach (Data.ChartEdit.Box box in boxes)
+        for (var index = 0; index < boxes.Count; index++)
         {
-            Data.ChartData.Box chartDataBox = new()
-            {
-                lines = new() { 
-                    new() { offlineNotes = new(), onlineNotes = new() }, 
-                    new() { offlineNotes = new(), onlineNotes = new() }, 
-                    new() { offlineNotes = new(), onlineNotes = new() }, 
-                    new() { offlineNotes = new(), onlineNotes = new() }, 
-                    new() { offlineNotes = new(), onlineNotes = new() } },
-                boxEvents = new()
-                {
-                    scaleX = new(),
-                    scaleY = new(),
-                    moveX = new(),
-                    moveY = new(),
-                    centerX = new(),
-                    centerY = new(),
-                    alpha = new(),
-                    lineAlpha = new(),
-                    rotate = new()
-                }
-            };
-            ForeachBoxEvents(box.boxEvents.scaleX, chartDataBox.boxEvents.scaleX);
-            ForeachBoxEvents(box.boxEvents.scaleY, chartDataBox.boxEvents.scaleY);
-            ForeachBoxEvents(box.boxEvents.moveX, chartDataBox.boxEvents.moveX);
-            ForeachBoxEvents(box.boxEvents.moveY, chartDataBox.boxEvents.moveY);
-            ForeachBoxEvents(box.boxEvents.centerX, chartDataBox.boxEvents.centerX);
-            ForeachBoxEvents(box.boxEvents.centerY, chartDataBox.boxEvents.centerY);
-            ForeachBoxEvents(box.boxEvents.alpha, chartDataBox.boxEvents.alpha);
-            ForeachBoxEvents(box.boxEvents.lineAlpha, chartDataBox.boxEvents.lineAlpha);
-            ForeachBoxEvents(box.boxEvents.rotate, chartDataBox.boxEvents.rotate);
-            for (int i = 0; i < chartDataBox.lines.Count; i++)
-            {
-                ConvertEditLine2ChartDataLine(box, chartDataBox, i);
-                List<Data.ChartEdit.Event> filledVoid = GameUtility.FillVoid(box.boxEvents.speed);
-                chartDataBox.lines[i].speed = new();
-                ForeachBoxEvents(filledVoid, chartDataBox.lines[i].speed);
-                chartDataBox.lines[i].career = new()
-                {
-                    postWrapMode = WrapMode.ClampForever,
-                    preWrapMode = WrapMode.ClampForever,
-                    keys = GameUtility.CalculatedSpeedCurve(chartDataBox.lines[i].speed.ToArray()).ToArray()
-                };
-                chartDataBox.lines[i].far = new()
-                {
-                    postWrapMode = WrapMode.ClampForever,
-                    preWrapMode = WrapMode.ClampForever,
-                    keys = GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray()
-                };
-            }
+            Box chartDataBox = ConvertEditBox2ChartDataBox(boxes[index]);
+
             result.Add(chartDataBox);
         }
+
         return result;
+    }
+
+    public static Box ConvertEditBox2ChartDataBox(Data.ChartEdit.Box box)
+    {
+
+
+        Box chartDataBox = new()
+        {
+            lines = new()
+            {
+                new() { offlineNotes = new(), onlineNotes = new() },
+                new() { offlineNotes = new(), onlineNotes = new() },
+                new() { offlineNotes = new(), onlineNotes = new() },
+                new() { offlineNotes = new(), onlineNotes = new() },
+                new() { offlineNotes = new(), onlineNotes = new() }
+            },
+            boxEvents = new()
+            {
+                scaleX = new(),
+                scaleY = new(),
+                moveX = new(),
+                moveY = new(),
+                centerX = new(),
+                centerY = new(),
+                alpha = new(),
+                lineAlpha = new(),
+                rotate = new()
+            }
+        };
+        //var box = boxes[index];
+        ForeachBoxEvents(box.boxEvents.scaleX, chartDataBox.boxEvents.scaleX);
+        ForeachBoxEvents(box.boxEvents.scaleY, chartDataBox.boxEvents.scaleY);
+        ForeachBoxEvents(box.boxEvents.moveX, chartDataBox.boxEvents.moveX);
+        ForeachBoxEvents(box.boxEvents.moveY, chartDataBox.boxEvents.moveY);
+        ForeachBoxEvents(box.boxEvents.centerX, chartDataBox.boxEvents.centerX);
+        ForeachBoxEvents(box.boxEvents.centerY, chartDataBox.boxEvents.centerY);
+        ForeachBoxEvents(box.boxEvents.alpha, chartDataBox.boxEvents.alpha);
+        ForeachBoxEvents(box.boxEvents.lineAlpha, chartDataBox.boxEvents.lineAlpha);
+        ForeachBoxEvents(box.boxEvents.rotate, chartDataBox.boxEvents.rotate);
+        for (int i = 0; i < chartDataBox.lines.Count; i++)
+        {
+            ConvertEditLine2ChartDataLine(box, chartDataBox, i);
+            List<Data.ChartEdit.Event> filledVoid = GameUtility.FillVoid(box.boxEvents.speed);
+            chartDataBox.lines[i].speed = new();
+            ForeachBoxEvents(filledVoid, chartDataBox.lines[i].speed);
+            chartDataBox.lines[i].career = new()
+            {
+                postWrapMode = WrapMode.ClampForever,
+                preWrapMode = WrapMode.ClampForever,
+                keys = GameUtility.CalculatedSpeedCurve(chartDataBox.lines[i].speed.ToArray()).ToArray()
+            };
+            chartDataBox.lines[i].far = new()
+            {
+                postWrapMode = WrapMode.ClampForever,
+                preWrapMode = WrapMode.ClampForever,
+                keys = GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray()
+            };
+        }
+
+        return chartDataBox;
     }
 
     public static void ConvertEditLine2ChartDataLine(Data.ChartEdit.Box box, Data.ChartData.Box chartDataBox, int i)

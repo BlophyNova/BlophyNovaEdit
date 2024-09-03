@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Controller;
 using Data.ChartEdit;
+using Manager;
 using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 
@@ -74,7 +76,7 @@ namespace Form.NoteEdit
         {
             Debug.Log("剪切音符");
             isCopy=false;
-            RefreshNoteEditAndChartPreview();
+            AddNote2NoteClipboard();
         }
         void AddNote2NoteClipboard()
         {
@@ -110,10 +112,7 @@ namespace Form.NoteEdit
             {
                 DeleteNote((Scenes.Edit.NoteEdit)selectBox.TransmitObjects()[i]);
             }
-            ChartTool.ConvertEditLine2ChartDataLine(GlobalData.Instance.chartEditData.boxes[currentBoxID],
-                GlobalData.Instance.chartData.boxes[currentBoxID], currentLineID);
-            RefreshNotes(-1, -1);
-            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+            RefreshNoteEditAndChartPreview();
         }
 
         void DeleteNote(Scenes.Edit.NoteEdit note)
@@ -167,9 +166,13 @@ namespace Form.NoteEdit
 
         private void RefreshNoteEditAndChartPreview()
         {
-            ChartTool.ConvertEditLine2ChartDataLine(GlobalData.Instance.chartEditData.boxes[currentBoxID],
-                GlobalData.Instance.chartData.boxes[currentBoxID], currentLineID);
+            //ChartTool.ConvertEditLine2ChartDataLine(GlobalData.Instance.chartEditData.boxes[currentBoxID],
+            //    GlobalData.Instance.chartData.boxes[currentBoxID], currentLineID);
+            GlobalData.Instance.chartData.boxes[currentBoxID]=ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[currentBoxID]);
+            //ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[currentBoxID])
             RefreshNotes(-1, -1);
+            SpeckleManager.Instance.allLineNoteControllers.Clear();
+            GameController.Instance.RefreshChartPreview();
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
             GlobalData.Refresh<IRefreshUI>((interfaceMethod) => interfaceMethod.RefreshUI());
         }
