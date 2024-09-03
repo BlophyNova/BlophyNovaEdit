@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Data.ChartEdit;
+using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 
 namespace Form.NoteEdit
@@ -96,6 +97,27 @@ namespace Form.NoteEdit
                 AddNoteAndRefresh(newNote, currentBoxID, currentLineID);
             }
             RefreshNotes(-1, -1);
+        }
+
+
+        private void DeleteNoteWithUI()
+        {
+            for (int i = selectBox.selectedBoxItems.Count - 1; i >= 0; i--)
+            {
+                DeleteNote((Scenes.Edit.NoteEdit)selectBox.selectedBoxItems[i]);
+            }
+            ChartTool.ConvertEditLine2ChartDataLine(GlobalData.Instance.chartEditData.boxes[currentBoxID],
+                GlobalData.Instance.chartData.boxes[currentBoxID], currentLineID);
+            RefreshNotes(-1, -1);
+            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+        }
+
+        void DeleteNote(Scenes.Edit.NoteEdit note)
+        {
+            List<Data.ChartEdit.Note> notes = GlobalData.Instance.chartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes;
+            //events.Remove(notePropertyEdit.@event.@event);
+            notes.Remove(note.thisNoteData);
+            onNoteDeleted(note);
         }
     }
 }
