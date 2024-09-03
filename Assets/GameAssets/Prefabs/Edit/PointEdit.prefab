@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4181911907297149201
 RectTransform:
   m_ObjectHideFlags: 0
@@ -293,7 +293,7 @@ MonoBehaviour:
   thisNoteRect: {fileID: 4871434625925746170}
   thisNoteData:
     noteType: 0
-    endBeats:
+    holdBeats:
       integer: 0
       molecule: 0
       denominator: 1
@@ -302,5 +302,6 @@ MonoBehaviour:
     positionX: 0
     isClockwise: 0
     hasOther: 0
+    isSelected: 0
     hitFloorPosition: 0
   isSelectedRect: {fileID: 4181911907297149201}

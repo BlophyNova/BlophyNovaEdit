@@ -17,7 +17,7 @@ namespace Scenes.Edit
         public virtual NoteEdit Init(Note note)
         {
             thisNoteData = note;
-            SetSelectState(false);
+            //SetSelectState(false);
             return this;
         }
         private void Start()
@@ -36,6 +36,7 @@ namespace Scenes.Edit
 
         public void SetSelectState(bool active)
         {
+            thisNoteData.isSelected = active;
             isSelectedRect.gameObject.SetActive(active);
         }
     }

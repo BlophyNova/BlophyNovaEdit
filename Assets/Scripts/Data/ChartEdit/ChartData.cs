@@ -164,6 +164,7 @@ namespace Data.ChartEdit
         public float positionX;
         public bool isClockwise;//是逆时针
         public bool hasOther;//还有别的Note和他在统一时间被打击，简称多押标识（（
+        public bool isSelected;
         [JsonIgnore] public BPM EndBeats
         {
             get
@@ -185,6 +186,7 @@ namespace Data.ChartEdit
             positionX = note.positionX;
             isClockwise = note.isClockwise;
             hasOther = note.hasOther;
+            isSelected = note.isSelected;
         }
 
     }

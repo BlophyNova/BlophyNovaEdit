@@ -14,8 +14,8 @@ namespace Scenes.Edit
         public RectTransform thisSelectBoxRect;
         public ISelectBox selectBoxObjects => noteEdit == null ? eventEdit : noteEdit;
         public LabelWindowContent labelWindowContent => noteEdit == null ? eventEdit : noteEdit;
-        public Image selectBoxTexture;
-        public List<ISelectBoxItem> selectedBoxItems = new();
+        public Image selectBoxTexture; 
+        List<ISelectBoxItem> selectedBoxItems = new();
         public Color enableSelectBoxTextureColor = new(1, 1, 1, 1);
         public Color disableSelectBoxTextureColor = new(1, 1, 1, 0);
         public Vector2 firstFramePositionInLabelWindow = Vector2.zero;
@@ -46,13 +46,28 @@ namespace Scenes.Edit
             if (noteEdit != null)
             {
                 noteEdit.onNoteDeleted += noteEdit => selectedBoxItems.Remove(noteEdit);
-                noteEdit.onNoteRefreshed += notes => selectedBoxItems.Clear();
+                noteEdit.onNoteRefreshed += notes =>
+                {
+                    selectedBoxItems.Clear();
+                    foreach (NoteEdit note in notes)
+                    {
+                        if (note.thisNoteData.isSelected)
+                        {
+                            note.SetSelectState(true);
+                            selectedBoxItems.Add(note);
+                        }
+                    }
+                };
             }
 
             if (eventEdit != null)
             {
                 eventEdit.onEventDeleted += eventEditItem => selectedBoxItems.Remove(eventEditItem);
-                eventEdit.onEventRefreshed += eventEditItems => selectedBoxItems.Clear();
+                eventEdit.onEventRefreshed += eventEditItems =>
+                {
+                    selectedBoxItems.Clear();
+                    //事件同理，先不写了
+                };
             }
 
         }

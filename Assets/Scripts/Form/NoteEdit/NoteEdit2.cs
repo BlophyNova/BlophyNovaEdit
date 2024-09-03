@@ -77,7 +77,7 @@ namespace Form.NoteEdit
         void AddNote2NoteClipboard()
         {
             noteClipboard.Clear();
-            foreach (Scenes.Edit.NoteEdit selectedNote in selectBox.selectedBoxItems)
+            foreach (Scenes.Edit.NoteEdit selectedNote in selectBox.TransmitObjects())
             {
                 noteClipboard.Add(selectedNote);
             }
@@ -102,9 +102,9 @@ namespace Form.NoteEdit
 
         private void DeleteNoteWithUI()
         {
-            for (int i = selectBox.selectedBoxItems.Count - 1; i >= 0; i--)
+            for (int i = selectBox.TransmitObjects().Count - 1; i >= 0; i--)
             {
-                DeleteNote((Scenes.Edit.NoteEdit)selectBox.selectedBoxItems[i]);
+                DeleteNote((Scenes.Edit.NoteEdit)selectBox.TransmitObjects()[i]);
             }
             ChartTool.ConvertEditLine2ChartDataLine(GlobalData.Instance.chartEditData.boxes[currentBoxID],
                 GlobalData.Instance.chartData.boxes[currentBoxID], currentLineID);
@@ -122,7 +122,7 @@ namespace Form.NoteEdit
 
         void MoveUp()
         {
-            foreach (Scenes.Edit.NoteEdit noteEdit in noteClipboard)
+            foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects())
             {
                 noteEdit.thisNoteData.HitBeats.AddOneBeat();
             }
@@ -132,7 +132,7 @@ namespace Form.NoteEdit
 
         void MoveDown()
         {
-            foreach (Scenes.Edit.NoteEdit noteEdit in noteClipboard)
+            foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects())
             {
                 noteEdit.thisNoteData.HitBeats.SubtractionOneBeat();
             }
@@ -142,7 +142,7 @@ namespace Form.NoteEdit
         void MoveLeft()
         {
 
-            foreach (Scenes.Edit.NoteEdit noteEdit in noteClipboard)
+            foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects())
             {
                 float verticalLineDelta = 2 / (float)GlobalData.Instance.chartEditData.eventVerticalSubdivision;
                 noteEdit.thisNoteData.positionX -= verticalLineDelta;
@@ -153,7 +153,7 @@ namespace Form.NoteEdit
         void MoveRight()
         {
 
-            foreach (Scenes.Edit.NoteEdit noteEdit in noteClipboard)
+            foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects())
             {
                 float verticalLineDelta = 2 / (float)GlobalData.Instance.chartEditData.eventVerticalSubdivision;
                 noteEdit.thisNoteData.positionX += verticalLineDelta;
