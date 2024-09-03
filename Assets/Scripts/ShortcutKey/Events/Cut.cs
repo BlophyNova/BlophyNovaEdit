@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Paste : ShortcutKeyEventBase
+public class Cut : ShortcutKeyEventBase
 {
     private void Start()
     {

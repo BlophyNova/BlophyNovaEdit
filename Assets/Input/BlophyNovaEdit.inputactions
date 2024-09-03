@@ -96,6 +96,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Cut",
+                    "type": "Button",
+                    "id": "5a645ae2-0e3c-44c7-b66c-d747959b3e31",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Paste",
                     "type": "Button",
                     "id": "588e6070-a285-49b5-9fd7-0141390350d9",
@@ -744,6 +753,39 @@
                     "action": "Mirror",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "76519f84-4a7b-4c47-a35a-540e7cd1832c",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cut",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "45cadee1-e4b1-40e4-b998-b725fac0d802",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Cut",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "133078cd-28d9-435c-b349-699f0fee820f",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Cut",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

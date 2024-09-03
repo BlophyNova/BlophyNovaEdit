@@ -101,7 +101,7 @@ namespace Form.NoteEdit
                 "AddFlick" => () => AddNewFlick(),
                 "AddPoint" => () => AddNewPoint(),
                 "AddFullFlick" => () => AddNewFullFlick(),
-                "Delete" => () => DeleteNote(),
+                "Delete" => () => DeleteNoteWithUI(),
                 "SelectBox" => ()=>SelectBoxUp(),
                 "Undo" => ()=>UndoNote(),
                 "Redo" => ()=>RedoNote(),
@@ -114,20 +114,24 @@ namespace Form.NoteEdit
             action();
         }
 
-        private void DeleteNote()
+        private void DeleteNoteWithUI()
         {
             if (labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
             {
                 Form.NotePropertyEdit. NotePropertyEdit notePropertyEdit = (Form.NotePropertyEdit.NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelWindow;
-                List<Data.ChartEdit.Note> notes = GlobalData.Instance.chartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes;
-                //events.Remove(notePropertyEdit.@event.@event);
-                notes.Remove(notePropertyEdit.note.thisNoteData);
-                onNoteDeleted(notePropertyEdit.note);
+                DeleteNote(notePropertyEdit.note);
                 notePropertyEdit.RefreshNotes();
                 GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
             }
         }
 
+        void DeleteNote(Scenes.Edit.NoteEdit note)
+        {
+            List<Data.ChartEdit.Note> notes = GlobalData.Instance.chartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes;
+            //events.Remove(notePropertyEdit.@event.@event);
+            notes.Remove(note.thisNoteData);
+            onNoteDeleted(note);
+        }
         public void AddNewTap()
         {
             AddNewNote(NoteType.Tap, NoteEffect.CommonEffect | NoteEffect.Ripple, currentBoxID, currentLineID);

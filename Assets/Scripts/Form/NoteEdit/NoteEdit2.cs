@@ -13,7 +13,7 @@ namespace Form.NoteEdit
         public delegate void OnNoteRefreshed(List<Scenes.Edit.NoteEdit>  notes);
         public event OnNoteRefreshed onNoteRefreshed = notes => { };
 
-        public List<Note> noteClipboard=new();
+        public List<Scenes.Edit.NoteEdit> noteClipboard=new();
         public bool isCopy = false;
         void SelectBoxDown()
         {
@@ -44,30 +44,44 @@ namespace Form.NoteEdit
             isCopy=true;
             AddNote2NoteClipboard();
         }
-
-        void AddNote2NoteClipboard()
-        {
-            noteClipboard.Clear();
-            foreach (Scenes.Edit.NoteEdit selectedNote in selectBox.selectedBoxItems)
-            {
-                noteClipboard.Add(selectedNote.thisNoteData);
-            }
-            Debug.Log($@"已将{noteClipboard.Count}个音符发送至剪切板！");
-        }
-
-        void PasteNote()
+        void PasteNote() 
         {
             Debug.Log("粘贴音符");
+            FindNearBeatLineAndVerticalLine(out BeatLine beatLine,out var verticalLine );
+            BPM firstNoteBPM = noteClipboard[0].thisNoteData.HitBeats;
+            foreach (Scenes.Edit.NoteEdit note in noteClipboard)
+            {
+                Note copyNewNote = new(note.thisNoteData);
+                copyNewNote.HitBeats = new BPM(beatLine.thisBPM)+(new BPM(note.thisNoteData.HitBeats)-new BPM(firstNoteBPM));
+                AddNoteAndRefresh(copyNewNote,currentBoxID,currentLineID);
+            }
+
+            if (!isCopy)
+            {
+                foreach (Scenes.Edit.NoteEdit note in noteClipboard)
+                {
+                    DeleteNote(note);
+                }
+                noteClipboard.Clear();
+            }
+            RefreshNotes(-1,-1);
 
         }
-
         void CutNote()
         {
             Debug.Log("剪切音符");
             isCopy=false; 
             AddNote2NoteClipboard();
         }
-
+        void AddNote2NoteClipboard()
+        {
+            noteClipboard.Clear();
+            foreach (Scenes.Edit.NoteEdit selectedNote in selectBox.selectedBoxItems)
+            {
+                noteClipboard.Add(selectedNote);
+            }
+            Debug.Log($@"已将{noteClipboard.Count}个音符发送至剪切板！");
+        }
         void MirrorNote()
         {
             Debug.Log("镜像音符");
