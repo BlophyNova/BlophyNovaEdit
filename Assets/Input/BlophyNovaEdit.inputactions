@@ -859,7 +859,7 @@
                 {
                     "name": "binding",
                     "id": "845ad2c3-9d1b-4bc3-b139-ac75d78c2842",
-                    "path": "<Keyboard>/ctrl",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -936,7 +936,7 @@
                 {
                     "name": "binding",
                     "id": "08e21436-9d79-4b44-9390-97b243389e0f",
-                    "path": "<Keyboard>/ctrl",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -1013,7 +1013,7 @@
                 {
                     "name": "binding",
                     "id": "88b6e346-1b47-4b91-a76e-6ff9cc4fa093",
-                    "path": "<Keyboard>/ctrl",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -1090,7 +1090,7 @@
                 {
                     "name": "binding",
                     "id": "8d986585-e4ea-4b5a-806c-70866a9ce959",
-                    "path": "<Keyboard>/ctrl",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",

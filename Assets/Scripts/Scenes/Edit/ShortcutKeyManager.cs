@@ -15,25 +15,9 @@ public class ShortcutKeyManager : MonoBehaviourSingleton<ShortcutKeyManager>
     {
         //Debug.Log($"{inputActionsAsset.ToJson()}");
         //File.WriteAllText($"{Application.streamingAssetsPath}/Config/ShortcutKeyConfig.HuaWaterED", inputActionsAsset.ToJson());
-        
-        playerInput.actions= inputActionsAsset/* ? InputActionAsset.FromJson(File.ReadAllText($"{Application.streamingAssetsPath}/Config/ShortcutKeyConfig.HuaWaterED")):inputActionsAsset*/;
+
         //playerInput.actions = inputActionsAsset;
-
-        //InputAction hit = playerInput.actions["Fire"];
-        //InputAction move = playerInput.actions["Move"];
-
-        // 手动注册回调函数
-        //hit.started += OnFireStarted;
-        //hit.performed += OnFirePerformed;
-        //hit.canceled += OnFireCanceled;
-        //move.started += OnMoveStarted;
-        //move.performed += OnMovePerformed;
-        //move.canceled += OnMoveCanceled;
+        playerInput.actions = InputActionAsset.FromJson(File.ReadAllText($"{Application.streamingAssetsPath}/Config/ShortcutKeyConfig.HuaWaterED"));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

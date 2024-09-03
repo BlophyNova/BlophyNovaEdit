@@ -54,6 +54,7 @@ namespace Form.NoteEdit
             {
                 Note copyNewNote = new(note.thisNoteData);
                 copyNewNote.HitBeats = new BPM(beatLine.thisBPM)+(new BPM(note.thisNoteData.HitBeats)-new BPM(firstNoteBPM));
+                if (isCopy) copyNewNote.isSelected = false;
                 AddNoteAndRefresh(copyNewNote,currentBoxID,currentLineID);
             }
 
@@ -65,14 +66,15 @@ namespace Form.NoteEdit
                 }
                 noteClipboard.Clear();
             }
-            RefreshNotes(-1,-1);
+
+            RefreshNoteEditAndChartPreview();
 
         }
         void CutNote()
         {
             Debug.Log("剪切音符");
-            isCopy=false; 
-            AddNote2NoteClipboard();
+            isCopy=false;
+            RefreshNoteEditAndChartPreview();
         }
         void AddNote2NoteClipboard()
         {
@@ -93,10 +95,12 @@ namespace Form.NoteEdit
                 var noteData = selectedBoxItem.thisNoteData;
                 if(noteData.positionX==0)continue;
                 Note newNote = new(noteData);
-                newNote.positionX = -newNote.positionX; 
+                newNote.positionX = -newNote.positionX;
+                if (isCopy) newNote.isSelected = false;
                 AddNoteAndRefresh(newNote, currentBoxID, currentLineID);
             }
-            RefreshNotes(-1, -1);
+
+            RefreshNoteEditAndChartPreview();
         }
 
 
