@@ -109,6 +109,10 @@ namespace Form.NoteEdit
                 "Paste" => () => PasteNote(),
                 "Cut" => () => CutNote(),
                 "Mirror" => () => MirrorNote(),
+                "MoveUp" => () =>MoveUp(),
+                "MoveDown"=>()=>MoveDown(),
+                "MoveLeft"=>()=>MoveLeft(),
+                "MoveRight"=>()=>MoveRight(),
                 _ => () => Alert.EnableAlert($"欸···？怎么回事，怎么会找不到事件呢···")
             };
             action();

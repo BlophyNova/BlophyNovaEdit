@@ -119,5 +119,55 @@ namespace Form.NoteEdit
             notes.Remove(note.thisNoteData);
             onNoteDeleted(note);
         }
+
+        void MoveUp()
+        {
+            foreach (Scenes.Edit.NoteEdit noteEdit in noteClipboard)
+            {
+                noteEdit.thisNoteData.HitBeats.AddOneBeat();
+            }
+
+            RefreshNoteEditAndChartPreview();
+        }
+
+        void MoveDown()
+        {
+            foreach (Scenes.Edit.NoteEdit noteEdit in noteClipboard)
+            {
+                noteEdit.thisNoteData.HitBeats.SubtractionOneBeat();
+            }
+            RefreshNoteEditAndChartPreview();
+        }
+
+        void MoveLeft()
+        {
+
+            foreach (Scenes.Edit.NoteEdit noteEdit in noteClipboard)
+            {
+                float verticalLineDelta = 2 / (float)GlobalData.Instance.chartEditData.eventVerticalSubdivision;
+                noteEdit.thisNoteData.positionX -= verticalLineDelta;
+            }
+            RefreshNoteEditAndChartPreview();
+        }
+
+        void MoveRight()
+        {
+
+            foreach (Scenes.Edit.NoteEdit noteEdit in noteClipboard)
+            {
+                float verticalLineDelta = 2 / (float)GlobalData.Instance.chartEditData.eventVerticalSubdivision;
+                noteEdit.thisNoteData.positionX += verticalLineDelta;
+            }
+            RefreshNoteEditAndChartPreview();
+        }
+
+        private void RefreshNoteEditAndChartPreview()
+        {
+            ChartTool.ConvertEditLine2ChartDataLine(GlobalData.Instance.chartEditData.boxes[currentBoxID],
+                GlobalData.Instance.chartData.boxes[currentBoxID], currentLineID);
+            RefreshNotes(-1, -1);
+            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+            GlobalData.Refresh<IRefreshUI>((interfaceMethod) => interfaceMethod.RefreshUI());
+        }
     }
 }
