@@ -1,4 +1,6 @@
+using Controller;
 using Data.ChartEdit;
+using Manager;
 using Scenes.DontDestroyOnLoad;
 using System.Collections;
 using System.Collections.Generic;
@@ -64,9 +66,12 @@ namespace Form.NotePropertyEdit
         {
             Form.NoteEdit.NoteEdit noteEdit = (Form.NoteEdit.NoteEdit)labelWindow.associateLabelWindow.currentLabelWindow;
 
-            ChartTool.ConvertEditLine2ChartDataLine(GlobalData.Instance.chartEditData.boxes[noteEdit.currentBoxID],
-                GlobalData.Instance.chartData.boxes[noteEdit.currentBoxID], noteEdit.currentLineID);
+            GlobalData.Instance.chartData.boxes[noteEdit.currentBoxID]=ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[noteEdit.currentBoxID]);
             noteEdit.RefreshNotes(-1, -1);
+            SpeckleManager.Instance.allLineNoteControllers.Clear();
+            GameController.Instance.RefreshChartPreview();
+            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+            GlobalData.Refresh<IRefreshUI>((interfaceMethod) => interfaceMethod.RefreshUI());
         }
 
         public void RefreshEvents()
