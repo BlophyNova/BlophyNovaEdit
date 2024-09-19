@@ -13,12 +13,12 @@ public class LabelButton : PublicButton
             labelItem.labelWindow.currentLabelWindow.labelWindow.LabelLostFocus();
             labelItem.labelWindow.currentLabelWindow = labelItem.labelWindowContent;
             labelItem.labelWindow.currentLabelWindow.labelWindow.LabelGetFocus();
-            foreach (var item in labelItem.labelWindow.labels)
-            {
-                item.labelWindowContent.gameObject.SetActive(false);
-            }
-            labelItem.labelWindowContent.gameObject.SetActive(true);
-            //labelItem.labelWindowContent.transform.SetAsFirstSibling();
+            //foreach (var item in labelItem.labelWindow.labels)
+            //{
+            //    item.labelWindowContent.gameObject.SetActive(false);
+            //}
+            //labelItem.labelWindowContent.gameObject.SetActive(true);
+            labelItem.labelWindowContent.transform.SetAsLastSibling();
         });
     }
 }
