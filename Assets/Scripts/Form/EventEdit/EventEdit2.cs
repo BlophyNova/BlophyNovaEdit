@@ -1,4 +1,5 @@
 using Scenes.DontDestroyOnLoad;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -113,5 +114,22 @@ public partial class EventEdit
         #endregion
 
         //Debug.LogError("错误记忆");
+    }
+    private void WindowSizeChanged_EventEdit2()
+    {
+        eventLineRenderer.lineRendererTextureRect.sizeDelta=labelWindow.labelWindowRect.sizeDelta;
+    }
+
+    private void LabelWindow_onWindowMoved()
+    {
+        eventLineRenderer.lineRendererTextureRect.anchoredPosition = labelWindow.labelWindowRect.anchoredPosition;
+    }
+
+    private void LabelWindow_onWindowGetFocus()
+    {
+    }
+
+    private void LabelWindow_onWindowLostFocus()
+    {
     }
 }

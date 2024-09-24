@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8389212789492658599}
   - component: {fileID: 6381714878754609048}
   - component: {fileID: 6715373750622190491}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Ease
   m_TagString: Untagged
   m_Icon: {fileID: 0}

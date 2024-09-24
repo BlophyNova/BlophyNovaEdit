@@ -20,6 +20,8 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
 
 
     public BasicLine basicLine;
+    public EventLineRenderer eventLineRendererPrefab;
+    public EventLineRenderer eventLineRenderer;
     public RectTransform thisEventEditRect;
     public RectTransform verticalLineLeft;
     public RectTransform verticalLineRight;
@@ -38,12 +40,20 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         RefreshNotes(currentBoxID);
         UpdateVerticalLineCount();
         UpdateNoteLocalPositionAndSize();
+        eventLineRenderer = Instantiate(eventLineRendererPrefab,LabelWindowsManager.Instance.transform);
+        labelWindow.onWindowMoved += LabelWindow_onWindowMoved;
+        WindowSizeChanged_EventEdit2();
+        LabelWindow_onWindowMoved();
+        labelWindow.onWindowLostFocus += LabelWindow_onWindowLostFocus;
+        labelWindow.onWindowGetFocus += LabelWindow_onWindowGetFocus;
     }
+
     public override void WindowSizeChanged()
     {
         base.WindowSizeChanged();
         UpdateVerticalLineCount(); 
         UpdateNoteLocalPositionAndSize();
+        WindowSizeChanged_EventEdit2();
     }
     public void UpdateNoteLocalPositionAndSize()
     {
