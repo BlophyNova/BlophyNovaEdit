@@ -17,7 +17,7 @@ public class MouseWheel : ShortcutKeyEventBase
 
         LabelWindowContentType labelWindowContentType = LabelWindowContentType.ChartPreview | LabelWindowContentType.NoteEdit | LabelWindowContentType.EventEdit | LabelWindowContentType.ProgressBar|LabelWindowContentType.ATimeLine|LabelWindowContentType.DebugText|LabelWindowContentType.Kawaii;
 
-        if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.labelWindowContentType))
+        if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType))
         {
             //LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Canceled(callbackContext);
             //ProgressManager.Instance.PausePlay();

@@ -12,27 +12,27 @@ public class AddFlick : AddNote
     public override void Started(InputAction.CallbackContext callbackContext)
     {
         base.Started(callbackContext);
-        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NoteEdit)
+        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
         {
-            LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Started(callbackContext);
+            LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Started(callbackContext);
         }
     }
     public override void Performed(InputAction.CallbackContext callbackContext)
     {
         base.Performed(callbackContext);
 
-        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NoteEdit)
+        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
         {
-            LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Performed(callbackContext);
+            LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Performed(callbackContext);
         }
     }
     public override void Canceled(InputAction.CallbackContext callbackContext)
     {
         base.Canceled(callbackContext);
 
-        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NoteEdit)
+        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
         {
-            LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Canceled(callbackContext);
+            LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(callbackContext);
         }
     }
 }

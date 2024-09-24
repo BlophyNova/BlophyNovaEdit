@@ -99,9 +99,9 @@ namespace Scenes.Edit
             selectedBoxItems.Add(selectBoxItem);
             selectBoxItem.SetSelectState(true);
             LabelWindow labelWindow = noteEdit == null ? eventEdit.labelWindow : noteEdit.labelWindow;
-            if (labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
+            if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
             {
-                NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelWindow;
+                NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
                 notePropertyEdit.note = null;
                 notePropertyEdit.@event = null;
                 if (selectBoxItem.IsNoteEdit)

@@ -41,7 +41,7 @@ public class AddLabel : MonoBehaviour
             newItem.labelName.text = GlobalData.Instance.labelWindowContents[index-1].labelWindowName;
             LabelWindowContent newContent = Instantiate(GlobalData.Instance.labelWindowContents[index - 1], contentParentTransform);
             newContent.labelWindow = labelWindow;
-            labelWindow.currentLabelWindow = newContent;
+            labelWindow.currentLabelItem = newItem;
             newItem.labelWindowContent = newContent;
             newItem.labelWindow = labelWindow;
             newItem.closeThisLabel.labelWindow = labelWindow;

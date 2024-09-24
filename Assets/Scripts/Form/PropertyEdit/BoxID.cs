@@ -20,14 +20,14 @@ public class BoxID : MonoBehaviour,IRefresh
 
     public void RefreshNote()
     {
-        if (propertyEdit.labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.EventEdit)
+        if (propertyEdit.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit)
         {
-            EventEdit eventEdit = (EventEdit)propertyEdit.labelWindow.associateLabelWindow.currentLabelWindow;
+            EventEdit eventEdit = (EventEdit)propertyEdit.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
             eventEdit.RefreshNotes(boxID);
         }
-        if (propertyEdit.labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NoteEdit)
+        if (propertyEdit.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
         {
-            NoteEdit noteEdit = (NoteEdit)propertyEdit.labelWindow.associateLabelWindow.currentLabelWindow;
+            NoteEdit noteEdit = (NoteEdit)propertyEdit.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
             noteEdit.RefreshNotes(boxID,-1);
         }
     }

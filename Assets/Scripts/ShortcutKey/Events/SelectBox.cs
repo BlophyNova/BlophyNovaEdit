@@ -19,9 +19,9 @@ namespace ShortcutKey.Events
 
             LabelWindowContentType labelWindowContentType = LabelWindowContentType.NoteEdit | LabelWindowContentType.EventEdit;
 
-            if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.labelWindowContentType))
+            if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType))
             {
-                LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Started(callbackContext);
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Started(callbackContext);
             }
         }
 
@@ -31,9 +31,9 @@ namespace ShortcutKey.Events
 
             LabelWindowContentType labelWindowContentType = LabelWindowContentType.NoteEdit | LabelWindowContentType.EventEdit;
 
-            if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.labelWindowContentType))
+            if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType))
             {
-                LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Performed(callbackContext);
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Performed(callbackContext);
             }
         }
 
@@ -43,9 +43,9 @@ namespace ShortcutKey.Events
 
             LabelWindowContentType labelWindowContentType = LabelWindowContentType.NoteEdit | LabelWindowContentType.EventEdit;
 
-            if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.labelWindowContentType))
+            if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType))
             {
-                LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Canceled(callbackContext);
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(callbackContext);
             }
         }
     }

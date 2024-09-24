@@ -46,13 +46,13 @@ namespace Form.NotePropertyEdit
 
         void RefreshChartPreviewAndChartEditCanvas()
         {
-            if (labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType ==
+            if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType ==
                 LabelWindowContentType.NoteEdit)
             {
                 RefreshNotes();
             }
 
-            if (labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType ==
+            if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType ==
                 LabelWindowContentType.EventEdit)
             {
                 RefreshEvents();
@@ -64,7 +64,7 @@ namespace Form.NotePropertyEdit
 
         public void RefreshNotes()
         {
-            Form.NoteEdit.NoteEdit noteEdit = (Form.NoteEdit.NoteEdit)labelWindow.associateLabelWindow.currentLabelWindow;
+            Form.NoteEdit.NoteEdit noteEdit = (Form.NoteEdit.NoteEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
 
             GlobalData.Instance.chartData.boxes[noteEdit.currentBoxID]=ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[noteEdit.currentBoxID]);
             noteEdit.RefreshNotes(-1, -1);
@@ -76,7 +76,7 @@ namespace Form.NotePropertyEdit
 
         public void RefreshEvents()
         {
-            EventEdit eventEdit = (EventEdit)labelWindow.associateLabelWindow.currentLabelWindow;
+            EventEdit eventEdit = (EventEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
             //@event.eventType
             List<Data.ChartEdit.Event> editBoxEvent = @event.eventType switch
             {

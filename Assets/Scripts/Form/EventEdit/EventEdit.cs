@@ -106,9 +106,9 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     }
     private void DeleteEvent()
     {
-        if (labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
+        if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
         {
-            NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelWindow;
+            NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
             List<Data.ChartEdit.Event> events = notePropertyEdit.@event.eventType switch
             {
                 Data.Enumerate.EventType.Speed=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
@@ -210,7 +210,6 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         {
             Debug.LogError("哒咩哒咩，长度为0的Hold！");
             eventEditItems.Remove(eventEditItem);
-            Destroy(eventEditItem.easeRenderer.line.rectTransform.gameObject);
             Destroy(eventEditItem.gameObject);
         }
         else
@@ -235,7 +234,6 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         yield return new WaitForEndOfFrame();
         foreach (EventEditItem item in eventEditItems)
         {
-            Destroy(item.easeRenderer.line.rectTransform.gameObject);
             Destroy(item.gameObject);
         }
         eventEditItems.Clear();
@@ -281,7 +279,6 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                     Debug.Log($"{currentBoxID}号方框的{eventVerticalLine.eventType}生成了一个新的eei");
                     eventEditItems.Add(newEventEditItem);
                     newEventEditItem.Init();
-                    newEventEditItem.easeRenderer.RefreshUI();
                 }
             }
         }

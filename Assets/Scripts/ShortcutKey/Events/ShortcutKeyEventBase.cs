@@ -9,7 +9,7 @@ public class ShortcutKeyEventBase : MonoBehaviour, IInputEventCallback
     public string inputActionName;
     public void Init()
     {
-        InputAction inputAction =ShortcutKeyManager.Instance.playerInput.actions[inputActionName];
+        InputAction inputAction = ShortcutKeyManager.Instance.playerInput.actions[inputActionName];
         inputAction.started += callbackContext => Started(callbackContext);
         inputAction.performed += callbackContext => Performed(callbackContext);
         inputAction.canceled += callbackContext => Canceled(callbackContext);

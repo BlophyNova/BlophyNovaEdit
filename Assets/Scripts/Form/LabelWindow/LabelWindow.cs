@@ -14,7 +14,7 @@ public class LabelWindow : MonoBehaviour
     public Image labelColor;
     public int labelColorIndex;
     public LabelWindow associateLabelWindow;//关联LabelWindow
-    public LabelWindowContent currentLabelWindow;
+    public LabelItem currentLabelItem;
     public Content labelWindowContent;
     public delegate void OnWindowSizeChanged();
     public event OnWindowSizeChanged onWindowSizeChanged = () => { };
@@ -24,20 +24,14 @@ public class LabelWindow : MonoBehaviour
     public event OnWindowGetFocus onWindowGetFocus = () => { };
     public delegate void OnWindowLostFocus();
     public event OnWindowLostFocus onWindowLostFocus = () => { };
-    public delegate void OnLabelGetFocus();
-    public event OnLabelGetFocus onLabelGetFocus = () => { };
-    public delegate void OnLabelLostFocus();
-    public event OnLabelLostFocus onLabelLostFocus = () => { };
     public bool focus;
-    public float MinX => currentLabelWindow == null ? 100 : currentLabelWindow.minX;
-    public float MinY => currentLabelWindow == null ? 100 : currentLabelWindow.minY;
+    public float MinX => currentLabelItem == null ? 100 : currentLabelItem.labelWindowContent.minX;
+    public float MinY => currentLabelItem == null ? 100 : currentLabelItem.labelWindowContent.minY;
     public float MaxX => 1920;
     public float MaxY => 1080;
     public void WindowSizeChanged()=>onWindowSizeChanged();
     public void WindowMoved() => onWindowMoved();
     public void WindowGetFocus()=>onWindowGetFocus();
     public void WindowLostFocus()=>onWindowLostFocus();
-    public void LabelGetFocus()=>onLabelGetFocus();
-    public void LabelLostFocus()=>onLabelLostFocus();
     //public 
 }

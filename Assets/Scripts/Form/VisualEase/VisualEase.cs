@@ -16,10 +16,10 @@ public class VisualEase : LabelWindowContent,IRefresh
 
     public void Refresh()
     {
-        if (labelWindow.associateLabelWindow.currentLabelWindow.labelWindowContentType ==
+        if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType ==
             LabelWindowContentType.NotePropertyEdit)
         {
-            NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelWindow;
+            NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
             EaseData ease = GlobalData.Instance.easeData[notePropertyEdit.ease.value];
             Vector3[] positions = new Vector3[100];
             Vector3[] corners = new Vector3[4];

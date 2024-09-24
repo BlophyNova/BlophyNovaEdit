@@ -110,7 +110,6 @@ public partial class EventEdit
         }
         skipSpeed:
         eventEditItem.Init();
-        eventEditItem.easeRenderer.RefreshUI();
         #endregion
 
         //Debug.LogError("错误记忆");

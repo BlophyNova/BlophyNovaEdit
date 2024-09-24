@@ -10,9 +10,9 @@ public class LabelButton : PublicButton
     {
         thisButton.onClick.AddListener(() =>
         {
-            labelItem.labelWindow.currentLabelWindow.labelWindow.LabelLostFocus();
-            labelItem.labelWindow.currentLabelWindow = labelItem.labelWindowContent;
-            labelItem.labelWindow.currentLabelWindow.labelWindow.LabelGetFocus();
+            labelItem.labelWindow.currentLabelItem.LabelLostFocus();
+            labelItem.labelWindow.currentLabelItem = labelItem;
+            labelItem.labelWindow.currentLabelItem.LabelGetFocus();
             //foreach (var item in labelItem.labelWindow.labels)
             //{
             //    item.labelWindowContent.gameObject.SetActive(false);

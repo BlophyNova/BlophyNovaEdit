@@ -11,9 +11,10 @@ public class EventEditItem : PublicButton, ISelectBoxItem
 {
     public LabelWindow labelWindow;
     public RectTransform thisEventEditItemRect;
-    public EaseRenderer easeRenderer;
     public RectTransform isSelectedRect;
-    public EventEdit ThisEventEdit => (EventEdit)labelWindow.currentLabelWindow;
+    public RectTransform easeLineRect;
+    public LineRenderer easeLine;
+    public EventEdit ThisEventEdit => (EventEdit)labelWindow.currentLabelItem.labelWindowContent;
     public bool IsNoteEdit => false;
     public Data.ChartEdit.Event @event;
     public Data.Enumerate.EventType eventType;
@@ -23,11 +24,38 @@ public class EventEditItem : PublicButton, ISelectBoxItem
         {
             ThisEventEdit.selectBox.SetSingleNote(this);
         });
+        labelWindow.currentLabelItem.onLabelGetFocus += LabelWindow_onLabelGetFocus;
+        labelWindow.currentLabelItem.onLabelLostFocus += LabelWindow_onLabelLostFocus;
     }
+    private void LabelWindow_onLabelGetFocus()
+    {
+        for (int i = 0; i < easeLine.positionCount; i++)
+        {
+            Vector3 currentIndexPosition = easeLine.GetPosition(i);
+            currentIndexPosition.z = -.1f;
+            easeLine.SetPosition(i, currentIndexPosition);
+        }
+    }
+
+    private void LabelWindow_onLabelLostFocus()
+    {
+        for (int i = 0; i < easeLine.positionCount; i++)
+        {
+            Vector3 currentIndexPosition = easeLine.GetPosition(i);
+            currentIndexPosition.z = .1f;
+            easeLine.SetPosition(i, currentIndexPosition);
+        }
+    }
+    private void OnDestroy()
+    {
+        labelWindow.currentLabelItem.onLabelGetFocus -= LabelWindow_onLabelGetFocus;
+        labelWindow.currentLabelItem.onLabelLostFocus -= LabelWindow_onLabelLostFocus;
+    }
+
     public EventEditItem Init()
     {
         SetSelectState(false);
-
+        //在eei上画线
         float minValue=float.MaxValue; 
         float maxValue=float.MinValue;
         List<Data.ChartEdit.Event> events = eventType switch
@@ -51,21 +79,27 @@ public class EventEditItem : PublicButton, ISelectBoxItem
             if (item.endValue < minValue) minValue = item.endValue;
             if (item.endValue > maxValue) maxValue = item.endValue;
         }
-        List<Vector2> points = new();
+        List<Vector3> points = new();
         int pointCount = (int)((@event.endBeats.ThisStartBPM - @event.startBeats.ThisStartBPM) * 100);
-        for (int i = 0; i <= pointCount; i++)
+        easeLine.positionCount = pointCount;
+        //easeLine.startWidth = easeLine.endWidth = -.2f;
+        Vector3[] corners = new Vector3[4];
+        easeLineRect.GetLocalCorners(corners);
+        for (int i = 0; i < pointCount; i++)
         {
-            float time=i/(float)pointCount;
-            float maxAndMinValueDelta = maxValue - minValue;
-            float endAndStartValueDelta=@event.endValue - @event.startValue;
-            float value = endAndStartValueDelta>=0?  @event.curve.thisCurve.Evaluate(time):1-@event.curve.thisCurve.Evaluate(time);
-            if (Mathf.Abs(maxAndMinValueDelta) - Mathf.Abs(endAndStartValueDelta) > .001f)
-            {
-                value =Mathf.Abs(endAndStartValueDelta) / Mathf.Abs(maxAndMinValueDelta) * value + Mathf.Abs(endAndStartValueDelta) / Mathf.Abs(maxAndMinValueDelta)/2;
-            }
-            points.Add(new(value, time));
+            //positions[i].
+            Vector3 currentPosition = (corners[2] - corners[0]) * (i / (float)pointCount) + corners[0];
+            //currentPosition.y = @event.curve.thisCurve.Evaluate(i / (float)pointCount) * (corners[2].y - corners[0].y) + corners[0].y;
+            currentPosition.x = @event.curve.thisCurve.Evaluate(i / (float)pointCount) * (corners[2].x - corners[0].x) + corners[0].x;
+            currentPosition.z = -.1f;
+            points.Add(currentPosition);
         }
-        easeRenderer.points = points;
+        easeLine.SetPositions(points.ToArray());
+
+
+
+
+        //easeRenderer.points = points;
         return this;
     }
 

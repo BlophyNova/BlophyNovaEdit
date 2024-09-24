@@ -14,9 +14,9 @@ public class Mirror : ShortcutKeyEventBase
     public override void Canceled(InputAction.CallbackContext callbackContext)
     {
         base.Canceled(callbackContext);
-        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.labelWindowContentType == LabelWindowContentType.NoteEdit)
+        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
         {
-            LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Canceled(callbackContext);
+            LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(callbackContext);
         }
     }
 }
