@@ -10,6 +10,7 @@ public class LabelWindowsManager : MonoBehaviourSingleton<LabelWindowsManager>
     public bool[] usedColors;
     public LabelWindow currentFocusWindow;
     public LabelWindow labelWindowPrefab;
+    public Transform lineRendererParent;
     public void SetFocusWindow(LabelWindow window)
     {
         SetAllWindowFocusAsFalse();

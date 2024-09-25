@@ -25,7 +25,6 @@ public class DragIcon : MonoBehaviour
     {
         mouseAndLabelWindowDelta = GetMousePosition - labelWindowRect.anchoredPosition;
         labelWindowRect.transform.SetAsLastSibling();
-        labelWindow.transform.SetSiblingIndex(labelWindow.transform.GetSiblingIndex() - 1);
         LabelWindowsManager.Instance.SetFocusWindow(labelWindow);
     }
     private void OnMouseDrag()

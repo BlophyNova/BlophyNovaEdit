@@ -268,6 +268,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6815545226283633346, guid: 3a95785c26ce17440bc6310210475214, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 565729248}
+    - target: {fileID: 6815545226283633346, guid: 3a95785c26ce17440bc6310210475214, type: 3}
       propertyPath: labelWindow
       value: 
       objectReference: {fileID: 530782856}
@@ -291,6 +295,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 174855695}
     m_Modifications:
+    - target: {fileID: -321431634730499704, guid: 44711f31440e8564f8cfb44aea0d5a1b, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 935564464}
     - target: {fileID: -321431634730499704, guid: 44711f31440e8564f8cfb44aea0d5a1b, type: 3}
       propertyPath: labelWindow
       value: 
@@ -569,6 +577,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 866174815}
     m_Modifications:
+    - target: {fileID: 1081773229714239820, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 432660864}
     - target: {fileID: 1081773229714239820, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: labelWindow
       value: 
@@ -1280,6 +1292,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1959090313}
     m_Modifications:
     - target: {fileID: 1817858998608724202, guid: 2e2c024469742f147be075ad930e7a36, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 1502315331}
+    - target: {fileID: 1817858998608724202, guid: 2e2c024469742f147be075ad930e7a36, type: 3}
       propertyPath: labelWindow
       value: 
       objectReference: {fileID: 1959090311}
@@ -1560,6 +1576,7 @@ RectTransform:
   - {fileID: 530782855}
   - {fileID: 1959090310}
   - {fileID: 1397620701}
+  - {fileID: 1892285638}
   m_Father: {fileID: 130468147}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1665,6 +1682,7 @@ MonoBehaviour:
   usedColors: 01010101010101000000
   currentFocusWindow: {fileID: 696940614}
   labelWindowPrefab: {fileID: 588198340389008037, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
+  lineRendererParent: {fileID: 1892285638}
 --- !u!1 &445126666
 GameObject:
   m_ObjectHideFlags: 0
@@ -4832,6 +4850,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3630496180450939874, guid: 7183aef898df897409aabe8571650f6c, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 696343590}
+    - target: {fileID: 3630496180450939874, guid: 7183aef898df897409aabe8571650f6c, type: 3}
       propertyPath: labelWindow
       value: 
       objectReference: {fileID: 866174814}
@@ -7400,6 +7422,42 @@ MonoBehaviour:
   _setRunInBackground: 1
   _serverType: 1
   _serverUrl: 
+--- !u!1 &1892285637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1892285638}
+  m_Layer: 5
+  m_Name: LineRenderer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1892285638
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892285637}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 444386828}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1911001488
 GameObject:
   m_ObjectHideFlags: 0
@@ -7587,6 +7645,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 631646099}
     m_Modifications:
+    - target: {fileID: 2578719841572640084, guid: 5c439c6691511d8418733e2ce7a88b5c, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 1158211865}
     - target: {fileID: 2578719841572640084, guid: 5c439c6691511d8418733e2ce7a88b5c, type: 3}
       propertyPath: labelWindow
       value: 
@@ -8295,6 +8357,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3607416352043737009, guid: 18a21d3e9c572924cab8233a2931f2d6, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 620665163}
+    - target: {fileID: 3607416352043737009, guid: 18a21d3e9c572924cab8233a2931f2d6, type: 3}
+      propertyPath: labelWindow
+      value: 
+      objectReference: {fileID: 1702324706275704442}
     - target: {fileID: 3607416352043737011, guid: 18a21d3e9c572924cab8233a2931f2d6, type: 3}
       propertyPath: m_Name
       value: DebugText
@@ -8522,6 +8592,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8605462318396424784, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 1556714710}
     - target: {fileID: 8605462318396424784, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
       propertyPath: labelWindow
       value: 
@@ -8812,6 +8886,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1814528201529001719, guid: ae4c111319d6a7b40946183125a9489d, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 1188081074}
+    - target: {fileID: 1814528201529001719, guid: ae4c111319d6a7b40946183125a9489d, type: 3}
       propertyPath: labelWindow
       value: 
       objectReference: {fileID: 1682545557}
@@ -9021,6 +9099,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7243147298861205695, guid: 5a1e1bd157192664fb8614689fb653bf, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 683617049}
+    - target: {fileID: 7243147298861205695, guid: 5a1e1bd157192664fb8614689fb653bf, type: 3}
       propertyPath: labelWindow
       value: 
       objectReference: {fileID: 696940614}
@@ -9044,6 +9126,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 174855695}
     m_Modifications:
+    - target: {fileID: 2413186719526812659, guid: 4137ef2ede430d745bfddbc7b72d4daa, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 1927914415}
     - target: {fileID: 2413186719526812659, guid: 4137ef2ede430d745bfddbc7b72d4daa, type: 3}
       propertyPath: labelWindow
       value: 
@@ -9252,6 +9338,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5323257232105809396, guid: 1309edfb0f773b248a817f911e1236ae, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 1115498183}
     - target: {fileID: 5323257232105809396, guid: 1309edfb0f773b248a817f911e1236ae, type: 3}
       propertyPath: labelWindow
       value: 
@@ -9590,6 +9680,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8268406595791942494, guid: 77f81b1e9770e0e419303621a0e33421, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 1422272228}
+    - target: {fileID: 8268406595791942494, guid: 77f81b1e9770e0e419303621a0e33421, type: 3}
       propertyPath: labelWindow
       value: 
       objectReference: {fileID: 696940614}
@@ -9702,6 +9796,10 @@ PrefabInstance:
       value: EventEdit
       objectReference: {fileID: 0}
     - target: {fileID: 8069792749430917713, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 861213168}
+    - target: {fileID: 8069792749430917713, guid: 4c7b34192596edd4787f95adac68d6f6, type: 3}
       propertyPath: labelWindow
       value: 
       objectReference: {fileID: 1383144357}
@@ -9737,6 +9835,10 @@ PrefabInstance:
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
       value: 0.04714322
       objectReference: {fileID: 0}
+    - target: {fileID: 8155373745562634594, guid: efda85af85976b345bd996c71f9d5768, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 1915796773}
     - target: {fileID: 8155373745562634594, guid: efda85af85976b345bd996c71f9d5768, type: 3}
       propertyPath: labelWindow
       value: 
@@ -9937,6 +10039,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpecialThanks
       objectReference: {fileID: 0}
+    - target: {fileID: 8702821421531608735, guid: 5d03b86fc1269654881b45e765664e8b, type: 3}
+      propertyPath: labelItem
+      value: 
+      objectReference: {fileID: 279980770}
     - target: {fileID: 8702821421531608735, guid: 5d03b86fc1269654881b45e765664e8b, type: 3}
       propertyPath: labelWindow
       value: 

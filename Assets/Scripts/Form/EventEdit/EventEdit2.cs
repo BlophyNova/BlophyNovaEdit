@@ -127,9 +127,68 @@ public partial class EventEdit
 
     private void LabelWindow_onWindowGetFocus()
     {
+        LabelWindowsManager.Instance.lineRendererParent.transform.SetAsLastSibling();
     }
 
     private void LabelWindow_onWindowLostFocus()
     {
     }
+    /// <summary>
+    /// 裁剪Texture2D
+    /// </summary>
+    /// <param name="originalTexture"></param>
+    /// <param name="offsetX"></param>
+    /// <param name="offsetY"></param>
+    /// <param name="originalWidth"></param>
+    /// <param name="originalHeight"></param>
+    /// <returns></returns>
+    public static Texture2D ScaleTextureCutOut(Texture2D originalTexture, int offsetX, int offsetY, float originalWidth, float originalHeight)
+    {
+        Texture2D newTexture = new(Mathf.CeilToInt(originalWidth), Mathf.CeilToInt(originalHeight));
+        int maxX = originalTexture.width - 1;
+        int maxY = originalTexture.height - 1;
+        for (int y = 0; y < newTexture.height; y++)
+        {
+            for (int x = 0; x < newTexture.width; x++)
+            {
+                float targetX = x + offsetX;
+                float targetY = y + offsetY;
+                int x1 = Mathf.Min(maxX, Mathf.FloorToInt(targetX));
+                int y1 = Mathf.Min(maxY, Mathf.FloorToInt(targetY));
+                int x2 = Mathf.Min(maxX, x1 + 1);
+                int y2 = Mathf.Min(maxY, y1 + 1);
+
+                float u = targetX - x1;
+                float v = targetY - y1;
+                float w1 = (1 - u) * (1 - v);
+                float w2 = u * (1 - v);
+                float w3 = (1 - u) * v;
+                float w4 = u * v;
+                Color color1 = originalTexture.GetPixel(x1, y1);
+                Color color2 = originalTexture.GetPixel(x2, y1);
+                Color color3 = originalTexture.GetPixel(x1, y2);
+                Color color4 = originalTexture.GetPixel(x2, y2);
+                Color color = new(Mathf.Clamp01(color1.r * w1 + color2.r * w2 + color3.r * w3 + color4.r * w4),
+                                        Mathf.Clamp01(color1.g * w1 + color2.g * w2 + color3.g * w3 + color4.g * w4),
+                                        Mathf.Clamp01(color1.b * w1 + color2.b * w2 + color3.b * w3 + color4.b * w4),
+                                        Mathf.Clamp01(color1.a * w1 + color2.a * w2 + color3.a * w3 + color4.a * w4)
+                                        );
+                newTexture.SetPixel(x, y, color);
+            }
+        }
+        newTexture.anisoLevel = 2;
+        newTexture.Apply();
+        return newTexture;
+    }
+
+    private void LabelItem_onLabelLostFocus()
+    {
+        eventLineRenderer.gameObject.SetActive(false);
+    }
+
+    private void LabelItem_onLabelGetFocus()
+    {
+        eventLineRenderer.gameObject.SetActive(true);
+    }
+
 }

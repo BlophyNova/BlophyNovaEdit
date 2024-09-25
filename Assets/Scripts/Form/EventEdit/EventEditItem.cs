@@ -51,13 +51,18 @@ public class EventEditItem : PublicButton, ISelectBoxItem
         labelWindow.currentLabelItem.onLabelGetFocus -= LabelWindow_onLabelGetFocus;
         labelWindow.currentLabelItem.onLabelLostFocus -= LabelWindow_onLabelLostFocus;
     }
+    private void Update()
+    {
 
+        DrawLineOnEEI();
+    }
     public EventEditItem Init()
     {
         SetSelectState(false);
+
         //在eei上画线
-        float minValue=float.MaxValue; 
-        float maxValue=float.MinValue;
+        float minValue = float.MaxValue;
+        float maxValue = float.MinValue;
         List<Data.ChartEdit.Event> events = eventType switch
         {
             Data.Enumerate.EventType.MoveX => GlobalData.Instance.chartEditData.boxes[ThisEventEdit.currentBoxID].boxEvents.moveX,
@@ -79,6 +84,12 @@ public class EventEditItem : PublicButton, ISelectBoxItem
             if (item.endValue < minValue) minValue = item.endValue;
             if (item.endValue > maxValue) maxValue = item.endValue;
         }
+        DrawLineOnEEI();
+        return this;
+    }
+
+    private void DrawLineOnEEI()
+    {
         List<Vector3> points = new();
         int pointCount = (int)((@event.endBeats.ThisStartBPM - @event.startBeats.ThisStartBPM) * 100);
         easeLine.positionCount = pointCount;
@@ -95,12 +106,6 @@ public class EventEditItem : PublicButton, ISelectBoxItem
             points.Add(currentPosition);
         }
         easeLine.SetPositions(points.ToArray());
-
-
-
-
-        //easeRenderer.points = points;
-        return this;
     }
 
     public Vector3[] GetCorners()

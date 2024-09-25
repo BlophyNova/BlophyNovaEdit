@@ -40,14 +40,15 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         RefreshNotes(currentBoxID);
         UpdateVerticalLineCount();
         UpdateNoteLocalPositionAndSize();
-        eventLineRenderer = Instantiate(eventLineRendererPrefab,LabelWindowsManager.Instance.transform);
+        eventLineRenderer = Instantiate(eventLineRendererPrefab, LabelWindowsManager.Instance.lineRendererParent);
         labelWindow.onWindowMoved += LabelWindow_onWindowMoved;
         WindowSizeChanged_EventEdit2();
         LabelWindow_onWindowMoved();
         labelWindow.onWindowLostFocus += LabelWindow_onWindowLostFocus;
         labelWindow.onWindowGetFocus += LabelWindow_onWindowGetFocus;
+        labelItem.onLabelGetFocus += LabelItem_onLabelGetFocus;
+        labelItem.onLabelLostFocus += LabelItem_onLabelLostFocus;
     }
-
     public override void WindowSizeChanged()
     {
         base.WindowSizeChanged();

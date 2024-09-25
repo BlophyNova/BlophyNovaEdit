@@ -8,6 +8,7 @@ public class LabelWindowContent : MonoBehaviour,IInputEventCallback
 {
     public string labelWindowName;
     public LabelWindow labelWindow;
+    public LabelItem labelItem;
     public LabelWindowContentType labelWindowContentType;
     public int minX=100;
     public int minY=100;

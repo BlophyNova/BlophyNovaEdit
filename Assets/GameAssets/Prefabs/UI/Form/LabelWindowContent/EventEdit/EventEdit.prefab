@@ -159,6 +159,8 @@ MonoBehaviour:
   minY: 100
   currentBoxID: 0
   basicLine: {fileID: 8279857815255672507}
+  eventLineRendererPrefab: {fileID: 0}
+  eventLineRenderer: {fileID: 0}
   thisEventEditRect: {fileID: 375927620403404222}
   verticalLineLeft: {fileID: 8504017472414426716}
   verticalLineRight: {fileID: 1159330645135689484}
