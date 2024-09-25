@@ -23,7 +23,7 @@ public class BoxID : MonoBehaviour,IRefresh
         if (propertyEdit.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit)
         {
             EventEdit eventEdit = (EventEdit)propertyEdit.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
-            eventEdit.RefreshNotes(boxID);
+            eventEdit.RefreshEvents(boxID);
         }
         if (propertyEdit.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
         {

@@ -151,7 +151,7 @@ namespace Form.NotePropertyEdit
                     }
                 }
             }
-            eventEdit.RefreshNotes(-1);
+            eventEdit.RefreshEvents(-1);
             //GlobalData.Refresh<IRefreshUI>((interfaceMethod) => interfaceMethod.RefreshUI());
         }
 

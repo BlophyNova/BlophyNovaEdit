@@ -298,6 +298,7 @@ namespace Data.ChartEdit
     [Serializable]
     public class Event
     {
+        public bool isSelected;
         public BPM startBeats;
         public BPM endBeats;
         public float startValue;

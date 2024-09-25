@@ -70,7 +70,7 @@ namespace Form.NoteEdit
             {
                 RectTransform newVerticalLine = Instantiate(verticalLinePrefab, transform);
                 newVerticalLine.localPosition = (verticalLineLeftAndRightDelta / subdivision * i - verticalLineLeftAndRightDelta / 2) * Vector2.right;
-                newVerticalLine.SetAsFirstSibling();
+                newVerticalLine.SetSiblingIndex(1);
                 verticalLines.Add(newVerticalLine);
             }
         }

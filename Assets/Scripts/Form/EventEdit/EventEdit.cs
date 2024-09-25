@@ -37,7 +37,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         yield return new WaitUntil(() => GlobalData.Instance.chartData.globalData.musicLength > 1);
         Debug.Log($"GlobalData.Instance.chartData.globalData.musicLength:{GlobalData.Instance.chartData.globalData.musicLength}");
         //GlobalData.Instance.chartData.boxes = ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
-        RefreshNotes(currentBoxID);
+        RefreshEvents(currentBoxID);
         UpdateVerticalLineCount();
         UpdateNoteLocalPositionAndSize();
         eventLineRenderer = Instantiate(eventLineRendererPrefab, LabelWindowsManager.Instance.lineRendererParent);
@@ -109,29 +109,37 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         Action action = callbackContext.action.name switch
         {
             "AddEvent" => () => AddEvent(),
-            "Delete"=> () => DeleteEvent(),
+            "Delete"=> () => DeleteEventWithUI(),
             "SelectBox"=>()=> SelectBoxUp(),
+            "Undo" => () => UndoNote(),
+            "Redo" => () => RedoNote(),
+            "Copy" => () => CopyNote(),
+            "Paste" => () => PasteNote(),
+            "Cut" => () => CutNote(),
+            "MoveUp" => () => MoveUp(),
+            "MoveDown" => () => MoveDown(),
             _ => () => Alert.EnableAlert($"欸···？怎么回事，怎么会找不到你想添加的是哪个音符呢···")
         };
         action();
     }
-    private void DeleteEvent()
+
+    private void DeleteEventWithUI()
     {
         if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
         {
             NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
             List<Data.ChartEdit.Event> events = notePropertyEdit.@event.eventType switch
             {
-                Data.Enumerate.EventType.Speed=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
-                Data.Enumerate.EventType.Rotate=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
-                Data.Enumerate.EventType.Alpha=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
-                Data.Enumerate.EventType.LineAlpha=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
-                Data.Enumerate.EventType.MoveX=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
-                Data.Enumerate.EventType.MoveY=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
-                Data.Enumerate.EventType.ScaleX=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
-                Data.Enumerate.EventType.ScaleY=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
-                Data.Enumerate.EventType.CenterX=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
-                Data.Enumerate.EventType.CenterY=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
+                EventType.Speed=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
+                EventType.Rotate=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
+                EventType.Alpha=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
+                EventType.LineAlpha=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
+                EventType.MoveX=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
+                EventType.MoveY=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
+                EventType.ScaleX=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
+                EventType.ScaleY=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
+                EventType.CenterX=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
+                EventType.CenterY=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
                 _=>throw new Exception("耳朵耷拉下来，呜呜呜，没找到事件类型")
             };
             events.Remove(notePropertyEdit.@event.@event);
@@ -147,30 +155,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         if (!isFirstTime)
         {
             isFirstTime = true;
-            BeatLine nearBeatLine = null;
-            float nearBeatLineDis = float.MaxValue;
-            //第一次
-            foreach (BeatLine item in basicLine.beatLines)
-            {
-                Debug.Log($@"{thisEventEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
-                float dis = Vector2.Distance(MousePositionInThisRectTransform, (Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2);
-                if (dis < nearBeatLineDis)
-                {
-                    nearBeatLineDis = dis;
-                    nearBeatLine = item;
-                }
-            }
-            EventVerticalLine nearEventVerticalLine = null;
-            float nearEventVerticalLineDis = float.MaxValue;
-            foreach (EventVerticalLine item in eventVerticalLines)
-            {
-                float dis = Vector2.Distance(MousePositionInThisRectTransform, (Vector2)item.transform.localPosition + labelWindow.labelWindowRect.sizeDelta / 2);
-                if (dis < nearEventVerticalLineDis)
-                {
-                    nearEventVerticalLineDis = dis;
-                    nearEventVerticalLine = item;
-                }
-            }
+            FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine, out EventVerticalLine nearEventVerticalLine);
 
             if (nearEventVerticalLine.eventType == EventType.LineAlpha)
             {
@@ -192,6 +177,34 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
             waitForPressureAgain = true;
         }
         else {/*报错*/}
+    }
+
+    private void FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine, out EventVerticalLine nearEventVerticalLine)
+    {
+        nearBeatLine = null;
+        float nearBeatLineDis = float.MaxValue;
+        //第一次
+        foreach (BeatLine item in basicLine.beatLines)
+        {
+            Debug.Log($@"{thisEventEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
+            float dis = Vector2.Distance(MousePositionInThisRectTransform, (Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2);
+            if (dis < nearBeatLineDis)
+            {
+                nearBeatLineDis = dis;
+                nearBeatLine = item;
+            }
+        }
+        nearEventVerticalLine = null;
+        float nearEventVerticalLineDis = float.MaxValue;
+        foreach (EventVerticalLine item in eventVerticalLines)
+        {
+            float dis = Vector2.Distance(MousePositionInThisRectTransform, (Vector2)item.transform.localPosition + labelWindow.labelWindowRect.sizeDelta / 2);
+            if (dis < nearEventVerticalLineDis)
+            {
+                nearEventVerticalLineDis = dis;
+                nearEventVerticalLine = item;
+            }
+        }
     }
 
     public IEnumerator WaitForPressureAgain(EventEditItem eventEditItem)
@@ -234,13 +247,13 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         UpdateVerticalLineCount();
     }
     [SerializeField] bool isRef = true;
-    public void RefreshNotes(int boxID)
+    public void RefreshEvents(int boxID)
     {
         currentBoxID = boxID < 0 ? currentBoxID : boxID;
-        StartCoroutine(RefreshNotes());
+        StartCoroutine(RefreshEvents());
         onEventRefreshed(eventEditItems);
     }
-    public IEnumerator RefreshNotes()
+    public IEnumerator RefreshEvents()
     {
         yield return new WaitForEndOfFrame();
         foreach (EventEditItem item in eventEditItems)
@@ -250,16 +263,16 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         eventEditItems.Clear();
         if (isRef)
         {
-            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed, Data.Enumerate.EventType.Speed);
-            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX, Data.Enumerate.EventType.CenterX);
-            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY, Data.Enumerate.EventType.CenterY);
-            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX, Data.Enumerate.EventType.MoveX);
-            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY, Data.Enumerate.EventType.MoveY);
-            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX, Data.Enumerate.EventType.ScaleX);
-            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY, Data.Enumerate.EventType.ScaleY);
-            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate, Data.Enumerate.EventType.Rotate);
-            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha, Data.Enumerate.EventType.Alpha);
-            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha, Data.Enumerate.EventType.LineAlpha);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed, EventType.Speed);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX, EventType.CenterX);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY, EventType.CenterY);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX, EventType.MoveX);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY, EventType.MoveY);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX, EventType.ScaleX);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY, EventType.ScaleY);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate, EventType.Rotate);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha, EventType.Alpha);
+            RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha, EventType.LineAlpha);
         }
         UpdateNoteLocalPositionAndSize();
 
