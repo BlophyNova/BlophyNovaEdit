@@ -7334,7 +7334,7 @@ MonoBehaviour:
     verticalSubdivision: 10
     eventVerticalSubdivision: 10
     playSpeed: 0
-    offset: 10
+    offset: 0
     musicLength: 0.1
     loopPlayBack: 0
     bpmList:
