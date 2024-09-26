@@ -41,6 +41,7 @@ namespace Form.NoteEdit
             RefreshNotes(currentBoxID, currentLineID);
             UpdateVerticalLineCount();
             UpdateNoteLocalPosition();
+            Start2();
         }
         public override void WindowSizeChanged()
         {

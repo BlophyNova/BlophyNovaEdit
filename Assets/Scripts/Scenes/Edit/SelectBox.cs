@@ -14,7 +14,7 @@ namespace Scenes.Edit
         public RectTransform thisSelectBoxRect;
         public ISelectBox selectBoxObjects => noteEdit == null ? eventEdit : noteEdit;
         public LabelWindowContent labelWindowContent => noteEdit == null ? eventEdit : noteEdit;
-        public Image selectBoxTexture; 
+        public Image selectBoxTexture;
         List<ISelectBoxItem> selectedBoxItems = new();
         public Color enableSelectBoxTextureColor = new(1, 1, 1, 1);
         public Color disableSelectBoxTextureColor = new(1, 1, 1, 0);
@@ -66,7 +66,14 @@ namespace Scenes.Edit
                 eventEdit.onEventRefreshed += eventEditItems =>
                 {
                     selectedBoxItems.Clear();
-                    //事件同理，先不写了
+                    foreach (EventEditItem eventEditItem in eventEditItems)
+                    {
+                        if (eventEditItem.@event.IsSelected)
+                        {
+                            eventEditItem.SetSelectState(true);
+                            selectedBoxItems.Add(eventEditItem);
+                        }
+                    }
                 };
             }
 

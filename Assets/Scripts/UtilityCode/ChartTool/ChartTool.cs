@@ -3,6 +3,7 @@ using Data.ChartEdit;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using UtilityCode.Algorithm;
 using UtilityCode.GameUtility;
 using Box = Data.ChartData.Box;
@@ -138,6 +139,18 @@ public class ChartTool
             }
         };
         //var box = boxes[index];
+        for (int i = 0; i < chartDataBox.lines.Count; i++)
+        {
+            ConvertEditLine2ChartDataLine(box, chartDataBox, i);
+        }
+        ConvertAllEditEvents2ChartDataEvents(box, chartDataBox);
+        
+
+        return chartDataBox;
+    }
+
+    public static void ConvertAllEditEvents2ChartDataEvents(Data.ChartEdit.Box box, Box chartDataBox)
+    {
         ForeachBoxEvents(box.boxEvents.scaleX, chartDataBox.boxEvents.scaleX);
         ForeachBoxEvents(box.boxEvents.scaleY, chartDataBox.boxEvents.scaleY);
         ForeachBoxEvents(box.boxEvents.moveX, chartDataBox.boxEvents.moveX);
@@ -146,10 +159,9 @@ public class ChartTool
         ForeachBoxEvents(box.boxEvents.centerY, chartDataBox.boxEvents.centerY);
         ForeachBoxEvents(box.boxEvents.alpha, chartDataBox.boxEvents.alpha);
         ForeachBoxEvents(box.boxEvents.lineAlpha, chartDataBox.boxEvents.lineAlpha);
-        ForeachBoxEvents(box.boxEvents.rotate, chartDataBox.boxEvents.rotate);
+        ForeachBoxEvents(box.boxEvents.rotate, chartDataBox.boxEvents.rotate); 
         for (int i = 0; i < chartDataBox.lines.Count; i++)
         {
-            ConvertEditLine2ChartDataLine(box, chartDataBox, i);
             List<Data.ChartEdit.Event> filledVoid = GameUtility.FillVoid(box.boxEvents.speed);
             chartDataBox.lines[i].speed = new();
             ForeachBoxEvents(filledVoid, chartDataBox.lines[i].speed);
@@ -166,8 +178,6 @@ public class ChartTool
                 keys = GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray()
             };
         }
-
-        return chartDataBox;
     }
 
     public static void ConvertEditLine2ChartDataLine(Data.ChartEdit.Box box, Data.ChartData.Box chartDataBox, int i)

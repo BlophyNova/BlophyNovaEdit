@@ -50,6 +50,7 @@ public class EventEditItem : PublicButton, ISelectBoxItem
     {
         labelWindow.currentLabelItem.onLabelGetFocus -= LabelWindow_onLabelGetFocus;
         labelWindow.currentLabelItem.onLabelLostFocus -= LabelWindow_onLabelLostFocus;
+        Debug.Log($@"呜呜，我是EEI，喔被销毁了，我的相关信息如下：startBeats:{@event.startBeats};eventType:{eventType};");
     }
     private void Update()
     {
@@ -58,7 +59,7 @@ public class EventEditItem : PublicButton, ISelectBoxItem
     }
     public EventEditItem Init()
     {
-        SetSelectState(false);
+        //SetSelectState(false);
 
         //在eei上画线
         float minValue = float.MaxValue;
@@ -117,7 +118,9 @@ public class EventEditItem : PublicButton, ISelectBoxItem
 
     public void SetSelectState(bool active)
     {
+        @event.IsSelected = active;
         isSelectedRect.gameObject.SetActive(active);
         Debug.Log($@"选择状态：{isSelectedRect.gameObject.activeSelf}");
     }
+    
 }

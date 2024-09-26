@@ -92,11 +92,11 @@ namespace Data.ChartEdit
         }
         public static BPM operator -(BPM a, BPM b)
         {
-            do
+            while (b.ThisStartBPM > 0)
             {
                 a.SubtractionOneBeat();
                 b.SubtractionOneBeat();
-            } while (b.ThisStartBPM > 0);
+            }
             return a;
         }
         public static BPM operator *(BPM a, int b)
@@ -298,7 +298,20 @@ namespace Data.ChartEdit
     [Serializable]
     public class Event
     {
-        public bool isSelected;
+        public bool IsSelected
+        {
+            get
+            {
+                Debug.Log(@$"startBeats:{startBeats.integer}:{startBeats.molecule}/{startBeats.denominator};IsSelected：{isSelected}");
+                return isSelected;
+            }
+            set
+            {
+                isSelected = value;
+                Debug.Log(@$"startBeats:{startBeats.integer}:{startBeats.molecule}/{startBeats.denominator};IsSelected：{isSelected}");
+            }
+        }
+        [SerializeField] bool isSelected;
         public BPM startBeats;
         public BPM endBeats;
         public float startValue;
@@ -312,6 +325,7 @@ namespace Data.ChartEdit
             curve = @event.curve;
             startBeats=new(@event.startBeats);
             endBeats= new(@event.endBeats);
+            IsSelected = @event.IsSelected;
         }
 
         public override bool Equals(object obj)

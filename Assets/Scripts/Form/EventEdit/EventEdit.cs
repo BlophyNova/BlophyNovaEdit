@@ -48,6 +48,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         labelWindow.onWindowGetFocus += LabelWindow_onWindowGetFocus;
         labelItem.onLabelGetFocus += LabelItem_onLabelGetFocus;
         labelItem.onLabelLostFocus += LabelItem_onLabelLostFocus;
+        Start2();
     }
     public override void WindowSizeChanged()
     {
@@ -113,9 +114,9 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
             "SelectBox"=>()=> SelectBoxUp(),
             "Undo" => () => UndoNote(),
             "Redo" => () => RedoNote(),
-            "Copy" => () => CopyNote(),
-            "Paste" => () => PasteNote(),
-            "Cut" => () => CutNote(),
+            "Copy" => () => CopyEvent(),
+            "Paste" => () => PasteEvent(),
+            "Cut" => () => CutEvent(),
             "MoveUp" => () => MoveUp(),
             "MoveDown" => () => MoveDown(),
             _ => () => Alert.EnableAlert($"欸···？怎么回事，怎么会找不到你想添加的是哪个音符呢···")
@@ -251,7 +252,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     {
         currentBoxID = boxID < 0 ? currentBoxID : boxID;
         StartCoroutine(RefreshEvents());
-        onEventRefreshed(eventEditItems);
+        
     }
     public IEnumerator RefreshEvents()
     {
@@ -275,9 +276,9 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
             RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha, EventType.LineAlpha);
         }
         UpdateNoteLocalPositionAndSize();
-
+        onEventRefreshed(eventEditItems);
     }
-    void RefreshEvent(List<Data.ChartEdit.Event> events, Data.Enumerate.EventType eventType)
+    void RefreshEvent(List<Data.ChartEdit.Event> events, EventType eventType)
     {
         foreach (Data.ChartEdit.Event @event in events)
         {
@@ -300,6 +301,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                     newEventEditItem.thisEventEditItemRect.sizeDelta = new(newEventEditItem.thisEventEditItemRect.sizeDelta.x, endBeatsPositionY - positionY);
                     newEventEditItem.@event = @event;
                     newEventEditItem.eventType = eventType;
+                    newEventEditItem.SetSelectState(@event.IsSelected);
                     Debug.Log($"{currentBoxID}号方框的{eventVerticalLine.eventType}生成了一个新的eei");
                     eventEditItems.Add(newEventEditItem);
                     newEventEditItem.Init();

@@ -162,7 +162,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7951502086329462197
 RectTransform:
   m_ObjectHideFlags: 0
@@ -364,6 +364,7 @@ MonoBehaviour:
   easeLineRect: {fileID: 8389212789492658599}
   easeLine: {fileID: 6381714878754609048}
   event:
+    isSelected: 0
     startBeats:
       integer: 0
       molecule: 0
