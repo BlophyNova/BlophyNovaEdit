@@ -1,10 +1,13 @@
+using Data.ChartEdit;
 using Form.NotePropertyEdit;
 using Scenes.Edit;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+
 namespace Scenes.Edit
 {
     public class SelectBox : MonoBehaviour, ISelectBox
@@ -14,7 +17,9 @@ namespace Scenes.Edit
         public RectTransform thisSelectBoxRect;
         public ISelectBox selectBoxObjects => noteEdit == null ? eventEdit : noteEdit;
         public LabelWindowContent labelWindowContent => noteEdit == null ? eventEdit : noteEdit;
+        private bool isNoteEdit => noteEdit == null ? false : true;
         public Image selectBoxTexture;
+        public NotePropertyEdit notePropertyEdit=>(NotePropertyEdit)labelWindowContent.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
         List<ISelectBoxItem> selectedBoxItems = new();
         public Color enableSelectBoxTextureColor = new(1, 1, 1, 1);
         public Color disableSelectBoxTextureColor = new(1, 1, 1, 0);
@@ -58,6 +63,7 @@ namespace Scenes.Edit
                         }
                     }
                 };
+                notePropertyEdit.onValueChanged += TempNoteEditValueChangedCallBack;
             }
 
             if (eventEdit != null)
@@ -126,8 +132,49 @@ namespace Scenes.Edit
             selectBoxTexture.color = disableSelectBoxTextureColor;
             ClearSelectedBoxItems();
             NewSelectedBoxItems();
+            SetValue2NotePropertyEdit();
+        }
+        [SerializeField]Note originalnNoteData = new()
+        {
+            HitBeats = new(-1, 0, -1),
+            noteType = Data.ChartData.NoteType.Tap,
+            holdBeats = new(-1, 0, -1),
+            effect = 0,
+            positionX = float.NaN,
+            isClockwise = false
+        };
+        [SerializeField]Note tempNoteEdit = new();
+
+        private void TempNoteEditValueChangedCallBack()
+        {
+            ForeachAllItems(note => !note.HitBeats.Equals(originalnNoteData.HitBeats), item => item.HitBeats = tempNoteEdit.HitBeats);
+            ForeachAllItems(note => !(note.noteType == originalnNoteData.noteType), item => item.noteType = tempNoteEdit.noteType);
+            ForeachAllItems(note => !note.holdBeats.Equals(originalnNoteData.holdBeats), item => item.holdBeats = tempNoteEdit.holdBeats);
+            ForeachAllItems(note => !(note.effect == originalnNoteData.effect), item => item.effect = tempNoteEdit.effect == 0 ? 0 : tempNoteEdit.effect);
+            ForeachAllItems(note => !note.positionX.Equals(originalnNoteData.positionX), item => item.positionX = tempNoteEdit.positionX);
+            ForeachAllItems(note => !(note.isClockwise == originalnNoteData.isClockwise), item => item.isClockwise = tempNoteEdit.isClockwise);
+
+            void ForeachAllItems(Predicate<Note> predicate, Action<Note> action)
+            {
+                if (predicate(tempNoteEdit))
+                {
+                    foreach (NoteEdit item in selectedBoxItems.Cast<NoteEdit>())
+                    {
+                        action(item.thisNoteData);
+                    }
+                    action(originalnNoteData);
+                }
+            }
         }
 
+        private void SetValue2NotePropertyEdit()
+        {
+            if (isNoteEdit)
+            {
+                tempNoteEdit = new(originalnNoteData);
+                notePropertyEdit.SelectedNote(tempNoteEdit);
+            }
+        }
         private void ClearSelectedBoxItems()
         {
             foreach (var item in selectedBoxItems)

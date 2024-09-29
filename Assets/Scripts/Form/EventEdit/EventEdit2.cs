@@ -13,7 +13,6 @@ using Manager;
 using Data.ChartData;
 using System.Linq;
 using Scenes.Edit;
-using UnityEditor.Experimental.GraphView;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 
 public partial class EventEdit

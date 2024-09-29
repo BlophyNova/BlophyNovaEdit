@@ -9,6 +9,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilityCode.GameUtility;
+using static Form.NotePropertyEdit.NotePropertyEdit;
 using Event = Data.ChartEdit.Event;
 using EventType = Data.Enumerate.EventType;
 
@@ -19,7 +20,7 @@ namespace Form.NotePropertyEdit
         public Event eventMemory;
 
         public EventEditItem @event;
-        public Scenes.Edit.NoteEdit note;
+        public Data.ChartEdit.Note note;
 
         public TMP_Dropdown noteType; //note
         public Toggle commonEffect; //note
@@ -32,6 +33,8 @@ namespace Form.NotePropertyEdit
         public Toggle isClockwise; //note
         public TMP_Dropdown ease; //event
 
+        public delegate void OnValueChanged();
+        public event OnValueChanged onValueChanged;
         private void Start()
         {
             noteType.onValueChanged.AddListener((value) => NoteTypeChanged(value));
@@ -46,6 +49,8 @@ namespace Form.NotePropertyEdit
 
         void RefreshChartPreviewAndChartEditCanvas()
         {
+            onValueChanged();
+
             if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType ==
                 LabelWindowContentType.NoteEdit)
             {
@@ -162,7 +167,7 @@ namespace Form.NotePropertyEdit
             {
                 BPM hitBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
                     int.Parse(match.Groups[3].Value));
-                note.thisNoteData.HitBeats = hitBeats;
+                note.HitBeats = hitBeats;
                 RefreshChartPreviewAndChartEditCanvas();
             }
         }
@@ -174,9 +179,9 @@ namespace Form.NotePropertyEdit
             {
                 BPM endBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
                     int.Parse(match.Groups[3].Value));
-                BPM hitBeats = new(note.thisNoteData.HitBeats);
+                BPM hitBeats = new(note.HitBeats);
                 BPM holdBeats = endBeats - hitBeats;
-                note.thisNoteData.holdBeats = holdBeats;
+                note.holdBeats = holdBeats;
                 RefreshChartPreviewAndChartEditCanvas();
             }
         }
@@ -213,14 +218,14 @@ namespace Form.NotePropertyEdit
 
         void IsClockwiseChanged(bool value)
         {
-            note.thisNoteData.isClockwise = value;
+            note.isClockwise = value;
             RefreshChartPreviewAndChartEditCanvas();
         }
 
         void PositionXChanged(string value)
         {
             if (!float.TryParse(value, out float result)) return;
-            note.thisNoteData.positionX = result;
+            note.positionX = result;
             RefreshChartPreviewAndChartEditCanvas();
         }
 
@@ -240,38 +245,42 @@ namespace Form.NotePropertyEdit
 
         void RippleChanged(bool value)
         {
-            note.thisNoteData.effect = value switch
+            note.effect = value switch
             {
-                true => note.thisNoteData.effect | Data.ChartData.NoteEffect.Ripple,
-                false => note.thisNoteData.effect ^ Data.ChartData.NoteEffect.Ripple
+                true => note.effect | Data.ChartData.NoteEffect.Ripple,
+                false => note.effect ^ Data.ChartData.NoteEffect.Ripple
             };
             RefreshChartPreviewAndChartEditCanvas();
         }
 
         void CommonEffectChanged(bool value)
         {
-            note.thisNoteData.effect = value switch
+            note.effect = value switch
             {
-                true => note.thisNoteData.effect | Data.ChartData.NoteEffect.CommonEffect,
-                false => note.thisNoteData.effect ^ Data.ChartData.NoteEffect.CommonEffect
+                true => note.effect | Data.ChartData.NoteEffect.CommonEffect,
+                false => note.effect ^ Data.ChartData.NoteEffect.CommonEffect
             };
             RefreshChartPreviewAndChartEditCanvas();
         }
 
         void NoteTypeChanged(int value)
         {
-            note.thisNoteData.noteType = (Data.ChartData.NoteType)value;
+            note.noteType = (Data.ChartData.NoteType)value;
             RefreshChartPreviewAndChartEditCanvas();
         }
 
         public void SelectedNote(Scenes.Edit.NoteEdit note)
+        {
+            SelectedNote(note.thisNoteData);
+        }
+        public void SelectedNote(Note note)
         {
             this.note = note;
             noteType.interactable = true;
             commonEffect.interactable = true;
             ripple.interactable = true;
             startTime.interactable = true;
-            endTime.interactable = this.note.thisNoteData.noteType == Data.ChartData.NoteType.Hold;
+            endTime.interactable = this.note.noteType == Data.ChartData.NoteType.Hold;
             startValue.interactable = false;
             endValue.interactable = false;
             postionX.interactable = true;
@@ -282,22 +291,21 @@ namespace Form.NotePropertyEdit
             startTime.onEndEdit.AddListener((value) => NoteHitBeatsChanged(value));
             endTime.onEndEdit.AddListener((value) => NoteEndBeatsChanged(value));
 
-            noteType.SetValueWithoutNotify((int)this.note.thisNoteData.noteType);
+            noteType.SetValueWithoutNotify((int)this.note.noteType);
             commonEffect.SetIsOnWithoutNotify(
-                this.note.thisNoteData.effect.HasFlag(Data.ChartData.NoteEffect.CommonEffect));
-            ripple.SetIsOnWithoutNotify(this.note.thisNoteData.effect.HasFlag(Data.ChartData.NoteEffect.Ripple));
+                this.note.effect.HasFlag(Data.ChartData.NoteEffect.CommonEffect));
+            ripple.SetIsOnWithoutNotify(this.note.effect.HasFlag(Data.ChartData.NoteEffect.Ripple));
             startTime.SetTextWithoutNotify(
-                $"{this.note.thisNoteData.HitBeats.integer}:{this.note.thisNoteData.HitBeats.molecule}/{this.note.thisNoteData.HitBeats.denominator}");
-            if (this.note.thisNoteData.noteType == Data.ChartData.NoteType.Hold)
+                $"{this.note.HitBeats.integer}:{this.note.HitBeats.molecule}/{this.note.HitBeats.denominator}");
+            if (this.note.noteType == Data.ChartData.NoteType.Hold)
             {
                 endTime.SetTextWithoutNotify(
-                    $"{this.note.thisNoteData.EndBeats.integer}:{this.note.thisNoteData.EndBeats.molecule}/{this.note.thisNoteData.EndBeats.denominator}");
+                    $"{this.note.EndBeats.integer}:{this.note.EndBeats.molecule}/{this.note.EndBeats.denominator}");
             }
 
-            postionX.SetTextWithoutNotify($"{this.note.thisNoteData.positionX}");
-            isClockwise.SetIsOnWithoutNotify(this.note.thisNoteData.isClockwise);
+            postionX.SetTextWithoutNotify($"{this.note.positionX}");
+            isClockwise.SetIsOnWithoutNotify(this.note.isClockwise);
         }
-
         public void SelectedNote(EventEditItem @event)
         {
             this.@event = @event;

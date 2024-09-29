@@ -113,6 +113,19 @@ namespace Data.ChartEdit
         }
         public static BPM Zero => new();
         public static BPM One => new(1, 0, 1);
+        public override bool Equals(object obj)
+        {
+            bool res = false;
+            if (obj is BPM)
+            {
+                var my_obj = obj as BPM;
+                if (Mathf.Abs(integer - my_obj.integer) > .001f) return false;
+                if (Mathf.Abs(molecule - my_obj.molecule) > .001f) return false;
+                if (Mathf.Abs(denominator - my_obj.denominator) > .001f) return false;
+                res = true;
+            }
+            return res;
+        }
     }
     [Serializable]
     public class Box
