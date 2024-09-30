@@ -143,6 +143,11 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
                 EventType.CenterY=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
                 _=>throw new Exception("耳朵耷拉下来，呜呜呜，没找到事件类型")
             };
+            if (events.FindIndex(item => item.Equals(notePropertyEdit.@event.@event)) == 0)
+            {
+                Alert.EnableAlert("这是第一个事件，不支持删除了啦~");
+                return;
+            }
             events.Remove(notePropertyEdit.@event.@event);
             onEventDeleted(notePropertyEdit.@event);
             notePropertyEdit.RefreshEvents();
