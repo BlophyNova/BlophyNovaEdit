@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -100, y: 0}
-  m_SizeDelta: {x: 5, y: -100}
+  m_SizeDelta: {x: 5, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3678597
 CanvasRenderer:
@@ -290,7 +290,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 100, y: 0}
-  m_SizeDelta: {x: 5, y: -100}
+  m_SizeDelta: {x: 5, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &381556098
 CanvasRenderer:
@@ -635,6 +635,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   labelWindowName: "\u97F3\u7B26\u7F16\u8F91\u753B\u5E03"
   labelWindow: {fileID: 0}
+  labelItem: {fileID: 0}
   labelWindowContentType: 4
   minX: 100
   minY: 100
