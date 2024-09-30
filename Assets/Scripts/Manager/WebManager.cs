@@ -40,7 +40,12 @@ namespace Manager
             yield return GlobalData.Instance.ReadResource();
             MusicClip = GlobalData.Instance.clip;
             Background.sprite = GlobalData.Instance.currentCp;
-            ChartData.globalData.musicLength = GlobalData.Instance.chartEditData.musicLength <= 1 ? MusicClip.length+GlobalData.Instance.chartEditData.offset : GlobalData.Instance.chartEditData.musicLength;
+            LoadChartData();
+        }
+        public void RefreshChartData()=>LoadChartData();
+        public void LoadChartData()
+        {
+            ChartData.globalData.musicLength = GlobalData.Instance.chartEditData.musicLength <= 1 ? MusicClip.length + GlobalData.Instance.chartEditData.offset : GlobalData.Instance.chartEditData.musicLength;
             GlobalData.Instance.chartData.boxes = ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
         }
     }

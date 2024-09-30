@@ -1,18 +1,26 @@
+using Manager;
+using Scenes.DontDestroyOnLoad;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Offset : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public TMP_InputField inputField;
+    public Button ok;
+    private void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        inputField.text = $"{GlobalData.Instance.chartEditData.offset * 1000f}";
+        ok.onClick.AddListener(() => 
+        {
+            if (float.TryParse(inputField.text,out float result))
+            {
+                GlobalData.Instance.chartEditData.offset= result/1000f;
+                WebManager.Instance.RefreshChartData();
+                ProgressManager.Instance.Offset = GlobalData.Instance.chartEditData.offset;
+            }
+        });
     }
 }
