@@ -134,15 +134,7 @@ namespace Scenes.Edit
             NewSelectedBoxItems();
             SetValue2NotePropertyEdit();
         }
-        [SerializeField]Note originalnNoteData = new()
-        {
-            HitBeats = new(-1, 0, -1),
-            noteType = Data.ChartData.NoteType.Tap,
-            holdBeats = new(-1, 0, -1),
-            effect = 0,
-            positionX = float.NaN,
-            isClockwise = false
-        };
+        [SerializeField]Note originalnNoteData = new();
         [SerializeField]Note tempNoteEdit = new();
 
         private void TempNoteEditValueChangedCallBack()
@@ -171,8 +163,21 @@ namespace Scenes.Edit
         {
             if (isNoteEdit)
             {
+                originalnNoteData = new()
+                {
+                    HitBeats = new(-1, 0, -1),
+                    noteType = Data.ChartData.NoteType.Tap,
+                    holdBeats = new(-1, 0, -1),
+                    effect = 0,
+                    positionX = float.NaN,
+                    isClockwise = false
+                };
                 tempNoteEdit = new(originalnNoteData);
                 notePropertyEdit.SelectedNote(tempNoteEdit);
+            }
+            else
+            {
+
             }
         }
         private void ClearSelectedBoxItems()
