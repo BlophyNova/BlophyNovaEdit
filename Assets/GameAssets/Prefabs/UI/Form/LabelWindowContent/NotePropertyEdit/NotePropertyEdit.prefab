@@ -2578,7 +2578,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 20
   m_Viewport: {fileID: 2669505311532548978}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 3148529340882369320}
@@ -7343,7 +7343,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 20
   m_Viewport: {fileID: 7552571018828333579}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 6579076190403011691}
@@ -7731,7 +7731,19 @@ MonoBehaviour:
         m_RotationOrder: 4
       easeType: 0
   event: {fileID: 0}
-  note: {fileID: 0}
+  note:
+    noteType: 0
+    holdBeats:
+      integer: 0
+      molecule: 0
+      denominator: 1
+      currentBPM: 0
+    effect: 0
+    positionX: 0
+    isClockwise: 0
+    hasOther: 0
+    isSelected: 0
+    hitFloorPosition: 0
   noteType: {fileID: 1654000143638497305}
   commonEffect: {fileID: 1848114419151117071}
   ripple: {fileID: 6291237335512286028}

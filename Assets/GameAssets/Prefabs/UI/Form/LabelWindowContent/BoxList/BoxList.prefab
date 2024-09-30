@@ -368,7 +368,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 20
   m_Viewport: {fileID: 8924397506099854638}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
@@ -442,6 +442,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   labelWindowName: "\u65B9\u6846\u5217\u8868"
   labelWindow: {fileID: 0}
+  labelItem: {fileID: 0}
   labelWindowContentType: 8192
   minX: 100
   minY: 100

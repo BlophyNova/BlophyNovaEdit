@@ -490,6 +490,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   labelWindowName: "BPM\u5217\u8868"
   labelWindow: {fileID: 0}
+  labelItem: {fileID: 0}
   labelWindowContentType: 1
   minX: 100
   minY: 100
@@ -972,7 +973,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 20
   m_Viewport: {fileID: 3892861790428891560}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 3892861789536008639}
