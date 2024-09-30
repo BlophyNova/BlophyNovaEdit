@@ -15,7 +15,14 @@ public class MouseWheel : ShortcutKeyEventBase
     {
         base.Performed(callbackContext);
 
-        LabelWindowContentType labelWindowContentType = LabelWindowContentType.ChartPreview | LabelWindowContentType.NoteEdit | LabelWindowContentType.EventEdit | LabelWindowContentType.ProgressBar|LabelWindowContentType.ATimeLine|LabelWindowContentType.DebugText|LabelWindowContentType.Kawaii;
+        LabelWindowContentType labelWindowContentType = 
+            LabelWindowContentType.ChartPreview | 
+            LabelWindowContentType.NoteEdit | 
+            LabelWindowContentType.EventEdit | 
+            LabelWindowContentType.ProgressBar |
+            LabelWindowContentType.ATimeLine |
+            LabelWindowContentType.DebugText |
+            LabelWindowContentType.Kawaii;
 
         if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType))
         {

@@ -39,6 +39,11 @@ namespace Manager
                         break;
                     case false:
                         ProgressManager.Instance.ContinuePlay();
+                        //double currentTime = ProgressManager.Instance.CurrentTime;
+                        //ProgressManager.Instance.ResetTime();
+                        //ProgressManager.Instance.StartPlay();
+                        //ProgressManager.Instance.Offset = GlobalData.Instance.chartEditData.offset;
+                        //ProgressManager.Instance.SetTime(currentTime);
                         break;
                 }
             }

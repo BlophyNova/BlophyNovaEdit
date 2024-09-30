@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UtilityCode.Singleton;
+using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 namespace Manager
 {
     internal class ProgressManager : MonoBehaviourSingleton<ProgressManager>
@@ -85,8 +86,14 @@ namespace Manager
             }
             else
             {
-                AssetManager.Instance.musicPlayer.UnPause();//播放器解除暂停状态
-                musicPlayerTime.Start();//音乐播放器的时间开始播放
+                //AssetManager.Instance.musicPlayer.UnPause();//播放器解除暂停状态
+                //musicPlayerTime.Start();//音乐播放器的时间开始播放
+
+
+                ResetTime();
+                StartPlay();
+                Offset = GlobalData.Instance.chartEditData.offset;
+                SetTime(currentTime);
             }
         }
         /// <summary>
