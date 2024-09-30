@@ -10,6 +10,18 @@ public class EaseData
     //public AnimationCurve speed;
     public AnimationCurve offset;
     public Ease easeType;
+    public override bool Equals(object obj)
+    {
+        bool res = false;
+        if (obj is EaseData)
+        {
+            var my_obj = obj as EaseData;
+            if (Mathf.Abs(area - my_obj.area) > .001f) return false;
+            if(my_obj.easeType != easeType) return true;
+            res = true;
+        }
+        return res;
+    }
 }
 /// <summary>
 /// 缓动类型

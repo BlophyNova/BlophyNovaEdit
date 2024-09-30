@@ -335,7 +335,9 @@ namespace Form.NotePropertyEdit
                 $"{this.@event.@event.endBeats.integer}:{this.@event.@event.endBeats.molecule}/{this.@event.@event.endBeats.denominator}");
             startValue.SetTextWithoutNotify($"{this.@event.@event.startValue}");
             endValue.SetTextWithoutNotify($"{this.@event.@event.endValue}");
-            ease.SetValueWithoutNotify(GlobalData.Instance.easeData.FindIndex((m) => m == this.@event.@event.curve));
+            ease.SetValueWithoutNotify(GlobalData.Instance.easeData.FindIndex((m) => m.Equals(this.@event.@event.curve)));
+
+            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
         }
 
     }
