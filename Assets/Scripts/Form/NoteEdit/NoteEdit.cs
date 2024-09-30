@@ -10,6 +10,8 @@ using UnityEngine.InputSystem;
 using UtilityCode.Algorithm;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 using Form.NotePropertyEdit;
+using TMPro;
+
 namespace Form.NoteEdit
 {
     public partial class NoteEdit : LabelWindowContent, IInputEventCallback, IRefresh, ISelectBox
@@ -26,9 +28,13 @@ namespace Form.NoteEdit
         public RectTransform verticalLineRight;
         public RectTransform verticalLinePrefab;
         public SelectBox selectBox;
-        public List<RectTransform> verticalLines = new();
 
         public BasicLine basicLine;
+
+        public TMP_Text boxAndLineIDText;
+
+        public List<RectTransform> verticalLines = new();
+
 
         public List<Scenes.Edit.NoteEdit> notes = new();
 
@@ -42,6 +48,10 @@ namespace Form.NoteEdit
             UpdateVerticalLineCount();
             UpdateNoteLocalPosition();
             Start2();
+        }
+        private void Update()
+        {
+            boxAndLineIDText.text = $"{currentBoxID}\t{currentLineID}";
         }
         public override void WindowSizeChanged()
         {

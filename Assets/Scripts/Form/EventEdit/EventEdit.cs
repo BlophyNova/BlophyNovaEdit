@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -25,6 +26,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     public RectTransform thisEventEditRect;
     public RectTransform verticalLineLeft;
     public RectTransform verticalLineRight;
+    public TMP_Text boxIDText;
     public SelectBox selectBox;
     public List<RectTransform> verticalLines = new();
     public List<EventVerticalLine> eventVerticalLines = new();
@@ -49,6 +51,10 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         labelItem.onLabelGetFocus += LabelItem_onLabelGetFocus;
         labelItem.onLabelLostFocus += LabelItem_onLabelLostFocus;
         Start2();
+    }
+    private void Update()
+    {
+        boxIDText.text = $"{currentBoxID}";
     }
     public override void WindowSizeChanged()
     {
