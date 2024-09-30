@@ -63,7 +63,7 @@ namespace Scenes.Edit
                         }
                     }
                 };
-                notePropertyEdit.onValueChanged += TempNoteEditValueChangedCallBack;
+                notePropertyEdit.onNoteValueChanged += TempNoteEditValueChangedCallBack;
             }
 
             if (eventEdit != null)

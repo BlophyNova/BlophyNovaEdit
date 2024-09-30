@@ -33,8 +33,10 @@ namespace Form.NotePropertyEdit
         public Toggle isClockwise; //note
         public TMP_Dropdown ease; //event
 
-        public delegate void OnValueChanged();
-        public event OnValueChanged onValueChanged;
+        public delegate void OnNoteValueChanged();
+        public event OnNoteValueChanged onNoteValueChanged=()=> { };
+        public delegate void OnEventValueChanged();
+        public event OnEventValueChanged onEventValueChanged=()=> { };
         private void Start()
         {
             noteType.onValueChanged.AddListener((value) => NoteTypeChanged(value));
@@ -49,18 +51,19 @@ namespace Form.NotePropertyEdit
 
         void RefreshChartPreviewAndChartEditCanvas()
         {
-            onValueChanged();
 
             if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType ==
                 LabelWindowContentType.NoteEdit)
             {
                 RefreshNotes();
+                onNoteValueChanged();
             }
 
             if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType ==
                 LabelWindowContentType.EventEdit)
             {
                 RefreshEvents();
+                onEventValueChanged();
             }
 
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
@@ -142,6 +145,7 @@ namespace Form.NotePropertyEdit
                     item.far = new() { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
                     item.far.keys = GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray();
                 }
+                GameController.Instance.RefreshChartPreview();
             }
 
             if (@event.eventType == EventType.ScaleX)
