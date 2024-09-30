@@ -292,6 +292,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "AligningTime2BeatLine",
+                    "type": "Value",
+                    "id": "2250a320-e27f-4dff-9d67-69a06abb9dbd",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -1128,6 +1137,39 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "MoveLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "43f0cc09-9378-40ba-8c27-dfdb7205e434",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AligningTime2BeatLine",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "cdeace82-8fff-4ee4-a78a-afe5292723d3",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "AligningTime2BeatLine",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "1f64cb1b-92d2-4596-bf01-c7d2cd741866",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "AligningTime2BeatLine",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
