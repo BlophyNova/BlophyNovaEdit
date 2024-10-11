@@ -12,8 +12,11 @@ namespace Form.BoxList
         public BoxListItem boxListItem;
         private void Start()
         {
-            thisButton.onClick.AddListener(() => 
+            thisButton.onClick.AddListener(() =>
             {
+                int boxID= GlobalData.Instance.chartEditData.boxes.FindIndex(m => m == boxListItem.thisBox);
+                if (boxID < 0) return;
+                LogCenter.Log($"{boxID}号框被删除");
                 boxListItem.boxList.boxListItems.Remove(boxListItem);
                 GlobalData.Instance.chartEditData.boxes.Remove(boxListItem.thisBox);
                 Destroy(boxListItem.gameObject);

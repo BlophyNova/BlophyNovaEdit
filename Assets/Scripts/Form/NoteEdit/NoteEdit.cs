@@ -139,7 +139,7 @@ namespace Form.NoteEdit
             Data.ChartEdit.Note note = new();
 
             note.noteType = noteType;
-            note.HitBeats = nearBeatLine.thisBPM;
+            note.HitBeats =new(nearBeatLine.thisBPM);
             note.holdBeats = new();
             note.effect = noteEffect;
             note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
@@ -156,12 +156,15 @@ namespace Form.NoteEdit
             newNoteEdit.transform.localPosition = new(nearVerticalLine.localPosition.x, nearBeatLine.transform.localPosition.y);
             //Debug.LogError("写到这里了，下次继续写");
             notes.Add(newNoteEdit);
+            
 
             AddNoteAndRefresh(note, boxID, lineID);
         }
 
         private void AddNoteAndRefresh(Data.ChartEdit.Note note, int boxID, int lineID)
         {
+            
+            LogCenter.Log($"{boxID}号框{lineID}号线新增{note.noteType}音符，打击时间为:{note.HitBeats.integer}:{note.HitBeats.molecule}/{note.HitBeats.denominator}");
             ChartTool.AddNoteEdit2ChartData(note, boxID, lineID, GlobalData.Instance.chartEditData, GlobalData.Instance.chartData);
             GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
         }
@@ -235,6 +238,7 @@ namespace Form.NoteEdit
             if (newHoldEdit.thisNoteData.holdBeats.ThisStartBPM <= .0001f)
             {
                 Debug.LogError("哒咩哒咩，长度为0的Hold！");
+                LogCenter.Log($"用户尝试放置长度为0的Hold音符");
                 Destroy(newHoldEdit.gameObject);
             }
             else
@@ -296,6 +300,7 @@ namespace Form.NoteEdit
         {
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
             currentLineID = lineID < 0 ? currentLineID : lineID;
+            LogCenter.Log($"成功更改框号为{currentBoxID}｜线号为{currentLineID}");
             foreach (Scenes.Edit.NoteEdit item in notes)
             {
                 Destroy(item.gameObject);

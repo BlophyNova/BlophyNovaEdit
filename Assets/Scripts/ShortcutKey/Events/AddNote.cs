@@ -4,7 +4,4 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UtilityCode.Singleton;
 
-public class AddNote : ShortcutKeyEventBase
-{
-    
-}
+public class AddNote : ShortcutKeyEventBase { }

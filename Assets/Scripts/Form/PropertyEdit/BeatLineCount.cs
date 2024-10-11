@@ -18,6 +18,7 @@ public class BeatLineCount : MonoBehaviour
             thisText.text = $"水平线：{GlobalData.Instance.chartEditData.beatSubdivision}";
 
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+            LogCenter.Log($"属性编辑执行+操作，水平份数更改为{GlobalData.Instance.chartEditData.beatSubdivision}");
         });
         subtraction.onClick.AddListener(() =>
         {
@@ -25,6 +26,7 @@ public class BeatLineCount : MonoBehaviour
             thisText.text = $"水平线：{GlobalData.Instance.chartEditData.beatSubdivision}";
 
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+            LogCenter.Log($"属性编辑执行-操作，水平份数更改为{GlobalData.Instance.chartEditData.beatSubdivision}");
         });
     }
 }

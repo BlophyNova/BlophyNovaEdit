@@ -13,6 +13,7 @@ public class CloseWindow : PublicButton
             //labelWindow.gameObject.SetActive(false);
             LabelWindowsManager.Instance.SetUsedColor2Unused(labelWindow.labelColorIndex);
             LabelWindowsManager.Instance.windows.Remove(labelWindow);
+            LogCenter.Log($"{labelWindow.labelColorIndex}号窗口被销毁");
             Destroy(labelWindow.gameObject);
         });
     }

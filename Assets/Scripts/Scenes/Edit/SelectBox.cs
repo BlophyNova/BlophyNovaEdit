@@ -208,7 +208,7 @@ namespace Scenes.Edit
                         break;
                     }
                 }
-
+                LogCenter.Log($"成功选择{selectedBoxItems.Count}个{isNoteEdit switch{true=>"音符",false=>"事件"}}");
 
             }
             Debug.Log($@"已选择{selectedBoxItems.Count}个音符！");

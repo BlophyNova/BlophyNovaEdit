@@ -18,6 +18,7 @@ public class VerticalLineCount : MonoBehaviour
             thisText.text = $"垂直线：{GlobalData.Instance.chartEditData.verticalSubdivision}";
 
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+            LogCenter.Log($"属性编辑执行+操作，垂直份数更改为{GlobalData.Instance.chartEditData.verticalSubdivision}");
         });
         subtraction.onClick.AddListener(() => 
         {
@@ -25,6 +26,7 @@ public class VerticalLineCount : MonoBehaviour
             thisText.text = $"垂直线：{GlobalData.Instance.chartEditData.verticalSubdivision}";
 
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+            LogCenter.Log($"属性编辑执行-操作，垂直份数更改为{GlobalData.Instance.chartEditData.verticalSubdivision}");
         });
     }
 }

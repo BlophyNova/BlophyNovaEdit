@@ -2531,7 +2531,8 @@ GameObject:
   m_Component:
   - component: {fileID: 829883600}
   - component: {fileID: 829883599}
-  - component: {fileID: 829883598}
+  - component: {fileID: 829883602}
+  - component: {fileID: 829883601}
   m_Layer: 0
   m_Name: GlobalData
   m_TagString: Untagged
@@ -2539,32 +2540,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &829883598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 829883597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e277581af68d4604da056e460b819656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _displayName: BlphyNovaEdit
-  _port: 1286
-  _password: bne
-  _useHttps: 0
-  _certificate: {fileID: 0}
-  _certificatePassword: 
-  _runOnEnable: 1
-  _logBufferSize: 1000
-  _instantiateStatusUI: 0
-  _instantiateConnectUI: 0
-  _dontDestroyOnLoad: 1
-  _setRunInBackground: 1
-  _serverType: 1
-  _serverUrl: 
 --- !u!114 &829883599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2727,6 +2702,44 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &829883601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 829883597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e277581af68d4604da056e460b819656, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _displayName: BlophyNovaEdit
+  _port: 1286
+  _password: BNE
+  _useHttps: 0
+  _certificate: {fileID: 0}
+  _certificatePassword: 
+  _runOnEnable: 1
+  _logBufferSize: 12861286
+  _instantiateStatusUI: 0
+  _instantiateConnectUI: 0
+  _dontDestroyOnLoad: 1
+  _setRunInBackground: 1
+  _serverType: 1
+  _serverUrl: 
+--- !u!114 &829883602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 829883597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de906d8123736404b8a61400a43fdc8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &884284036
 GameObject:
   m_ObjectHideFlags: 0

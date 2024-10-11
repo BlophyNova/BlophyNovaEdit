@@ -84,8 +84,9 @@ namespace Form.NoteEdit
                 {
                     DeleteNote(note);
                 }
-                noteClipboard.Clear();
             }
+            LogCenter.Log($"成功{isCopy switch{true=>"复制",false=>"粘贴"}}{noteClipboard.Count}个音符");
+            noteClipboard.Clear();
 
             RefreshNoteEditAndChartPreview();
 
@@ -103,7 +104,7 @@ namespace Form.NoteEdit
             {
                 noteClipboard.Add(selectedNote);
             }
-            Debug.Log($@"已将{noteClipboard.Count}个音符发送至剪切板！");
+            LogCenter.Log($@"已将{noteClipboard.Count}个音符发送至剪切板！");
         }
         void MirrorNote()
         {
@@ -121,6 +122,7 @@ namespace Form.NoteEdit
             }
 
             RefreshNoteEditAndChartPreview();
+            LogCenter.Log($"成功镜像{selectedBoxItems.Count}个音符");
         }
 
 
@@ -131,6 +133,7 @@ namespace Form.NoteEdit
                 DeleteNote((Scenes.Edit.NoteEdit)selectBox.TransmitObjects()[i]);
             }
             RefreshNoteEditAndChartPreview();
+            LogCenter.Log($"成功删除{selectBox.TransmitObjects().Count}个音符");
         }
 
         void DeleteNote(Scenes.Edit.NoteEdit note)
@@ -149,6 +152,7 @@ namespace Form.NoteEdit
             }
 
             RefreshNoteEditAndChartPreview();
+            LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个音符向上移动");
         }
 
         void MoveDown()
@@ -158,6 +162,7 @@ namespace Form.NoteEdit
                 noteEdit.thisNoteData.HitBeats.SubtractionOneBeat();
             }
             RefreshNoteEditAndChartPreview();
+            LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个音符向下移动");
         }
 
         void MoveLeft()
@@ -169,6 +174,7 @@ namespace Form.NoteEdit
                 noteEdit.thisNoteData.positionX -= verticalLineDelta;
             }
             RefreshNoteEditAndChartPreview();
+            LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个音符向左移动");
         }
 
         void MoveRight()
@@ -180,6 +186,7 @@ namespace Form.NoteEdit
                 noteEdit.thisNoteData.positionX += verticalLineDelta;
             }
             RefreshNoteEditAndChartPreview();
+            LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个音符向右移动");
         }
 
         private void RefreshNoteEditAndChartPreview()

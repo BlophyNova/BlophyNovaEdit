@@ -21,6 +21,8 @@ public class PlaySpeed : MonoBehaviour
             ProgressManager.Instance.SetTime(currentTime);
 
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+            
+            LogCenter.Log($"属性编辑，播放速度变更为{playSpeed}");
         });
     }
 }

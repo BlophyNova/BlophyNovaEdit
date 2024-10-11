@@ -16,7 +16,7 @@ public class FixNoneAudio : PublicButton
             ProgressManager.Instance.StartPlay();
             ProgressManager.Instance.Offset = GlobalData.Instance.chartEditData.offset;
             ProgressManager.Instance.SetTime(currentTime);
-
+            LogCenter.Log("成功执行修复无声操作");
         });
     }
 

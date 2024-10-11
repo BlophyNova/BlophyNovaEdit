@@ -20,6 +20,7 @@ public class Offset : MonoBehaviour
                 GlobalData.Instance.chartEditData.offset= result/1000f;
                 WebManager.Instance.RefreshChartData();
                 ProgressManager.Instance.Offset = GlobalData.Instance.chartEditData.offset;
+                LogCenter.Log($"属性编辑，偏移变更为{result}");
             }
         });
     }

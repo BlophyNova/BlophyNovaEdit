@@ -44,6 +44,7 @@ public class BoxID : MonoBehaviour,IRefresh
             boxID++;
             thisText.text = $"框号：{boxID}";
             RefreshNote();
+            LogCenter.Log($"属性编辑执行+操作，框号更改为{boxID}");
         });
         subtraction.onClick.AddListener(() =>
         {
@@ -55,6 +56,7 @@ public class BoxID : MonoBehaviour,IRefresh
             boxID--;
             thisText.text = $"框号：{boxID}";
             RefreshNote();
+            LogCenter.Log($"属性编辑执行-操作，框号更改为{boxID}");
         });
     }
 }

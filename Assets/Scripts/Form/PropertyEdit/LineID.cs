@@ -32,6 +32,7 @@ public class LineID : MonoBehaviour,IRefresh
             thisText.text = $"线号：{lineID}";
 
             RefreshNote();
+            LogCenter.Log($"属性编辑执行+操作，线号更改为{lineID}");
         });
         subtraction.onClick.AddListener(() =>
         {
@@ -44,6 +45,7 @@ public class LineID : MonoBehaviour,IRefresh
             thisText.text = $"线号：{lineID}";
 
             RefreshNote();
+            LogCenter.Log($"属性编辑执行-操作，线号更改为{lineID}");
         });
     }
 

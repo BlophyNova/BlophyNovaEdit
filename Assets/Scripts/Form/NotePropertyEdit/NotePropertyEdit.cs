@@ -169,6 +169,7 @@ namespace Form.NotePropertyEdit
             Match match = Regex.Match(value, @"(\d+):(\d+)/(\d+)");
             if (match.Success)
             {
+                LogCenter.Log($"音符HitBeats从{note.HitBeats.integer}:{note.HitBeats.molecule}/{note.HitBeats.denominator}变更为{match.Groups[1].Value}:{match.Groups[2].Value}/{match.Groups[3].Value}");
                 BPM hitBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
                     int.Parse(match.Groups[3].Value));
                 note.HitBeats = hitBeats;
@@ -181,6 +182,7 @@ namespace Form.NotePropertyEdit
             Match match = Regex.Match(value, @"(\d+):(\d+)/(\d+)");
             if (match.Success)
             {
+                LogCenter.Log($"音符EndBeats从{note.EndBeats.integer}:{note.EndBeats.molecule}/{note.EndBeats.denominator}变更为{match.Groups[1].Value}:{match.Groups[2].Value}/{match.Groups[3].Value}");
                 BPM endBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
                     int.Parse(match.Groups[3].Value));
                 BPM hitBeats = new(note.HitBeats);
@@ -195,6 +197,7 @@ namespace Form.NotePropertyEdit
             Match match = Regex.Match(value, @"(\d+):(\d+)/(\d+)");
             if (match.Success)
             {
+                LogCenter.Log($"事件StartBeats从{@event.@event.startBeats.integer}:{@event.@event.startBeats.molecule}/{@event.@event.startBeats.denominator}变更为{match.Groups[1].Value}:{match.Groups[2].Value}/{match.Groups[3].Value}");
                 BPM startBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
                     int.Parse(match.Groups[3].Value));
                 @event.@event.startBeats = startBeats;
@@ -207,6 +210,7 @@ namespace Form.NotePropertyEdit
             Match match = Regex.Match(value, @"(\d+):(\d+)/(\d+)");
             if (match.Success)
             {
+                LogCenter.Log($"事件EndBeats从{@event.@event.endBeats.integer}:{@event.@event.endBeats.molecule}/{@event.@event.endBeats.denominator}变更为{match.Groups[1].Value}:{match.Groups[2].Value}/{match.Groups[3].Value}");
                 BPM endBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
                     int.Parse(match.Groups[3].Value));
                 @event.@event.endBeats = endBeats;
@@ -216,12 +220,14 @@ namespace Form.NotePropertyEdit
 
         void EaseChanged(int value)
         {
+            LogCenter.Log($"事件Ease从{@event.@event.curve.easeType}变更为{GlobalData.Instance.easeData[value].easeType}");
             @event.@event.curve = GlobalData.Instance.easeData[value];
             RefreshChartPreviewAndChartEditCanvas();
         }
 
         void IsClockwiseChanged(bool value)
         {
+            LogCenter.Log($"音符IsClockWise从{note.isClockwise}变更为{value}");
             note.isClockwise = value;
             RefreshChartPreviewAndChartEditCanvas();
         }
@@ -229,6 +235,7 @@ namespace Form.NotePropertyEdit
         void PositionXChanged(string value)
         {
             if (!float.TryParse(value, out float result)) return;
+            LogCenter.Log($"音符PositionX从{note.positionX}变更为{value}");
             note.positionX = result;
             RefreshChartPreviewAndChartEditCanvas();
         }
@@ -236,6 +243,7 @@ namespace Form.NotePropertyEdit
         void EndValueChanged(string value)
         {
             if (!float.TryParse(value, out float result)) return;
+            LogCenter.Log($"事件EndValue从{@event.@event.endValue}变更为{result}");
             @event.@event.endValue = result;
             RefreshChartPreviewAndChartEditCanvas();
         }
@@ -243,6 +251,7 @@ namespace Form.NotePropertyEdit
         void StartValueChanged(string value)
         {
             if (!float.TryParse(value, out float result)) return;
+            LogCenter.Log($"事件StartValue从{@event.@event.startValue}变更为{result}");
             @event.@event.startValue = result;
             RefreshChartPreviewAndChartEditCanvas();
         }
@@ -255,6 +264,7 @@ namespace Form.NotePropertyEdit
                 false => note.effect ^ Data.ChartData.NoteEffect.Ripple
             };
             RefreshChartPreviewAndChartEditCanvas();
+            LogCenter.Log($"成功{value switch{true=>"添加",false=>"取消"}}方框波纹特效");
         }
 
         void CommonEffectChanged(bool value)
@@ -265,10 +275,12 @@ namespace Form.NotePropertyEdit
                 false => note.effect ^ Data.ChartData.NoteEffect.CommonEffect
             };
             RefreshChartPreviewAndChartEditCanvas();
+            LogCenter.Log($"成功{value switch{true=>"添加",false=>"取消"}}普通打击特效");
         }
 
         void NoteTypeChanged(int value)
         {
+            LogCenter.Log($"音符类型从{note.noteType}变更为{(Data.ChartData.NoteType)value}");
             note.noteType = (Data.ChartData.NoteType)value;
             RefreshChartPreviewAndChartEditCanvas();
         }
@@ -309,6 +321,7 @@ namespace Form.NotePropertyEdit
 
             postionX.SetTextWithoutNotify($"{this.note.positionX}");
             isClockwise.SetIsOnWithoutNotify(this.note.isClockwise);
+            LogCenter.Log($"音符属性编辑控件接收一个音符");
         }
         public void SelectedNote(EventEditItem @event)
         {
@@ -338,6 +351,7 @@ namespace Form.NotePropertyEdit
             ease.SetValueWithoutNotify(GlobalData.Instance.easeData.FindIndex((m) => m.Equals(this.@event.@event.curve)));
 
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+            LogCenter.Log($"音符属性编辑控件接收一个事件");
         }
 
     }

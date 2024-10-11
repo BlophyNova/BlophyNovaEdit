@@ -263,8 +263,10 @@ public partial class EventEdit
                 DeleteEvent(eventEditItem);
                 //Debug.LogError("这里有问题");
             }
-            eventClipboard.Clear();
         }
+        
+        LogCenter.Log($"成功{isCopy switch{true=>"复制",false=>"粘贴"}}{eventClipboard.Count}个音符");
+        eventClipboard.Clear();
         RefreshEditAndChart();
 
         onEventRefreshed(eventEditItems);
@@ -324,7 +326,7 @@ public partial class EventEdit
         {
             eventClipboard.Add(selectedEventEditItem);
         }
-        Debug.Log($@"已将{eventClipboard.Count}个事件发送至剪切板！");
+        LogCenter.Log($@"已将{eventClipboard.Count}个事件发送至剪切板！");
     }
     private void MoveUp()
     {
@@ -333,7 +335,8 @@ public partial class EventEdit
             eventEditItem.@event.startBeats.AddOneBeat();
             eventEditItem.@event.endBeats.AddOneBeat();
         }
-
+        LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向上移动一格");
+        
         RefreshEditAndChart();
     }
 
@@ -344,6 +347,7 @@ public partial class EventEdit
             eventEditItem.@event.startBeats.SubtractionOneBeat();
             eventEditItem.@event.endBeats.SubtractionOneBeat();
         }
+        LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向下移动一格");
 
         RefreshEditAndChart();
     }

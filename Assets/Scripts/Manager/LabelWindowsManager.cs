@@ -39,6 +39,7 @@ public class LabelWindowsManager : MonoBehaviourSingleton<LabelWindowsManager>
         newItem.labelWindowRect.pivot = Vector2.up;
         windows.Add(newItem);
         SetFocusWindow(newItem);
+        LogCenter.Log($"成功召唤新窗口，Index:{unusedColorIndex}");
     }
     public int GetUnusedColor()
     {

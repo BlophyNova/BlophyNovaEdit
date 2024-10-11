@@ -151,9 +151,11 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
             };
             if (events.FindIndex(item => item.Equals(notePropertyEdit.@event.@event)) == 0)
             {
+                LogCenter.Log($"用户尝试删除{notePropertyEdit.@event.eventType}的第一个事件");
                 Alert.EnableAlert("这是第一个事件，不支持删除了啦~");
                 return;
             }
+            LogCenter.Log($"{notePropertyEdit.@event.eventType}的{notePropertyEdit.@event.@event.startBeats.integer}:{notePropertyEdit.@event.@event.startBeats.molecule}/{notePropertyEdit.@event.@event.startBeats.denominator}事件被删除");
             events.Remove(notePropertyEdit.@event.@event);
             onEventDeleted(notePropertyEdit.@event);
             notePropertyEdit.RefreshEvents();
@@ -245,12 +247,14 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         if (eventEditItem.@event.endBeats.ThisStartBPM - eventEditItem.@event.startBeats.ThisStartBPM <= .0001f)
         {
             Debug.LogError("哒咩哒咩，长度为0的Hold！");
+            LogCenter.Log($"用户尝试放置长度为0的Hold音符");
             eventEditItems.Remove(eventEditItem);
             Destroy(eventEditItem.gameObject);
         }
         else
         {
             //添加事件到对应的地方
+            LogCenter.Log($"{eventEditItem.eventType}新事件：{eventEditItem.@event.startBeats.integer}:{eventEditItem.@event.startBeats.molecule}/{eventEditItem.@event.startBeats.denominator}");
             AddNewEvent2EventList(eventEditItem);
         }
     }
@@ -262,6 +266,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     public void RefreshEvents(int boxID)
     {
         currentBoxID = boxID < 0 ? currentBoxID : boxID;
+        LogCenter.Log($"成功更改框号为{currentBoxID}");
         StartCoroutine(RefreshEvents());
         
     }

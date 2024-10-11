@@ -31,7 +31,17 @@ public class LabelWindow : MonoBehaviour
     public float MaxY => 1080;
     public void WindowSizeChanged()=>onWindowSizeChanged();
     public void WindowMoved() => onWindowMoved();
-    public void WindowGetFocus()=>onWindowGetFocus();
-    public void WindowLostFocus()=>onWindowLostFocus();
+
+    public void WindowGetFocus()
+    {
+        onWindowGetFocus();
+        LogCenter.Log($"{labelColorIndex}号窗口被激活");
+    }
+
+    public void WindowLostFocus()
+    {
+        onWindowLostFocus();
+        LogCenter.Log($"{labelColorIndex}号窗口失活");
+    }
     //public 
 }

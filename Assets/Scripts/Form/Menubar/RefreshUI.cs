@@ -13,6 +13,7 @@ public class RefreshUI : PublicButton
         { 
             CameraController.Instance.CameraAreaUpdate();
             GlobalData.Refresh<IRefreshUI>((interfaceMethod)=>interfaceMethod.RefreshUI());
+            LogCenter.Log("成功刷新制谱器全局UI适配");
         });
     }
 }

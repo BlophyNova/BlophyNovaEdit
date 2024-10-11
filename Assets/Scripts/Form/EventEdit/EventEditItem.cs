@@ -120,7 +120,7 @@ public class EventEditItem : PublicButton, ISelectBoxItem
     {
         @event.IsSelected = active;
         isSelectedRect.gameObject.SetActive(active);
-        Debug.Log($@"选择状态：{isSelectedRect.gameObject.activeSelf}");
+        LogCenter.Log($@"{ThisEventEdit.currentBoxID}号框的{eventType}事件的{@event.startBeats.integer}:{@event.startBeats.molecule}/{@event.startBeats.denominator}的选择状态被改为：{isSelectedRect.gameObject.activeSelf}");
     }
     
 }

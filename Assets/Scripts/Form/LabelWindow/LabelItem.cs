@@ -16,6 +16,15 @@ public class LabelItem : MonoBehaviour
     public delegate void OnLabelLostFocus();
     public event OnLabelLostFocus onLabelLostFocus = () => { };
 
-    public void LabelGetFocus() => onLabelGetFocus();
-    public void LabelLostFocus() => onLabelLostFocus();
+    public void LabelGetFocus()
+    {
+        onLabelGetFocus();
+        LogCenter.Log($"{labelWindow.labelColorIndex}号窗口{labelWindowContent.labelWindowContentType}标签被激活");
+    }
+
+    public void LabelLostFocus()
+    {
+        onLabelLostFocus();
+        LogCenter.Log($"{labelWindow.labelColorIndex}号窗口{labelWindowContent.labelWindowContentType}标签失活");
+    }
 }

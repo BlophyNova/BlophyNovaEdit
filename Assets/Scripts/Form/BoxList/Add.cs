@@ -18,6 +18,7 @@ namespace Form.BoxList
                 SpeckleManager.Instance.allLineNoteControllers.Clear();
                 GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
                 GameController.Instance.RefreshChartPreview();
+                LogCenter.Log($"添加了一个新方框，框号为：{GlobalData.Instance.chartEditData.boxes.Count-1}");
             });
         }
     }

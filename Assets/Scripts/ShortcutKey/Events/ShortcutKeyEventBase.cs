@@ -17,16 +17,16 @@ public class ShortcutKeyEventBase : MonoBehaviour, IInputEventCallback
     }
     public virtual void Started(InputAction.CallbackContext callbackContext) 
     {
-        Debug.Log($"{inputActionName}.Started被调用！");
+        LogCenter.Log($"{inputActionName}.Started被调用！");
     }
     public virtual void Performed(InputAction.CallbackContext callbackContext) 
     {
 
-        Debug.Log($"{inputActionName}.Performed被调用！");
+        LogCenter.Log($"{inputActionName}.Performed被调用！");
     }
     public virtual void Canceled(InputAction.CallbackContext callbackContext) 
     {
-        Debug.Log($"{inputActionName}.Canceled被调用！");
+        LogCenter.Log($"{inputActionName}.Canceled被调用！");
     }
 
 }
