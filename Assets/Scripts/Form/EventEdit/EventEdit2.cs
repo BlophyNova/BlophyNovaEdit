@@ -106,7 +106,7 @@ public partial class EventEdit
         };
         ChartTool.RefreshChartEventByChartEditEvent(chartDataEvents, @event);
 
-        if (eventType == EventType.ScaleX)//同步scaleY
+        if (eventType == EventType.ScaleX&& !isPaste)//同步scaleY
         {
             List<Data.ChartEdit.Event> scaleYEvents = GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY;
             scaleYEvents.Add(new(@event));
@@ -244,16 +244,18 @@ public partial class EventEdit
         Debug.Log("粘贴事件");
         FindNearBeatLineAndEventVerticalLine(out BeatLine beatLine, out EventVerticalLine verticalLine);
         BPM firstEventStartBeats = eventClipboard[0].@event.startBeats;
-        foreach (EventEditItem @event in eventClipboard)
+        for (var i = 0; i < eventClipboard.Count; i++)
         {
+            var @event = eventClipboard[i];
             Data.ChartEdit.Event copyNewEvent = new(@event.@event);
-            copyNewEvent.startBeats = new BPM(beatLine.thisBPM) + (new BPM(@event.@event.startBeats) - new BPM(firstEventStartBeats));
-            copyNewEvent.endBeats = new BPM(beatLine.thisBPM) + (new BPM(@event.@event.endBeats) - new BPM(firstEventStartBeats));
+            copyNewEvent.startBeats = new BPM(beatLine.thisBPM) +
+                                      (new BPM(@event.@event.startBeats) - new BPM(firstEventStartBeats));
+            copyNewEvent.endBeats = new BPM(beatLine.thisBPM) +
+                                    (new BPM(@event.@event.endBeats) - new BPM(firstEventStartBeats));
             if (isCopy) copyNewEvent.IsSelected = false;
             //AddEventAndRefresh(copyNewEvent, currentBoxID);
-            AddNewEvent2EventList(copyNewEvent, @event.eventType,true);
+            AddNewEvent2EventList(copyNewEvent, @event.eventType, true);
             //Debug.LogError("这里有问题");
-
         }
 
         if (!isCopy)
