@@ -193,8 +193,8 @@ namespace Data.ChartEdit
         public Note(Note note)
         {
             noteType = note.noteType;
-            hitBeats = note.hitBeats;
-            holdBeats = note.holdBeats;
+            hitBeats =new(note.hitBeats);
+            holdBeats = new(note.holdBeats);
             effect=note.effect;
             positionX = note.positionX;
             isClockwise = note.isClockwise;

@@ -113,7 +113,7 @@ namespace Form.NoteEdit
             if (selectedBoxItems.Count<=0) return;
             foreach (Scenes.Edit.NoteEdit selectedBoxItem in selectedBoxItems)
             {
-                var noteData = selectedBoxItem.thisNoteData;
+                Note noteData = selectedBoxItem.thisNoteData;
                 if(noteData.positionX==0)continue;
                 Note newNote = new(noteData);
                 newNote.positionX = -newNote.positionX;
