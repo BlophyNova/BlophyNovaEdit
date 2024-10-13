@@ -139,7 +139,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.3.8
+  bundleVersion: 0.4
   preloadedAssets:
   - {fileID: 11400000, guid: 9cbcba3c086dc15409109e86eedce208, type: 2}
   metroInputSource: 0
@@ -822,7 +822,8 @@ PlayerSettings:
   platformArchitecture: {}
   scriptingBackend:
     Standalone: 0
-  il2cppCompilerConfiguration: {}
+  il2cppCompilerConfiguration:
+    Standalone: 0
   managedStrippingLevel:
     EmbeddedLinux: 1
     GameCoreScarlett: 1
