@@ -57,8 +57,15 @@ namespace Scenes.DontDestroyOnLoad
         
         protected override void OnAwake()
         {
+            //if(Instance!=null)Destroy(gameObject);
             DontDestroyOnLoad(gameObject);
         }
+
+        private void OnDestroy()
+        {
+            Destroy(gameObject);
+        }
+
         public IEnumerator ReadResource()
         {
             yield return new WaitForEndOfFrame();

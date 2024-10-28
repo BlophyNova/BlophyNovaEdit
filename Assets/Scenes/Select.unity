@@ -2675,6 +2675,7 @@ MonoBehaviour:
   - {fileID: 7233494980150025444, guid: 5f9054cf94d561c4e99345981a04b455, type: 3}
   - {fileID: 8155373745562634594, guid: efda85af85976b345bd996c71f9d5768, type: 3}
   - {fileID: 8702821421531608735, guid: 5d03b86fc1269654881b45e765664e8b, type: 3}
+  - {fileID: 2401479352178062076, guid: fbb1ca787ae4740bf9a381824319bf0e, type: 3}
   labelItemPrefab: {fileID: 1055482971244819106, guid: 6db02e9ffbeec2c4eb8301210d78979d, type: 3}
   labelWindowPrefab: {fileID: 588198340389008037, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
   eventEditItem: {fileID: 7081173974640190564, guid: 1e4f77c084e47824988157397f402bf6, type: 3}
