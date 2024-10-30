@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u5DF2\u8FDE\u63A50\u53F0\u8BBE\u5907"
+  m_text: "\u5DF2\u8FDE\u63A5NaN\u53F0\u8BBE\u5907!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
   m_sharedMaterial: {fileID: 4737349496631823484, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
@@ -231,4 +231,5 @@ MonoBehaviour:
   labelWindowContentType: 262144
   minX: 100
   minY: 100
+  logRole: ChartPlayer
   connectionInfo: {fileID: 9209745876606500233}

@@ -11,9 +11,9 @@ public class LogCenter : MonoBehaviourSingleton<LogCenter>
         DontDestroyOnLoad(gameObject);
     }
 
-    public static string Log(string logContent)
+    public static string Log(string logContent,string role="User")
     {
-        Debug.Log($"User: {logContent}");
+        Debug.Log($"{role}: {logContent}");
         return logContent;
     }
 }

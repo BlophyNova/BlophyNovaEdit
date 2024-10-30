@@ -2716,7 +2716,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayName: BlophyNovaEdit
-  _port: 1286
+  _port: 2085
   _password: BNE
   _useHttps: 0
   _certificate: {fileID: 0}
