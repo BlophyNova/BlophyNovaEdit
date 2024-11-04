@@ -1,0 +1,51 @@
+﻿Smart Inspector
+
+------------------------
+
+Version 2.0
+Made by Axel Jimenez
+28.09.2019
+
+------------------------
+
+1. Smart Inspector
+   1.1 Overview
+   1.2 Grid View
+   1.3 Settings
+   1.4 Search	
+
+------------------------
+
+1. Smart Inspector
+1.1 Overview
+To open the Smart Inspector Window goto Tools/Smart/Inspector, no installation
+necessary.
+
+------------------------
+
+1.2 Grid View.
+Select a gameObject to access the Grid View.
+
+	1.2.1 Slots
+	Click on the slot button with the correspondent icon to view the inspector for each component
+	1.2.2 Edit
+		With the desired slot button selected
+			press "Ctrl + C" to copy one or more components
+			press "Ctrl + V" to copy one or more components
+			"del key" to copy one or multiple components
+
+------------------------
+
+1.3 Settings
+	
+	1.3.1 Press the [Esc Key] to Show or Hide the settings menu
+	1.3.2 View - Comfortable, Small, Components Only, Contents Only
+	1.3.3 Show Info toggle the information at the bottom of the Smart Inspector with the shortcuts
+	1.3.4 Search Match Word when enabled searching for a component or property will now be case sensitive and
+	match the word typed in the textfield
+------------------------
+
+1.4 Search
+	
+	1.4.1 Press [Ctrl + F] to show or hide the search box, type the name of the component you're trying to find or
+	start you search with '.' to search for a property
