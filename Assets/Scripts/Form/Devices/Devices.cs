@@ -20,7 +20,7 @@ public class Devices : LabelWindowContent
             Alert.EnableAlert("未找到网络模块，此版本无互联网访问能力");
             return;
         }
-        startup.Init(true);
+        startup.ServerInit();
         startup.onDeviceCountChanged += deviceCount => connectionInfo.text = $"已连接{deviceCount}台设备!";
     }
 }
