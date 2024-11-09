@@ -7,6 +7,7 @@ using Data.ChartData;
 using Data.ChartEdit;
 using Data.Enumerate;
 using Manager;
+using Network;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -54,7 +55,7 @@ namespace Scenes.DontDestroyOnLoad
         {
             AssemblySystem.Exe(AssemblySystem.FindAllInterfaceByTypes<T>(), (interfaceMethod) => action?.Invoke(interfaceMethod));
         }
-        
+
         protected override void OnAwake()
         {
             //if(Instance!=null)Destroy(gameObject);
@@ -91,7 +92,6 @@ namespace Scenes.DontDestroyOnLoad
                 ChartTool.CreateNewChart(chartEditData, easeData);
                 //chartData.boxes = ChartTool.ConvertChartEdit2ChartData(chartEditData.boxes);
             }
-
         }
     }
 }
