@@ -21,7 +21,7 @@ public partial class EventEdit
     public event OnEventDeleted onEventDeleted = eventEditItem => { };
 
     public delegate void OnEventRefreshed(List<EventEditItem> eventEditItems);
-    public event OnEventRefreshed onEventRefreshed=eventEditItems => { };
+    public event OnEventRefreshed onEventRefreshed = eventEditItems => { };
 
     public List<EventEditItem> eventClipboard = new();
     public bool isCopy = false;
@@ -55,9 +55,9 @@ public partial class EventEdit
     }
     private void AddNewEvent2EventList(EventEditItem eventEditItem)
     {
-        AddNewEvent2EventList(eventEditItem.@event,eventEditItem.eventType);
+        AddNewEvent2EventList(eventEditItem.@event, eventEditItem.eventType);
     }
-    private void AddNewEvent2EventList(Data.ChartEdit.Event @event,EventType eventType,bool isPaste=false)
+    private void AddNewEvent2EventList(Data.ChartEdit.Event @event, EventType eventType, bool isPaste = false)
     {
         List<Data.ChartEdit.Event> events = eventType switch
         {
@@ -106,7 +106,7 @@ public partial class EventEdit
         };
         ChartTool.RefreshChartEventByChartEditEvent(chartDataEvents, @event);
 
-        if (eventType == EventType.ScaleX&& !isPaste)//同步scaleY
+        if (eventType == EventType.ScaleX && !isPaste)//同步scaleY
         {
             List<Data.ChartEdit.Event> scaleYEvents = GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY;
             scaleYEvents.Add(new(@event));
@@ -149,7 +149,7 @@ public partial class EventEdit
 
     private void WindowSizeChanged_EventEdit2()
     {
-        eventLineRenderer.lineRendererTextureRect.sizeDelta=labelWindow.labelWindowRect.sizeDelta;
+        eventLineRenderer.lineRendererTextureRect.sizeDelta = labelWindow.labelWindowRect.sizeDelta;
     }
 
     private void LabelWindow_onWindowMoved()
@@ -266,8 +266,8 @@ public partial class EventEdit
                 //Debug.LogError("这里有问题");
             }
         }
-        
-        LogCenter.Log($"成功{isCopy switch{true=>"复制",false=>"粘贴"}}{eventClipboard.Count}个音符");
+
+        LogCenter.Log($"成功{isCopy switch { true => "复制", false => "粘贴" }}{eventClipboard.Count}个音符");
         eventClipboard.Clear();
         RefreshEditAndChart();
 
@@ -279,9 +279,10 @@ public partial class EventEdit
         RefreshEvents(-1);
 
         ChartTool.ConvertAllEditEvents2ChartDataEvents(GlobalData.Instance.chartEditData.boxes[currentBoxID], GlobalData.Instance.chartData.boxes[currentBoxID]);
+        onBoxRefreshed(GlobalData.Instance.chartData.boxes[currentBoxID], currentBoxID);
     }
 
-    private void AddEventAndRefresh(Data.ChartEdit.Event copyNewEvent,EventType eventType, int currentBoxID)
+    private void AddEventAndRefresh(Data.ChartEdit.Event copyNewEvent, EventType eventType, int currentBoxID)
     {
         List<Data.ChartEdit.Event> events = eventType switch
         {
@@ -338,7 +339,7 @@ public partial class EventEdit
             eventEditItem.@event.endBeats.AddOneBeat();
         }
         LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向上移动一格");
-        
+
         RefreshEditAndChart();
     }
 

@@ -74,8 +74,6 @@ crashlytics-build.properties
 Assets/StreamingAssets/
 Assets/Smart/
 Assets/Smart.meta
-Assets/Plugins/HierarchyPro/
-Assets/Plugins/HierarchyPro.meta
 Assets/Proxima/
 Assets/Proxima.meta
 Assets/Scripts/Network/

@@ -14,10 +14,10 @@ namespace Form.NoteEdit
 
         public delegate void OnNoteDeleted(Scenes.Edit.NoteEdit noteEdit);
         public event OnNoteDeleted onNoteDeleted = noteEdit => { };
-        public delegate void OnNoteRefreshed(List<Scenes.Edit.NoteEdit>  notes);
+        public delegate void OnNoteRefreshed(List<Scenes.Edit.NoteEdit> notes);
         public event OnNoteRefreshed onNoteRefreshed = notes => { };
 
-        public List<Scenes.Edit.NoteEdit> noteClipboard=new();
+        public List<Scenes.Edit.NoteEdit> noteClipboard = new();
         public bool isCopy = false;
         void Start2()
         {
@@ -62,20 +62,20 @@ namespace Form.NoteEdit
         void CopyNote()
         {
             Debug.Log("复制音符");
-            isCopy=true;
+            isCopy = true;
             AddNote2NoteClipboard();
         }
-        void PasteNote() 
+        void PasteNote()
         {
             Debug.Log("粘贴音符");
-            FindNearBeatLineAndVerticalLine(out BeatLine beatLine,out var verticalLine );
+            FindNearBeatLineAndVerticalLine(out BeatLine beatLine, out var verticalLine);
             BPM firstNoteBPM = noteClipboard[0].thisNoteData.HitBeats;
             foreach (Scenes.Edit.NoteEdit note in noteClipboard)
             {
                 Note copyNewNote = new(note.thisNoteData);
-                copyNewNote.HitBeats = new BPM(beatLine.thisBPM)+(new BPM(note.thisNoteData.HitBeats)-new BPM(firstNoteBPM));
+                copyNewNote.HitBeats = new BPM(beatLine.thisBPM) + (new BPM(note.thisNoteData.HitBeats) - new BPM(firstNoteBPM));
                 if (isCopy) copyNewNote.isSelected = false;
-                AddNoteAndRefresh(copyNewNote,currentBoxID,currentLineID);
+                AddNoteAndRefresh(copyNewNote, currentBoxID, currentLineID);
             }
 
             if (!isCopy)
@@ -85,7 +85,7 @@ namespace Form.NoteEdit
                     DeleteNote(note);
                 }
             }
-            LogCenter.Log($"成功{isCopy switch{true=>"复制",false=>"粘贴"}}{noteClipboard.Count}个音符");
+            LogCenter.Log($"成功{isCopy switch { true => "复制", false => "粘贴" }}{noteClipboard.Count}个音符");
             noteClipboard.Clear();
 
             RefreshNoteEditAndChartPreview();
@@ -94,7 +94,7 @@ namespace Form.NoteEdit
         void CutNote()
         {
             Debug.Log("剪切音符");
-            isCopy=false;
+            isCopy = false;
             AddNote2NoteClipboard();
         }
         void AddNote2NoteClipboard()
@@ -110,11 +110,11 @@ namespace Form.NoteEdit
         {
             Debug.Log("镜像音符");
             List<ISelectBoxItem> selectedBoxItems = selectBox.TransmitObjects();
-            if (selectedBoxItems.Count<=0) return;
+            if (selectedBoxItems.Count <= 0) return;
             foreach (Scenes.Edit.NoteEdit selectedBoxItem in selectedBoxItems)
             {
                 Note noteData = selectedBoxItem.thisNoteData;
-                if(noteData.positionX==0)continue;
+                if (noteData.positionX == 0) continue;
                 Note newNote = new(noteData);
                 newNote.positionX = -newNote.positionX;
                 if (isCopy) newNote.isSelected = false;
@@ -193,7 +193,8 @@ namespace Form.NoteEdit
         {
             //ChartTool.ConvertEditLine2ChartDataLine(GlobalData.Instance.chartEditData.boxes[currentBoxID],
             //    GlobalData.Instance.chartData.boxes[currentBoxID], currentLineID);
-            GlobalData.Instance.chartData.boxes[currentBoxID]=ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[currentBoxID]);
+            GlobalData.Instance.chartData.boxes[currentBoxID] = ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[currentBoxID]);
+            onBoxRefreshed(GlobalData.Instance.chartData.boxes[currentBoxID], currentBoxID);
             //ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[currentBoxID])
             RefreshNotes(-1, -1);
             SpeckleManager.Instance.allLineNoteControllers.Clear();
