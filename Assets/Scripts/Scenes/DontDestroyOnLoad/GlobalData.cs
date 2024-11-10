@@ -7,7 +7,6 @@ using Data.ChartData;
 using Data.ChartEdit;
 using Data.Enumerate;
 using Manager;
-using Network;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
