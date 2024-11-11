@@ -14,6 +14,7 @@ using UnityEngine.Serialization;
 using UtilityCode.Algorithm;
 using UtilityCode.GameUtility;
 using UtilityCode.Singleton;
+using xeetsh.ReadOnlyInspectorAttributeKit;
 namespace Scenes.DontDestroyOnLoad
 {
     public class GlobalData : MonoBehaviourSingleton<GlobalData>

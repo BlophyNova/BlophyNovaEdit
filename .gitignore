@@ -78,3 +78,13 @@ Assets/Proxima/
 Assets/Proxima.meta
 Assets/Scripts/Network/
 .idea
+Assets/Editor/Beebyte/
+Assets/Plugins/Beebyte/
+Assets/Editor/Beebyte.meta
+Assets/Plugins/Beebyte.meta
+Assets/Plugins/OPS/
+Assets/Plugins/OPS.meta
+Assets/Plugins/Ether/
+Assets/Plugins/Ether.meta
+Assets/Editor/OPS/
+Assets/Editor/OPS.meta

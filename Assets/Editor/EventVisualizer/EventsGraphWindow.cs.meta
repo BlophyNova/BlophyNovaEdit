@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 29ac7234bb09f2f4d8dafebd9faacc56
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_PersistentViewDataDictionary: {instanceID: 0}
+  - _graph: {instanceID: 0}
+  - _graphGUI: {instanceID: 0}
+  - guiSkin: {fileID: 11400000, guid: a50898c5657da2f41ba2982386c0f576, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
