@@ -90,8 +90,8 @@ namespace Form.NoteEdit
         {
             Action action = callbackContext.action.name switch
             {
-                "SelectBox" => ()=>SelectBoxDown(),
-                _=>()=> Debug.Log($"欸···？怎么回事，怎么会找不到事件呢···")
+                "SelectBox" => () => SelectBoxDown(),
+                _ => () => Debug.Log($"欸···？怎么回事，怎么会找不到事件呢···")
             };
             action();
         }
@@ -113,17 +113,17 @@ namespace Form.NoteEdit
                 "AddPoint" => () => AddNewPoint(),
                 "AddFullFlick" => () => AddNewFullFlick(),
                 "Delete" => () => DeleteNoteWithUI(),
-                "SelectBox" => ()=>SelectBoxUp(),
-                "Undo" => ()=>UndoNote(),
-                "Redo" => ()=>RedoNote(),
+                "SelectBox" => () => SelectBoxUp(),
+                "Undo" => () => UndoNote(),
+                "Redo" => () => RedoNote(),
                 "Copy" => () => CopyNote(),
                 "Paste" => () => PasteNote(),
                 "Cut" => () => CutNote(),
                 "Mirror" => () => MirrorNote(),
-                "MoveUp" => () =>MoveUp(),
-                "MoveDown"=>()=>MoveDown(),
-                "MoveLeft"=>()=>MoveLeft(),
-                "MoveRight"=>()=>MoveRight(),
+                "MoveUp" => () => MoveUp(),
+                "MoveDown" => () => MoveDown(),
+                "MoveLeft" => () => MoveLeft(),
+                "MoveRight" => () => MoveRight(),
                 _ => () => Alert.EnableAlert($"欸···？怎么回事，怎么会找不到事件呢···")
             };
             action();
@@ -139,7 +139,7 @@ namespace Form.NoteEdit
             Data.ChartEdit.Note note = new();
 
             note.noteType = noteType;
-            note.HitBeats =new(nearBeatLine.thisBPM);
+            note.HitBeats = new(nearBeatLine.thisBPM);
             note.holdBeats = new();
             note.effect = noteEffect;
             note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
@@ -156,17 +156,18 @@ namespace Form.NoteEdit
             newNoteEdit.transform.localPosition = new(nearVerticalLine.localPosition.x, nearBeatLine.transform.localPosition.y);
             //Debug.LogError("写到这里了，下次继续写");
             notes.Add(newNoteEdit);
-            
+
 
             AddNoteAndRefresh(note, boxID, lineID);
         }
 
         private void AddNoteAndRefresh(Data.ChartEdit.Note note, int boxID, int lineID)
         {
-            
+
             LogCenter.Log($"{boxID}号框{lineID}号线新增{note.noteType}音符，打击时间为:{note.HitBeats.integer}:{note.HitBeats.molecule}/{note.HitBeats.denominator}");
             ChartTool.AddNoteEdit2ChartData(note, boxID, lineID, GlobalData.Instance.chartEditData, GlobalData.Instance.chartData);
             GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
+            onBoxRefreshed(GlobalData.Instance.chartData.boxes[currentBoxID], currentBoxID);
         }
 
         private void FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine)

@@ -15,7 +15,7 @@ using UtilityCode.GameUtility;
 using static UnityEngine.Camera;
 using EventType = Data.Enumerate.EventType;
 
-public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh,ISelectBox
+public partial class EventEdit : LabelWindowContent, IInputEventCallback, IRefresh, ISelectBox
 {
     public int currentBoxID;
 
@@ -33,7 +33,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     public List<EventEditItem> eventEditItems = new();
     public bool isFirstTime = false;
     public bool waitForPressureAgain = false;
-    public float VerticalLineDistance=> Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition);
+    public float VerticalLineDistance => Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition);
     private IEnumerator Start()
     {
         yield return new WaitUntil(() => GlobalData.Instance.chartData.globalData.musicLength > 1);
@@ -59,7 +59,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     public override void WindowSizeChanged()
     {
         base.WindowSizeChanged();
-        UpdateVerticalLineCount(); 
+        UpdateVerticalLineCount();
         UpdateNoteLocalPositionAndSize();
         WindowSizeChanged_EventEdit2();
     }
@@ -69,9 +69,9 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         {
             foreach (EventVerticalLine item in eventVerticalLines)
             {
-                if(item.eventType == eventEditItems[i].eventType)
+                if (item.eventType == eventEditItems[i].eventType)
                 {
-                    float positionX=item.transform.localPosition.x;
+                    float positionX = item.transform.localPosition.x;
                     eventEditItems[i].transform.localPosition = new(positionX, YScale.Instance.GetPositionYWithBeats(eventEditItems[i].@event.startBeats.ThisStartBPM));
                     eventEditItems[i].thisEventEditItemRect.sizeDelta = new(Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition), eventEditItems[i].thisEventEditItemRect.sizeDelta.y);
                 }
@@ -85,14 +85,14 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         Debug.Log($"{verticalLineRight.anchoredPosition}||{verticalLineLeft.anchoredPosition}");
         for (int i = 1; i < subdivision; i++)
         {
-            verticalLines[i-1].localPosition = (verticalLineLeftAndRightDelta / subdivision * i - verticalLineLeftAndRightDelta / 2) * Vector2.right;
+            verticalLines[i - 1].localPosition = (verticalLineLeftAndRightDelta / subdivision * i - verticalLineLeftAndRightDelta / 2) * Vector2.right;
         }
         List<RectTransform> allVerticalLines = new(verticalLines);
-        allVerticalLines.Insert(0,verticalLineLeft);
+        allVerticalLines.Insert(0, verticalLineLeft);
         allVerticalLines.Add(verticalLineRight);
         for (int i = 0; i < eventVerticalLines.Count; i++)
         {
-            eventVerticalLines[i].transform.localPosition= (allVerticalLines[i + 1].localPosition + allVerticalLines[i].localPosition)/2;
+            eventVerticalLines[i].transform.localPosition = (allVerticalLines[i + 1].localPosition + allVerticalLines[i].localPosition) / 2;
         }
     }
 
@@ -100,7 +100,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
     {
         Action action = callbackContext.action.name switch
         {
-            "SelectBox" =>()=> SelectBoxDown(),
+            "SelectBox" => () => SelectBoxDown(),
             _ => () => Debug.Log($"欸···？怎么回事，怎么会找不到事件呢···")
         };
         action();
@@ -116,8 +116,8 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         Action action = callbackContext.action.name switch
         {
             "AddEvent" => () => AddEvent(),
-            "Delete"=> () => DeleteEventWithUI(),
-            "SelectBox"=>()=> SelectBoxUp(),
+            "Delete" => () => DeleteEventWithUI(),
+            "SelectBox" => () => SelectBoxUp(),
             "Undo" => () => UndoNote(),
             "Redo" => () => RedoNote(),
             "Copy" => () => CopyEvent(),
@@ -137,17 +137,17 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
             NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
             List<Data.ChartEdit.Event> events = notePropertyEdit.@event.eventType switch
             {
-                EventType.Speed=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
-                EventType.Rotate=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
-                EventType.Alpha=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
-                EventType.LineAlpha=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
-                EventType.MoveX=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
-                EventType.MoveY=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
-                EventType.ScaleX=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
-                EventType.ScaleY=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
-                EventType.CenterX=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
-                EventType.CenterY=> GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
-                _=>throw new Exception("耳朵耷拉下来，呜呜呜，没找到事件类型")
+                EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
+                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
+                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
+                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
+                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
+                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
+                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
+                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
+                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
+                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
+                _ => throw new Exception("耳朵耷拉下来，呜呜呜，没找到事件类型")
             };
             if (events.FindIndex(item => item.Equals(notePropertyEdit.@event.@event)) == 0)
             {
@@ -160,7 +160,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
             onEventDeleted(notePropertyEdit.@event);
             notePropertyEdit.RefreshEvents();
         }
-        
+
     }
 
     private void AddEvent()
@@ -268,7 +268,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         currentBoxID = boxID < 0 ? currentBoxID : boxID;
         LogCenter.Log($"成功更改框号为{currentBoxID}");
         StartCoroutine(RefreshEvents());
-        
+
     }
     public IEnumerator RefreshEvents()
     {
@@ -293,6 +293,7 @@ public partial class EventEdit : LabelWindowContent,IInputEventCallback,IRefresh
         }
         UpdateNoteLocalPositionAndSize();
         onEventRefreshed(eventEditItems);
+        onBoxRefreshed(GlobalData.Instance.chartData.boxes[currentBoxID], currentBoxID);
     }
     void RefreshEvent(List<Data.ChartEdit.Event> events, EventType eventType)
     {

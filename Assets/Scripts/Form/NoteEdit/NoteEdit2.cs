@@ -142,6 +142,7 @@ namespace Form.NoteEdit
             //events.Remove(notePropertyEdit.@event.@event);
             notes.Remove(note.thisNoteData);
             onNoteDeleted(note);
+            onBoxRefreshed(GlobalData.Instance.chartData.boxes[currentBoxID], currentBoxID);
         }
 
         void MoveUp()
