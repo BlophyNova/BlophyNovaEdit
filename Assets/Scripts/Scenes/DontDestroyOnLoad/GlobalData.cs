@@ -82,8 +82,9 @@ namespace Scenes.DontDestroyOnLoad
             //Texture2D cp = DownloadHandlerTexture.GetContent(unityWebRequest);
             //currentCp = Sprite.Create(cp, new Rect(0, 0, cp.width, cp.height), new Vector2(0.5f, 0.5f));
         }
+        public List<Action> loopCallBacks = new();
         public bool isNewEditData;
-        private void Start()
+        private IEnumerator Start()
         {
             Application.targetFrameRate = 9999;
             easeData = JsonConvert.DeserializeObject<List<EaseData>>(File.ReadAllText($"{Application.streamingAssetsPath}/Config/EaseData.json"));
@@ -91,6 +92,14 @@ namespace Scenes.DontDestroyOnLoad
             {
                 ChartTool.CreateNewChart(chartEditData, easeData);
                 //chartData.boxes = ChartTool.ConvertChartEdit2ChartData(chartEditData.boxes);
+            }
+            while (true)
+            {
+                yield return new WaitForSeconds(.1f);
+                if (loopCallBacks.Count <= 0) continue;
+                Action action = loopCallBacks[0];
+                loopCallBacks.RemoveAt(0);
+                action();
             }
         }
     }
