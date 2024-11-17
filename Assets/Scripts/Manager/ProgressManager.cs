@@ -5,22 +5,24 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UtilityCode.Singleton;
+using static Manager.ProgressManager;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 namespace Manager
 {
     internal class ProgressManager : MonoBehaviourSingleton<ProgressManager>
     {
-        [SerializeField]private readonly Stopwatch musicPlayerTime = new Stopwatch();//计时器，谱面时间和音乐时间的
-        [SerializeField]private double dspStartPlayMusic;//开始时间
-        [SerializeField]private double dspLastPlayMusic;//上一次暂停后的时间
-        [SerializeField]private double offset;//偏移
+        [SerializeField] private readonly Stopwatch musicPlayerTime = new Stopwatch();//计时器，谱面时间和音乐时间的
+        [SerializeField] private double dspStartPlayMusic;//开始时间
+        [SerializeField] private double dspLastPlayMusic;//上一次暂停后的时间
+        [SerializeField] private double offset;//偏移
         public double Offset { get => offset; set => offset = value; }
         //public double Offset => GlobalData.Instance.chartData.globalData.offset;//偏移
         [SerializeField] private double skipTime;//时间跳转
         public float playSpeed = 1;
         public double CurrentTime => musicPlayerTime.ElapsedMilliseconds * playSpeed / 1000d + skipTime;//当前时间
 
-
+        public delegate void OnCurrentTimeChanged(double currentTime);
+        public event OnCurrentTimeChanged onCurrentTimeChanged = currentTime => { };
         /// <summary>
         /// 开始播放
         /// </summary>
@@ -118,7 +120,7 @@ namespace Manager
                 AssetManager.Instance.musicPlayer.time = (float)(time - offset);
                 skipTime += timeDelta;
             }
-            
+            onCurrentTimeChanged(CurrentTime);
         }
         /// <summary>
         /// 在当前时间的基础上加或者减时间
@@ -126,9 +128,9 @@ namespace Manager
         /// <param name="time">加多少或者减多少时间</param>
         public void OffsetTime(double time)
         {
-            AssetManager.Instance.musicPlayer.time += (float)(time-offset);
+            AssetManager.Instance.musicPlayer.time += (float)(time - offset);
             skipTime += time;
-
+            onCurrentTimeChanged(CurrentTime);
             ResetAllLineNoteState();
         }
         /// <summary>
@@ -140,6 +142,7 @@ namespace Manager
             musicPlayerTime.Reset();
             AssetManager.Instance.musicPlayer.Stop();
             AssetManager.Instance.musicPlayer.time = 0;
+            onCurrentTimeChanged(CurrentTime);
         }
         ///// <summary>
         ///// 让时间重新开始计算

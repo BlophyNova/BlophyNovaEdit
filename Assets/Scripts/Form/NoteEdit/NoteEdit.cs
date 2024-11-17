@@ -167,7 +167,7 @@ namespace Form.NoteEdit
             LogCenter.Log($"{boxID}号框{lineID}号线新增{note.noteType}音符，打击时间为:{note.HitBeats.integer}:{note.HitBeats.molecule}/{note.HitBeats.denominator}");
             ChartTool.AddNoteEdit2ChartData(note, boxID, lineID, GlobalData.Instance.chartEditData, GlobalData.Instance.chartData);
             GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
-            onBoxRefreshed(GlobalData.Instance.chartData.boxes[currentBoxID], currentBoxID);
+            onBoxRefreshed(currentBoxID);
         }
 
         private void FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine)

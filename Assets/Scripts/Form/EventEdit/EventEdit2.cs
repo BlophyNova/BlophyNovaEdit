@@ -278,7 +278,7 @@ public partial class EventEdit
         RefreshEvents(-1);
 
         ChartTool.ConvertAllEditEvents2ChartDataEvents(GlobalData.Instance.chartEditData.boxes[currentBoxID], GlobalData.Instance.chartData.boxes[currentBoxID]);
-        onBoxRefreshed(GlobalData.Instance.chartData.boxes[currentBoxID], currentBoxID);
+        onBoxRefreshed(currentBoxID);
     }
 
     private void AddEventAndRefresh(Data.ChartEdit.Event copyNewEvent, EventType eventType, int currentBoxID)

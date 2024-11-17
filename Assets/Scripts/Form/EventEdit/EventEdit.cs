@@ -293,7 +293,7 @@ public partial class EventEdit : LabelWindowContent, IInputEventCallback, IRefre
         }
         UpdateNoteLocalPositionAndSize();
         onEventRefreshed(eventEditItems);
-        onBoxRefreshed(GlobalData.Instance.chartData.boxes[currentBoxID], currentBoxID);
+        onBoxRefreshed(currentBoxID);
     }
     void RefreshEvent(List<Data.ChartEdit.Event> events, EventType eventType)
     {

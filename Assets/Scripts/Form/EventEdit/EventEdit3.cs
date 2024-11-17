@@ -5,6 +5,6 @@ using UnityEngine;
 
 public partial class EventEdit
 {
-    public delegate void OnBoxRefreshed(Box box, int boxID);
-    public event OnBoxRefreshed onBoxRefreshed = (Box box, int boxID) => { };
+    public delegate void OnBoxRefreshed(object content);
+    public event OnBoxRefreshed onBoxRefreshed = c => { };
 }

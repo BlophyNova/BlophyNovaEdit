@@ -142,7 +142,7 @@ namespace Form.NoteEdit
             //events.Remove(notePropertyEdit.@event.@event);
             notes.Remove(note.thisNoteData);
             onNoteDeleted(note);
-            onBoxRefreshed(GlobalData.Instance.chartData.boxes[currentBoxID], currentBoxID);
+            onBoxRefreshed(currentBoxID);
         }
 
         void MoveUp()
@@ -195,7 +195,7 @@ namespace Form.NoteEdit
             //ChartTool.ConvertEditLine2ChartDataLine(GlobalData.Instance.chartEditData.boxes[currentBoxID],
             //    GlobalData.Instance.chartData.boxes[currentBoxID], currentLineID);
             GlobalData.Instance.chartData.boxes[currentBoxID] = ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[currentBoxID]);
-            onBoxRefreshed(GlobalData.Instance.chartData.boxes[currentBoxID], currentBoxID);
+            onBoxRefreshed(currentBoxID);
             //ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[currentBoxID])
             RefreshNotes(-1, -1);
             SpeckleManager.Instance.allLineNoteControllers.Clear();
