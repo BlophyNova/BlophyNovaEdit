@@ -7,8 +7,8 @@ namespace Manager
     {
 
 
-        public delegate void OnStateChanged();
-        public event OnStateChanged onStateChanged = () => { };
+        public delegate void OnPaused();
+        public event OnPaused onPaused = () => { };
 
         private bool isStart;//已经开始
         private bool isEnd;//已经结束
@@ -37,10 +37,10 @@ namespace Manager
             set
             {
                 isPause = value;
-                onStateChanged();
                 switch (value)
                 {
                     case true:
+                        onPaused();
                         ProgressManager.Instance.PausePlay();
                         break;
                     case false:
@@ -65,7 +65,7 @@ namespace Manager
             {
                 Instance.IsStart = true;
             }
-            onStateChanged();
+            onPaused();
         }
     }
 }
