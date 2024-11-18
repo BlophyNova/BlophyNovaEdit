@@ -5,6 +5,11 @@ namespace Manager
 {
     public class StateManager : MonoBehaviourSingleton<StateManager>
     {
+
+
+        public delegate void OnStateChanged();
+        public event OnStateChanged onStateChanged = () => { };
+
         private bool isStart;//已经开始
         private bool isEnd;//已经结束
         private bool isPause;//已经暂停
@@ -32,6 +37,7 @@ namespace Manager
             set
             {
                 isPause = value;
+                onStateChanged();
                 switch (value)
                 {
                     case true:
@@ -49,17 +55,17 @@ namespace Manager
             }
         }
         public bool IsPlaying => IsStart && !IsPause && !IsEnd;//正在播放中，判定方法为：已经开始并且没有暂停没有结束
-        public static void RestartTime(bool isContinuePlay)
+        public void RestartTime(bool isContinuePlay)
         {
             Instance.isStart = false;
             Instance.isPause = false;
             Instance.isEnd = false;
             ProgressManager.Instance.ResetTime();
-
             if (isContinuePlay)
             {
                 Instance.IsStart = true;
             }
+            onStateChanged();
         }
     }
 }

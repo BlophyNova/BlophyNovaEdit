@@ -19,7 +19,7 @@ public class PorgressBar : LabelWindowContent
     public Button incalzando2End;
     private void Start()
     {
-        progressBar.onValueChanged.AddListener((theValue) => 
+        progressBar.onValueChanged.AddListener((theValue) =>
         {
             float result = GlobalData.Instance.chartData.globalData.musicLength * theValue;
             ProgressManager.Instance.SetTime(result);
@@ -33,7 +33,7 @@ public class PorgressBar : LabelWindowContent
         progressBar.SetValueWithoutNotify(currentProgress);
         if (currentProgress >= .9999f)
         {
-            StateManager.RestartTime(LoopPlayback.Instance.isOn);
+            StateManager.Instance.RestartTime(LoopPlayback.Instance.isOn);
             //Debug.LogError($"循环播放做好后用在这里");
 
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());

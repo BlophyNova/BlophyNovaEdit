@@ -8,6 +8,7 @@ using Fleck;
 using WebSocketServer = Fleck.WebSocketServer;
 using Unity.VisualScripting;
 using System.Linq;
+using Manager;
 public class Devices : LabelWindowContent
 {
     public TMP_Text connectionInfo;
@@ -21,6 +22,17 @@ public class Devices : LabelWindowContent
             return;
         }
         startup.ServerInit();
-        startup.onDeviceCountChanged += deviceCount => connectionInfo.text = $"已连接{deviceCount}台设备!";
+        startup.onDeviceCountChanged += deviceCount =>
+        {
+            connectionInfo.text = $"已连接{deviceCount}台设备!";
+            if (deviceCount > 0)
+            {
+                AssetManager.Instance.musicPlayer.volume = 0;
+            }
+            else
+            {
+                AssetManager.Instance.musicPlayer.volume = 1;
+            }
+        };
     }
 }

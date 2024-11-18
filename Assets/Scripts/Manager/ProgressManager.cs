@@ -11,7 +11,7 @@ namespace Manager
 {
     internal class ProgressManager : MonoBehaviourSingleton<ProgressManager>
     {
-        [SerializeField] private readonly Stopwatch musicPlayerTime = new Stopwatch();//计时器，谱面时间和音乐时间的
+        [SerializeField] private readonly Stopwatch musicPlayerTime = new();//计时器，谱面时间和音乐时间的
         [SerializeField] private double dspStartPlayMusic;//开始时间
         [SerializeField] private double dspLastPlayMusic;//上一次暂停后的时间
         [SerializeField] private double offset;//偏移
@@ -21,8 +21,8 @@ namespace Manager
         public float playSpeed = 1;
         public double CurrentTime => musicPlayerTime.ElapsedMilliseconds * playSpeed / 1000d + skipTime;//当前时间
 
-        public delegate void OnCurrentTimeChanged(double currentTime);
-        public event OnCurrentTimeChanged onCurrentTimeChanged = currentTime => { };
+        public delegate void OnCurrentTimeChanged();
+        public event OnCurrentTimeChanged onCurrentTimeChanged = () => { };
         /// <summary>
         /// 开始播放
         /// </summary>
@@ -120,7 +120,7 @@ namespace Manager
                 AssetManager.Instance.musicPlayer.time = (float)(time - offset);
                 skipTime += timeDelta;
             }
-            onCurrentTimeChanged(CurrentTime);
+            onCurrentTimeChanged();
         }
         /// <summary>
         /// 在当前时间的基础上加或者减时间
@@ -130,7 +130,7 @@ namespace Manager
         {
             AssetManager.Instance.musicPlayer.time += (float)(time - offset);
             skipTime += time;
-            onCurrentTimeChanged(CurrentTime);
+            onCurrentTimeChanged();
             ResetAllLineNoteState();
         }
         /// <summary>
@@ -142,7 +142,6 @@ namespace Manager
             musicPlayerTime.Reset();
             AssetManager.Instance.musicPlayer.Stop();
             AssetManager.Instance.musicPlayer.time = 0;
-            onCurrentTimeChanged(CurrentTime);
         }
         ///// <summary>
         ///// 让时间重新开始计算
