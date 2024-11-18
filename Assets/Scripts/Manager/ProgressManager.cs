@@ -74,7 +74,7 @@ namespace Manager
                 AssetManager.Instance.musicPlayer.Stop();
                 AssetManager.Instance.musicPlayer.time = 0;
 
-                double tempOffset = offset - currentTime;
+                double tempOffset = (offset - currentTime) / GlobalData.Instance.chartEditData.playSpeed;
 
 
                 dspStartPlayMusic = AudioSettings.dspTime + tempOffset;//获取到开始播放的时间

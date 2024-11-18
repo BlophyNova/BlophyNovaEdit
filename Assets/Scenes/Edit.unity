@@ -7656,7 +7656,7 @@ MonoBehaviour:
     beatSubdivision: 4
     verticalSubdivision: 10
     eventVerticalSubdivision: 10
-    playSpeed: 0
+    playSpeed: 1
     offset: 10
     musicLength: 0.1
     loopPlayBack: 0
