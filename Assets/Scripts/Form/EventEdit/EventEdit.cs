@@ -261,6 +261,7 @@ public partial class EventEdit : LabelWindowContent, IInputEventCallback, IRefre
     public void Refresh()
     {
         UpdateVerticalLineCount();
+        RefreshEvents(-1);
     }
     [SerializeField] bool isRef = true;
     public void RefreshEvents(int boxID)
