@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EventLineRenderer : MonoBehaviour,ICanvasRaycastFilter
+public class EventLineRenderer : MonoBehaviour, ICanvasRaycastFilter
 {
     public RectTransform lineRendererTextureRect;
     public RawImage rawImage;

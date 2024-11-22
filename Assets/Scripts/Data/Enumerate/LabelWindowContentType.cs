@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Numerics;
 
 [Flags]
 public enum LabelWindowContentType
@@ -24,6 +20,6 @@ public enum LabelWindowContentType
     RuntimeInspector = 16384,
     RuntimeHierarchy = 32768,//1<<15
     VisualEase = 65536,//1<<16
-    SpecialThanks = 1<<17,//131072
-    Devices = 1<<18//262144
+    SpecialThanks = 1 << 17,//131072
+    Devices = 1 << 18//262144
 }

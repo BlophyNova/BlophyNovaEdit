@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Data.ChartData;
 using Manager;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UtilityCode.ObjectPool;
 using Vector3 = UnityEngine.Vector3;
@@ -20,7 +20,7 @@ using Vector3 = UnityEngine.Vector3;
  */
 namespace Controller
 {
-    public class DecideLineController : MonoBehaviour,IRefresh
+    public class DecideLineController : MonoBehaviour, IRefresh
     {
         // public float lineDistance;//线的距离，根据每帧计算，生成这个范围内的所有Note
 

@@ -16,7 +16,7 @@ namespace Manager
         {
             this.texts = texts;
             textObjectPool = new ObjectPoolQueue<TextController>(AssetManager.Instance.text, 0, textCanvas);
-            if( texts != null && texts.Count != 0 )
+            if (texts != null && texts.Count != 0)
                 return;
             Destroy(textCanvas.gameObject);
             Destroy(gameObject);
@@ -27,7 +27,7 @@ namespace Manager
 
             for (int i = lastIndex; i < texts.Count; i++)
             {
-                if( !(texts[i].startTime < currentTime) )
+                if (!(texts[i].startTime < currentTime))
                 {
                     break;// 如果当前文本还没有开始时间，则跳出循环
                 }

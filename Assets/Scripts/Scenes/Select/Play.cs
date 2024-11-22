@@ -10,7 +10,7 @@ public class Play : PublicButton
     // Start is called before the first frame update
     void Start()
     {
-        thisButton.onClick.AddListener(() => 
+        thisButton.onClick.AddListener(() =>
         {
             SceneManager.LoadSceneAsync(1, LoadSceneMode.Single).completed += (asyncOperation) =>
             {
@@ -23,6 +23,6 @@ public class Play : PublicButton
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

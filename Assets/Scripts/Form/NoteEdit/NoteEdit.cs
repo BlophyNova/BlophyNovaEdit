@@ -85,7 +85,6 @@ namespace Form.NoteEdit
                 verticalLines.Add(newVerticalLine);
             }
         }
-
         public override void Started(InputAction.CallbackContext callbackContext)
         {
             Action action = callbackContext.action.name switch
@@ -94,6 +93,7 @@ namespace Form.NoteEdit
                 _ => () => Debug.Log($"欸···？怎么回事，怎么会找不到事件呢···")
             };
             action();
+
         }
 
         public override void Performed(InputAction.CallbackContext callbackContext)
@@ -130,7 +130,7 @@ namespace Form.NoteEdit
         }
         public void AddNewTap()
         {
-            AddNewNote(NoteType.Tap, NoteEffect.CommonEffect | NoteEffect.Ripple, currentBoxID, currentLineID);
+            AddNewNote(NoteType.Tap, NoteEffect.CommonEffect, currentBoxID, currentLineID);
         }
 
         private void AddNewNote(NoteType noteType, NoteEffect noteEffect, int boxID, int lineID)
@@ -208,7 +208,7 @@ namespace Form.NoteEdit
                 Data.ChartEdit.Note note = new();
                 note.noteType = NoteType.Hold;
                 note.HitBeats = new(nearBeatLine.thisBPM);
-                note.effect = NoteEffect.Ripple | NoteEffect.CommonEffect;
+                note.effect = NoteEffect.CommonEffect;
                 note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
                 Scenes.Edit.NoteEdit newHoldEdit = Instantiate(GlobalData.Instance.holdEditPrefab, basicLine.noteCanvas).Init(note);
                 newHoldEdit.labelWindow = labelWindow;
@@ -263,7 +263,7 @@ namespace Form.NoteEdit
             };
             note.HitBeats = nearBeatLine.thisBPM;
             note.holdBeats = new();
-            note.effect = NoteEffect.Ripple;
+            note.effect = 0;
             note.isClockwise = note.positionX switch
             {
                 <= 0 => true,
@@ -280,12 +280,12 @@ namespace Form.NoteEdit
         }
         public void AddNewDrag()
         {
-            AddNewNote(NoteType.Drag, NoteEffect.CommonEffect | NoteEffect.Ripple, currentBoxID, currentLineID);
+            AddNewNote(NoteType.Drag, NoteEffect.CommonEffect, currentBoxID, currentLineID);
         }
 
         public void AddNewFlick()
         {
-            AddNewNote(NoteType.Flick, NoteEffect.CommonEffect | NoteEffect.Ripple, currentBoxID, currentLineID);
+            AddNewNote(NoteType.Flick, NoteEffect.CommonEffect, currentBoxID, currentLineID);
         }
 
         public void AddNewPoint()

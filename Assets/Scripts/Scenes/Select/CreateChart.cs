@@ -1,15 +1,10 @@
-using Data.ChartData;
 using Newtonsoft.Json;
 using Scenes.PublicScripts;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using File = System.IO.File;
-using Text = Data.ChartData.Text;
 
 public class CreateChart : PublicButton
 {
@@ -19,8 +14,8 @@ public class CreateChart : PublicButton
     public TMP_InputField illustrationPathText;
     public Transform parentObject;
 
-    string currentLevel= "Hard";
-    string ChartFilePath=>$"{Application.streamingAssetsPath}/{currentChartFileIndex}/ChartFile";
+    string currentLevel = "Hard";
+    string ChartFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/ChartFile";
     string MusicFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Music";
     string IllustrationFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Illustration";
 
@@ -42,8 +37,8 @@ public class CreateChart : PublicButton
         chartData.loopPlayBack = true;
         chartData.musicLength = -1;
         chartData.bpmList = new();
-        chartData.bpmList.Add(new() { integer=0,molecule=0,denominator=1,currentBPM=60});
-        File.WriteAllText($"{ChartFilePath}/{currentLevel}/Chart.json",JsonConvert.SerializeObject(chartData));
+        chartData.bpmList.Add(new() { integer = 0, molecule = 0, denominator = 1, currentBPM = 60 });
+        File.WriteAllText($"{ChartFilePath}/{currentLevel}/Chart.json", JsonConvert.SerializeObject(chartData));
     }
 
     private bool VerifyLocalMusicExistence()
@@ -54,7 +49,7 @@ public class CreateChart : PublicButton
         }
         else
         {
-            Alert.EnableAlert( "您填写的音乐文件不存在！");
+            Alert.EnableAlert("您填写的音乐文件不存在！");
             return false;
         }
     }
@@ -67,12 +62,12 @@ public class CreateChart : PublicButton
         }
         else
         {
-            Alert.EnableAlert( "您填写的曲绘文件不存在！");
+            Alert.EnableAlert("您填写的曲绘文件不存在！");
             return false;
         }
     }
 
-    public void OnClick() 
+    public void OnClick()
     {
         if (VerifyLocalMusicExistence() &
             VerifyLocalIllustrationExistence())
@@ -105,7 +100,7 @@ public class CreateChart : PublicButton
         chartFileIndices[currentChartFileIndex].musicName = musicNameText.text;
         chartFileIndices[currentChartFileIndex].musicPath = musicPathText.text;
         chartFileIndices[currentChartFileIndex].IllustrationPath = illustrationPathText.text;
-        File.WriteAllText(indexJSONPath, JsonConvert.SerializeObject(chartFileIndices,Formatting.Indented));
+        File.WriteAllText(indexJSONPath, JsonConvert.SerializeObject(chartFileIndices, Formatting.Indented));
         CreateDirectory();
     }
 

@@ -7,6 +7,7 @@ namespace Controller
     {
         public Transform holdBody;//音符身体
         public Transform holdHead;//音符头
+        public Transform holdTail;
 
         public float remainTime;//停留时间
 
@@ -23,8 +24,10 @@ namespace Controller
         public override void Init()
         {
             AnimationCurve localOffset = decideLineController.canvasLocalOffset;//拿到位移图的索引
+            float scaleY = (localOffset.Evaluate(thisNote.EndTime) - localOffset.Evaluate(thisNote.hitTime));
             holdBody.transform.localScale = //设置缩放
-                Vector2.up * (localOffset.Evaluate(thisNote.EndTime) - localOffset.Evaluate(thisNote.hitTime)) + Vector2.right;
+                Vector2.up * scaleY + Vector2.right;
+            holdTail.transform.localPosition = Vector2.up * scaleY;
             isMissed = false;   //重置状态
             reJudge = false;    //重置状态
             checkTime = -.1f;   //重置状态
@@ -94,7 +97,7 @@ namespace Controller
             base.JudgeLevel(out noteJudge, out isEarly);
             noteJudge = noteJudge switch
             {
-                // NoteJudge.Bad => NoteJudge.Early,//过滤bad为Good判定
+                NoteJudge.Bad => NoteJudge.Early,//过滤bad为Good判定
                 _ => noteJudge
             };
         }
@@ -130,7 +133,7 @@ namespace Controller
                     reJudge = false;//重判一次完成后就设置状态
                 }
             }
-            if( !(ProgressManager.Instance.CurrentTime >= thisNote.hitTime + JudgeManager.Bad) || isJudged || isMissed )//如果当前时间已经超过了打击时间+bad时间（也就是一开始就没有按下手指）并且没有判定过并且没有Miss
+            if (!(ProgressManager.Instance.CurrentTime >= thisNote.hitTime + JudgeManager.Bad) || isJudged || isMissed)//如果当前时间已经超过了打击时间+bad时间（也就是一开始就没有按下手指）并且没有判定过并且没有Miss
                 return;
             isMissed = true;//这个条件下肯定已经Miss了，设置状态
             HoldMiss();//调用Miss函数
@@ -140,7 +143,9 @@ namespace Controller
         {
             AnimationCurve localOffset = decideLineController.canvasLocalOffset;//拿到位移图的索引
             transform.localPosition = new Vector2(transform.localPosition.x, -noteCanvas.localPosition.y);//将位置保留到判定线的位置
-            holdBody.transform.localScale = new Vector2(1, localOffset.Evaluate(thisNote.EndTime) - localOffset.Evaluate((float)currentTime));//设置缩放
+            float scaleY = (localOffset.Evaluate(thisNote.EndTime) - localOffset.Evaluate((float)currentTime));
+            holdBody.transform.localScale = new Vector2(1, scaleY);//设置缩放
+            holdTail.transform.localPosition = Vector2.up * scaleY;
         }
     }
 }

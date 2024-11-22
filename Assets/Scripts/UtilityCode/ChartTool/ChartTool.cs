@@ -1,9 +1,7 @@
 using Data.ChartData;
 using Data.ChartEdit;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 using UtilityCode.Algorithm;
 using UtilityCode.GameUtility;
 using Box = Data.ChartData.Box;
@@ -75,7 +73,7 @@ public class ChartTool
                 speed = new()
             }
         };
-        chartEditBox.boxEvents.scaleX.Add(new() { startBeats = BPM.Zero, endBeats = new(1,0,1), startValue = 2.7f, endValue = 2.7f, curve = easeData[0] });
+        chartEditBox.boxEvents.scaleX.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 2.7f, endValue = 2.7f, curve = easeData[0] });
         chartEditBox.boxEvents.scaleY.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 2.7f, endValue = 2.7f, curve = easeData[0] });
         chartEditBox.boxEvents.moveX.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 0, endValue = 0, curve = easeData[0] });
         chartEditBox.boxEvents.moveY.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 0, endValue = 0, curve = easeData[0] });
@@ -144,7 +142,7 @@ public class ChartTool
             ConvertEditLine2ChartDataLine(box, chartDataBox, i);
         }
         ConvertAllEditEvents2ChartDataEvents(box, chartDataBox);
-        
+
 
         return chartDataBox;
     }
@@ -159,7 +157,7 @@ public class ChartTool
         ForeachBoxEvents(box.boxEvents.centerY, chartDataBox.boxEvents.centerY);
         ForeachBoxEvents(box.boxEvents.alpha, chartDataBox.boxEvents.alpha);
         ForeachBoxEvents(box.boxEvents.lineAlpha, chartDataBox.boxEvents.lineAlpha);
-        ForeachBoxEvents(box.boxEvents.rotate, chartDataBox.boxEvents.rotate); 
+        ForeachBoxEvents(box.boxEvents.rotate, chartDataBox.boxEvents.rotate);
         for (int i = 0; i < chartDataBox.lines.Count; i++)
         {
             List<Data.ChartEdit.Event> filledVoid = GameUtility.FillVoid(box.boxEvents.speed);
@@ -191,7 +189,7 @@ public class ChartTool
         foreach (Data.ChartEdit.Note item in box.lines[i].onlineNotes)
         {
             Data.ChartData.Note newChartDataNote = new(item);
-            if(newChartDataNote.noteType==NoteType.Point) chartDataBox.lines[4].onlineNotes.Add(newChartDataNote);
+            if (newChartDataNote.noteType == NoteType.Point) chartDataBox.lines[4].onlineNotes.Add(newChartDataNote);
             else chartDataBox.lines[i].onlineNotes.Add(newChartDataNote);
         }
     }

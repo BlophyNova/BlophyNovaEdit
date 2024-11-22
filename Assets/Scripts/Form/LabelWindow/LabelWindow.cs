@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using UnityEngine;
 using UnityEngine.UI;
 public class LabelWindow : MonoBehaviour
@@ -29,7 +27,7 @@ public class LabelWindow : MonoBehaviour
     public float MinY => currentLabelItem == null ? 100 : currentLabelItem.labelWindowContent.minY;
     public float MaxX => 1920;
     public float MaxY => 1080;
-    public void WindowSizeChanged()=>onWindowSizeChanged();
+    public void WindowSizeChanged() => onWindowSizeChanged();
     public void WindowMoved() => onWindowMoved();
 
     public void WindowGetFocus()

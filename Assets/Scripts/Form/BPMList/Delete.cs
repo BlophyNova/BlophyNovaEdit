@@ -1,7 +1,4 @@
 using Scenes.PublicScripts;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 namespace Form.BPMList
 {
     public class Delete : PublicButton

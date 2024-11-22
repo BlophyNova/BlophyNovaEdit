@@ -48,8 +48,8 @@ namespace Data.ChartEdit
         /// <param name="molecule">分子</param>
         /// <param name="denominator">分母</param>
 
-        public BPM(int integer,int molecule,int denominator) 
-        { 
+        public BPM(int integer, int molecule, int denominator)
+        {
             this.integer = integer;
             this.molecule = molecule;
             this.denominator = denominator;
@@ -74,14 +74,14 @@ namespace Data.ChartEdit
         public void SubtractionOneBeat()
         {
             denominator = GlobalData.Instance.chartEditData.beatSubdivision;
-            if (molecule >0) molecule--;
-            else if (molecule - 1 <=0)
+            if (molecule > 0) molecule--;
+            else if (molecule - 1 <= 0)
             {
-                molecule = denominator-1;
+                molecule = denominator - 1;
                 integer--;
             }
         }
-        public static BPM operator+(BPM a,BPM b)
+        public static BPM operator +(BPM a, BPM b)
         {
             while (b.ThisStartBPM > 0)
             {
@@ -131,7 +131,7 @@ namespace Data.ChartEdit
     public class Box
     {
         public BoxEvents boxEvents;
-        public List<Line> lines=new();
+        public List<Line> lines = new();
     }
     [Serializable]
     public class Line
@@ -165,8 +165,8 @@ namespace Data.ChartEdit
         public BPM HitBeats
         {
             get => hitBeats;
-            set 
-            { 
+            set
+            {
                 hitBeats = value;
                 Debug.Log($@"有人在碰我敏感肌呜呜呜···");
             }
@@ -178,7 +178,8 @@ namespace Data.ChartEdit
         public bool isClockwise;//是逆时针
         public bool hasOther;//还有别的Note和他在统一时间被打击，简称多押标识（（
         public bool isSelected;
-        [JsonIgnore] public BPM EndBeats
+        [JsonIgnore]
+        public BPM EndBeats
         {
             get
             {
@@ -189,13 +190,13 @@ namespace Data.ChartEdit
         }
 
         [JsonIgnore] public float hitFloorPosition;//打击地板上距离
-        public Note(){}
+        public Note() { }
         public Note(Note note)
         {
             noteType = note.noteType;
-            hitBeats =new(note.hitBeats);
+            hitBeats = new(note.hitBeats);
             holdBeats = new(note.holdBeats);
-            effect=note.effect;
+            effect = note.effect;
             positionX = note.positionX;
             isClockwise = note.isClockwise;
             hasOther = note.hasOther;
@@ -336,8 +337,8 @@ namespace Data.ChartEdit
             endValue = @event.endValue;
             startValue = @event.startValue;
             curve = @event.curve;
-            startBeats=new(@event.startBeats);
-            endBeats= new(@event.endBeats);
+            startBeats = new(@event.startBeats);
+            endBeats = new(@event.endBeats);
             IsSelected = @event.IsSelected;
         }
 
