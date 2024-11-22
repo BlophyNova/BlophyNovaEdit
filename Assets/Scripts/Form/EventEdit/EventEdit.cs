@@ -268,8 +268,29 @@ public partial class EventEdit : LabelWindowContent, IInputEventCallback, IRefre
     {
         currentBoxID = boxID < 0 ? currentBoxID : boxID;
         LogCenter.Log($"成功更改框号为{currentBoxID}");
+        if (boxID >= 0) EventCopy();
         StartCoroutine(RefreshEvents());
 
+    }
+    public void EventCopy()
+    {
+        if (eventClipboard.Count > 0)
+        {
+            for (int i = 0; i < otherBoxEventsClipboard.Count; i++)
+            {
+                Destroy(otherBoxEventsClipboard[i].gameObject);
+            }
+            otherBoxEventsClipboard.Clear();
+        }
+        foreach (EventEditItem item in eventClipboard)
+        {
+            EventEditItem eventEditItem = Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
+            eventEditItem.gameObject.SetActive(false);
+            eventEditItem.@event = item.@event;
+            eventEditItem.eventType = item.eventType;
+            otherBoxEventsClipboard.Add(eventEditItem);
+            item.@event.IsSelected = false;
+        }
     }
     public IEnumerator RefreshEvents()
     {
