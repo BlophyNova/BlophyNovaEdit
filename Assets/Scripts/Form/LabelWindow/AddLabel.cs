@@ -25,11 +25,11 @@ public class AddLabel : MonoBehaviour
         }
         dropdown.AddOptions(labelWindowNames);
 
-        dropdown.onValueChanged.AddListener((index) => 
+        dropdown.onValueChanged.AddListener((index) =>
         {
             foreach (LabelItem item in labelWindow.labels)
             {
-                if(1<<(index-1)  == ((int)item.labelWindowContent.labelWindowContentType))
+                if (1 << (index - 1) == ((int)item.labelWindowContent.labelWindowContentType))
                 {
                     dropdown.SetValueWithoutNotify(0);
                     Alert.EnableAlert("这个窗口已经有一个相同的标签了捏~");
@@ -37,8 +37,8 @@ public class AddLabel : MonoBehaviour
                 }
             }
 
-            LabelItem newItem= Instantiate(GlobalData.Instance.labelItemPrefab, labelParentTransform);
-            newItem.labelName.text = GlobalData.Instance.labelWindowContents[index-1].labelWindowName;
+            LabelItem newItem = Instantiate(GlobalData.Instance.labelItemPrefab, labelParentTransform);
+            newItem.labelName.text = GlobalData.Instance.labelWindowContents[index - 1].labelWindowName;
             LabelWindowContent newContent = Instantiate(GlobalData.Instance.labelWindowContents[index - 1], contentParentTransform);
             newContent.labelWindow = labelWindow;
             newContent.labelItem = newItem;
@@ -46,12 +46,8 @@ public class AddLabel : MonoBehaviour
             newItem.labelWindowContent = newContent;
             newItem.labelWindow = labelWindow;
             newItem.closeThisLabel.labelWindow = labelWindow;
-            newItem.labelWindowContent.gameObject.SetActive(true);
-            foreach (var item in labelWindow.labels)
-            {
-                item.labelWindowContent.gameObject.SetActive(false);
-            }
             labelWindow.labels.Add(newItem);
+            labelWindow.labels[^1].labelButton.ThisLabelGetFocus();
             dropdown.SetValueWithoutNotify(0);
         });
     }

@@ -5,6 +5,7 @@ public class LabelItem : MonoBehaviour
 {
     public TMP_Text labelName;
     public CloseLabel closeThisLabel;
+    public LabelButton labelButton;
     public LabelWindow labelWindow;
     public LabelWindowContent labelWindowContent;
 
