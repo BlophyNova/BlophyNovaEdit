@@ -267,7 +267,6 @@ public partial class EventEdit
         }
 
         LogCenter.Log($"成功{isCopy switch { true => "复制", false => "粘贴" }}{eventClipboard.Count}个音符");
-        eventClipboard.Clear();
         RefreshEditAndChart();
 
         onEventRefreshed(eventEditItems);
