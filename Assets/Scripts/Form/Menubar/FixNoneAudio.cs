@@ -9,7 +9,7 @@ public class FixNoneAudio : PublicButton
     // Start is called before the first frame update
     void Start()
     {
-        thisButton.onClick.AddListener(() => 
+        thisButton.onClick.AddListener(() =>
         {
             double currentTime = ProgressManager.Instance.CurrentTime;
             ProgressManager.Instance.ResetTime();
@@ -18,11 +18,5 @@ public class FixNoneAudio : PublicButton
             ProgressManager.Instance.SetTime(currentTime);
             LogCenter.Log("成功执行修复无声操作");
         });
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

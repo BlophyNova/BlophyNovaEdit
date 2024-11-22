@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UtilityCode.Algorithm;
 
-public class BasicLine : MonoBehaviour,IRefresh
+public class BasicLine : MonoBehaviour, IRefresh
 {
     public TMP_Text currentBeatsText;//显示节拍线的
     public RectTransform basicLine;//基准线的position
@@ -17,13 +17,13 @@ public class BasicLine : MonoBehaviour,IRefresh
     public List<BeatLine> beatLines = new();//节拍线游戏物体管理列表
     public BPM nextBPMWithAriseLine = new();
     public float AriseLineAndBasicLineSeconds => AriseLineAndBasicLinePositionYDelta / 100;//基准线和出现线之间是多少秒
-    public float AriseLineAndBasicLinePositionYDelta=>Vector2.Distance(basicLine.localPosition,arisePosition.localPosition);//出现线和基准线的Y轴插值
+    public float AriseLineAndBasicLinePositionYDelta => Vector2.Distance(basicLine.localPosition, arisePosition.localPosition);//出现线和基准线的Y轴插值
     public float CurrentBasicLine => YScale.Instance.GetPositionYWithSecondsTime((float)ProgressManager.Instance.CurrentTime);
     public float CurrentAriseLine => YScale.Instance.GetPositionYWithSecondsTime((float)ProgressManager.Instance.CurrentTime) + AriseLineAndBasicLineSeconds;
     private void Update()
     {
         //Debug.Log($"AriseLineAndBasicLineSeconds:{AriseLineAndBasicLineSeconds}|AriseLineAndBasicLinePositionYDelta:{AriseLineAndBasicLinePositionYDelta}");
-        
+
         float currentBeats = BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime);
         currentBeatsText.text = $"{currentBeats:F2}\t";
         noteCanvas.anchoredPosition = CurrentBasicLine * Vector2.down;
@@ -34,7 +34,7 @@ public class BasicLine : MonoBehaviour,IRefresh
     /// </summary>
     public void Refresh()
     {
-        nextBPMWithAriseLine = new();
+        nextBPMWithAriseLine = new(BPMManager.Instance.GetBeatsBySeconds((float)ProgressManager.Instance.CurrentTime).integer, 0, 1);
         foreach (var item in beatLines)
         {
             Destroy(item.gameObject);
@@ -55,9 +55,8 @@ public class BasicLine : MonoBehaviour,IRefresh
         float currentBeats = BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime);
         for (int i = 0; i < beatLines.Count; i++)
         {
-            if (beatLines[i].thisBPM.ThisStartBPM < currentBeats|| beatLines[i].thisBPM.ThisStartBPM > ariseBeats)
+            if (beatLines[i].thisBPM.ThisStartBPM < currentBeats || beatLines[i].thisBPM.ThisStartBPM > ariseBeats)
             {
-                Debug.Log($@"删除了一个thisBeatLine：{beatLines[i].thisBPM.ThisStartBPM},if表达式结果为：{beatLines[i].thisBPM.ThisStartBPM < currentBeats}||{beatLines[i].thisBPM.ThisStartBPM > ariseBeats}；{beatLines[i].thisBPM.ThisStartBPM}>{ariseBeats}；index：{i}/{beatLines.Count-1}");
                 BeatLine thisBeatLine = beatLines[i--];
 
                 beatLines.Remove(thisBeatLine);

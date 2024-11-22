@@ -26,7 +26,9 @@ public class EventEditItem : PublicButton, ISelectBoxItem
         });
         labelWindow.currentLabelItem.onLabelGetFocus += LabelWindow_onLabelGetFocus;
         labelWindow.currentLabelItem.onLabelLostFocus += LabelWindow_onLabelLostFocus;
+        labelWindow.onWindowSizeChanged += () => StartCoroutine(DrawLineOnEEI());
     }
+
     private void LabelWindow_onLabelGetFocus()
     {
         for (int i = 0; i < easeLine.positionCount; i++)
@@ -51,11 +53,6 @@ public class EventEditItem : PublicButton, ISelectBoxItem
         labelWindow.currentLabelItem.onLabelGetFocus -= LabelWindow_onLabelGetFocus;
         labelWindow.currentLabelItem.onLabelLostFocus -= LabelWindow_onLabelLostFocus;
         Debug.Log($@"呜呜，我是EEI，喔被销毁了，我的相关信息如下：startBeats:{@event.startBeats};eventType:{eventType};");
-    }
-    private void Update()
-    {
-
-        DrawLineOnEEI();
     }
     public EventEditItem Init()
     {
@@ -85,12 +82,14 @@ public class EventEditItem : PublicButton, ISelectBoxItem
             if (item.endValue < minValue) minValue = item.endValue;
             if (item.endValue > maxValue) maxValue = item.endValue;
         }
-        DrawLineOnEEI();
+
+        StartCoroutine(DrawLineOnEEI());
         return this;
     }
 
-    private void DrawLineOnEEI()
+    private IEnumerator DrawLineOnEEI()
     {
+        yield return new WaitForEndOfFrame();
         List<Vector3> points = new();
         int pointCount = (int)((@event.endBeats.ThisStartBPM - @event.startBeats.ThisStartBPM) * 100);
         easeLine.positionCount = pointCount;
@@ -122,5 +121,5 @@ public class EventEditItem : PublicButton, ISelectBoxItem
         isSelectedRect.gameObject.SetActive(active);
         LogCenter.Log($@"{ThisEventEdit.currentBoxID}号框的{eventType}事件的{@event.startBeats.integer}:{@event.startBeats.molecule}/{@event.startBeats.denominator}的选择状态被改为：{isSelectedRect.gameObject.activeSelf}");
     }
-    
+
 }
