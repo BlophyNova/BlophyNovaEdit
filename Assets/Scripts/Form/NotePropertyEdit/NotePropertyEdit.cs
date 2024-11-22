@@ -34,9 +34,9 @@ namespace Form.NotePropertyEdit
         public TMP_Dropdown ease; //event
 
         public delegate void OnNoteValueChanged();
-        public event OnNoteValueChanged onNoteValueChanged=()=> { };
+        public event OnNoteValueChanged onNoteValueChanged = () => { };
         public delegate void OnEventValueChanged();
-        public event OnEventValueChanged onEventValueChanged=()=> { };
+        public event OnEventValueChanged onEventValueChanged = () => { };
         private void Start()
         {
             noteType.onValueChanged.AddListener((value) => NoteTypeChanged(value));
@@ -74,7 +74,7 @@ namespace Form.NotePropertyEdit
         {
             Form.NoteEdit.NoteEdit noteEdit = (Form.NoteEdit.NoteEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
 
-            GlobalData.Instance.chartData.boxes[noteEdit.currentBoxID]=ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[noteEdit.currentBoxID]);
+            GlobalData.Instance.chartData.boxes[noteEdit.currentBoxID] = ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[noteEdit.currentBoxID]);
             noteEdit.RefreshNotes(-1, -1);
             SpeckleManager.Instance.allLineNoteControllers.Clear();
             GameController.Instance.RefreshChartPreview();
@@ -159,6 +159,9 @@ namespace Form.NotePropertyEdit
                         scaleY[i] = new(@event.@event);
                     }
                 }
+
+                ChartTool.ForeachBoxEvents(scaleY, GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
+                    .scaleY);
             }
             eventEdit.RefreshEvents(-1);
             //GlobalData.Refresh<IRefreshUI>((interfaceMethod) => interfaceMethod.RefreshUI());
@@ -264,7 +267,7 @@ namespace Form.NotePropertyEdit
                 false => note.effect ^ Data.ChartData.NoteEffect.Ripple
             };
             RefreshChartPreviewAndChartEditCanvas();
-            LogCenter.Log($"成功{value switch{true=>"添加",false=>"取消"}}方框波纹特效");
+            LogCenter.Log($"成功{value switch { true => "添加", false => "取消" }}方框波纹特效");
         }
 
         void CommonEffectChanged(bool value)
@@ -275,7 +278,7 @@ namespace Form.NotePropertyEdit
                 false => note.effect ^ Data.ChartData.NoteEffect.CommonEffect
             };
             RefreshChartPreviewAndChartEditCanvas();
-            LogCenter.Log($"成功{value switch{true=>"添加",false=>"取消"}}普通打击特效");
+            LogCenter.Log($"成功{value switch { true => "添加", false => "取消" }}普通打击特效");
         }
 
         void NoteTypeChanged(int value)
