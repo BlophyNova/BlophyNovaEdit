@@ -17,6 +17,7 @@ namespace Form.NoteEdit
         public delegate void OnNoteRefreshed(List<Scenes.Edit.NoteEdit> notes);
         public event OnNoteRefreshed onNoteRefreshed = notes => { };
 
+        public List<Scenes.Edit.NoteEdit> otherLineNoteClipboard = new();
         public List<Scenes.Edit.NoteEdit> noteClipboard = new();
         public bool isCopy = false;
         void Start2()
@@ -69,14 +70,8 @@ namespace Form.NoteEdit
         {
             Debug.Log("粘贴音符");
             FindNearBeatLineAndVerticalLine(out BeatLine beatLine, out var verticalLine);
-            BPM firstNoteBPM = noteClipboard[0].thisNoteData.HitBeats;
-            foreach (Scenes.Edit.NoteEdit note in noteClipboard)
-            {
-                Note copyNewNote = new(note.thisNoteData);
-                copyNewNote.HitBeats = new BPM(beatLine.thisBPM) + (new BPM(note.thisNoteData.HitBeats) - new BPM(firstNoteBPM));
-                if (isCopy) copyNewNote.isSelected = false;
-                AddNoteAndRefresh(copyNewNote, currentBoxID, currentLineID);
-            }
+            if (noteClipboard.Count > 0) InstNewNotes(beatLine, noteClipboard);
+            else InstNewNotes(beatLine, otherLineNoteClipboard);
 
             if (!isCopy)
             {
@@ -86,11 +81,23 @@ namespace Form.NoteEdit
                 }
             }
             LogCenter.Log($"成功{isCopy switch { true => "复制", false => "粘贴" }}{noteClipboard.Count}个音符");
-            noteClipboard.Clear();
 
             RefreshNoteEditAndChartPreview();
 
         }
+
+        private void InstNewNotes(BeatLine beatLine, List<Scenes.Edit.NoteEdit> noteClipboard)
+        {
+            BPM firstNoteBPM = noteClipboard[0].thisNoteData.HitBeats;
+            foreach (Scenes.Edit.NoteEdit note in noteClipboard)
+            {
+                Note copyNewNote = new(note.thisNoteData);
+                copyNewNote.HitBeats = new BPM(beatLine.thisBPM) + (new BPM(note.thisNoteData.HitBeats) - new BPM(firstNoteBPM));
+                if (isCopy) copyNewNote.isSelected = false;
+                AddNoteAndRefresh(copyNewNote, currentBoxID, currentLineID);
+            }
+        }
+
         void CutNote()
         {
             Debug.Log("剪切音符");

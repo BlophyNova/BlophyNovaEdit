@@ -11,6 +11,7 @@ using UtilityCode.Algorithm;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 using Form.NotePropertyEdit;
 using TMPro;
+using Notes;
 
 namespace Form.NoteEdit
 {
@@ -34,7 +35,6 @@ namespace Form.NoteEdit
         public TMP_Text boxAndLineIDText;
 
         public List<RectTransform> verticalLines = new();
-
 
         public List<Scenes.Edit.NoteEdit> notes = new();
 
@@ -297,11 +297,38 @@ namespace Form.NoteEdit
         {
             UpdateVerticalLineCount();
         }
+        void NoteCopy()
+        {
+            if (noteClipboard.Count > 0)
+            {
+                for (int i = 0; i < otherLineNoteClipboard.Count; i++)
+                {
+                    Destroy(otherLineNoteClipboard[i].gameObject);
+                }
+                otherLineNoteClipboard.Clear();
+            }
+            foreach (Scenes.Edit.NoteEdit item in noteClipboard)
+            {
+                Scenes.Edit.NoteEdit instNewNoteEditPrefab = item.thisNoteData.noteType switch
+                {
+                    NoteType.Tap => GlobalData.Instance.tapEditPrefab,
+                    NoteType.Drag => GlobalData.Instance.dragEditPrefab,
+                    NoteType.Flick => GlobalData.Instance.flickEditPrefab,
+                    NoteType.Point => GlobalData.Instance.pointEditPrefab,
+                    _ => throw new Exception("怎么回事呢···有非通用note代码进入了通用生成note的通道")
+                };
+                Scenes.Edit.NoteEdit noteEdit = Instantiate(instNewNoteEditPrefab, basicLine.noteCanvas).Init(new(item.thisNoteData));
+                noteEdit.gameObject.SetActive(false);
+                otherLineNoteClipboard.Add(noteEdit);
+                item.thisNoteData.isSelected = false;
+            }
+        }
         public void RefreshNotes(int boxID, int lineID)
         {
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
             currentLineID = lineID < 0 ? currentLineID : lineID;
             LogCenter.Log($"成功更改框号为{currentBoxID}｜线号为{currentLineID}");
+            if (boxID >= 0 || lineID >= 0) NoteCopy();
             foreach (Scenes.Edit.NoteEdit item in notes)
             {
                 Destroy(item.gameObject);
