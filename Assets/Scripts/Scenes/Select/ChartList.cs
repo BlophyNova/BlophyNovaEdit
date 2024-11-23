@@ -31,6 +31,7 @@ public class ChartList : MonoBehaviourSingleton<ChartList>
                 ChartItem newChartItem = Instantiate(chartItemPrefab, transform);
                 newChartItem.musicName.text = item.musicName;
                 newChartItem.thisChartFileIndex = item;
+                chartItems.Add(newChartItem);
             }
         }
     }

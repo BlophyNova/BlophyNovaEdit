@@ -22,7 +22,7 @@ public class CreateChart : PublicButton
     public TMP_InputField descriptionText;
     public Image image;
     public Transform parentObject;
-
+    public Color illustrationPreviewNone;
     string ChartFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/ChartFile";
     string MusicFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Music";
     string IllustrationFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Illustration";
@@ -41,7 +41,7 @@ public class CreateChart : PublicButton
         chartLevelText.text = string.Empty;
         descriptionText.text = string.Empty;
         image.sprite = null;
-        image.color = new Color32(80, 80, 80, 255);
+        image.color = illustrationPreviewNone;
     }
     private void CreatChart()
     {
@@ -59,7 +59,11 @@ public class CreateChart : PublicButton
         chartData.musicLength = -1;
         chartData.bpmList = new();
         chartData.bpmList.Add(new() { integer = 0, molecule = 0, denominator = 1, currentBPM = 60 });
-        File.WriteAllText($"{ChartFilePath}/{Scenes.DontDestroyOnLoad.GlobalData.Instance.currentHard}/Chart.json", JsonConvert.SerializeObject(chartData));
+        File.WriteAllText($"{ChartFilePath}/{Hard.Easy}/Chart.json", JsonConvert.SerializeObject(chartData));
+        File.WriteAllText($"{ChartFilePath}/{Hard.Normal}/Chart.json", JsonConvert.SerializeObject(chartData));
+        File.WriteAllText($"{ChartFilePath}/{Hard.Hard}/Chart.json", JsonConvert.SerializeObject(chartData));
+        File.WriteAllText($"{ChartFilePath}/{Hard.Ultra}/Chart.json", JsonConvert.SerializeObject(chartData));
+        File.WriteAllText($"{ChartFilePath}/{Hard.Special}/Chart.json", JsonConvert.SerializeObject(chartData));
     }
 
     private bool VerifyLocalMusicExistence()
