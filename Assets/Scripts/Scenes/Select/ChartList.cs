@@ -2,13 +2,17 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UtilityCode.Singleton;
 
 public class ChartList : MonoBehaviourSingleton<ChartList>
 {
     public ChartItem chartItemPrefab;
     public List<ChartItem> chartItems;
+    public Image illustrationPreview;
+    public TMP_Text chartInfomation;
     private void Start()
     {
         RefreshList();
@@ -31,6 +35,8 @@ public class ChartList : MonoBehaviourSingleton<ChartList>
                 ChartItem newChartItem = Instantiate(chartItemPrefab, transform);
                 newChartItem.musicName.text = item.musicName;
                 newChartItem.thisChartFileIndex = item;
+                newChartItem.illustrationPreview = illustrationPreview;
+                newChartItem.chartInfomation = chartInfomation;
                 chartItems.Add(newChartItem);
             }
         }
