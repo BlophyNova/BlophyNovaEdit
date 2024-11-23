@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BoxID : MonoBehaviour,IRefresh
+public class BoxID : MonoBehaviour, IRefresh
 {
     public int boxID;
     public TMP_Text thisText;
@@ -20,15 +20,18 @@ public class BoxID : MonoBehaviour,IRefresh
 
     public void RefreshNote()
     {
-        if (propertyEdit.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit)
+        foreach (LabelItem item in propertyEdit.labelWindow.associateLabelWindow.labels)
         {
-            EventEdit eventEdit = (EventEdit)propertyEdit.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
-            eventEdit.RefreshEvents(boxID);
-        }
-        if (propertyEdit.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
-        {
-            NoteEdit noteEdit = (NoteEdit)propertyEdit.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
-            noteEdit.RefreshNotes(boxID,-1);
+            if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit)
+            {
+                EventEdit eventEdit = (EventEdit)item.labelWindowContent;
+                eventEdit.RefreshEvents(boxID);
+            }
+            if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
+            {
+                NoteEdit noteEdit = (NoteEdit)item.labelWindowContent;
+                noteEdit.RefreshNotes(boxID, -1);
+            }
         }
     }
 
@@ -36,7 +39,7 @@ public class BoxID : MonoBehaviour,IRefresh
     {
         add.onClick.AddListener(() =>
         {
-            if(boxID + 1>= GlobalData.Instance.chartEditData.boxes.Count)
+            if (boxID + 1 >= GlobalData.Instance.chartEditData.boxes.Count)
             {
                 Alert.EnableAlert("呜呜呜，前方好像是不存在的区域呢...");
                 return;

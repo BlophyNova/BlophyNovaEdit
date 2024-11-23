@@ -14,7 +14,24 @@ public class EventEditItem : PublicButton, ISelectBoxItem
     public RectTransform isSelectedRect;
     public RectTransform easeLineRect;
     public LineRenderer easeLine;
-    public EventEdit ThisEventEdit => (EventEdit)labelWindow.currentLabelItem.labelWindowContent;
+    EventEdit thisEventEdit = null;
+    public EventEdit ThisEventEdit
+    {
+        get
+        {
+            if (thisEventEdit == null)
+            {
+                foreach (LabelItem item in labelWindow.labels)
+                {
+                    if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit)
+                    {
+                        thisEventEdit = (EventEdit)item.labelWindowContent;
+                    }
+                }
+            }
+            return thisEventEdit;
+        }
+    }
     public bool IsNoteEdit => false;
     public Data.ChartEdit.Event @event;
     public Data.Enumerate.EventType eventType;
@@ -24,8 +41,8 @@ public class EventEditItem : PublicButton, ISelectBoxItem
         {
             ThisEventEdit.selectBox.SetSingleNote(this);
         });
-        labelWindow.currentLabelItem.onLabelGetFocus += LabelWindow_onLabelGetFocus;
-        labelWindow.currentLabelItem.onLabelLostFocus += LabelWindow_onLabelLostFocus;
+        ThisEventEdit.labelItem.onLabelGetFocus += LabelWindow_onLabelGetFocus;
+        ThisEventEdit.labelItem.onLabelLostFocus += LabelWindow_onLabelLostFocus;
         labelWindow.onWindowSizeChanged += () => StartCoroutine(DrawLineOnEEI());
     }
 
@@ -51,8 +68,8 @@ public class EventEditItem : PublicButton, ISelectBoxItem
     private void OnDestroy()
     {
         if (labelWindow == null) return;
-        labelWindow.currentLabelItem.onLabelGetFocus -= LabelWindow_onLabelGetFocus;
-        labelWindow.currentLabelItem.onLabelLostFocus -= LabelWindow_onLabelLostFocus;
+        ThisEventEdit.labelItem.onLabelGetFocus -= LabelWindow_onLabelGetFocus;
+        ThisEventEdit.labelItem.onLabelLostFocus -= LabelWindow_onLabelLostFocus;
         Debug.Log($@"呜呜，我是EEI，喔被销毁了，我的相关信息如下：startBeats:{@event.startBeats};eventType:{eventType};");
     }
     public EventEditItem Init()
