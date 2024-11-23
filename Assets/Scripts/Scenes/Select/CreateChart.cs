@@ -1,3 +1,4 @@
+using Data.ChartData;
 using Data.Enumerate;
 using Newtonsoft.Json;
 using Scenes.PublicScripts;
@@ -5,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using File = System.IO.File;
 
 public class CreateChart : PublicButton
@@ -13,9 +15,14 @@ public class CreateChart : PublicButton
     public TMP_InputField musicNameText;
     public TMP_InputField musicPathText;
     public TMP_InputField illustrationPathText;
+    public TMP_InputField musicWriterText;
+    public TMP_InputField illustrationWriterText;
+    public TMP_InputField chartWriterText;
+    public TMP_InputField chartLevelText;
+    public TMP_InputField descriptionText;
+    public Image image;
     public Transform parentObject;
 
-    Hard currentLevel = Hard.Hard;
     string ChartFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/ChartFile";
     string MusicFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Music";
     string IllustrationFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Illustration";
@@ -23,6 +30,19 @@ public class CreateChart : PublicButton
 
     public int currentChartFileIndex = -1;
 
+    private void OnEnable()
+    {
+        musicNameText.text = string.Empty;
+        musicPathText.text = string.Empty;
+        illustrationPathText.text = string.Empty;
+        musicWriterText.text = string.Empty;
+        illustrationWriterText.text = string.Empty;
+        chartWriterText.text = string.Empty;
+        chartLevelText.text = string.Empty;
+        descriptionText.text = string.Empty;
+        image.sprite = null;
+        image.color = new Color32(80, 80, 80, 255);
+    }
     private void CreatChart()
     {
         File.Copy(musicPathText.text, $"{MusicFilePath}/Music.mp3");
@@ -39,7 +59,7 @@ public class CreateChart : PublicButton
         chartData.musicLength = -1;
         chartData.bpmList = new();
         chartData.bpmList.Add(new() { integer = 0, molecule = 0, denominator = 1, currentBPM = 60 });
-        File.WriteAllText($"{ChartFilePath}/{currentLevel}/Chart.json", JsonConvert.SerializeObject(chartData));
+        File.WriteAllText($"{ChartFilePath}/{Scenes.DontDestroyOnLoad.GlobalData.Instance.currentHard}/Chart.json", JsonConvert.SerializeObject(chartData));
     }
 
     private bool VerifyLocalMusicExistence()
@@ -101,6 +121,17 @@ public class CreateChart : PublicButton
         chartFileIndices[currentChartFileIndex].musicName = musicNameText.text;
         chartFileIndices[currentChartFileIndex].musicPath = musicPathText.text;
         chartFileIndices[currentChartFileIndex].IllustrationPath = illustrationPathText.text;
+        MetaData metaData = new()
+        {
+            musicName = musicNameText.text,
+            musicWriter = musicWriterText.text,
+            artWriter = illustrationWriterText.text,
+            chartWriter = chartWriterText.text,
+            chartLevel = chartLevelText.text,
+            description = descriptionText.text,
+            chartHard = Scenes.DontDestroyOnLoad.GlobalData.Instance.currentHard
+        };
+        chartFileIndices[currentChartFileIndex].metaData = metaData;
         File.WriteAllText(indexJSONPath, JsonConvert.SerializeObject(chartFileIndices, Formatting.Indented));
         CreateDirectory();
     }
