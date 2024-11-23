@@ -1,3 +1,4 @@
+using Data.Enumerate;
 using Newtonsoft.Json;
 using Scenes.PublicScripts;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ public class CreateChart : PublicButton
     public TMP_InputField illustrationPathText;
     public Transform parentObject;
 
-    string currentLevel = "Hard";
+    Hard currentLevel = Hard.Hard;
     string ChartFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/ChartFile";
     string MusicFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Music";
     string IllustrationFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Illustration";

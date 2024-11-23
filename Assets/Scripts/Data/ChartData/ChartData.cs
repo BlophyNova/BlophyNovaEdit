@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Data.Enumerate;
 using Manager;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -23,8 +24,9 @@ namespace Data.ChartData
         public string musicWriter = "";
         [FormerlySerializedAs("musicBPMText")]
         public string musicBpmText = "";
-        public string artWriter = "";
         public string chartWriter = "";
+        public string artWriter = "";
+        public Hard chartHard;
         public string chartLevel = "";
         public string description = "";
     }

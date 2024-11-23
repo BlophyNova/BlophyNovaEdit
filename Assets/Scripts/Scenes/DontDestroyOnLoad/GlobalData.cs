@@ -19,7 +19,7 @@ namespace Scenes.DontDestroyOnLoad
 {
     public class GlobalData : MonoBehaviourSingleton<GlobalData>
     {
-        public string currentHard;
+        public Hard currentHard;
         public Data.ChartData.ChartData chartData;
         public Data.ChartEdit.ChartData chartEditData;
         public AudioClip clip;

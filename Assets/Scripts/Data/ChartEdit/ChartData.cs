@@ -332,13 +332,7 @@ namespace Data.ChartEdit
         public float endValue;
         public int curveIndex;
         //public EaseData curve;
-        public EaseData Curve
-        {
-            get
-            {
-                return GlobalData.Instance.easeData[curveIndex];
-            }
-        }
+        public EaseData Curve => GlobalData.Instance.easeData[curveIndex];
         public Event() { }
         public Event(Event @event)
         {
