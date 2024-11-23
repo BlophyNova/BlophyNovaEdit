@@ -179,7 +179,10 @@ namespace Form.NoteEdit
             foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>())
             {
                 float verticalLineDelta = 2 / (float)GlobalData.Instance.chartEditData.eventVerticalSubdivision;
-                noteEdit.thisNoteData.positionX -= verticalLineDelta;
+                float positionX = noteEdit.thisNoteData.positionX;
+                positionX -= verticalLineDelta;
+                positionX = positionX < -1 ? -1 : positionX;
+                noteEdit.thisNoteData.positionX = positionX;
             }
             RefreshNoteEditAndChartPreview();
             LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个音符向左移动");
@@ -191,7 +194,10 @@ namespace Form.NoteEdit
             foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>())
             {
                 float verticalLineDelta = 2 / (float)GlobalData.Instance.chartEditData.eventVerticalSubdivision;
-                noteEdit.thisNoteData.positionX += verticalLineDelta;
+                float positionX = noteEdit.thisNoteData.positionX;
+                positionX += verticalLineDelta;
+                positionX = positionX > 1 ? 1 : positionX;
+                noteEdit.thisNoteData.positionX = positionX;
             }
             RefreshNoteEditAndChartPreview();
             LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个音符向右移动");
