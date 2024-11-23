@@ -77,7 +77,8 @@ public partial class EventEdit
         if (!isPaste)
         {
             @event.startValue = @event.endValue = events[^1].endValue;
-            @event.curve = GlobalData.Instance.easeData[0];
+            //@event.Curve = GlobalData.Instance.easeData[0];
+            @event.curveIndex = 0;
         }
         events.Add(@event);
         Algorithm.BubbleSort(events, (a, b) =>//排序

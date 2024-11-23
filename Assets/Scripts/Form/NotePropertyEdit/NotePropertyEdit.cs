@@ -223,8 +223,9 @@ namespace Form.NotePropertyEdit
 
         void EaseChanged(int value)
         {
-            LogCenter.Log($"事件Ease从{@event.@event.curve.easeType}变更为{GlobalData.Instance.easeData[value].easeType}");
-            @event.@event.curve = GlobalData.Instance.easeData[value];
+            LogCenter.Log($"事件Ease从{@event.@event.Curve.easeType}变更为{GlobalData.Instance.easeData[value].easeType}");
+            //@event.@event.Curve = GlobalData.Instance.easeData[value];
+            @event.@event.curveIndex = value;
             RefreshChartPreviewAndChartEditCanvas();
         }
 
@@ -351,7 +352,7 @@ namespace Form.NotePropertyEdit
                 $"{this.@event.@event.endBeats.integer}:{this.@event.@event.endBeats.molecule}/{this.@event.@event.endBeats.denominator}");
             startValue.SetTextWithoutNotify($"{this.@event.@event.startValue}");
             endValue.SetTextWithoutNotify($"{this.@event.@event.endValue}");
-            ease.SetValueWithoutNotify(GlobalData.Instance.easeData.FindIndex((m) => m.Equals(this.@event.@event.curve)));
+            ease.SetValueWithoutNotify(GlobalData.Instance.easeData.FindIndex((m) => m.Equals(this.@event.@event.Curve)));
 
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
             LogCenter.Log($"音符属性编辑控件接收一个事件");

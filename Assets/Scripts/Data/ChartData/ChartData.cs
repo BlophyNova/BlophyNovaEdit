@@ -74,10 +74,10 @@ namespace Data.ChartData
     {
         public List<Note> onlineNotes;
         //public int onlineNotesLength = -1;
-        public int OnlineNotesLength=>onlineNotes.Count;
+        public int OnlineNotesLength => onlineNotes.Count;
         public List<Note> offlineNotes;
         //public int offlineNotesLength = -1;
-        public int OfflineNotesLength=>offlineNotes.Count;
+        public int OfflineNotesLength => offlineNotes.Count;
         public List<Event> speed;
         public AnimationCurve far;//画布偏移绝对位置，距离
         public AnimationCurve career;//速度
@@ -103,8 +103,8 @@ namespace Data.ChartData
         public Note(ChartEdit.Note noteEdit)
         {
             noteType = noteEdit.noteType;
-            hitTime =BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.HitBeats.ThisStartBPM);
-            holdTime= BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.EndBeats.ThisStartBPM)- BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.HitBeats.ThisStartBPM);
+            hitTime = BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.HitBeats.ThisStartBPM);
+            holdTime = BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.EndBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.HitBeats.ThisStartBPM);
             effect = noteEdit.effect;
             positionX = noteEdit.positionX;
             isClockwise = noteEdit.isClockwise;
@@ -234,7 +234,7 @@ namespace Data.ChartData
             endTime = BPMManager.Instance.GetSecondsTimeWithBeats(@event.endBeats.ThisStartBPM);
             startValue = @event.startValue;
             endValue = @event.endValue;
-            curve = @event.curve.thisCurve;
+            curve = @event.Curve.thisCurve;
         }
         public Event() { }
         public float startTime;

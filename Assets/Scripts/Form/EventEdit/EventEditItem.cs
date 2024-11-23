@@ -119,7 +119,7 @@ public class EventEditItem : PublicButton, ISelectBoxItem
             //positions[i].
             Vector3 currentPosition = (corners[2] - corners[0]) * (i / (float)pointCount) + corners[0];
             //currentPosition.y = @event.curve.thisCurve.Evaluate(i / (float)pointCount) * (corners[2].y - corners[0].y) + corners[0].y;
-            currentPosition.x = @event.curve.thisCurve.Evaluate(i / (float)pointCount) * (corners[2].x - corners[0].x) + corners[0].x;
+            currentPosition.x = @event.Curve.thisCurve.Evaluate(i / (float)pointCount) * (corners[2].x - corners[0].x) + corners[0].x;
             currentPosition.z = -.1f;
             points.Add(currentPosition);
         }

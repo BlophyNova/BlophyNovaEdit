@@ -330,13 +330,22 @@ namespace Data.ChartEdit
         public BPM endBeats;
         public float startValue;
         public float endValue;
-        public EaseData curve;
+        public int curveIndex;
+        //public EaseData curve;
+        public EaseData Curve
+        {
+            get
+            {
+                return GlobalData.Instance.easeData[curveIndex];
+            }
+        }
         public Event() { }
         public Event(Event @event)
         {
             endValue = @event.endValue;
             startValue = @event.startValue;
-            curve = @event.curve;
+            //Curve = @event.Curve;
+            curveIndex = @event.curveIndex;
             startBeats = new(@event.startBeats);
             endBeats = new(@event.endBeats);
             IsSelected = @event.IsSelected;
