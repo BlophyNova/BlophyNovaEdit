@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BPMList : LabelWindowContent,IRefresh
+public class BPMList : LabelWindowContent, IRefresh
 {
     public BPMItem bpmItemPrefabs;
     public List<BPMItem> bpmItems;
     public GridLayoutGroup gridLayoutGroup;
-    private void Start()
+    private IEnumerator Start()
     {
         Refresh();
+        yield return new WaitForEndOfFrame();
+        UpdateAera();
     }
     public void Refresh()
     {
@@ -28,10 +30,6 @@ public class BPMList : LabelWindowContent,IRefresh
             newItem.startBeats.text = $"{newItem.myBPM.integer}:{newItem.myBPM.molecule}/{newItem.myBPM.denominator}";
             bpmItems.Add(newItem);
         }
-    }
-    private void OnEnable()
-    {
-        UpdateAera();
     }
     public override void WindowSizeChanged()
     {

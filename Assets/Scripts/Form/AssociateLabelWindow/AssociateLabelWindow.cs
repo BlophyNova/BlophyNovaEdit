@@ -6,9 +6,10 @@ public class AssociateLabelWindow : LabelWindowContent
     public AssociateLabelWindowItem associateLabelWindowItem;
     public GridLayoutGroup gridLayoutGroup;
     public List<AssociateLabelWindowItem> associateLabels;
-    private void OnEnable()
+    private void Start()
     {
         Refresh();
+        labelItem.onLabelGetFocus += Refresh;
     }
     public void Refresh()
     {

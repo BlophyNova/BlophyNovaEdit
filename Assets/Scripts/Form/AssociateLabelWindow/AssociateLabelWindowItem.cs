@@ -12,7 +12,7 @@ public class AssociateLabelWindowItem : MonoBehaviour
     public LabelWindow labelWindow;
     private void Start()
     {
-        dropdown.onValueChanged.AddListener((index) => 
+        dropdown.onValueChanged.AddListener((index) =>
         {
             for (int i = 0; i < LabelWindowsManager.Instance.windows.Count; i++)
             {
@@ -21,7 +21,7 @@ public class AssociateLabelWindowItem : MonoBehaviour
                     labelWindow.associateLabelWindow = LabelWindowsManager.Instance.windows[i];
                 }
             }
-            
+
         });
     }
     private void OnEnable()
@@ -35,7 +35,7 @@ public class AssociateLabelWindowItem : MonoBehaviour
             }
         }
         dropdown.options.Add(new("选择窗口"));
-        dropdown.SetValueWithoutNotify(dropdown.options.Count-1);
+        dropdown.SetValueWithoutNotify(dropdown.options.Count - 1);
         if (labelWindow.associateLabelWindow != null)
         {
             for (int i = 0; i < LabelWindowsManager.Instance.windows.Count; i++)
