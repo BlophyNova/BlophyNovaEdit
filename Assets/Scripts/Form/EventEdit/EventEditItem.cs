@@ -108,8 +108,9 @@ public class EventEditItem : PublicButton, ISelectBoxItem
         return this;
     }
 
-    private IEnumerator DrawLineOnEEI()
+    public IEnumerator DrawLineOnEEI()
     {
+        easeLine.enabled = false;
         yield return new WaitForEndOfFrame();
         List<Vector3> points = new();
         int pointCount = (int)((@event.endBeats.ThisStartBPM - @event.startBeats.ThisStartBPM) * 100);
@@ -127,6 +128,7 @@ public class EventEditItem : PublicButton, ISelectBoxItem
             points.Add(currentPosition);
         }
         easeLine.SetPositions(points.ToArray());
+        easeLine.enabled = true;
     }
 
     public Vector3[] GetCorners()

@@ -177,7 +177,7 @@ public partial class EventEdit : LabelWindowContent, IInputEventCallback, IRefre
                 return;
             }
             EventEditItem newEventEditItem = Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
-            eventEditItems.Add(newEventEditItem); WindowSizeChanged();
+            WindowSizeChanged();
             newEventEditItem.labelWindow = labelWindow;
             newEventEditItem.transform.localPosition = new Vector2(nearEventVerticalLine.transform.localPosition.x, nearBeatLine.transform.localPosition.y);
             newEventEditItem.@event.startBeats = new(nearBeatLine.thisBPM);
@@ -240,6 +240,7 @@ public partial class EventEdit : LabelWindowContent, IInputEventCallback, IRefre
             }
             eventEditItem.thisEventEditItemRect.sizeDelta = new(eventEditItem.thisEventEditItemRect.sizeDelta.x, nearBeatLine.transform.localPosition.y - eventEditItem.transform.localPosition.y);
             eventEditItem.@event.endBeats = new(nearBeatLine.thisBPM);
+            StartCoroutine(eventEditItem.DrawLineOnEEI());
             yield return new WaitForEndOfFrame();
         }
         waitForPressureAgain = false;
@@ -255,6 +256,7 @@ public partial class EventEdit : LabelWindowContent, IInputEventCallback, IRefre
         {
             //添加事件到对应的地方
             LogCenter.Log($"{eventEditItem.eventType}新事件：{eventEditItem.@event.startBeats.integer}:{eventEditItem.@event.startBeats.molecule}/{eventEditItem.@event.startBeats.denominator}");
+            eventEditItems.Add(eventEditItem);
             AddNewEvent2EventList(eventEditItem);
         }
     }
