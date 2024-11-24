@@ -19,7 +19,7 @@ namespace Scenes.Edit
         public LabelWindowContent labelWindowContent => noteEdit == null ? eventEdit : noteEdit;
         private bool isNoteEdit => noteEdit == null ? false : true;
         public Image selectBoxTexture;
-        public NotePropertyEdit notePropertyEdit=>(NotePropertyEdit)labelWindowContent.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
+        public NotePropertyEdit notePropertyEdit => (NotePropertyEdit)labelWindowContent.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
         List<ISelectBoxItem> selectedBoxItems = new();
         public Color enableSelectBoxTextureColor = new(1, 1, 1, 1);
         public Color disableSelectBoxTextureColor = new(1, 1, 1, 0);
@@ -111,21 +111,23 @@ namespace Scenes.Edit
             ClearSelectedBoxItems();
             selectedBoxItems.Add(selectBoxItem);
             selectBoxItem.SetSelectState(true);
-            LabelWindow labelWindow = noteEdit == null ? eventEdit.labelWindow : noteEdit.labelWindow;
-            if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
-            {
-                NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
-                notePropertyEdit.note = null;
-                notePropertyEdit.@event = null;
-                if (selectBoxItem.IsNoteEdit)
-                {
-                    notePropertyEdit.SelectedNote((NoteEdit)selectBoxItem);
-                }
-                else
-                {
-                    notePropertyEdit.SelectedNote((EventEditItem)selectBoxItem);
-                }
-            }
+
+            SetValue2NotePropertyEdit();
+            //LabelWindow labelWindow = noteEdit == null ? eventEdit.labelWindow : noteEdit.labelWindow;
+            //if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
+            //{
+            //    NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
+            //    notePropertyEdit.note = null;
+            //    notePropertyEdit.@event = null;
+            //    if (selectBoxItem.IsNoteEdit)
+            //    {
+            //        notePropertyEdit.SelectedNote((NoteEdit)selectBoxItem);
+            //    }
+            //    else
+            //    {
+            //        notePropertyEdit.SelectedNote((EventEditItem)selectBoxItem);
+            //    }
+            //}
         }
         private void EndHandle()
         {
@@ -134,8 +136,8 @@ namespace Scenes.Edit
             NewSelectedBoxItems();
             SetValue2NotePropertyEdit();
         }
-        [SerializeField]Note originalnNoteData = new();
-        [SerializeField]Note tempNoteEdit = new();
+        Note originalnNoteData = new();
+        Note tempNoteEdit = new();
 
         private void TempNoteEditValueChangedCallBack()
         {
@@ -175,10 +177,6 @@ namespace Scenes.Edit
                 tempNoteEdit = new(originalnNoteData);
                 notePropertyEdit.SelectedNote(tempNoteEdit);
             }
-            else
-            {
-
-            }
         }
         private void ClearSelectedBoxItems()
         {
@@ -208,7 +206,7 @@ namespace Scenes.Edit
                         break;
                     }
                 }
-                LogCenter.Log($"成功选择{selectedBoxItems.Count}个{isNoteEdit switch{true=>"音符",false=>"事件"}}");
+                LogCenter.Log($"成功选择{selectedBoxItems.Count}个{isNoteEdit switch { true => "音符", false => "事件" }}");
 
             }
             Debug.Log($@"已选择{selectedBoxItems.Count}个音符！");
@@ -223,7 +221,7 @@ namespace Scenes.Edit
         }
 
         private void StartHandle()
-        { 
+        {
             selectBoxTexture.color = enableSelectBoxTextureColor;
             firstFramePositionInLabelWindow = labelWindowContent.MousePositionInThisRectTransformCenter;
         }

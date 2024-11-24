@@ -81,7 +81,7 @@ namespace Form.NoteEdit
             {
                 RectTransform newVerticalLine = Instantiate(verticalLinePrefab, transform);
                 newVerticalLine.localPosition = (verticalLineLeftAndRightDelta / subdivision * i - verticalLineLeftAndRightDelta / 2) * Vector2.right;
-                newVerticalLine.SetSiblingIndex(2);
+                newVerticalLine.SetSiblingIndex(4);
                 verticalLines.Add(newVerticalLine);
             }
         }

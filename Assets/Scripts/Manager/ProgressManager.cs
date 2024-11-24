@@ -133,10 +133,10 @@ namespace Manager
             if (currTime >= 0)
             {
                 AssetManager.Instance.musicPlayer.time += currTime;
-                skipTime += time;
-                onCurrentTimeChanged();
-                ResetAllLineNoteState();
             }
+            skipTime += time;
+            onCurrentTimeChanged();
+            ResetAllLineNoteState();
         }
         /// <summary>
         /// 重置时间

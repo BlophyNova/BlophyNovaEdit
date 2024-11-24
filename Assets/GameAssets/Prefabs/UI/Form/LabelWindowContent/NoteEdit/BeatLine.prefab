@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   texture: {fileID: 2358806728435423475}
   thisText: {fileID: 1343920336514156655}
-  color: {r: 0.3137255, g: 0.3137255, b: 0.3137255, a: 1}
+  color: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
   thisBPM:
     integer: 0
     molecule: 0
