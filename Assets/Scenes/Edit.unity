@@ -585,6 +585,14 @@ PrefabInstance:
       propertyPath: labelWindow
       value: 
       objectReference: {fileID: 866174814}
+    - target: {fileID: 2742150389274026355, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2742150389274026355, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3892861790279932364, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -695,6 +703,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3892861790999471351, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387576594251248092, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387576594251248092, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387576594251248092, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
