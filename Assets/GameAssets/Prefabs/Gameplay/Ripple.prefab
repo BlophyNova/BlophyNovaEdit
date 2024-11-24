@@ -48,12 +48,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdfac9d11bbd0644ab78ad700e1b19f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxController: {fileID: 0}
   texture:
   - {fileID: 2153255214478498976}
   - {fileID: 4989955916145950749}
   - {fileID: 2823619957892241363}
   - {fileID: 6908025054705416591}
+  textureLength: -1
+  currentColor: {r: 1, g: 1, b: 1, a: 0.5019608}
 --- !u!1 &1668833356880847978
 GameObject:
   m_ObjectHideFlags: 0
