@@ -112,22 +112,21 @@ namespace Scenes.Edit
             selectedBoxItems.Add(selectBoxItem);
             selectBoxItem.SetSelectState(true);
 
-            SetValue2NotePropertyEdit();
-            //LabelWindow labelWindow = noteEdit == null ? eventEdit.labelWindow : noteEdit.labelWindow;
-            //if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
-            //{
-            //    NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
-            //    notePropertyEdit.note = null;
-            //    notePropertyEdit.@event = null;
-            //    if (selectBoxItem.IsNoteEdit)
-            //    {
-            //        notePropertyEdit.SelectedNote((NoteEdit)selectBoxItem);
-            //    }
-            //    else
-            //    {
-            //        notePropertyEdit.SelectedNote((EventEditItem)selectBoxItem);
-            //    }
-            //}
+            LabelWindow labelWindow = noteEdit == null ? eventEdit.labelWindow : noteEdit.labelWindow;
+            if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
+            {
+                NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
+                notePropertyEdit.note = null;
+                notePropertyEdit.@event = null;
+                if (selectBoxItem.IsNoteEdit)
+                {
+                    notePropertyEdit.SelectedNote((NoteEdit)selectBoxItem);
+                }
+                else
+                {
+                    notePropertyEdit.SelectedNote((EventEditItem)selectBoxItem);
+                }
+            }
         }
         private void EndHandle()
         {
@@ -141,6 +140,7 @@ namespace Scenes.Edit
 
         private void TempNoteEditValueChangedCallBack()
         {
+            if (selectedBoxItems.Count <= 1) return;
             ForeachAllItems(note => !note.HitBeats.Equals(originalnNoteData.HitBeats), item => item.HitBeats = tempNoteEdit.HitBeats);
             ForeachAllItems(note => !(note.noteType == originalnNoteData.noteType), item => item.noteType = tempNoteEdit.noteType);
             ForeachAllItems(note => !note.holdBeats.Equals(originalnNoteData.holdBeats), item => item.holdBeats = tempNoteEdit.holdBeats);

@@ -62,7 +62,7 @@ namespace Controller
             {
                 for (int j = 0; j < renderOrder[i].LengthSpriteRenderers; j++)//循环每一层的所有素材
                 {
-                    renderOrder[i].tierCount[j].color = Color.black;//改为白色
+                    renderOrder[i].tierCount[j].color = Color.white;//改为白色
                 }
             }
             isJudged = false;//是否判定过设为假
