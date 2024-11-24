@@ -137,6 +137,13 @@ namespace Form.NotePropertyEdit
                 for (int i = 0; i < GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].lines.Count; i++)
                 {
                     Data.ChartData.Line item = GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].lines[i];
+                    foreach (Event speedEvent in editBoxEvent)
+                    {
+                        if (speedEvent.curveIndex == 0)
+                        {
+                            speedEvent.endValue = speedEvent.startValue;
+                        }
+                    }
                     List<Data.ChartEdit.Event> filledVoid = GameUtility.FillVoid(editBoxEvent);
                     item.speed = new();
                     ChartTool.ForeachBoxEvents(filledVoid, item.speed);
@@ -226,6 +233,14 @@ namespace Form.NotePropertyEdit
             LogCenter.Log($"事件Ease从{@event.@event.Curve.easeType}变更为{GlobalData.Instance.easeData[value].easeType}");
             //@event.@event.Curve = GlobalData.Instance.easeData[value];
             @event.@event.curveIndex = value;
+            if (@event.eventType == EventType.Speed && @event.@event.curveIndex != 0)
+            {
+                endValue.interactable = true;
+            }
+            else
+            {
+                endValue.interactable = false;
+            }
             RefreshChartPreviewAndChartEditCanvas();
         }
 
@@ -257,6 +272,11 @@ namespace Form.NotePropertyEdit
             if (!float.TryParse(value, out float result)) return;
             LogCenter.Log($"事件StartValue从{@event.@event.startValue}变更为{result}");
             @event.@event.startValue = result;
+
+            if (@event.eventType == EventType.Speed && @event.@event.curveIndex == 0)
+            {
+                endValue.SetTextWithoutNotify(value);
+            }
             RefreshChartPreviewAndChartEditCanvas();
         }
 
@@ -353,6 +373,11 @@ namespace Form.NotePropertyEdit
             startValue.SetTextWithoutNotify($"{this.@event.@event.startValue}");
             endValue.SetTextWithoutNotify($"{this.@event.@event.endValue}");
             ease.SetValueWithoutNotify(GlobalData.Instance.easeData.FindIndex((m) => m.Equals(this.@event.@event.Curve)));
+
+            if (@event.eventType == EventType.Speed && @event.@event.curveIndex == 0)
+            {
+                endValue.interactable = false;
+            }
 
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
             LogCenter.Log($"音符属性编辑控件接收一个事件");

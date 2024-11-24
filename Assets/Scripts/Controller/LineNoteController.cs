@@ -6,9 +6,9 @@ using UnityEngine.Serialization;
 using UtilityCode.Algorithm;
 namespace Controller
 {
-    public class LineNoteController : MonoBehaviour,IRefresh
+    public class LineNoteController : MonoBehaviour, IRefresh
     {
-        [FormerlySerializedAs("freeBox_NoteParsent"),Tooltip("如果是自由框，那就用这个作为音符的爸爸")] public Transform freeBoxNoteParsent;
+        [FormerlySerializedAs("freeBox_NoteParsent"), Tooltip("如果是自由框，那就用这个作为音符的爸爸")] public Transform freeBoxNoteParsent;
 
         public DecideLineController decideLineController;//判定线控制
 
@@ -119,9 +119,7 @@ namespace Controller
                 false => decideLineController.offlineNote//如果是线上音符就赋值offlineNote
             };
 
-            noteController.transform.localPosition = new Vector2(note.positionX, note.hitFloorPosition * direction.z);//复制localPosition
-            noteController.transform.localRotation = Quaternion.Euler(isOnlineNote ? Vector3.zero : Vector3.forward * 180);//音符旋转，如果是线上的音符就什么也不管，如果是线下的音符就旋转180度
-
+            noteController.transform.SetLocalPositionAndRotation(new Vector2(note.positionX, note.hitFloorPosition * direction.z), Quaternion.Euler(isOnlineNote ? Vector3.zero : Vector3.forward * 180));
             noteController.Init();//执行音符初始化
 
             AddNote2NoteList(arisedNotes, endTimeArisedNotes, noteController);//添加音符到音符列表
@@ -170,7 +168,7 @@ namespace Controller
         /// <param name="notes">音符列表</param>
         /// <returns>索引</returns>
         private static int FindMissNote(List<NoteController> notes)
-        {   
+        {
             return Algorithm.BinarySearch(notes, m => ProgressManager.Instance.CurrentTime >= m.thisNote.EndTime, false);
             //寻找已经出现的音符中有没有Miss掉的音符
         }

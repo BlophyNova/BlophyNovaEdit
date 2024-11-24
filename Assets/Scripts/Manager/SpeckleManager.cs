@@ -12,9 +12,9 @@ namespace Manager
     {
         public Speckle[] speckles;//手指触摸列表
 
-        public List<LineNoteController> allLineNoteControllers = new List<LineNoteController>();//所有的判定线，一个框默认五个判定线
-        public List<LineNoteController> isInRangeLine = new List<LineNoteController>();//根据横轴判定，在范围内的判定线列表
-        public List<NoteController> waitNote = new List<NoteController>();//等待确定判定的音符
+        public List<LineNoteController> allLineNoteControllers = new();//所有的判定线，一个框默认五个判定线
+        public List<LineNoteController> isInRangeLine = new();//根据横轴判定，在范围内的判定线列表
+        public List<NoteController> waitNote = new();//等待确定判定的音符
         public int lineNoteControllerCount = -1;//初始化为-1
         public int LineNoteControllerCount
         {

@@ -149,5 +149,9 @@ namespace Controller
             CalculatedNoteFloorPosition(ThisLine.onlineNotes);//计算判定线上方的所有音符的FloorPosition
             CalculatedNoteFloorPosition(ThisLine.offlineNotes);//计算判定线下方的所有音符的FloorPosition
         }
+        private void OnDestroy()
+        {
+            SpeckleManager.Instance.allLineNoteControllers.Remove(lineNoteController);
+        }
     }
 }

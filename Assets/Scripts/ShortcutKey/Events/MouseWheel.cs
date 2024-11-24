@@ -15,10 +15,10 @@ public class MouseWheel : ShortcutKeyEventBase
     {
         base.Performed(callbackContext);
 
-        LabelWindowContentType labelWindowContentType = 
-            LabelWindowContentType.ChartPreview | 
-            LabelWindowContentType.NoteEdit | 
-            LabelWindowContentType.EventEdit | 
+        LabelWindowContentType labelWindowContentType =
+            LabelWindowContentType.ChartPreview |
+            LabelWindowContentType.NoteEdit |
+            LabelWindowContentType.EventEdit |
             LabelWindowContentType.ProgressBar |
             LabelWindowContentType.ATimeLine |
             LabelWindowContentType.DebugText |
@@ -28,10 +28,10 @@ public class MouseWheel : ShortcutKeyEventBase
         {
             //LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Canceled(callbackContext);
             //ProgressManager.Instance.PausePlay();
-            float offsetTime =Mathf.Sign(callbackContext.ReadValue<float>())*BPMManager.Instance.GetSecondsTimeWithBeats((1f/GlobalData.Instance.chartEditData.beatSubdivision));
+            float offsetTime = Mathf.Sign(callbackContext.ReadValue<float>()) * BPMManager.Instance.GetSecondsTimeWithBeats((1f / GlobalData.Instance.chartEditData.beatSubdivision));
             Debug.Log($@"{offsetTime}");
             StateManager.Instance.IsPause = true;
-            if (ProgressManager.Instance.CurrentTime + offsetTime < 0) 
+            if (ProgressManager.Instance.CurrentTime + offsetTime < 0)
             {
                 ProgressManager.Instance.OffsetTime(-ProgressManager.Instance.CurrentTime);
             }

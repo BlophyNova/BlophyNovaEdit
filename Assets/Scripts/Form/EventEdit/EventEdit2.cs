@@ -106,6 +106,11 @@ public partial class EventEdit
             EventType.LineAlpha => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.lineAlpha,
             _ => null
         };
+        if (chartDataEvents == null)
+        {
+            SpeedEvent(eventType);
+            return;
+        }
         ChartTool.RefreshChartEventByChartEditEvent(chartDataEvents, @event);
 
         if (eventType == EventType.ScaleX && !isPaste)//同步scaleY
@@ -127,6 +132,11 @@ public partial class EventEdit
             ChartTool.RefreshChartEventByChartEditEvent(GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.scaleY, new(@event));
             RefreshEvents(-1);
         }
+        //Debug.LogError("错误记忆");
+    }
+
+    private void SpeedEvent(EventType eventType)
+    {
         #region 以下代码为speed事件处理相关专属代码，没啥bug的情况下一个字都别改
         if (eventType != EventType.Speed) return;
         List<Data.ChartEdit.Event> filledVoid = GameUtility.FillVoid(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed);
@@ -144,10 +154,7 @@ public partial class EventEdit
             GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].far.keys = GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray();
         }
         #endregion
-
-        //Debug.LogError("错误记忆");
     }
-
 
     private void WindowSizeChanged_EventEdit2()
     {
