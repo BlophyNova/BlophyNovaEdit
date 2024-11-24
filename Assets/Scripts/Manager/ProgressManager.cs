@@ -129,10 +129,14 @@ namespace Manager
         /// <param name="time">加多少或者减多少时间</param>
         public void OffsetTime(double time)
         {
-            AssetManager.Instance.musicPlayer.time += (float)(time - offset);
-            skipTime += time;
-            onCurrentTimeChanged();
-            ResetAllLineNoteState();
+            float currTime = (float)(time - offset);
+            if (currTime >= 0)
+            {
+                AssetManager.Instance.musicPlayer.time += currTime;
+                skipTime += time;
+                onCurrentTimeChanged();
+                ResetAllLineNoteState();
+            }
         }
         /// <summary>
         /// 重置时间

@@ -12,7 +12,25 @@ namespace Scenes.Edit
         public RectTransform thisNoteRect;
         public Note thisNoteData;
         public RectTransform isSelectedRect;
-        public Form.NoteEdit.NoteEdit ThisNoteEdit => (Form.NoteEdit.NoteEdit)labelWindow.currentLabelItem.labelWindowContent;
+        //public Form.NoteEdit.NoteEdit ThisNoteEdit => (Form.NoteEdit.NoteEdit)labelWindow.currentLabelItem.labelWindowContent;
+        Form.NoteEdit.NoteEdit thisNoteEdit = null;
+        public Form.NoteEdit.NoteEdit ThisNoteEdit
+        {
+            get
+            {
+                if (thisNoteEdit == null)
+                {
+                    foreach (LabelItem item in labelWindow.labels)
+                    {
+                        if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
+                        {
+                            thisNoteEdit = (Form.NoteEdit.NoteEdit)item.labelWindowContent;
+                        }
+                    }
+                }
+                return thisNoteEdit;
+            }
+        }
         public bool IsNoteEdit => true;
         public virtual NoteEdit Init(Note note)
         {

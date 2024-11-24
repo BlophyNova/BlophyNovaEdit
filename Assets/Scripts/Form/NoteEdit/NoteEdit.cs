@@ -315,6 +315,9 @@ namespace Form.NoteEdit
                     NoteType.Drag => GlobalData.Instance.dragEditPrefab,
                     NoteType.Flick => GlobalData.Instance.flickEditPrefab,
                     NoteType.Point => GlobalData.Instance.pointEditPrefab,
+                    NoteType.Hold => GlobalData.Instance.holdEditPrefab,
+                    NoteType.FullFlickPink => GlobalData.Instance.fullFlickEditPrefab,
+                    NoteType.FullFlickBlue => GlobalData.Instance.fullFlickEditPrefab,
                     _ => throw new Exception("怎么回事呢···有非通用note代码进入了通用生成note的通道")
                 };
                 Scenes.Edit.NoteEdit noteEdit = Instantiate(instNewNoteEditPrefab, basicLine.noteCanvas).Init(new(item.thisNoteData));

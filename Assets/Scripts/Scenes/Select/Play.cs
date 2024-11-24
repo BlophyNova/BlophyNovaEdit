@@ -15,9 +15,15 @@ public class Play : PublicButton
     {
         thisButton.onClick.AddListener(() =>
         {
-            loading.gameObject.SetActive(true);
-            GlobalData.Instance.chartEditData = JsonConvert.DeserializeObject<Data.ChartEdit.ChartData>(File.ReadAllText($"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/Chart.json"));
-            SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+            StartCoroutine(LoadEdit());
+
         });
+    }
+    IEnumerator LoadEdit()
+    {
+        loading.gameObject.SetActive(true);
+        yield return new WaitForSeconds(.1f);
+        GlobalData.Instance.chartEditData = JsonConvert.DeserializeObject<Data.ChartEdit.ChartData>(File.ReadAllText($"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/Chart.json"));
+        SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
     }
 }
