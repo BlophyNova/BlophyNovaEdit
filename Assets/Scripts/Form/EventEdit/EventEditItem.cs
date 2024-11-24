@@ -43,8 +43,10 @@ public class EventEditItem : PublicButton, ISelectBoxItem
         });
         ThisEventEdit.labelItem.onLabelGetFocus += LabelWindow_onLabelGetFocus;
         ThisEventEdit.labelItem.onLabelLostFocus += LabelWindow_onLabelLostFocus;
-        labelWindow.onWindowSizeChanged += () => StartCoroutine(DrawLineOnEEI());
+        labelWindow.onWindowSizeChanged += LabelWindow_onWindowSizeChanged;
     }
+
+    private void LabelWindow_onWindowSizeChanged() => StartCoroutine(DrawLineOnEEI());
 
     private void LabelWindow_onLabelGetFocus()
     {
@@ -70,6 +72,7 @@ public class EventEditItem : PublicButton, ISelectBoxItem
         if (labelWindow == null) return;
         ThisEventEdit.labelItem.onLabelGetFocus -= LabelWindow_onLabelGetFocus;
         ThisEventEdit.labelItem.onLabelLostFocus -= LabelWindow_onLabelLostFocus;
+        labelWindow.onWindowSizeChanged -= LabelWindow_onWindowSizeChanged;
         Debug.Log($@"呜呜，我是EEI，喔被销毁了，我的相关信息如下：startBeats:{@event.startBeats};eventType:{eventType};");
     }
     public EventEditItem Init()
