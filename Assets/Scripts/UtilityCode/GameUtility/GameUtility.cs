@@ -148,7 +148,7 @@ namespace UtilityCode.GameUtility
             float initValue = 2;
             for (int i = 0; i < editSpeedEvent.Count; i++)
             {
-                if (BPMManager.Instance.GetSecondsTimeByBeats(editSpeedEvent[i].startBeats.ThisStartBPM) > initStartBeats.ThisStartBPM)
+                if (BPMManager.Instance.GetSecondsTimeByBeats(editSpeedEvent[i].startBeats.ThisStartBPM) > BPMManager.Instance.GetSecondsTimeByBeats(initStartBeats.ThisStartBPM))
                 {
                     Data.ChartEdit.Event speedEvent = new();
                     speedEvent.startBeats = initStartBeats;

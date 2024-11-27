@@ -136,14 +136,14 @@ namespace Form.NotePropertyEdit
             {
                 for (int i = 0; i < GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].lines.Count; i++)
                 {
-                    Data.ChartData.Line item = GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].lines[i];
+                    Data.ChartData.Line line = GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].lines[i];
                     List<Data.ChartEdit.Event> filledVoid = GameUtility.FillVoid(editBoxEvent);
-                    item.speed = new();
-                    ChartTool.ForeachBoxEvents(filledVoid, item.speed);
-                    item.career = new() { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
-                    item.career.keys = GameUtility.CalculatedSpeedCurve(item.speed.ToArray()).ToArray();
-                    item.far = new() { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
-                    item.far.keys = GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray();
+                    line.speed = new();
+                    ChartTool.ForeachBoxEvents(filledVoid, line.speed);
+                    line.career = new() { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
+                    line.career.keys = GameUtility.CalculatedSpeedCurve(line.speed.ToArray()).ToArray();
+                    line.far = new() { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
+                    line.far.keys = GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray();
                 }
                 //SpeckleManager.Instance.allLineNoteControllers.Clear();
                 //GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
