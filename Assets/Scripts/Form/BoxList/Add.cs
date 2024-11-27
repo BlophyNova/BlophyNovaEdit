@@ -10,7 +10,7 @@ namespace Form.BoxList
         {
             thisButton.onClick.AddListener(() =>
             {
-                GlobalData.Instance.chartEditData.boxes.Add(ChartTool.CreateNewBox(GlobalData.Instance.easeData));
+                GlobalData.Instance.chartEditData.boxes.Add(ChartTool.CreateNewBox(GlobalData.Instance.easeDatas));
                 GlobalData.Instance.chartData.boxes = ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
                 SpeckleManager.Instance.allLineNoteControllers.Clear();
                 GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());

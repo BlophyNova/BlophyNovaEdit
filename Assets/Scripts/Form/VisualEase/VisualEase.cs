@@ -20,7 +20,7 @@ public class VisualEase : LabelWindowContent,IRefresh
             LabelWindowContentType.NotePropertyEdit)
         {
             NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
-            EaseData ease = GlobalData.Instance.easeData[notePropertyEdit.ease.value];
+            EaseData ease = GlobalData.Instance.easeDatas[notePropertyEdit.ease.value];
             Vector3[] positions = new Vector3[100];
             Vector3[] corners = new Vector3[4];
             lineRendererRectTransform.GetLocalCorners(corners);

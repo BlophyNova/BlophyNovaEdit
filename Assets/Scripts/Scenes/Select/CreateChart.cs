@@ -48,7 +48,7 @@ public class CreateChart : PublicButton
         File.Copy(musicPathText.text, $"{MusicFilePath}/Music.mp3");
         File.Copy(illustrationPathText.text, $"{IllustrationFilePath}/Background.png");
         Data.ChartEdit.ChartData chartData = new();
-        ChartTool.CreateNewChart(chartData, Scenes.DontDestroyOnLoad.GlobalData.Instance.easeData);
+        ChartTool.CreateNewChart(chartData, Scenes.DontDestroyOnLoad.GlobalData.Instance.easeDatas);
         chartData.yScale = 6;
         chartData.beatSubdivision = 4;
         chartData.verticalSubdivision = 10;

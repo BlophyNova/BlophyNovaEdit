@@ -50,7 +50,8 @@ namespace Scenes.DontDestroyOnLoad
         public FullFlickEdit fullFlickEditPrefab;
         public VectrosityLineMask vectrosityLineMask;
 
-        public List<EaseData> easeData;
+        public List<EaseData> easeDatas;
+        public List<EaseData> simpleEaseDatas;
         public static void Refresh<T>(Action<T> action)
         {
             AssemblySystem.Exe(AssemblySystem.FindAllInterfaceByTypes<T>(), (interfaceMethod) => action?.Invoke(interfaceMethod));
@@ -87,10 +88,11 @@ namespace Scenes.DontDestroyOnLoad
         private IEnumerator Start()
         {
             Application.targetFrameRate = 9999;
-            easeData = JsonConvert.DeserializeObject<List<EaseData>>(File.ReadAllText($"{Application.streamingAssetsPath}/Config/EaseData.json"));
+            easeDatas = JsonConvert.DeserializeObject<List<EaseData>>(File.ReadAllText($"{Application.streamingAssetsPath}/Config/EaseDatas.json"));
+            simpleEaseDatas = JsonConvert.DeserializeObject<List<EaseData>>(File.ReadAllText($"{Application.streamingAssetsPath}/Config/SimpleEaseDatas.json"));
             if (isNewEditData)
             {
-                ChartTool.CreateNewChart(chartEditData, easeData);
+                ChartTool.CreateNewChart(chartEditData, easeDatas);
                 //chartData.boxes = ChartTool.ConvertChartEdit2ChartData(chartEditData.boxes);
             }
             while (true)

@@ -36,7 +36,7 @@ public class AligningTime2BeatLine : ShortcutKeyEventBase
             }
             else
             {
-                ProgressManager.Instance.OffsetTime(-BPMManager.Instance.GetSecondsTimeWithBeats(offsetBeats));
+                ProgressManager.Instance.OffsetTime(-BPMManager.Instance.GetSecondsTimeByBeats(offsetBeats));
             }
 
             GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());

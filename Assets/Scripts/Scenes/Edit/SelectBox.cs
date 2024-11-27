@@ -19,7 +19,24 @@ namespace Scenes.Edit
         public LabelWindowContent labelWindowContent => noteEdit == null ? eventEdit : noteEdit;
         private bool isNoteEdit => noteEdit == null ? false : true;
         public Image selectBoxTexture;
-        public NotePropertyEdit notePropertyEdit => (NotePropertyEdit)labelWindowContent.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
+        NotePropertyEdit notePropertyEdit = null;
+        public NotePropertyEdit NotePropertyEdit 
+        {
+            get
+            {
+                if (notePropertyEdit == null)
+                {
+                    foreach (LabelItem item in labelWindowContent.labelWindow.associateLabelWindow.labels)
+                    {
+                        if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.NotePropertyEdit)
+                        {
+                            notePropertyEdit = (NotePropertyEdit)item.labelWindowContent;
+                        }
+                    }
+                }
+                return notePropertyEdit;
+            }
+        }
         List<ISelectBoxItem> selectedBoxItems = new();
         public Color enableSelectBoxTextureColor = new(1, 1, 1, 1);
         public Color disableSelectBoxTextureColor = new(1, 1, 1, 0);
@@ -63,7 +80,7 @@ namespace Scenes.Edit
                         }
                     }
                 };
-                notePropertyEdit.onNoteValueChanged += TempNoteEditValueChangedCallBack;
+                NotePropertyEdit.onNoteValueChanged += TempNoteEditValueChangedCallBack;
             }
 
             if (eventEdit != null)
@@ -175,7 +192,7 @@ namespace Scenes.Edit
                     isClockwise = false
                 };
                 tempNoteEdit = new(originalnNoteData);
-                notePropertyEdit.SelectedNote(tempNoteEdit);
+                NotePropertyEdit.SelectedNote(tempNoteEdit);
             }
         }
         private void ClearSelectedBoxItems()

@@ -352,7 +352,7 @@ namespace Form.NoteEdit
                     _ => throw new Exception("滴滴~滴滴~错误~找不到音符拉~")
                 };
 
-                float currentSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(item.HitBeats.ThisStartBPM);
+                float currentSecondsTime = BPMManager.Instance.GetSecondsTimeByBeats(item.HitBeats.ThisStartBPM);
                 float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
 
                 Scenes.Edit.NoteEdit newNoteEdit = Instantiate(noteEditType, basicLine.noteCanvas).Init(item);
@@ -363,7 +363,7 @@ namespace Form.NoteEdit
                     //float endBeatsSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(item.EndBeats.ThisStartBPM);
                     //float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(item.EndBeats.ThisStartBPM);
                     //float hitBeatsPositionY= YScale.Instance.GetPositionYWithSecondsTime(item.HitBeats.ThisStartBPM);
-                    float holdBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(BPMManager.Instance.GetSecondsTimeWithBeats(item.holdBeats.ThisStartBPM));
+                    float holdBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(BPMManager.Instance.GetSecondsTimeByBeats(item.holdBeats.ThisStartBPM));
                     newNoteEdit.thisNoteRect.sizeDelta = new(newNoteEdit.thisNoteRect.sizeDelta.x, holdBeatsPositionY);
                 }
                 //Debug.LogError("写到这里了，下次继续写");

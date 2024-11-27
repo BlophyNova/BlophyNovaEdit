@@ -330,12 +330,12 @@ public partial class EventEdit : LabelWindowContent, IInputEventCallback, IRefre
                     EventEditItem newEventEditItem = Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
 
 
-                    float currentSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(@event.startBeats.ThisStartBPM);
+                    float currentSecondsTime = BPMManager.Instance.GetSecondsTimeByBeats(@event.startBeats.ThisStartBPM);
                     float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
 
                     newEventEditItem.transform.localPosition = new Vector2(eventVerticalLine.transform.localPosition.x, positionY);
 
-                    float endBeatsSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(@event.endBeats.ThisStartBPM);
+                    float endBeatsSecondsTime = BPMManager.Instance.GetSecondsTimeByBeats(@event.endBeats.ThisStartBPM);
                     float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(endBeatsSecondsTime);
 
                     newEventEditItem.labelWindow = labelWindow;

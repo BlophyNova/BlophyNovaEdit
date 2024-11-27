@@ -69,34 +69,48 @@ namespace UtilityCode.GameUtility
             for (int i = 0; i < speeds.Count; i++)//循环遍历所有事件
             {
                 float tant = (speeds[i].endValue - speeds[i].startValue)
-                    / (BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].endBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].startBeats.ThisStartBPM));//这个计算的是：因为ST和ET与SV和EV形成的图形并不是正方形导致的斜率和百分比导致的误差，所以用Y/X计算出变化后的斜率
-                foreach (Keyframe item in speeds[i].Curve.offset.keys)
+                    / (BPMManager.Instance.GetSecondsTimeByBeats(speeds[i].endBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeByBeats(speeds[i].startBeats.ThisStartBPM));//这个计算的是：因为ST和ET与SV和EV形成的图形并不是正方形导致的斜率和百分比导致的误差，所以用Y/X计算出变化后的斜率
+                if (MathF.Abs(speeds[i].endValue - speeds[i].startValue) <= .0001f)//SV=EV时直接赋值首和尾，跳过计算阶段
                 {
-                    Keyframe keyframe = item;
-                    keyframe.time = (BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].endBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].startBeats.ThisStartBPM)) * keyframe.time + keySeedSpeed.x;//（当前事件的结束时间-当前事件的开始时间）*当前key的时间+上一个key的结束时间
-                    #region 可能会用到的其它计算方式
-                    //keyframe.value = 
-                    //    ((speeds[i].endValue - speeds[i].startValue) * 
-                    //    (BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].endBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].startBeats.ThisStartBPM))*
-                    //    keyframe.value*keyframe.time)+keys[^1].value;//（当前事件的结束值-当前事件的开始值）*（当前事件的结束时间-当前事件的开始时间）*当前key的值+上一次key的结束值
-
-                    //keyframe.value = (speeds[i].endValue - speeds[i].startValue) * (BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].endBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].startBeats.ThisStartBPM)) * keyframe.value + speeds[i].startValue * BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].endBeats.ThisStartBPM)*keyframe.time + keys[^1].value;//(当前事件的结束值-当前事件的开始值)*（当前事件的结束时间-当前事件的开始时间）*当前key的value+（当前时间的开始值*当前时间的结束时间*当前key的时间）+上一次key的结束值//中译中：把速度曲线抽象化成3个部分，第一个部分是变化的部分，就是最上层的部分+中间的矩形部分+上一个key留下的部分
-                    #endregion
-                    keyframe.value = Mathf.Abs(speeds[i].endValue - speeds[i].startValue) * (BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].endBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].startBeats.ThisStartBPM)) * speeds[i].Curve.area * keyframe.value * (1 / speeds[i].Curve.area) + keySeedSpeed.y;//（当前事件的结束值-当前事件的开始值）*（当前事件的结束时间-当前事件的开始时间）*当前非线性过渡的面积*当前key的值*（1/当前非线性过渡的面积）+上次个事件的y//中译中：用时间*速度算出总路程后再用总路程和面积和当前key计算，得到的数字就是根据当前key的非线性过渡值，因为现在拿到的值非常小再*（1/面积）把值缩放回去/放大
-                    if (Mathf.Abs(speeds[i].endValue - speeds[i].startValue) <= .0001f && keyframe.time != keySeedSpeed.x)
+                    for (int j = 0; j < 2; j++)
                     {
-                        float distance = (BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].endBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].startBeats.ThisStartBPM)) * speeds[i].startValue;
-                        float currentTime = keyframe.time - BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].startBeats.ThisStartBPM);
-                        float totalTime = (BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].endBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].startBeats.ThisStartBPM));
-                        keyframe.value = distance * (currentTime / totalTime) + keySeedSpeed.y;//总路程*（当前时间/总时间）
+                        Keyframe keyframe = new() { weightedMode = WeightedMode.Both};
+                        float totalTime = BPMManager.Instance.GetSecondsTimeByBeats(speeds[i].endBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeByBeats(speeds[i].startBeats.ThisStartBPM);
+                        float distance = totalTime * speeds[i].startValue;
+                        //float currentTime = keyframe.time - BPMManager.Instance.GetSecondsTimeWithBeats(speeds[i].startBeats.ThisStartBPM);
+                        float currentTime = totalTime * j;
+                        keyframe.time = currentTime + keySeedSpeed.x;
+                        keyframe.value = distance * (currentTime / totalTime)+keySeedSpeed.y;//总路程*（当前时间/总时间）
+                        if (keys.Count != 0 && keyframe.time == keys[^1].time && keyframe.value == keys[^1].value)
+                            AddKey2KeyList(keys, keyframe, true);//将处理好的Key，加入Key的列表中
+                        else
+                            AddKey2KeyList(keys, keyframe, false);//将处理好的Key，加入Key的列表中
                     }
-                    keyframe.outTangent *= tant;//出点的斜率适应一下变化
-                    keyframe.inTangent *= tant;//入店的斜率适应一下变化（就是消除因为非正方形导致的误差）
-                    if (keys.Count != 0 && keyframe.time == keys[^1].time && keyframe.value == keys[^1].value)
-                        AddKey2KeyList(keys, keyframe, true);//将处理好的Key，加入Key的列表中
-                    else
-                        AddKey2KeyList(keys, keyframe, false);//将处理好的Key，加入Key的列表中
                 }
+                else
+                    for (int k = 0; k < speeds[i].Curve.offset.keys.Length; k++)
+                    {
+                        Keyframe keyframe = speeds[i].Curve.offset.keys[k];
+                        float currentKeyTime = keyframe.time;
+                        float totalTime = BPMManager.Instance.GetSecondsTimeByBeats(speeds[i].endBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeByBeats(speeds[i].startBeats.ThisStartBPM);
+                        keyframe.time = totalTime * currentKeyTime + keySeedSpeed.x;//（当前事件的结束时间-当前事件的开始时间）*当前key的时间+上一个key的结束时间
+                        float minValue = Mathf.Min(speeds[i].startValue, speeds[i].endValue);
+                        float maxValue = Mathf.Max(speeds[i].startValue, speeds[i].endValue);
+                        //
+                        //keyframe.value = (minValue * totalTime + (maxValue - minValue) * totalTime / 2) * speeds[i].Curve.area * speeds[i].Curve.offset.Evaluate(currentKeyTime) + keySeedSpeed.y;
+                        keyframe.value = keySeedSpeed.y +
+                            currentKeyTime*totalTime * speeds[i].startValue +
+                            (speeds[i].endValue - speeds[i].startValue) * totalTime * speeds[i].Curve.offset.Evaluate(currentKeyTime);
+                        //keyframe.value = keySeedSpeed.y+ speeds[i].Curve.offset.Evaluate(currentKeyTime) * (currentKeyTime / totalTime) * speeds[i].Curve.area + currentKeyTime * speeds[i].startValue * speeds[i].Curve.area;
+                        //keyframe.value = Mathf.Abs(speeds[i].endValue - speeds[i].startValue) * totalTime * speeds[i].Curve.area * keyframe.value * tant + keySeedSpeed.y;//（当前事件的结束值-当前事件的开始值）*（当前事件的结束时间-当前事件的开始时间）*当前非线性过渡的面积*当前key的值*（1/当前非线性过渡的面积）+上次个事件的y//中译中：用时间*速度算出总路程后再用总路程和面积和当前key计算，得到的数字就是根据当前key的非线性过渡值，因为现在拿到的值非常小再*（1/面积）把值缩放回去/放大
+
+                        keyframe.outTangent *= tant;//出点的斜率适应一下变化
+                        keyframe.inTangent *= tant;//入店的斜率适应一下变化（就是消除因为非正方形导致的误差）
+                        if (keys.Count != 0 && keyframe.time == keys[^1].time && keyframe.value == keys[^1].value)
+                            AddKey2KeyList(keys, keyframe, true);//将处理好的Key，加入Key的列表中
+                        else
+                            AddKey2KeyList(keys, keyframe, false);//将处理好的Key，加入Key的列表中
+                    }
                 keySeedSpeed.x = keys[^1].time;//将这次处理后的最后一个Time赋值
                 keySeedSpeed.y = keys[^1].value;//将这次处理后的最后一个Value赋值
             }
@@ -134,7 +148,7 @@ namespace UtilityCode.GameUtility
             float initValue = 2;
             for (int i = 0; i < editSpeedEvent.Count; i++)
             {
-                if (BPMManager.Instance.GetSecondsTimeWithBeats(editSpeedEvent[i].startBeats.ThisStartBPM) > initStartBeats.ThisStartBPM)
+                if (BPMManager.Instance.GetSecondsTimeByBeats(editSpeedEvent[i].startBeats.ThisStartBPM) > initStartBeats.ThisStartBPM)
                 {
                     Data.ChartEdit.Event speedEvent = new();
                     speedEvent.startBeats = initStartBeats;

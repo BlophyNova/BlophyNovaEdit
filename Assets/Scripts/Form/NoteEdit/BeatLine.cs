@@ -14,7 +14,7 @@ public class BeatLine : MonoBehaviour
     public BeatLine Init(float currentBeats, BPM thisBPM)
     {
         this.thisBPM = new(thisBPM);
-        float currentSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(currentBeats);
+        float currentSecondsTime = BPMManager.Instance.GetSecondsTimeByBeats(currentBeats);
         float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
         thisText.text = $"{thisBPM.integer}\t";
         transform.localPosition = Vector2.up * positionY;

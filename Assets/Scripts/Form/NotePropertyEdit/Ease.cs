@@ -9,9 +9,9 @@ namespace Form.NotePropertyEdit
         private void Start()
         {
             ease.ClearOptions();
-            for (int i = 0; i < GlobalData.Instance.easeData.Count; i++)
+            for (int i = 0; i < GlobalData.Instance.easeDatas.Count; i++)
             {
-                ease.options.Add(new($"{GlobalData.Instance.easeData[i].easeType}"));
+                ease.options.Add(new($"{GlobalData.Instance.easeDatas[i].easeType}"));
             }
         }
     }

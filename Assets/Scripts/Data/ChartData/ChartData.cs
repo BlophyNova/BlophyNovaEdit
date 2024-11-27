@@ -105,8 +105,8 @@ namespace Data.ChartData
         public Note(ChartEdit.Note noteEdit)
         {
             noteType = noteEdit.noteType;
-            hitTime = BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.HitBeats.ThisStartBPM);
-            holdTime = BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.EndBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeWithBeats(noteEdit.HitBeats.ThisStartBPM);
+            hitTime = BPMManager.Instance.GetSecondsTimeByBeats(noteEdit.HitBeats.ThisStartBPM);
+            holdTime = BPMManager.Instance.GetSecondsTimeByBeats(noteEdit.EndBeats.ThisStartBPM) - BPMManager.Instance.GetSecondsTimeByBeats(noteEdit.HitBeats.ThisStartBPM);
             effect = noteEdit.effect;
             positionX = noteEdit.positionX;
             isClockwise = noteEdit.isClockwise;
@@ -232,8 +232,8 @@ namespace Data.ChartData
     {
         public Event(Data.ChartEdit.Event @event)
         {
-            startTime = BPMManager.Instance.GetSecondsTimeWithBeats(@event.startBeats.ThisStartBPM);
-            endTime = BPMManager.Instance.GetSecondsTimeWithBeats(@event.endBeats.ThisStartBPM);
+            startTime = BPMManager.Instance.GetSecondsTimeByBeats(@event.startBeats.ThisStartBPM);
+            endTime = BPMManager.Instance.GetSecondsTimeByBeats(@event.endBeats.ThisStartBPM);
             startValue = @event.startValue;
             endValue = @event.endValue;
             curve = @event.Curve.thisCurve;

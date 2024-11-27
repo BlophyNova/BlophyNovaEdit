@@ -41,6 +41,6 @@ public class YScale : MonoBehaviourSingleton<YScale>
     }
     public float GetPositionYWithBeats(float beats)
     {
-        return GetPositionYWithSecondsTime(BPMManager.Instance.GetSecondsTimeWithBeats(beats));
+        return GetPositionYWithSecondsTime(BPMManager.Instance.GetSecondsTimeByBeats(beats));
     }
 }

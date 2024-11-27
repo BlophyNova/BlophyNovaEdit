@@ -94,7 +94,7 @@ public class BPMManager : MonoBehaviourSingleton<BPMManager>
     public BPM GetBeatsBySeconds(float seconds)
     {
         BPM bpm = new();
-        seconds -= GetSecondsTimeWithBeats(bpmList[^1].ThisStartBPM);
+        seconds -= GetSecondsTimeByBeats(bpmList[^1].ThisStartBPM);
         float resBeats = bpmList[^1].currentBPM / 60 * seconds;
         bpm.integer = (int)resBeats;
         bpm.denominator = 1000;
@@ -107,7 +107,7 @@ public class BPMManager : MonoBehaviourSingleton<BPMManager>
     /// </summary>
     /// <param name="beats"></param>
     /// <returns></returns>
-    public float GetSecondsTimeWithBeats(float beats)
+    public float GetSecondsTimeByBeats(float beats)
     {
         float secondsTime = 0;
         int index = -1;

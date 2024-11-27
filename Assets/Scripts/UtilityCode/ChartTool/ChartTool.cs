@@ -34,7 +34,7 @@ public class ChartTool
     }
     public static void RefreshChartEventByChartEditEvent(List<Data.ChartData.Event> chartDataEvent, Data.ChartEdit.Event chartEditDataEvent)
     {
-        int index_noteEdits = Algorithm.BinarySearch(chartDataEvent, m => m.startTime < BPMManager.Instance.GetSecondsTimeWithBeats(chartEditDataEvent.startBeats.ThisStartBPM), false);
+        int index_noteEdits = Algorithm.BinarySearch(chartDataEvent, m => m.startTime < BPMManager.Instance.GetSecondsTimeByBeats(chartEditDataEvent.startBeats.ThisStartBPM), false);
         Data.ChartData.Event @event = new(chartEditDataEvent);
         chartDataEvent.Insert(index_noteEdits, @event);
     }

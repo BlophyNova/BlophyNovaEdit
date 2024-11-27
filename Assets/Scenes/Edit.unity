@@ -7837,7 +7837,8 @@ MonoBehaviour:
   pointEditPrefab: {fileID: 4871434625925746174, guid: 131528daee930ca47b6bb242bb2ee356, type: 3}
   fullFlickEditPrefab: {fileID: 5270068025075690679, guid: d4f87f4e3216c7d42a7de9f174d32af6, type: 3}
   vectrosityLineMask: {fileID: 2844732879230495711, guid: f31fdcb35cdf2874ea13d2f46bd7c44d, type: 3}
-  easeData: []
+  easeDatas: []
+  simpleEaseDatas: []
   isNewEditData: 1
 --- !u!114 &1886952042
 MonoBehaviour:
