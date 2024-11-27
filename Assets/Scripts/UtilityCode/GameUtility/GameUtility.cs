@@ -163,7 +163,7 @@ namespace UtilityCode.GameUtility
                 initStartBeats = editSpeedEvent[i].endBeats;
                 speedEventVoidFill.Add(new(editSpeedEvent[i]));
             }
-            if (speedEventVoidFill[^1].endBeats.ThisStartBPM < GlobalData.Instance.chartData.globalData.musicLength)
+            if (BPMManager.Instance.GetSecondsTimeByBeats(speedEventVoidFill[^1].endBeats.ThisStartBPM) < GlobalData.Instance.chartData.globalData.musicLength)
             {
                 Data.ChartEdit.Event speedEvent = new();
                 speedEvent.startBeats = initStartBeats;
