@@ -54,7 +54,7 @@ public partial class EventEdit : LabelWindowContent, IInputEventCallback, IRefre
     }
     private void Update()
     {
-        boxIDText.text = $"{currentBoxID}";
+        boxIDText.text = $"框号:{currentBoxID}";
     }
     public override void WindowSizeChanged()
     {

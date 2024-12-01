@@ -15,7 +15,7 @@ using EventType = Data.Enumerate.EventType;
 
 namespace Form.NotePropertyEdit
 {
-    public class NotePropertyEdit : LabelWindowContent
+    public partial class NotePropertyEdit : LabelWindowContent
     {
         public Event eventMemory;
 
@@ -39,14 +39,14 @@ namespace Form.NotePropertyEdit
         public event OnEventValueChanged onEventValueChanged = () => { };
         private void Start()
         {
-            noteType.onValueChanged.AddListener((value) => NoteTypeChanged(value));
-            commonEffect.onValueChanged.AddListener((value) => CommonEffectChanged(value));
-            ripple.onValueChanged.AddListener((value) => RippleChanged(value));
-            startValue.onEndEdit.AddListener((value) => StartValueChanged(value));
-            endValue.onEndEdit.AddListener((value) => EndValueChanged(value));
-            postionX.onEndEdit.AddListener((value) => PositionXChanged(value));
-            isClockwise.onValueChanged.AddListener((value) => IsClockwiseChanged(value));
-            ease.onValueChanged.AddListener((value) => EaseChanged(value));
+            noteType.onValueChanged.AddListener(NoteTypeChanged);
+            commonEffect.onValueChanged.AddListener(CommonEffectChanged);
+            ripple.onValueChanged.AddListener(RippleChanged);
+            startValue.onEndEdit.AddListener(StartValueChanged);
+            endValue.onEndEdit.AddListener(EndValueChanged);
+            postionX.onEndEdit.AddListener(PositionXChanged);
+            isClockwise.onValueChanged.AddListener(IsClockwiseChanged);
+            ease.onValueChanged.AddListener(EaseChanged);
         }
 
         void RefreshChartPreviewAndChartEditCanvas()
@@ -149,7 +149,7 @@ namespace Form.NotePropertyEdit
                 //GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
                 GlobalData.Instance.chartData.boxes = ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
                 SpeckleManager.Instance.allLineNoteControllers.Clear();
-                GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
+                GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
                 GameController.Instance.RefreshChartPreview();
             }
 
@@ -289,9 +289,23 @@ namespace Form.NotePropertyEdit
 
         void NoteTypeChanged(int value)
         {
+            int sourceValue = (int)note.noteType;
+            int targetValue = value;
             LogCenter.Log($"音符类型从{note.noteType}变更为{(Data.ChartData.NoteType)value}");
-            note.noteType = (Data.ChartData.NoteType)value;
-            RefreshChartPreviewAndChartEditCanvas();
+            Steps.Instance.Add(UndoChange,RedoChange);
+            RedoChange();
+            return;
+
+            void UndoChange()
+            {
+                note.noteType = (Data.ChartData.NoteType)sourceValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
+            void RedoChange()
+            {
+                note.noteType = (Data.ChartData.NoteType)targetValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
         }
 
         public void SelectedNote(Scenes.Edit.NoteEdit note)

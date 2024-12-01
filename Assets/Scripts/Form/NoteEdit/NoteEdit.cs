@@ -51,7 +51,7 @@ namespace Form.NoteEdit
         }
         private void Update()
         {
-            boxAndLineIDText.text = $"{currentBoxID}\t{currentLineID}";
+            boxAndLineIDText.text = $"框号:{currentBoxID}\n线号:{currentLineID}";
         }
         public override void WindowSizeChanged()
         {

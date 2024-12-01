@@ -20,13 +20,13 @@ public class Steps : MonoBehaviourSingleton<Steps>
 
     public void Undo()
     {
-        steps[currentStepsIndex--].Undo();
+        steps[currentStepsIndex---1].Undo();
         CheckMaxLength();
     }
 
     public void Redo()
     {
-        steps[++currentStepsIndex].Redo();
+        steps[currentStepsIndex++].Redo();
         CheckMaxLength();
     }
 
