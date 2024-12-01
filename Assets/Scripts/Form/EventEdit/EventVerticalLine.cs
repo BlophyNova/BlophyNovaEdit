@@ -1,15 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using EventType = Data.Enumerate.EventType;
 
-public class EventVerticalLine : MonoBehaviour
+namespace Form.EventEdit
 {
-    public TMP_Text displayEventTypeName;
-    public Data.Enumerate.EventType eventType;
-    // Start is called before the first frame update
-    void Start()
+    public class EventVerticalLine : MonoBehaviour
     {
-        displayEventTypeName.text=eventType.ToString();
+        public TMP_Text displayEventTypeName;
+
+        public EventType eventType;
+
+        // Start is called before the first frame update
+        private void Start()
+        {
+            displayEventTypeName.text = eventType.ToString();
+        }
     }
 }

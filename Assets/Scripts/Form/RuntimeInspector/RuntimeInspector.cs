@@ -1,33 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Data.Enumerate;
+using Form.LabelWindow;
 
-public class RuntimeInspector : LabelWindowContent
+namespace Form.RuntimeInspector
 {
-    public RuntimeInspectorNamespace.RuntimeInspector runtimeInspector;
-    private void Start()
+    public class RuntimeInspector : LabelWindowContent
     {
-        if(labelWindow.associateLabelWindow != null)
+        public RuntimeInspectorNamespace.RuntimeInspector runtimeInspector;
+
+        private void Start()
         {
-            foreach (LabelItem item in labelWindow.associateLabelWindow.labels)
+            if (labelWindow.associateLabelWindow != null)
             {
-                if(item.labelWindowContent.labelWindowContentType == LabelWindowContentType.RuntimeHierarchy)
+                foreach (LabelItem item in labelWindow.associateLabelWindow.labels)
                 {
-                    RuntimeHierarchy runtimeHierarchy = (RuntimeHierarchy)item.labelWindowContent;
+                    if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.RuntimeHierarchy)
+                    {
+                        RuntimeHierarchy.RuntimeHierarchy runtimeHierarchy =
+                            (RuntimeHierarchy.RuntimeHierarchy)item.labelWindowContent;
+                        runtimeInspector.ConnectedHierarchy = runtimeHierarchy.runtimeHierarchy;
+                        runtimeHierarchy.runtimeHierarchy.ConnectedInspector = runtimeInspector;
+                        return;
+                    }
+                }
+            }
+
+            foreach (LabelItem item in labelWindow.labels)
+            {
+                if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.RuntimeHierarchy)
+                {
+                    RuntimeHierarchy.RuntimeHierarchy runtimeHierarchy =
+                        (RuntimeHierarchy.RuntimeHierarchy)item.labelWindowContent;
                     runtimeInspector.ConnectedHierarchy = runtimeHierarchy.runtimeHierarchy;
                     runtimeHierarchy.runtimeHierarchy.ConnectedInspector = runtimeInspector;
                     return;
                 }
-            }
-        }
-        foreach (LabelItem item in labelWindow.labels)
-        {
-            if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.RuntimeHierarchy)
-            {
-                RuntimeHierarchy runtimeHierarchy = (RuntimeHierarchy)item.labelWindowContent;
-                runtimeInspector.ConnectedHierarchy = runtimeHierarchy.runtimeHierarchy;
-                runtimeHierarchy.runtimeHierarchy.ConnectedInspector = runtimeInspector;
-                return;
             }
         }
     }

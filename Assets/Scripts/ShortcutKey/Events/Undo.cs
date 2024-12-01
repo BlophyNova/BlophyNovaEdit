@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 using UnityEngine.InputSystem;
 
 namespace ShortcutKey.Events
@@ -15,7 +13,7 @@ namespace ShortcutKey.Events
         public override void Canceled(InputAction.CallbackContext callbackContext)
         {
             base.Canceled(callbackContext);
-            
+
             Steps.Instance.Undo();
         }
     }

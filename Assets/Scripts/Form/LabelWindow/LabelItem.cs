@@ -1,28 +1,33 @@
+using Log;
 using TMPro;
 using UnityEngine;
 
-public class LabelItem : MonoBehaviour
+namespace Form.LabelWindow
 {
-    public TMP_Text labelName;
-    public CloseLabel closeThisLabel;
-    public LabelButton labelButton;
-    public LabelWindow labelWindow;
-    public LabelWindowContent labelWindowContent;
-
-    public delegate void OnLabelGetFocus();
-    public event OnLabelGetFocus onLabelGetFocus = () => { };
-    public delegate void OnLabelLostFocus();
-    public event OnLabelLostFocus onLabelLostFocus = () => { };
-
-    public void LabelGetFocus()
+    public class LabelItem : MonoBehaviour
     {
-        onLabelGetFocus();
-        LogCenter.Log($"{labelWindow.labelColorIndex}号窗口{labelWindowContent.labelWindowContentType}标签被激活");
-    }
+        public delegate void OnLabelGetFocus();
 
-    public void LabelLostFocus()
-    {
-        onLabelLostFocus();
-        LogCenter.Log($"{labelWindow.labelColorIndex}号窗口{labelWindowContent.labelWindowContentType}标签失活");
+        public delegate void OnLabelLostFocus();
+
+        public TMP_Text labelName;
+        public CloseLabel closeThisLabel;
+        public LabelButton labelButton;
+        public LabelWindow labelWindow;
+        public LabelWindowContent labelWindowContent;
+        public event OnLabelGetFocus onLabelGetFocus = () => { };
+        public event OnLabelLostFocus onLabelLostFocus = () => { };
+
+        public void LabelGetFocus()
+        {
+            onLabelGetFocus();
+            LogCenter.Log($"{labelWindow.labelColorIndex}号窗口{labelWindowContent.labelWindowContentType}标签被激活");
+        }
+
+        public void LabelLostFocus()
+        {
+            onLabelLostFocus();
+            LogCenter.Log($"{labelWindow.labelColorIndex}号窗口{labelWindowContent.labelWindowContentType}标签失活");
+        }
     }
 }

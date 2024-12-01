@@ -1,53 +1,58 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-public class AssemblySystem
+namespace UtilityCode.AssemblySystem
 {
-    public static void CallAllMethodWithInterfaceName(string interfaceName,string methodName)
+    public class AssemblySystem
     {
-        Assembly assembly = Assembly.GetExecutingAssembly();
-        Type[] exportedTypes = assembly.ExportedTypes.ToArray();
-        Type targetInterface = null;
-        for (int i = 0; i < exportedTypes.Length; i++)
+        public static void CallAllMethodWithInterfaceName(string interfaceName, string methodName)
         {
-            Type item = exportedTypes[i];
-            if (item.FullName == interfaceName && item.IsInterface)
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Type[] exportedTypes = assembly.ExportedTypes.ToArray();
+            Type targetInterface = null;
+            for (int i = 0; i < exportedTypes.Length; i++)
             {
-                targetInterface = item;
+                Type item = exportedTypes[i];
+                if (item.FullName == interfaceName && item.IsInterface)
+                {
+                    targetInterface = item;
+                }
+            }
+
+            for (int i = 0; i < exportedTypes.Length; i++)
+            {
+                Type item = exportedTypes[i];
+                if (targetInterface.IsAssignableFrom(item))
+                {
+                    item.GetMethod(methodName).Invoke(null, null);
+                }
             }
         }
-        for (int i = 0; i < exportedTypes.Length; i++)
+
+        public static List<T> FindAllInterfaceByTypes<T>()
         {
-            Type item = exportedTypes[i];
-            if(targetInterface.IsAssignableFrom(item))
+            List<T> interfaces = new();
+
+            IEnumerable<T> types = Object.FindObjectsOfType<MonoBehaviour>().OfType<T>();
+
+            foreach (T t in types)
             {
-                item.GetMethod(methodName).Invoke(null,null);
+                interfaces.Add(t);
             }
-        }
-    }
-    public static List<T> FindAllInterfaceByTypes<T>()
-    {
-        List<T> interfaces = new();
 
-        IEnumerable<T> types = UnityEngine.Object.FindObjectsOfType<MonoBehaviour>().OfType<T>();
-
-        foreach (T t in types)
-        {
-            interfaces.Add(t);
+            return interfaces;
         }
 
-        return interfaces;
-    }
-    public static void Exe<T>(List<T> values,Action<T> action)
-    {
-        foreach (T item in values)
+        public static void Exe<T>(List<T> values, Action<T> action)
         {
-            action?.Invoke(item);
+            foreach (T item in values)
+            {
+                action?.Invoke(item);
+            }
         }
     }
 }

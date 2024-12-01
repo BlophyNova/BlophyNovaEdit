@@ -1,5 +1,6 @@
 using UnityEngine;
 using UtilityCode.Singleton;
+
 namespace Scenes.DontDestroyOnLoad
 {
     public class PlatformManager : MonoBehaviourSingleton<PlatformManager>
@@ -8,6 +9,7 @@ namespace Scenes.DontDestroyOnLoad
         public string editorArchiveDataPath;
         public string androidArchiveDataPath;
         public string iPhoneArchiveDataPath;
+
         private void Start()
         {
             switch (Application.platform)
@@ -19,8 +21,11 @@ namespace Scenes.DontDestroyOnLoad
                     currentPlatformArchiveDataPath = iPhoneArchiveDataPath;
                     break;
                 default:
-                    if( !Application.isEditor )
+                    if (!Application.isEditor)
+                    {
                         return;
+                    }
+
                     currentPlatformArchiveDataPath = editorArchiveDataPath;
                     break;
             }

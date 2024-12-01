@@ -1,9 +1,9 @@
-using RuntimeInspectorNamespace;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Form.LabelWindow;
 
-public class RuntimeHierarchy : LabelWindowContent
+namespace Form.RuntimeHierarchy
 {
-    public RuntimeInspectorNamespace.RuntimeHierarchy runtimeHierarchy;
+    public class RuntimeHierarchy : LabelWindowContent
+    {
+        public RuntimeInspectorNamespace.RuntimeHierarchy runtimeHierarchy;
+    }
 }

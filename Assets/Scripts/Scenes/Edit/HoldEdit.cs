@@ -1,3 +1,6 @@
-public class HoldEdit : Scenes.Edit.NoteEdit
+namespace Scenes.Edit
 {
+    public class HoldEdit : NoteEdit
+    {
+    }
 }

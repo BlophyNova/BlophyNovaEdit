@@ -1,24 +1,28 @@
 using Scenes.PublicScripts;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class CloseLabel : PublicButton
+namespace Form.LabelWindow
 {
-    public LabelItem labelItem;
-    public LabelWindow labelWindow;
-    private void Start()
+    public class CloseLabel : PublicButton
     {
-        thisButton.onClick.AddListener(() =>
+        public LabelItem labelItem;
+        public LabelWindow labelWindow;
+
+        private void Start()
         {
-            labelWindow.labels.Remove(labelItem);
-            if(labelItem.labelWindowContent.isActiveAndEnabled)
-                if (labelWindow.labels.Count > 0)
+            thisButton.onClick.AddListener(() =>
             {
-                labelWindow.labels[0].labelWindowContent.gameObject.SetActive(true);
-            }
-            Destroy(labelItem.labelWindowContent.gameObject);
-            Destroy(labelItem.gameObject);
-        });
+                labelWindow.labels.Remove(labelItem);
+                if (labelItem.labelWindowContent.isActiveAndEnabled)
+                {
+                    if (labelWindow.labels.Count > 0)
+                    {
+                        labelWindow.labels[0].labelWindowContent.gameObject.SetActive(true);
+                    }
+                }
+
+                Destroy(labelItem.labelWindowContent.gameObject);
+                Destroy(labelItem.gameObject);
+            });
+        }
     }
 }

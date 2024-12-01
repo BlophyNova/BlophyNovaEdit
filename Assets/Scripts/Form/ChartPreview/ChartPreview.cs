@@ -1,14 +1,14 @@
+using Data.Interface;
+using Form.LabelWindow;
 using Manager;
-using Scenes.DontDestroyOnLoad;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using static ChartTool;
-public class ChartPreview : LabelWindowContent, IRefresh
+
+namespace Form.ChartPreview
 {
-    public void Refresh()
+    public class ChartPreview : LabelWindowContent, IRefresh
     {
-        ProgressManager.Instance.OffsetTime(0);
+        public void Refresh()
+        {
+            ProgressManager.Instance.OffsetTime(0);
+        }
     }
 }

@@ -1,7 +1,10 @@
-public class PlayEdit : ShortcutKeyEventBase
+namespace ShortcutKey.Events
 {
-    private void Start()
+    public class PlayEdit : ShortcutKeyEventBase
     {
-        Init();
+        private void Start()
+        {
+            Init();
+        }
     }
 }

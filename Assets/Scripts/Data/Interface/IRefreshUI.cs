@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IRefreshUI
+namespace Data.Interface
 {
-    public void RefreshUI();
+    public interface IRefreshUI
+    {
+        public void RefreshUI();
+    }
 }

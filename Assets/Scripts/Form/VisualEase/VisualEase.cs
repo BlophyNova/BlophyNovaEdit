@@ -1,38 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
-using Form.NotePropertyEdit;
+using Data.EaseData;
+using Data.Enumerate;
+using Data.Interface;
+using Form.LabelWindow;
 using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 
-public class VisualEase : LabelWindowContent,IRefresh
+namespace Form.VisualEase
 {
-    public LineRenderer lineRenderer;
-    public RectTransform lineRendererRectTransform;
-
-    void Start()
+    public class VisualEase : LabelWindowContent, IRefresh
     {
-        lineRenderer.positionCount = 100;
-    }
+        public LineRenderer lineRenderer;
+        public RectTransform lineRendererRectTransform;
 
-    public void Refresh()
-    {
-        if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType ==
-            LabelWindowContentType.NotePropertyEdit)
+        private void Start()
         {
-            NotePropertyEdit notePropertyEdit = (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
-            EaseData ease = GlobalData.Instance.easeDatas[notePropertyEdit.ease.value];
-            Vector3[] positions = new Vector3[100];
-            Vector3[] corners = new Vector3[4];
-            lineRendererRectTransform.GetLocalCorners(corners);
-            for (int i = 0; i < positions.Length; i++)
+            lineRenderer.positionCount = 100;
+        }
+
+        public void Refresh()
+        {
+            if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType ==
+                LabelWindowContentType.NotePropertyEdit)
             {
-                //positions[i].
-                Vector3 currentPosition = (corners[2] - corners[0]) * (i / (float)positions.Length)+corners[0];
-                currentPosition.y = ease.thisCurve.Evaluate(i / (float)positions.Length) * (corners[2].y - corners[0].y)+corners[0].y;
-                currentPosition.z = -1;
-                positions[i] = currentPosition;
+                NotePropertyEdit.NotePropertyEdit notePropertyEdit =
+                    (NotePropertyEdit.NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem
+                        .labelWindowContent;
+                EaseData ease = GlobalData.Instance.easeDatas[notePropertyEdit.ease.value];
+                Vector3[] positions = new Vector3[100];
+                Vector3[] corners = new Vector3[4];
+                lineRendererRectTransform.GetLocalCorners(corners);
+                for (int i = 0; i < positions.Length; i++)
+                {
+                    //positions[i].
+                    Vector3 currentPosition = (corners[2] - corners[0]) * (i / (float)positions.Length) + corners[0];
+                    currentPosition.y =
+                        ease.thisCurve.Evaluate(i / (float)positions.Length) * (corners[2].y - corners[0].y) +
+                        corners[0].y;
+                    currentPosition.z = -1;
+                    positions[i] = currentPosition;
+                }
+
+                lineRenderer.SetPositions(positions);
             }
-            lineRenderer.SetPositions(positions);
         }
     }
 }

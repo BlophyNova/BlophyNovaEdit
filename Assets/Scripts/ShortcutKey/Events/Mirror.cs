@@ -1,22 +1,26 @@
-using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Data.Enumerate;
+using Manager;
 using UnityEngine.InputSystem;
 
-public class Mirror : ShortcutKeyEventBase
+namespace ShortcutKey.Events
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Mirror : ShortcutKeyEventBase
     {
-        Init();
-    }
-    public override void Canceled(InputAction.CallbackContext callbackContext)
-    {
-        base.Canceled(callbackContext);
-        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
+        // Start is called before the first frame update
+        private void Start()
         {
-            LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(callbackContext);
+            Init();
+        }
+
+        public override void Canceled(InputAction.CallbackContext callbackContext)
+        {
+            base.Canceled(callbackContext);
+            if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent
+                    .labelWindowContentType == LabelWindowContentType.NoteEdit)
+            {
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(
+                    callbackContext);
+            }
         }
     }
 }

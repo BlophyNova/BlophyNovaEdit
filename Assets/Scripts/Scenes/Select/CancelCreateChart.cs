@@ -1,16 +1,15 @@
 using Scenes.PublicScripts;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CancelCreateChart : PublicButton
+namespace Scenes.Select
 {
-    public Transform createChartCanvas;
-    private void Start()
+    public class CancelCreateChart : PublicButton
     {
-        thisButton.onClick.AddListener(() =>
+        public Transform createChartCanvas;
+
+        private void Start()
         {
-            createChartCanvas.gameObject.SetActive(false);
-        });
+            thisButton.onClick.AddListener(() => { createChartCanvas.gameObject.SetActive(false); });
+        }
     }
 }

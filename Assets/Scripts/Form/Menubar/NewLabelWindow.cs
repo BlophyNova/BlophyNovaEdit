@@ -1,16 +1,14 @@
+using Manager;
 using Scenes.PublicScripts;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class NewLabelWindow : PublicButton
+namespace Form.Menubar
 {
-    // Start is called before the first frame update
-    void Start()
+    public class NewLabelWindow : PublicButton
     {
-        thisButton.onClick.AddListener(() => 
+        // Start is called before the first frame update
+        private void Start()
         {
-            LabelWindowsManager.Instance.NewLabelWindow();
-        });
+            thisButton.onClick.AddListener(() => { LabelWindowsManager.Instance.NewLabelWindow(); });
+        }
     }
 }

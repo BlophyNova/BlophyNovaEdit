@@ -1,21 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Data.Enumerate;
+using Manager;
 using UnityEngine.InputSystem;
 
-public class MoveLeft : ShortcutKeyEventBase
+namespace ShortcutKey.Events
 {
-    private void Start()
+    public class MoveLeft : ShortcutKeyEventBase
     {
-        Init();
-    }
-    public override void Canceled(InputAction.CallbackContext callbackContext)
-    {
-        base.Canceled(callbackContext);
-
-        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
+        private void Start()
         {
-            LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(callbackContext);
+            Init();
+        }
+
+        public override void Canceled(InputAction.CallbackContext callbackContext)
+        {
+            base.Canceled(callbackContext);
+
+            if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent
+                    .labelWindowContentType == LabelWindowContentType.NoteEdit)
+            {
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(
+                    callbackContext);
+            }
         }
     }
 }

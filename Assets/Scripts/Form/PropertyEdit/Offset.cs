@@ -1,27 +1,30 @@
+using Log;
 using Manager;
 using Scenes.DontDestroyOnLoad;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Offset : MonoBehaviour
+namespace Form.PropertyEdit
 {
-    public TMP_InputField inputField;
-    public Button ok;
-    private void Start()
+    public class Offset : MonoBehaviour
     {
-        inputField.text = $"{GlobalData.Instance.chartEditData.offset * 1000f}";
-        ok.onClick.AddListener(() => 
+        public TMP_InputField inputField;
+        public Button ok;
+
+        private void Start()
         {
-            if (float.TryParse(inputField.text,out float result))
+            inputField.text = $"{GlobalData.Instance.chartEditData.offset * 1000f}";
+            ok.onClick.AddListener(() =>
             {
-                GlobalData.Instance.chartEditData.offset= result/1000f;
-                WebManager.Instance.RefreshChartData();
-                ProgressManager.Instance.Offset = GlobalData.Instance.chartEditData.offset;
-                LogCenter.Log($"属性编辑，偏移变更为{result}");
-            }
-        });
+                if (float.TryParse(inputField.text, out float result))
+                {
+                    GlobalData.Instance.chartEditData.offset = result / 1000f;
+                    WebManager.Instance.RefreshChartData();
+                    ProgressManager.Instance.Offset = GlobalData.Instance.chartEditData.offset;
+                    LogCenter.Log($"属性编辑，偏移变更为{result}");
+                }
+            });
+        }
     }
 }

@@ -1,27 +1,29 @@
+using Data.Enumerate;
 using Manager;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
+
 namespace ShortcutKey.Events
 {
     public class SelectBox : ShortcutKeyEventBase
     {
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             Init();
         }
 
         public override void Started(InputAction.CallbackContext callbackContext)
         {
-            base.Started(callbackContext); 
+            base.Started(callbackContext);
 
-            LabelWindowContentType labelWindowContentType = LabelWindowContentType.NoteEdit | LabelWindowContentType.EventEdit;
+            LabelWindowContentType labelWindowContentType =
+                LabelWindowContentType.NoteEdit | LabelWindowContentType.EventEdit;
 
-            if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType))
+            if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem
+                    .labelWindowContent.labelWindowContentType))
             {
-                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Started(callbackContext);
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Started(
+                    callbackContext);
             }
         }
 
@@ -29,11 +31,14 @@ namespace ShortcutKey.Events
         {
             base.Performed(callbackContext);
 
-            LabelWindowContentType labelWindowContentType = LabelWindowContentType.NoteEdit | LabelWindowContentType.EventEdit;
+            LabelWindowContentType labelWindowContentType =
+                LabelWindowContentType.NoteEdit | LabelWindowContentType.EventEdit;
 
-            if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType))
+            if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem
+                    .labelWindowContent.labelWindowContentType))
             {
-                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Performed(callbackContext);
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Performed(
+                    callbackContext);
             }
         }
 
@@ -41,11 +46,14 @@ namespace ShortcutKey.Events
         {
             base.Canceled(callbackContext);
 
-            LabelWindowContentType labelWindowContentType = LabelWindowContentType.NoteEdit | LabelWindowContentType.EventEdit;
+            LabelWindowContentType labelWindowContentType =
+                LabelWindowContentType.NoteEdit | LabelWindowContentType.EventEdit;
 
-            if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType))
+            if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem
+                    .labelWindowContent.labelWindowContentType))
             {
-                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(callbackContext);
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(
+                    callbackContext);
             }
         }
     }

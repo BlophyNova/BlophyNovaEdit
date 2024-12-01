@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class HoldPlayEdit : ShortcutKeyEventBase
+namespace ShortcutKey.Events
 {
-    private void Start()
+    public class HoldPlayEdit : ShortcutKeyEventBase
     {
-        Init();
+        private void Start()
+        {
+            Init();
+        }
     }
 }

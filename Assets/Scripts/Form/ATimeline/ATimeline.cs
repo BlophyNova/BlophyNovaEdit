@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Form.LabelWindow;
 
-public class ATimeline : LabelWindowContent
+namespace Form.ATimeline
 {
+    public class ATimeline : LabelWindowContent
+    {
+    }
 }

@@ -1,10 +1,12 @@
+using System.Collections;
 using Data.ChartData;
 using JetBrains.Annotations;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UtilityCode.ChartTool;
 using UtilityCode.Singleton;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
+
 namespace Manager
 {
     public class WebManager : MonoBehaviourSingleton<WebManager>
@@ -17,20 +19,20 @@ namespace Manager
                 AssetManager.Instance.chartData = value;
                 TextManager.Instance.Init(value.texts);
             }
-
         }
+
         public static AudioClip MusicClip
         {
-            [UsedImplicitly]
-            get => AssetManager.Instance.musicPlayer.clip;
+            [UsedImplicitly] get => AssetManager.Instance.musicPlayer.clip;
             set => AssetManager.Instance.musicPlayer.clip = value;
         }
+
         public static Image Background
         {
             get => AssetManager.Instance.background;
-            [UsedImplicitly]
-            set => AssetManager.Instance.background = value; // 这里不能注释掉 不然后期没办法改背景了
+            [UsedImplicitly] set => AssetManager.Instance.background = value; // 这里不能注释掉 不然后期没办法改背景了
         }
+
         private IEnumerator Start()
         {
             //ChartData = JsonConvert.DeserializeObject<ChartData>(new StreamReader(new FileStream($"{Application.streamingAssetsPath}/-1/ChartFile/Red/Chart.json", FileMode.Open)).ReadToEnd());
@@ -42,11 +44,19 @@ namespace Manager
             Background.sprite = GlobalData.Instance.currentCp;
             LoadChartData();
         }
-        public void RefreshChartData() => LoadChartData();
+
+        public void RefreshChartData()
+        {
+            LoadChartData();
+        }
+
         public void LoadChartData()
         {
-            ChartData.globalData.musicLength = GlobalData.Instance.chartEditData.musicLength <= 1 ? MusicClip.length + GlobalData.Instance.chartEditData.offset : GlobalData.Instance.chartEditData.musicLength;
-            GlobalData.Instance.chartData.boxes = ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
+            ChartData.globalData.musicLength = GlobalData.Instance.chartEditData.musicLength <= 1
+                ? MusicClip.length + GlobalData.Instance.chartEditData.offset
+                : GlobalData.Instance.chartEditData.musicLength;
+            GlobalData.Instance.chartData.boxes =
+                ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
         }
     }
 }

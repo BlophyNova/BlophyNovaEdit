@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Form.LabelWindow;
 
-public class Menubar : LabelWindowContent
+namespace Form.Menubar
 {
+    public class Menubar : LabelWindowContent
+    {
+    }
 }

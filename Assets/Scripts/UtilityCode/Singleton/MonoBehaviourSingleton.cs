@@ -1,4 +1,5 @@
 using UnityEngine;
+
 namespace UtilityCode.Singleton
 {
     public abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBehaviour
@@ -11,10 +12,16 @@ namespace UtilityCode.Singleton
             {
                 Instance = GetComponent<T>();
             }
-            else Destroy(this);
+            else
+            {
+                Destroy(this);
+            }
+
             OnAwake();
         }
 
-        protected virtual void OnAwake() { }
+        protected virtual void OnAwake()
+        {
+        }
     }
 }

@@ -1,18 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 using UnityEngine.InputSystem;
 
-public class Redo : ShortcutKeyEventBase
+namespace ShortcutKey.Events
 {
-    private void Start()
+    public class Redo : ShortcutKeyEventBase
     {
-        Init();
-    }
+        private void Start()
+        {
+            Init();
+        }
 
-    public override void Canceled(InputAction.CallbackContext callbackContext)
-    {
-        base.Canceled(callbackContext);
-        Steps.Instance.Redo();
+        public override void Canceled(InputAction.CallbackContext callbackContext)
+        {
+            base.Canceled(callbackContext);
+            Steps.Instance.Redo();
+        }
     }
 }

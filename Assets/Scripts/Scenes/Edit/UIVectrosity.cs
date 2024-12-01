@@ -1,7 +1,10 @@
 using UnityEngine.UI;
 using UtilityCode.Singleton;
 
-public class UIVectrosity : MonoBehaviourSingleton<UIVectrosity>
+namespace Scenes.Edit
 {
-    public CanvasScaler scaler;
+    public class UIVectrosity : MonoBehaviourSingleton<UIVectrosity>
+    {
+        public CanvasScaler scaler;
+    }
 }

@@ -1,26 +1,29 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Controller;
 using Data.ChartEdit;
+using Data.Interface;
+using Log;
 using Manager;
 using Scenes.DontDestroyOnLoad;
 using UnityEngine;
+using UtilityCode.ChartTool;
 
 namespace Form.NoteEdit
 {
     public partial class NoteEdit
     {
-
         public delegate void OnNoteDeleted(Scenes.Edit.NoteEdit noteEdit);
-        public event OnNoteDeleted onNoteDeleted = noteEdit => { };
+
         public delegate void OnNoteRefreshed(List<Scenes.Edit.NoteEdit> notes);
-        public event OnNoteRefreshed onNoteRefreshed = notes => { };
 
         public List<Scenes.Edit.NoteEdit> otherLineNoteClipboard = new();
         public List<Scenes.Edit.NoteEdit> noteClipboard = new();
-        public bool isCopy = false;
-        void Start2()
+        public bool isCopy;
+        public event OnNoteDeleted onNoteDeleted = noteEdit => { };
+        public event OnNoteRefreshed onNoteRefreshed = notes => { };
+
+        private void Start2()
         {
             onNoteRefreshed += NoteEdit_onNoteRefreshed;
         }
@@ -28,7 +31,7 @@ namespace Form.NoteEdit
         private void NoteEdit_onNoteRefreshed(List<Scenes.Edit.NoteEdit> notes)
         {
             noteClipboard.Clear();
-            foreach (var item in notes)
+            foreach (Scenes.Edit.NoteEdit item in notes)
             {
                 if (item.thisNoteData.isSelected)
                 {
@@ -37,41 +40,47 @@ namespace Form.NoteEdit
             }
         }
 
-        void SelectBoxDown()
+        private void SelectBoxDown()
         {
             selectBox.isPressing = true;
             selectBox.transform.SetAsLastSibling();
             Debug.Log($@"selectBox.isPressing={selectBox.isPressing}");
         }
-        void SelectBoxUp()
+
+        private void SelectBoxUp()
         {
             selectBox.isPressing = false;
             selectBox.transform.SetAsFirstSibling();
             Debug.Log($@"selectBox.isPressing={selectBox.isPressing}");
         }
 
-        void UndoNote()
+        private void UndoNote()
         {
-
         }
 
-        void RedoNote()
+        private void RedoNote()
         {
-
         }
 
-        void CopyNote()
+        private void CopyNote()
         {
             Debug.Log("复制音符");
             isCopy = true;
             AddNote2NoteClipboard();
         }
-        void PasteNote()
+
+        private void PasteNote()
         {
             Debug.Log("粘贴音符");
-            FindNearBeatLineAndVerticalLine(out BeatLine beatLine, out var verticalLine);
-            if (noteClipboard.Count > 0) InstNewNotes(beatLine, noteClipboard);
-            else InstNewNotes(beatLine, otherLineNoteClipboard);
+            FindNearBeatLineAndVerticalLine(out BeatLine beatLine, out RectTransform verticalLine);
+            if (noteClipboard.Count > 0)
+            {
+                InstNewNotes(beatLine, noteClipboard);
+            }
+            else
+            {
+                InstNewNotes(beatLine, otherLineNoteClipboard);
+            }
 
             if (!isCopy)
             {
@@ -80,10 +89,10 @@ namespace Form.NoteEdit
                     DeleteNote(note);
                 }
             }
+
             LogCenter.Log($"成功{isCopy switch { true => "复制", false => "粘贴" }}{noteClipboard.Count}个音符");
 
             RefreshNoteEditAndChartPreview();
-
         }
 
         private void InstNewNotes(BeatLine beatLine, List<Scenes.Edit.NoteEdit> noteClipboard)
@@ -92,39 +101,59 @@ namespace Form.NoteEdit
             foreach (Scenes.Edit.NoteEdit note in noteClipboard)
             {
                 Note copyNewNote = new(note.thisNoteData);
-                copyNewNote.HitBeats = new BPM(beatLine.thisBPM) + (new BPM(note.thisNoteData.HitBeats) - new BPM(firstNoteBPM));
-                if (isCopy) copyNewNote.isSelected = false;
+                copyNewNote.HitBeats = new BPM(beatLine.thisBPM) +
+                                       (new BPM(note.thisNoteData.HitBeats) - new BPM(firstNoteBPM));
+                if (isCopy)
+                {
+                    copyNewNote.isSelected = false;
+                }
+
                 AddNoteAndRefresh(copyNewNote, currentBoxID, currentLineID);
             }
         }
 
-        void CutNote()
+        private void CutNote()
         {
             Debug.Log("剪切音符");
             isCopy = false;
             AddNote2NoteClipboard();
         }
-        void AddNote2NoteClipboard()
+
+        private void AddNote2NoteClipboard()
         {
             noteClipboard.Clear();
             foreach (Scenes.Edit.NoteEdit selectedNote in selectBox.TransmitObjects())
             {
                 noteClipboard.Add(selectedNote);
             }
+
             LogCenter.Log($@"已将{noteClipboard.Count}个音符发送至剪切板！");
         }
-        void MirrorNote()
+
+        private void MirrorNote()
         {
             Debug.Log("镜像音符");
             List<ISelectBoxItem> selectedBoxItems = selectBox.TransmitObjects();
-            if (selectedBoxItems.Count <= 0) return;
+            if (selectedBoxItems.Count <= 0)
+            {
+                return;
+            }
+
             foreach (Scenes.Edit.NoteEdit selectedBoxItem in selectedBoxItems)
             {
                 Note noteData = selectedBoxItem.thisNoteData;
-                if (noteData.positionX == 0) continue;
+                if (noteData.positionX == 0)
+                {
+                    continue;
+                }
+
                 Note newNote = new(noteData);
                 newNote.positionX = -newNote.positionX;
-                if (isCopy) newNote.isSelected = false;
+                if (isCopy)
+                {
+                    newNote.isSelected = false;
+                }
+
                 AddNoteAndRefresh(newNote, currentBoxID, currentLineID);
             }
 
@@ -139,20 +168,21 @@ namespace Form.NoteEdit
             {
                 DeleteNote((Scenes.Edit.NoteEdit)selectBox.TransmitObjects()[i]);
             }
+
             RefreshNoteEditAndChartPreview();
             LogCenter.Log($"成功删除{selectBox.TransmitObjects().Count}个音符");
         }
 
-        void DeleteNote(Scenes.Edit.NoteEdit note)
+        private void DeleteNote(Scenes.Edit.NoteEdit note)
         {
-            List<Data.ChartEdit.Note> notes = GlobalData.Instance.chartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes;
+            List<Note> notes = GlobalData.Instance.chartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes;
             //events.Remove(notePropertyEdit.@event.@event);
             notes.Remove(note.thisNoteData);
             onNoteDeleted(note);
             onBoxRefreshed(currentBoxID);
         }
 
-        void MoveUp()
+        private void MoveUp()
         {
             foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>())
             {
@@ -163,19 +193,19 @@ namespace Form.NoteEdit
             LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个音符向上移动");
         }
 
-        void MoveDown()
+        private void MoveDown()
         {
             foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>())
             {
                 noteEdit.thisNoteData.HitBeats.SubtractionOneBeat();
             }
+
             RefreshNoteEditAndChartPreview();
             LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个音符向下移动");
         }
 
-        void MoveLeft()
+        private void MoveLeft()
         {
-
             foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>())
             {
                 float verticalLineDelta = 2 / (float)GlobalData.Instance.chartEditData.eventVerticalSubdivision;
@@ -184,13 +214,13 @@ namespace Form.NoteEdit
                 positionX = positionX < -1 ? -1 : positionX;
                 noteEdit.thisNoteData.positionX = positionX;
             }
+
             RefreshNoteEditAndChartPreview();
             LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个音符向左移动");
         }
 
-        void MoveRight()
+        private void MoveRight()
         {
-
             foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>())
             {
                 float verticalLineDelta = 2 / (float)GlobalData.Instance.chartEditData.eventVerticalSubdivision;
@@ -199,6 +229,7 @@ namespace Form.NoteEdit
                 positionX = positionX > 1 ? 1 : positionX;
                 noteEdit.thisNoteData.positionX = positionX;
             }
+
             RefreshNoteEditAndChartPreview();
             LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个音符向右移动");
         }
@@ -207,14 +238,15 @@ namespace Form.NoteEdit
         {
             //ChartTool.ConvertEditLine2ChartDataLine(GlobalData.Instance.chartEditData.boxes[currentBoxID],
             //    GlobalData.Instance.chartData.boxes[currentBoxID], currentLineID);
-            GlobalData.Instance.chartData.boxes[currentBoxID] = ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[currentBoxID]);
+            GlobalData.Instance.chartData.boxes[currentBoxID] =
+                ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[currentBoxID]);
             onBoxRefreshed(currentBoxID);
             //ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[currentBoxID])
             RefreshNotes(-1, -1);
             SpeckleManager.Instance.allLineNoteControllers.Clear();
             GameController.Instance.RefreshChartPreview();
-            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
-            GlobalData.Refresh<IRefreshUI>((interfaceMethod) => interfaceMethod.RefreshUI());
+            GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
+            GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI());
         }
     }
 }

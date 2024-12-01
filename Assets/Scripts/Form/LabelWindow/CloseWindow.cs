@@ -1,20 +1,23 @@
+using Log;
+using Manager;
 using Scenes.PublicScripts;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class CloseWindow : PublicButton
+namespace Form.LabelWindow
 {
-    public LabelWindow labelWindow;
-    private void Start()
+    public class CloseWindow : PublicButton
     {
-        thisButton.onClick.AddListener(() => 
+        public LabelWindow labelWindow;
+
+        private void Start()
         {
-            //labelWindow.gameObject.SetActive(false);
-            LabelWindowsManager.Instance.SetUsedColor2Unused(labelWindow.labelColorIndex);
-            LabelWindowsManager.Instance.windows.Remove(labelWindow);
-            LogCenter.Log($"{labelWindow.labelColorIndex}号窗口被销毁");
-            Destroy(labelWindow.gameObject);
-        });
+            thisButton.onClick.AddListener(() =>
+            {
+                //labelWindow.gameObject.SetActive(false);
+                LabelWindowsManager.Instance.SetUsedColor2Unused(labelWindow.labelColorIndex);
+                LabelWindowsManager.Instance.windows.Remove(labelWindow);
+                LogCenter.Log($"{labelWindow.labelColorIndex}号窗口被销毁");
+                Destroy(labelWindow.gameObject);
+            });
+        }
     }
 }

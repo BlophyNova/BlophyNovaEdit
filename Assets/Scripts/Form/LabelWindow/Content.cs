@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
+using Manager;
 using UnityEngine;
 
-public class Content : MonoBehaviour
+namespace Form.LabelWindow
 {
-    public LabelWindow labelWindow;
-    public RectTransform contentRectTransform;
-    private void OnMouseDown()
+    public class Content : MonoBehaviour
     {
-        labelWindow.transform.SetAsLastSibling();
-        LabelWindowsManager.Instance.SetFocusWindow(labelWindow);
+        public LabelWindow labelWindow;
+        public RectTransform contentRectTransform;
+
+        private void OnMouseDown()
+        {
+            labelWindow.transform.SetAsLastSibling();
+            LabelWindowsManager.Instance.SetFocusWindow(labelWindow);
+        }
+        //private void OnMouseEnter()
+        //{
+        //    labelWindow.focus = true;
+        //}
     }
-    //private void OnMouseEnter()
-    //{
-    //    labelWindow.focus = true;
-    //}
 }

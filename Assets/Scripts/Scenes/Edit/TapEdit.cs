@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class TapEdit : Scenes.Edit.NoteEdit
+namespace Scenes.Edit
 {
+    public class TapEdit : NoteEdit
+    {
+    }
 }

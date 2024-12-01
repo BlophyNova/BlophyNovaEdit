@@ -1,7 +1,10 @@
-public class PlayPlayer : ShortcutKeyEventBase
+namespace ShortcutKey.Events
 {
-    private void Start()
+    public class PlayPlayer : ShortcutKeyEventBase
     {
-        Init();
+        private void Start()
+        {
+            Init();
+        }
     }
 }

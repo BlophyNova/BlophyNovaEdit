@@ -1,55 +1,53 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Data.ChartData;
-using Scenes.PublicScripts;
+using Scenes.DontDestroyOnLoad;
 using TMPro;
-using UnityEngine;
-using UnityEngine.Animations;
 
-public class Alert : PublicButton
+namespace Scenes.PublicScripts
 {
-    public TMP_Text content;
-    static List<string> textList=new();
-    static List<Action> actions = new();
-    private void Start()
+    public class Alert : PublicButton
     {
-        thisButton.onClick.AddListener(() => 
-        {
-            DisableAlert();
-        });
-    }
+        private static readonly List<string> textList = new();
+        private static readonly List<Action> actions = new();
+        public TMP_Text content;
 
-    public static void EnableAlert( string text, Action action=null)
-    {
-        textList.Add(text);
-        actions.Add(action);
-        InstWindow(text);
-    }
-
-    private static void InstWindow(string text)
-    {
-        if (textList.Count == 1)
+        private void Start()
         {
-            Alert a = Instantiate(Scenes.DontDestroyOnLoad.GlobalData.Instance.alert);
-            a.content.text = text;
+            thisButton.onClick.AddListener(() => { DisableAlert(); });
         }
-    }
 
-    static void EnableAlertWithoutAdd2List(string text)
-    {
-        InstWindow(text);
-    }
-
-    void DisableAlert()
-    {
-        actions[0]?.Invoke();
-        textList.RemoveAt(0);
-        actions.RemoveAt(0);
-        if (textList.Count != 0)
+        public static void EnableAlert(string text, Action action = null)
         {
-            EnableAlertWithoutAdd2List(textList[0]);
+            textList.Add(text);
+            actions.Add(action);
+            InstWindow(text);
         }
-        Destroy(gameObject);
+
+        private static void InstWindow(string text)
+        {
+            if (textList.Count == 1)
+            {
+                Alert a = Instantiate(GlobalData.Instance.alert);
+                a.content.text = text;
+            }
+        }
+
+        private static void EnableAlertWithoutAdd2List(string text)
+        {
+            InstWindow(text);
+        }
+
+        private void DisableAlert()
+        {
+            actions[0]?.Invoke();
+            textList.RemoveAt(0);
+            actions.RemoveAt(0);
+            if (textList.Count != 0)
+            {
+                EnableAlertWithoutAdd2List(textList[0]);
+            }
+
+            Destroy(gameObject);
+        }
     }
 }

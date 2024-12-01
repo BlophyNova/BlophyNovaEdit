@@ -1,3 +1,8 @@
-public class Toolbar : LabelWindowContent
+using Form.LabelWindow;
+
+namespace Form.ToolBar
 {
+    public class Toolbar : LabelWindowContent
+    {
+    }
 }

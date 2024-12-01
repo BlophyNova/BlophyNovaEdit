@@ -1,14 +1,15 @@
 using Scenes.PublicScripts;
 using UnityEngine;
 
-public class Create : PublicButton
+namespace Scenes.Select
 {
-    public RectTransform createChartUI;
-    private void Start()
+    public class Create : PublicButton
     {
-        thisButton.onClick.AddListener(() =>
+        public RectTransform createChartUI;
+
+        private void Start()
         {
-            createChartUI.gameObject.SetActive(true);
-        });
+            thisButton.onClick.AddListener(() => { createChartUI.gameObject.SetActive(true); });
+        }
     }
 }

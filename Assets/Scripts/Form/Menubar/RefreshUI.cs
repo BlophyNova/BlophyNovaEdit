@@ -1,19 +1,21 @@
 using Controller;
+using Data.Interface;
+using Log;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class RefreshUI : PublicButton
+namespace Form.Menubar
 {
-    private void Start()
+    public class RefreshUI : PublicButton
     {
-        thisButton.onClick.AddListener(() => 
-        { 
-            CameraController.Instance.CameraAreaUpdate();
-            GlobalData.Refresh<IRefreshUI>((interfaceMethod)=>interfaceMethod.RefreshUI());
-            LogCenter.Log("成功刷新制谱器全局UI适配");
-        });
+        private void Start()
+        {
+            thisButton.onClick.AddListener(() =>
+            {
+                CameraController.Instance.CameraAreaUpdate();
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI());
+                LogCenter.Log("成功刷新制谱器全局UI适配");
+            });
+        }
     }
 }

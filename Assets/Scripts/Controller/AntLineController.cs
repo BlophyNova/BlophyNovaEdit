@@ -10,10 +10,16 @@ namespace Controller
         public LineRenderer lineRenderer;
         public Vector2[] lineRendererPoints;
         public Vector2 offset = Vector2.zero;
-        
+
         private void Start()
         {
             InitAntLine();
+        }
+
+        private void Update()
+        {
+            offset += Vector2.right * Time.deltaTime;
+            lineRenderer.material.SetTextureOffset(MainTex, offset);
         }
 
         public void InitAntLine()
@@ -50,16 +56,11 @@ namespace Controller
                     lineRendererPoints[4].y = 0;
                     break;
             }
+
             for (int i = 0; i < lineRenderer.positionCount; i++)
             {
                 lineRenderer.SetPosition(i, (Vector2)mainCamera.ViewportToWorldPoint(lineRendererPoints[i]));
             }
-        }
-
-        private void Update()
-        {
-            offset += Vector2.right * Time.deltaTime;
-            lineRenderer.material.SetTextureOffset(MainTex, offset);
         }
     }
 }

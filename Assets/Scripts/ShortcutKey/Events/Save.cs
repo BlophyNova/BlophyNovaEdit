@@ -1,21 +1,26 @@
+using System.IO;
 using Newtonsoft.Json;
 using Scenes.DontDestroyOnLoad;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+using Scenes.PublicScripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Save : ShortcutKeyEventBase
+namespace ShortcutKey.Events
 {
-    private void Start()
+    public class Save : ShortcutKeyEventBase
     {
-        Init();
-    }
-    public override void Canceled(InputAction.CallbackContext callbackContext)
-    {
-        base.Canceled(callbackContext);
-        File.WriteAllText($"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/Chart.json",JsonConvert.SerializeObject(GlobalData.Instance.chartEditData));
-        Alert.EnableAlert($"喵~保存成功~");
+        private void Start()
+        {
+            Init();
+        }
+
+        public override void Canceled(InputAction.CallbackContext callbackContext)
+        {
+            base.Canceled(callbackContext);
+            File.WriteAllText(
+                $"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/Chart.json",
+                JsonConvert.SerializeObject(GlobalData.Instance.chartEditData));
+            Alert.EnableAlert("喵~保存成功~");
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace Data.Enumerate
         Bad,
         Miss
     }
+
     public enum Hard
     {
         Easy,
@@ -16,6 +17,7 @@ namespace Data.Enumerate
         Ultra,
         Special
     }
+
     public enum EventType
     {
         Speed,

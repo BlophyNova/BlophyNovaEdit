@@ -1,4 +1,7 @@
-public interface IRefresh
+namespace Data.Interface
 {
-    public void Refresh();
+    public interface IRefresh
+    {
+        public void Refresh();
+    }
 }

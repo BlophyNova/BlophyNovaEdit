@@ -1,7 +1,10 @@
-public class SwitchLine : ShortcutKeyEventBase
+namespace ShortcutKey.Events
 {
-    private void Start()
+    public class SwitchLine : ShortcutKeyEventBase
     {
-        Init();
+        private void Start()
+        {
+            Init();
+        }
     }
 }

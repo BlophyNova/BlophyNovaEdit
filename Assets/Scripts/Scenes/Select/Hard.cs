@@ -1,10 +1,9 @@
-using Data.Enumerate;
+using System.Collections.Generic;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 namespace Scenes.Select
 {
     public class Hard : PublicButton
@@ -14,6 +13,7 @@ namespace Scenes.Select
         public Image image;
         public Color selectedColor;
         public Color unselectedColor;
+
         private void Start()
         {
             thisButton.onClick.AddListener(() =>

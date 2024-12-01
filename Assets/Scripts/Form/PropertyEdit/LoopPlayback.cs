@@ -1,19 +1,16 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Log;
 using UnityEngine.UI;
 using UtilityCode.Singleton;
 
-public class LoopPlayback : MonoBehaviourSingleton<LoopPlayback>
+namespace Form.PropertyEdit
 {
-    public Toggle isOn;
-
-    private void Start()
+    public class LoopPlayback : MonoBehaviourSingleton<LoopPlayback>
     {
-        isOn.onValueChanged.AddListener(on =>
+        public Toggle isOn;
+
+        private void Start()
         {
-            LogCenter.Log($"属性编辑，循环播放从{!on}变更为{on}");
-        });
+            isOn.onValueChanged.AddListener(on => { LogCenter.Log($"属性编辑，循环播放从{!on}变更为{on}"); });
+        }
     }
 }

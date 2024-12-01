@@ -1,10 +1,13 @@
 using Data.ChartData;
 
-public class ChartFileIndex
+namespace Data
 {
-    public int index;
-    public MetaData metaData = new();
-    public string musicPath;
-    public string musicName;
-    public string IllustrationPath;
+    public class ChartFileIndex
+    {
+        public string IllustrationPath;
+        public int index;
+        public MetaData metaData = new();
+        public string musicName;
+        public string musicPath;
+    }
 }

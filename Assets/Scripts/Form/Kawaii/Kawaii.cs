@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Form.LabelWindow;
 
-public class Kawaii : LabelWindowContent
+namespace Form.Kawaii
 {
+    public class Kawaii : LabelWindowContent
+    {
+    }
 }

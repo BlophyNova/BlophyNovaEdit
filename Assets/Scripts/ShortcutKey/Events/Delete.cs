@@ -1,25 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Data.Enumerate;
+using Manager;
 using UnityEngine.InputSystem;
 
-public class Delete : ShortcutKeyEventBase
+namespace ShortcutKey.Events
 {
-    private void Start()
+    public class Delete : ShortcutKeyEventBase
     {
-        Init();
-    }
-    public override void Canceled(InputAction.CallbackContext callbackContext)
-    {
-        base.Canceled(callbackContext);
-
-        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit)
+        private void Start()
         {
-            LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(callbackContext);
+            Init();
         }
-        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
+
+        public override void Canceled(InputAction.CallbackContext callbackContext)
         {
-            LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(callbackContext);
+            base.Canceled(callbackContext);
+
+            if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent
+                    .labelWindowContentType == LabelWindowContentType.EventEdit)
+            {
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(
+                    callbackContext);
+            }
+
+            if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent
+                    .labelWindowContentType == LabelWindowContentType.NoteEdit)
+            {
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(
+                    callbackContext);
+            }
         }
     }
 }

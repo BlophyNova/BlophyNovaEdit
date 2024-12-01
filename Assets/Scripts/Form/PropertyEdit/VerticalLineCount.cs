@@ -1,32 +1,36 @@
+using Data.Interface;
+using Log;
 using Scenes.DontDestroyOnLoad;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VerticalLineCount : MonoBehaviour
+namespace Form.PropertyEdit
 {
-    public TMP_Text thisText;
-    public Button add;
-    public Button subtraction;
-    private void Start()
+    public class VerticalLineCount : MonoBehaviour
     {
-        add.onClick.AddListener(() => 
-        {
-            GlobalData.Instance.chartEditData.verticalSubdivision++;
-            thisText.text = $"垂直线：{GlobalData.Instance.chartEditData.verticalSubdivision}";
+        public TMP_Text thisText;
+        public Button add;
+        public Button subtraction;
 
-            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
-            LogCenter.Log($"属性编辑执行+操作，垂直份数更改为{GlobalData.Instance.chartEditData.verticalSubdivision}");
-        });
-        subtraction.onClick.AddListener(() => 
+        private void Start()
         {
-            GlobalData.Instance.chartEditData.verticalSubdivision--;
-            thisText.text = $"垂直线：{GlobalData.Instance.chartEditData.verticalSubdivision}";
+            add.onClick.AddListener(() =>
+            {
+                GlobalData.Instance.chartEditData.verticalSubdivision++;
+                thisText.text = $"垂直线：{GlobalData.Instance.chartEditData.verticalSubdivision}";
 
-            GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
-            LogCenter.Log($"属性编辑执行-操作，垂直份数更改为{GlobalData.Instance.chartEditData.verticalSubdivision}");
-        });
+                GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
+                LogCenter.Log($"属性编辑执行+操作，垂直份数更改为{GlobalData.Instance.chartEditData.verticalSubdivision}");
+            });
+            subtraction.onClick.AddListener(() =>
+            {
+                GlobalData.Instance.chartEditData.verticalSubdivision--;
+                thisText.text = $"垂直线：{GlobalData.Instance.chartEditData.verticalSubdivision}";
+
+                GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
+                LogCenter.Log($"属性编辑执行-操作，垂直份数更改为{GlobalData.Instance.chartEditData.verticalSubdivision}");
+            });
+        }
     }
 }

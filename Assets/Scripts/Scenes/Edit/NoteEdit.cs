@@ -1,9 +1,11 @@
 using Data.ChartEdit;
-using Form.NotePropertyEdit;
+using Data.Enumerate;
+using Data.Interface;
+using Form.LabelWindow;
+using Log;
 using Scenes.PublicScripts;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 namespace Scenes.Edit
 {
     public class NoteEdit : PublicButton, ISelectBoxItem
@@ -11,9 +13,12 @@ namespace Scenes.Edit
         public LabelWindow labelWindow;
         public RectTransform thisNoteRect;
         public Note thisNoteData;
+
         public RectTransform isSelectedRect;
+
         //public Form.NoteEdit.NoteEdit ThisNoteEdit => (Form.NoteEdit.NoteEdit)labelWindow.currentLabelItem.labelWindowContent;
-        Form.NoteEdit.NoteEdit thisNoteEdit = null;
+        private Form.NoteEdit.NoteEdit thisNoteEdit;
+
         public Form.NoteEdit.NoteEdit ThisNoteEdit
         {
             get
@@ -28,23 +33,18 @@ namespace Scenes.Edit
                         }
                     }
                 }
+
                 return thisNoteEdit;
             }
         }
-        public bool IsNoteEdit => true;
-        public virtual NoteEdit Init(Note note)
-        {
-            thisNoteData = note;
-            //SetSelectState(false);
-            return this;
-        }
+
         private void Start()
         {
-            thisButton.onClick.AddListener(() =>
-            {
-                ThisNoteEdit.selectBox.SetSingleNote(this);
-            });
+            thisButton.onClick.AddListener(() => { ThisNoteEdit.selectBox.SetSingleNote(this); });
         }
+
+        public bool IsNoteEdit => true;
+
         public Vector3[] GetCorners()
         {
             Vector3[] corners = new Vector3[4];
@@ -56,7 +56,15 @@ namespace Scenes.Edit
         {
             thisNoteData.isSelected = active;
             isSelectedRect.gameObject.SetActive(active);
-            LogCenter.Log($@"{ThisNoteEdit.currentBoxID}号框的{ThisNoteEdit.currentLineID}号线的{thisNoteData.HitBeats.integer}:{thisNoteData.HitBeats.molecule}/{thisNoteData.HitBeats.denominator}的选择状态被改为：{isSelectedRect.gameObject.activeSelf}");
+            LogCenter.Log(
+                $@"{ThisNoteEdit.currentBoxID}号框的{ThisNoteEdit.currentLineID}号线的{thisNoteData.HitBeats.integer}:{thisNoteData.HitBeats.molecule}/{thisNoteData.HitBeats.denominator}的选择状态被改为：{isSelectedRect.gameObject.activeSelf}");
+        }
+
+        public virtual NoteEdit Init(Note note)
+        {
+            thisNoteData = note;
+            //SetSelectState(false);
+            return this;
         }
     }
 }

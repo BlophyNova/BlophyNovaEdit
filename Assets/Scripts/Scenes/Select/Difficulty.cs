@@ -1,26 +1,28 @@
-using Data.Enumerate;
+using System;
 using Scenes.DontDestroyOnLoad;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Difficulty : MonoBehaviour
+namespace Scenes.Select
 {
-    public TMP_Dropdown difficulty;
-    private void Start()
+    public class Difficulty : MonoBehaviour
     {
-        difficulty.onValueChanged.AddListener((value) =>
+        public TMP_Dropdown difficulty;
+
+        private void Start()
         {
-            GlobalData.Instance.currentHard = value switch
+            difficulty.onValueChanged.AddListener(value =>
             {
-                0 => Hard.Easy,
-                1 => Hard.Normal,
-                2 => Hard.Hard,
-                3 => Hard.Ultra,
-                4 => Hard.Special,
-                _ => throw new System.Exception("没找到你想要创建的难度")
-            };
-        });
+                GlobalData.Instance.currentHard = value switch
+                {
+                    0 => Data.Enumerate.Hard.Easy,
+                    1 => Data.Enumerate.Hard.Normal,
+                    2 => Data.Enumerate.Hard.Hard,
+                    3 => Data.Enumerate.Hard.Ultra,
+                    4 => Data.Enumerate.Hard.Special,
+                    _ => throw new Exception("没找到你想要创建的难度")
+                };
+            });
+        }
     }
 }

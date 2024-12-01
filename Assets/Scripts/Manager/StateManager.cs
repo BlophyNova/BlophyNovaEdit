@@ -1,36 +1,35 @@
 using Scenes.DontDestroyOnLoad;
-using UnityEngine;
 using UtilityCode.Singleton;
+
 namespace Manager
 {
     public class StateManager : MonoBehaviourSingleton<StateManager>
     {
-
-
         public delegate void OnPaused();
-        public event OnPaused onPaused = () => { };
 
-        private bool isStart;//已经开始
-        private bool isEnd;//已经结束
-        private bool isPause;//已经暂停
+        private bool isPause; //已经暂停
+
+        private bool isStart; //已经开始
+
         public bool IsStart
         {
             get => isStart;
             set
             {
-                if (isStart) return;//如果已经开始了就直接返回
-                isStart = value;//设置状态为开始
-                //AssetManager.Instance.musicPlayer.PlayScheduled(AssetManager.Instance.chartData.globalData.offset + GlobalData.Instance.offset);//播放音乐，带上延迟
-                ProgressManager.Instance.StartPlay(GlobalData.Instance.chartEditData.offset);//谱面开始播放
-                AssetManager.Instance.box.gameObject.SetActive(true);//激活所有方框
+                if (isStart)
+                {
+                    return; //如果已经开始了就直接返回
+                }
 
+                isStart = value; //设置状态为开始
+                //AssetManager.Instance.musicPlayer.PlayScheduled(AssetManager.Instance.chartData.globalData.offset + GlobalData.Instance.offset);//播放音乐，带上延迟
+                ProgressManager.Instance.StartPlay(GlobalData.Instance.chartEditData.offset); //谱面开始播放
+                AssetManager.Instance.box.gameObject.SetActive(true); //激活所有方框
             }
         }
-        public bool IsEnd
-        {
-            get => isEnd;
-            set => isEnd = value;
-        }
+
+        public bool IsEnd { get; set; }
+
         public bool IsPause
         {
             get => isPause;
@@ -54,17 +53,21 @@ namespace Manager
                 }
             }
         }
-        public bool IsPlaying => IsStart && !IsPause && !IsEnd;//正在播放中，判定方法为：已经开始并且没有暂停没有结束
+
+        public bool IsPlaying => IsStart && !IsPause && !IsEnd; //正在播放中，判定方法为：已经开始并且没有暂停没有结束
+        public event OnPaused onPaused = () => { };
+
         public void RestartTime(bool isContinuePlay)
         {
             Instance.isStart = false;
             Instance.isPause = false;
-            Instance.isEnd = false;
+            Instance.IsEnd = false;
             ProgressManager.Instance.ResetTime();
             if (isContinuePlay)
             {
                 Instance.IsStart = true;
             }
+
             onPaused();
         }
     }

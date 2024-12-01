@@ -1,38 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Data.Enumerate;
+using Manager;
 using UnityEngine.InputSystem;
 
-public class AddEvent : AddNote
+namespace ShortcutKey.Events
 {
-    private void Start()
+    public class AddEvent : AddNote
     {
-        Init();
-    }
-    public override void Started(InputAction.CallbackContext callbackContext)
-    {
-        base.Started(callbackContext);
-        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit)
+        private void Start()
         {
-            LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Started(callbackContext);
+            Init();
         }
-    }
-    public override void Performed(InputAction.CallbackContext callbackContext)
-    {
-        base.Performed(callbackContext);
 
-        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit)
+        public override void Started(InputAction.CallbackContext callbackContext)
         {
-            LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Performed(callbackContext);
+            base.Started(callbackContext);
+            if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent
+                    .labelWindowContentType == LabelWindowContentType.EventEdit)
+            {
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent
+                    .Started(callbackContext);
+            }
         }
-    }
-    public override void Canceled(InputAction.CallbackContext callbackContext)
-    {
-        base.Canceled(callbackContext);
 
-        if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit)
+        public override void Performed(InputAction.CallbackContext callbackContext)
         {
-            LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(callbackContext);
+            base.Performed(callbackContext);
+
+            if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent
+                    .labelWindowContentType == LabelWindowContentType.EventEdit)
+            {
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Performed(
+                    callbackContext);
+            }
+        }
+
+        public override void Canceled(InputAction.CallbackContext callbackContext)
+        {
+            base.Canceled(callbackContext);
+
+            if (LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent
+                    .labelWindowContentType == LabelWindowContentType.EventEdit)
+            {
+                LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem.labelWindowContent.Canceled(
+                    callbackContext);
+            }
         }
     }
 }
