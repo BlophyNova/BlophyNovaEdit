@@ -349,15 +349,48 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "238eaf6b-cf40-4b47-9ad0-4c0097c82588",
+                    "name": "Two Modifiers",
+                    "id": "b1f74882-21de-449d-88e3-7a79b83aa33a",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AddPoint",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "0a8556d7-4dbb-4ced-b3a7-e1b906c8f0ba",
+                    "path": "<Keyboard>/rightCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AddPoint",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "afe39b44-2562-43a9-94d5-d36796d47251",
                     "path": "<Keyboard>/t",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
+                    "groups": "",
                     "action": "AddPoint",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "0d1bdb6f-74f9-4690-9816-80d976c77db7",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AddPoint",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
