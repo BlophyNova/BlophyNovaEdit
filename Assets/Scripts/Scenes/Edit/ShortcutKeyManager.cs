@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -13,6 +14,10 @@ namespace Scenes.Edit
 
         public List<InputAction> EnabledShortcurKeyEvents => GetAssignStateShortcutKeyEvents(true);
         public List<InputAction> DisabledShortcurKeyEvents => GetAssignStateShortcutKeyEvents(false);
+        public List<Action> started = new();
+        public List<Action> performed = new();
+        public List<Action> canceled = new();
+
 
         // Start is called before the first frame update
         private void Start()
@@ -44,6 +49,28 @@ namespace Scenes.Edit
             }
 
             return assignStateActions;
+        }
+        public void RegisterEvents(string actionNameOrId,Action<InputAction.CallbackContext> started,Action<InputAction.CallbackContext> performed,Action<InputAction.CallbackContext> canceled)
+        {
+            InputAction inputAction = playerInput.actions[actionNameOrId];
+            inputAction.started += callbackContext => this.started.Add(() => started(callbackContext));
+            inputAction.performed += callbackContext => this.performed.Add(()=>performed(callbackContext));
+            inputAction.canceled += callbackContext => this.canceled.Add(()=>canceled(callbackContext)); 
+            inputAction.Enable();
+        }
+        private void LateUpdate()
+        {
+            ExecuteEvents(started);
+            ExecuteEvents(performed);
+            ExecuteEvents(canceled);
+        }
+        void ExecuteEvents(List<Action> actions)
+        {
+            for (int i = actions.Count - 1; i >= 0; i--)
+            {
+                actions[i]();
+                actions.RemoveAt(i);
+            }
         }
     }
 }
