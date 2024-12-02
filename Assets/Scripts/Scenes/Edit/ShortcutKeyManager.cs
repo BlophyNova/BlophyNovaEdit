@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 using UtilityCode.Singleton;
+using Application = UnityEngine.Application;
 
 namespace Scenes.Edit
 {
@@ -14,9 +16,9 @@ namespace Scenes.Edit
 
         public List<InputAction> EnabledShortcurKeyEvents => GetAssignStateShortcutKeyEvents(true);
         public List<InputAction> DisabledShortcurKeyEvents => GetAssignStateShortcutKeyEvents(false);
-        public List<Action> started = new();
-        public List<Action> performed = new();
-        public List<Action> canceled = new();
+        public KeyValueList<Action, InputAction.CallbackContext> started = new();
+        public KeyValueList<Action, InputAction.CallbackContext> performed = new();
+        public KeyValueList<Action, InputAction.CallbackContext> canceled = new();
 
 
         // Start is called before the first frame update
@@ -53,9 +55,9 @@ namespace Scenes.Edit
         public void RegisterEvents(string actionNameOrId,Action<InputAction.CallbackContext> started,Action<InputAction.CallbackContext> performed,Action<InputAction.CallbackContext> canceled)
         {
             InputAction inputAction = playerInput.actions[actionNameOrId];
-            inputAction.started += callbackContext => this.started.Add(() => started(callbackContext));
-            inputAction.performed += callbackContext => this.performed.Add(()=>performed(callbackContext));
-            inputAction.canceled += callbackContext => this.canceled.Add(()=>canceled(callbackContext)); 
+            inputAction.started += callbackContext => this.started.Add(() => started(callbackContext),callbackContext);
+            inputAction.performed += callbackContext => this.performed.Add(()=>performed(callbackContext),callbackContext);
+            inputAction.canceled += callbackContext => this.canceled.Add(()=>canceled(callbackContext),callbackContext); 
             inputAction.Enable();
         }
         private void LateUpdate()
@@ -64,12 +66,12 @@ namespace Scenes.Edit
             ExecuteEvents(performed);
             ExecuteEvents(canceled);
         }
-        void ExecuteEvents(List<Action> actions)
+        void ExecuteEvents(KeyValueList<Action, InputAction.CallbackContext> keyValueList)
         {
-            for (int i = actions.Count - 1; i >= 0; i--)
+            for (int i = keyValueList.Count - 1; i >= 0; i--)
             {
-                actions[i]();
-                actions.RemoveAt(i);
+                keyValueList[i]();
+                keyValueList.RemoveAt(i);
             }
         }
     }

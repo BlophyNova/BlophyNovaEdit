@@ -22,8 +22,7 @@ namespace ShortcutKey.Events
 
         public virtual void Canceled(InputAction.CallbackContext callbackContext)
         {
-            string trackStr = new System.Diagnostics.StackTrace().ToString();
-            LogCenter.Log($"{inputActionName}.Canceled被调用！{Time.frameCount}{trackStr}");
+            LogCenter.Log($"{inputActionName}.Canceled被调用！");
         }
 
         protected void Init() => ShortcutKeyManager.Instance.RegisterEvents(inputActionName, Started, Performed, Canceled);

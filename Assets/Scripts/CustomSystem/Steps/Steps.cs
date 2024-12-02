@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UtilityCode.Singleton;
 
-namespace System
+namespace CustomSystem
 {
     public class Steps : MonoBehaviourSingleton<Steps>
     {
