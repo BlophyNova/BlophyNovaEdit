@@ -2,6 +2,7 @@ using Data.Enumerate;
 using Data.Interface;
 using Manager;
 using Scenes.DontDestroyOnLoad;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,7 +18,6 @@ namespace ShortcutKey.Events
         public override void Performed(InputAction.CallbackContext callbackContext)
         {
             base.Performed(callbackContext);
-
             LabelWindowContentType labelWindowContentType =
                 LabelWindowContentType.ChartPreview |
                 LabelWindowContentType.NoteEdit |

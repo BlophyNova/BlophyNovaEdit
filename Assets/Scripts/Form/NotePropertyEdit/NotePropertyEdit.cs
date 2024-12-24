@@ -60,148 +60,24 @@ namespace Form.NotePropertyEdit
         public event OnNoteValueChanged onNoteValueChanged = () => { };
         public event OnEventValueChanged onEventValueChanged = () => { };
 
-        private void RefreshChartPreviewAndChartEditCanvas()
-        {
-            if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType ==
-                LabelWindowContentType.NoteEdit)
-            {
-                RefreshNotes();
-                onNoteValueChanged();
-            }
-
-            if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType ==
-                LabelWindowContentType.EventEdit)
-            {
-                RefreshEvents();
-                onEventValueChanged();
-            }
-
-            GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
-            GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI());
-        }
-
-        public void RefreshNotes()
-        {
-            NoteEdit.NoteEdit noteEdit =
-                (NoteEdit.NoteEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
-
-            GlobalData.Instance.chartData.boxes[noteEdit.currentBoxID] =
-                ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[noteEdit.currentBoxID]);
-            noteEdit.RefreshNotes(-1, -1);
-            SpeckleManager.Instance.allLineNoteControllers.Clear();
-            GameController.Instance.RefreshChartPreview();
-            GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
-            GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI());
-        }
-
-        public void RefreshEvents()
-        {
-            EventEdit.EventEdit eventEdit =
-                (EventEdit.EventEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
-            //@event.eventType
-            List<Event> editBoxEvent = @event.eventType switch
-            {
-                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
-                    .boxEvents.scaleX,
-                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
-                    .boxEvents.scaleY,
-                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
-                    .boxEvents.moveX,
-                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
-                    .boxEvents.moveY,
-                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
-                    .boxEvents.centerX,
-                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
-                    .boxEvents.centerY,
-                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
-                    .boxEvents.alpha,
-                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
-                    .boxEvents.lineAlpha,
-                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID]
-                    .boxEvents.rotate,
-                _ => GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID].boxEvents.speed
-            };
-            List<Data.ChartData.Event> chartDataBoxEvent = @event.eventType switch
-            {
-                EventType.ScaleX => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
-                    .scaleX,
-                EventType.ScaleY => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
-                    .scaleY,
-                EventType.MoveX => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
-                    .moveX,
-                EventType.MoveY => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
-                    .moveY,
-                EventType.CenterX => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID]
-                    .boxEvents.centerX,
-                EventType.CenterY => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID]
-                    .boxEvents.centerY,
-                EventType.Alpha => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
-                    .alpha,
-                EventType.LineAlpha => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID]
-                    .boxEvents.lineAlpha,
-                EventType.Rotate => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
-                    .rotate,
-                _ => GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].lines[0].speed
-            };
-            if (@event.eventType != EventType.Speed)
-            {
-                ChartTool.ForeachBoxEvents(editBoxEvent, chartDataBoxEvent);
-            }
-            else
-            {
-                for (int i = 0; i < GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].lines.Count; i++)
-                {
-                    Line line = GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].lines[i];
-                    List<Event> filledVoid = GameUtility.FillVoid(editBoxEvent);
-                    line.speed = new List<Data.ChartData.Event>();
-                    ChartTool.ForeachBoxEvents(filledVoid, line.speed);
-                    line.career = new AnimationCurve
-                        { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
-                    line.career.keys = GameUtility.CalculatedSpeedCurve(line.speed.ToArray()).ToArray();
-                    line.far = new AnimationCurve
-                        { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
-                    line.far.keys = GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray();
-                }
-
-                //SpeckleManager.Instance.allLineNoteControllers.Clear();
-                //GlobalData.Refresh<IRefresh>((interfaceMethod) => interfaceMethod.Refresh());
-                GlobalData.Instance.chartData.boxes =
-                    ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
-                SpeckleManager.Instance.allLineNoteControllers.Clear();
-                GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
-                GameController.Instance.RefreshChartPreview();
-            }
-
-            if (@event.eventType == EventType.ScaleX)
-            {
-                List<Event> scaleY = GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID].boxEvents.scaleY;
-                for (int i = 0; i < scaleY.Count; i++)
-                {
-                    Debug.Log($@"scaleY中第{i}个事件的结果为：{eventMemory.Equals(scaleY[i])}");
-                    if (eventMemory.Equals(scaleY[i]))
-                    {
-                        scaleY[i] = new Event(@event.@event);
-                    }
-                }
-
-                ChartTool.ForeachBoxEvents(scaleY, GlobalData.Instance.chartData.boxes[eventEdit.currentBoxID].boxEvents
-                    .scaleY);
-            }
-
-            eventEdit.RefreshEvents(-1);
-            //GlobalData.Refresh<IRefreshUI>((interfaceMethod) => interfaceMethod.RefreshUI());
-        }
-
         private void NoteHitBeatsChanged(string value)
         {
             Match match = Regex.Match(value, @"(\d+):(\d+)/(\d+)");
-            if (match.Success)
+            if (!match.Success) return;
+            //EventValueChanged(match, note.HitBeats);
+            BPM sourceValue = new(note.HitBeats);
+            BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
+            Steps.Instance.Add(Undo, Redo);
+            Redo();
+            return;
+            void Redo()
             {
-                LogCenter.Log(
-                    $"音符HitBeats从{note.HitBeats.integer}:{note.HitBeats.molecule}/{note.HitBeats.denominator}变更为{match.Groups[1].Value}:{match.Groups[2].Value}/{match.Groups[3].Value}");
-                BPM hitBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
-                    int.Parse(match.Groups[3].Value));
-                note.HitBeats = hitBeats;
+                note.HitBeats = targetValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
+            void Undo()
+            {
+                note.HitBeats = sourceValue;
                 RefreshChartPreviewAndChartEditCanvas();
             }
         }
@@ -209,15 +85,24 @@ namespace Form.NotePropertyEdit
         private void NoteEndBeatsChanged(string value)
         {
             Match match = Regex.Match(value, @"(\d+):(\d+)/(\d+)");
-            if (match.Success)
+            if (!match.Success) return;
+
+            BPM endBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
+                int.Parse(match.Groups[3].Value));
+            BPM sourceValue = new(note.holdBeats);
+            BPM targetValue = endBeats - new BPM(note.HitBeats);
+
+            Steps.Instance.Add(Undo, Redo);
+            Redo();
+            return;
+            void Redo()
             {
-                LogCenter.Log(
-                    $"音符EndBeats从{note.EndBeats.integer}:{note.EndBeats.molecule}/{note.EndBeats.denominator}变更为{match.Groups[1].Value}:{match.Groups[2].Value}/{match.Groups[3].Value}");
-                BPM endBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
-                    int.Parse(match.Groups[3].Value));
-                BPM hitBeats = new(note.HitBeats);
-                BPM holdBeats = endBeats - hitBeats;
-                note.holdBeats = holdBeats;
+                note.holdBeats = targetValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
+            void Undo()
+            {
+                note.holdBeats = sourceValue;
                 RefreshChartPreviewAndChartEditCanvas();
             }
         }
@@ -225,13 +110,21 @@ namespace Form.NotePropertyEdit
         private void EventStartBeatsChanged(string value)
         {
             Match match = Regex.Match(value, @"(\d+):(\d+)/(\d+)");
-            if (match.Success)
+            if (!match.Success) return;
+            //EventValueChanged(match, @event.@event.startBeats);
+            BPM sourceValue = new(@event.@event.startBeats);
+            BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
+            Steps.Instance.Add(Undo, Redo);
+            Redo();
+            return;
+            void Redo()
             {
-                LogCenter.Log(
-                    $"事件StartBeats从{@event.@event.startBeats.integer}:{@event.@event.startBeats.molecule}/{@event.@event.startBeats.denominator}变更为{match.Groups[1].Value}:{match.Groups[2].Value}/{match.Groups[3].Value}");
-                BPM startBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
-                    int.Parse(match.Groups[3].Value));
-                @event.@event.startBeats = startBeats;
+                @event.@event.startBeats = targetValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
+            void Undo()
+            {
+                @event.@event.startBeats = sourceValue;
                 RefreshChartPreviewAndChartEditCanvas();
             }
         }
@@ -239,88 +132,186 @@ namespace Form.NotePropertyEdit
         private void EventEndBeatsChanged(string value)
         {
             Match match = Regex.Match(value, @"(\d+):(\d+)/(\d+)");
-            if (match.Success)
+            if (!match.Success) return;
+            //EventValueChanged(match, @event.@event.endBeats);
+            BPM sourceValue = new(@event.@event.endBeats);
+            BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
+            Steps.Instance.Add(Undo, Redo);
+            Redo();
+            return;
+            void Redo()
             {
-                LogCenter.Log(
-                    $"事件EndBeats从{@event.@event.endBeats.integer}:{@event.@event.endBeats.molecule}/{@event.@event.endBeats.denominator}变更为{match.Groups[1].Value}:{match.Groups[2].Value}/{match.Groups[3].Value}");
-                BPM endBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
-                    int.Parse(match.Groups[3].Value));
-                @event.@event.endBeats = endBeats;
+                @event.@event.endBeats = targetValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
+            void Undo()
+            {
+                @event.@event.endBeats = sourceValue;
                 RefreshChartPreviewAndChartEditCanvas();
             }
         }
 
+        //private void EventValueChanged(Match match,BPM bpm)
+        //{
+        //    BPM sourceValue = new(bpm);
+        //    BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
+        //    Steps.Instance.Add(Undo, Redo);
+        //    Redo();
+        //    //LogCenter.Log($"事件EndBeats从{bpm.integer}:{bpm.molecule}/{bpm.denominator}变更为{match.Groups[1].Value}:{match.Groups[2].Value}/{match.Groups[3].Value}");
+        //    //BPM endBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
+        //    //    int.Parse(match.Groups[3].Value));
+        //    return;
+        //    void Redo()
+        //    {
+        //        bpm = targetValue;
+        //        RefreshChartPreviewAndChartEditCanvas();
+        //    }
+        //    void Undo()
+        //    {
+        //        bpm = sourceValue;
+        //        RefreshChartPreviewAndChartEditCanvas();
+        //    }
+        //}
+
         private void EaseChanged(int value)
         {
+            int sourceValue = @event.@event.curveIndex;
+            int targetValue = value;
+            Steps.Instance.Add(Undo, Redo);
+            Redo();
             LogCenter.Log($"事件Ease从{@event.@event.Curve.easeType}变更为{GlobalData.Instance.easeDatas[value].easeType}");
+            return;
             //@event.@event.Curve = GlobalData.Instance.easeData[value];
-            @event.@event.curveIndex = value;
-            RefreshChartPreviewAndChartEditCanvas();
+            void Redo()
+            {
+                @event.@event.curveIndex = targetValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
+            void Undo()
+            {
+                @event.@event.curveIndex = sourceValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
         }
 
         private void IsClockwiseChanged(bool value)
         {
-            LogCenter.Log($"音符IsClockWise从{note.isClockwise}变更为{value}");
-            note.isClockwise = value;
-            RefreshChartPreviewAndChartEditCanvas();
+            bool sourceValue = note.isClockwise;
+            bool targetValue = value;
+            Steps.Instance.Add(Undo, Redo);
+            Redo();
+            LogCenter.Log($"音符IsClockWise从{sourceValue}变更为{targetValue}");
+            return;
+            void Redo()
+            {
+                note.isClockwise = targetValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
+            void Undo()
+            {
+                note.isClockwise = sourceValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
         }
 
         private void PositionXChanged(string value)
         {
-            if (!float.TryParse(value, out float result))
-            {
-                return;
-            }
+            if (!float.TryParse(value, out float result))return;
 
+            float sourceValue = note.positionX;
+            float targetValue = result;
+            Steps.Instance.Add(Undo, Redo);
+            Redo();
             LogCenter.Log($"音符PositionX从{note.positionX}变更为{value}");
-            note.positionX = result;
-            RefreshChartPreviewAndChartEditCanvas();
+            return;
+            void Redo()
+            {
+                note.positionX = targetValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
+            void Undo()
+            {
+                note.positionX = sourceValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
         }
 
         private void EndValueChanged(string value)
         {
-            if (!float.TryParse(value, out float result))
-            {
-                return;
-            }
+            if (!float.TryParse(value, out float result)) return;
 
+            float sourceValue = @event.@event.endValue;
+            float targetValue = result;
+            Steps.Instance.Add(Undo,Redo);
+            Redo();
             LogCenter.Log($"事件EndValue从{@event.@event.endValue}变更为{result}");
-            @event.@event.endValue = result;
-            RefreshChartPreviewAndChartEditCanvas();
+            return;
+            void Redo()
+            {
+                @event.@event.endValue = targetValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
+            void Undo()
+            {
+                @event.@event.endValue = sourceValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
         }
 
         private void StartValueChanged(string value)
         {
-            if (!float.TryParse(value, out float result))
-            {
-                return;
-            }
+            if (!float.TryParse(value, out float result)) return;
 
+            float sourceValue= @event.@event.startValue;
+            float targetValue=result;
+            Steps.Instance.Add(Undo, Redo);
+            Redo();
             LogCenter.Log($"事件StartValue从{@event.@event.startValue}变更为{result}");
-            @event.@event.startValue = result;
-            RefreshChartPreviewAndChartEditCanvas();
+            return;
+            void Redo()
+            {
+                @event.@event.startValue = targetValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
+            void Undo()
+            {
+                @event.@event.startValue = sourceValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
         }
 
         private void RippleChanged(bool value)
         {
-            note.effect = value switch
-            {
-                true => note.effect | NoteEffect.Ripple,
-                false => note.effect ^ NoteEffect.Ripple
-            };
-            RefreshChartPreviewAndChartEditCanvas();
-            LogCenter.Log($"成功{value switch { true => "添加", false => "取消" }}方框波纹特效");
+            AddOrSubtractionNoteEffect(value, NoteEffect.Ripple);
         }
 
         private void CommonEffectChanged(bool value)
         {
-            note.effect = value switch
+            AddOrSubtractionNoteEffect(value, NoteEffect.CommonEffect);
+        }
+
+        private void AddOrSubtractionNoteEffect(bool value, NoteEffect noteEffect)
+        {
+            NoteEffect sourceValue = note.effect;
+            NoteEffect targetValue = value switch
             {
-                true => note.effect | NoteEffect.CommonEffect,
-                false => note.effect ^ NoteEffect.CommonEffect
+                true => note.effect | noteEffect,
+                false => note.effect ^ noteEffect
             };
-            RefreshChartPreviewAndChartEditCanvas();
-            LogCenter.Log($"成功{value switch { true => "添加", false => "取消" }}普通打击特效");
+            Steps.Instance.Add(Undo, Redo);
+            Redo();
+            LogCenter.Log($"成功{value switch { true => "添加", false => "取消" }}{noteEffect}特效");
+            return;
+            void Undo()
+            {
+                note.effect = sourceValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
+            void Redo()
+            {
+                note.effect = targetValue;
+                RefreshChartPreviewAndChartEditCanvas();
+            }
         }
 
         private void NoteTypeChanged(int value)
@@ -328,17 +319,18 @@ namespace Form.NotePropertyEdit
             int sourceValue = (int)note.noteType;
             int targetValue = value;
             LogCenter.Log($"音符类型从{note.noteType}变更为{(NoteType)value}");
-            Steps.Instance.Add(UndoChange, RedoChange);
-            RedoChange();
+            Steps.Instance.Add(Undo, Redo);
+            Redo();
             return;
 
-            void UndoChange()
+            //这里不能把两个方法的RefreshChartPreviewAndChartEditCanvas方法提出来，因为后面进行撤销和重做的操作是需要执行的
+            void Undo()
             {
                 note.noteType = (NoteType)sourceValue;
                 RefreshChartPreviewAndChartEditCanvas();
             }
 
-            void RedoChange()
+            void Redo()
             {
                 note.noteType = (NoteType)targetValue;
                 RefreshChartPreviewAndChartEditCanvas();
@@ -348,72 +340,6 @@ namespace Form.NotePropertyEdit
         public void SelectedNote(Scenes.Edit.NoteEdit note)
         {
             SelectedNote(note.thisNoteData);
-        }
-
-        public void SelectedNote(Note note)
-        {
-            this.note = note;
-            noteType.interactable = true;
-            commonEffect.interactable = true;
-            ripple.interactable = true;
-            startTime.interactable = true;
-            endTime.interactable = this.note.noteType == NoteType.Hold;
-            startValue.interactable = false;
-            endValue.interactable = false;
-            postionX.interactable = true;
-            isClockwise.interactable = true;
-            ease.interactable = false;
-            startTime.onEndEdit.RemoveAllListeners();
-            endTime.onEndEdit.RemoveAllListeners();
-            startTime.onEndEdit.AddListener(value => NoteHitBeatsChanged(value));
-            endTime.onEndEdit.AddListener(value => NoteEndBeatsChanged(value));
-
-            noteType.SetValueWithoutNotify((int)this.note.noteType);
-            commonEffect.SetIsOnWithoutNotify(
-                this.note.effect.HasFlag(NoteEffect.CommonEffect));
-            ripple.SetIsOnWithoutNotify(this.note.effect.HasFlag(NoteEffect.Ripple));
-            startTime.SetTextWithoutNotify(
-                $"{this.note.HitBeats.integer}:{this.note.HitBeats.molecule}/{this.note.HitBeats.denominator}");
-            if (this.note.noteType == NoteType.Hold)
-            {
-                endTime.SetTextWithoutNotify(
-                    $"{this.note.EndBeats.integer}:{this.note.EndBeats.molecule}/{this.note.EndBeats.denominator}");
-            }
-
-            postionX.SetTextWithoutNotify($"{this.note.positionX}");
-            isClockwise.SetIsOnWithoutNotify(this.note.isClockwise);
-            LogCenter.Log("音符属性编辑控件接收一个音符");
-        }
-
-        public void SelectedNote(EventEditItem @event)
-        {
-            this.@event = @event;
-            eventMemory = new Event(@event.@event);
-            noteType.interactable = false;
-            commonEffect.interactable = false;
-            ripple.interactable = false;
-            startTime.interactable = true;
-            endTime.interactable = true;
-            startValue.interactable = true;
-            endValue.interactable = true;
-            postionX.interactable = false;
-            isClockwise.interactable = false;
-            ease.interactable = true;
-            startTime.onEndEdit.RemoveAllListeners();
-            endTime.onEndEdit.RemoveAllListeners();
-            startTime.onEndEdit.AddListener(value => EventStartBeatsChanged(value));
-            endTime.onEndEdit.AddListener(value => EventEndBeatsChanged(value));
-
-            startTime.SetTextWithoutNotify(
-                $"{this.@event.@event.startBeats.integer}:{this.@event.@event.startBeats.molecule}/{this.@event.@event.startBeats.denominator}");
-            endTime.SetTextWithoutNotify(
-                $"{this.@event.@event.endBeats.integer}:{this.@event.@event.endBeats.molecule}/{this.@event.@event.endBeats.denominator}");
-            startValue.SetTextWithoutNotify($"{this.@event.@event.startValue}");
-            endValue.SetTextWithoutNotify($"{this.@event.@event.endValue}");
-            ease.SetValueWithoutNotify(@event.@event.curveIndex);
-
-            GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
-            LogCenter.Log("音符属性编辑控件接收一个事件");
         }
     }
 }

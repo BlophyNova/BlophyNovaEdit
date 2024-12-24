@@ -1,3 +1,4 @@
+using Log;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -70,7 +71,15 @@ namespace Scenes.Edit
         {
             for (int i = keyValueList.Count - 1; i >= 0; i--)
             {
-                keyValueList[i]();
+                //这里放在众多被触发的快捷键中选择一个的逻辑，但为了暂时不因为报错导致无法继续运行，所以先放个try
+                try
+                {
+                    keyValueList[i]();
+                }
+                catch(Exception e) 
+                {
+                    Debug.LogError(e.Message);
+                }
                 keyValueList.RemoveAt(i);
             }
         }
