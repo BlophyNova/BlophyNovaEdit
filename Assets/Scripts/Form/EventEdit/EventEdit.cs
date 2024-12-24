@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CustomSystem;
 using Data.ChartEdit;
 using Data.Enumerate;
 using Data.Interface;
@@ -322,8 +323,26 @@ namespace Form.EventEdit
                 //添加事件到对应的地方
                 LogCenter.Log(
                     $"{eventEditItem.eventType}新事件：{eventEditItem.@event.startBeats.integer}:{eventEditItem.@event.startBeats.molecule}/{eventEditItem.@event.startBeats.denominator}");
+                Steps.Instance.Add(Undo, Redo); 
                 eventEditItems.Add(eventEditItem);
                 AddNewEvent2EventList(eventEditItem);
+
+            }
+            void Undo()
+            {
+                //events.Remove(notePropertyEdit.@event.@event);
+                //onEventDeleted(notePropertyEdit.@event);
+                //notePropertyEdit.RefreshEvents();
+                DeleteEvent(eventEditItem);
+                RefreshEditAndChart();
+            }
+            void Redo()
+            {
+                Event @event = eventEditItem.@event;
+                EventType eventType = eventEditItem.eventType;
+                //eventEditItems.Add(eventEditItem);
+                AddNewEvent2EventList(@event, eventType);
+                RefreshEvents(-1);
             }
         }
 
@@ -374,18 +393,15 @@ namespace Form.EventEdit
             if (isRef)
             {
                 RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed, EventType.Speed);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
-                    EventType.CenterX);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
-                    EventType.CenterY);
+                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX, EventType.CenterX);
+                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY, EventType.CenterY);
                 RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX, EventType.MoveX);
                 RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY, EventType.MoveY);
                 RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX, EventType.ScaleX);
                 RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY, EventType.ScaleY);
                 RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate, EventType.Rotate);
                 RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha, EventType.Alpha);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
-                    EventType.LineAlpha);
+                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,EventType.LineAlpha);
             }
 
             UpdateNoteLocalPositionAndSize();
