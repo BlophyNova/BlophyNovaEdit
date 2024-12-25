@@ -21,10 +21,10 @@ using EventType = Data.Enumerate.EventType;
 
 namespace Form.EventEdit
 {
+    //由于这个控件需要的功能太多，所以这里做个分类，此文件负责字段事件委托属性，以及Unity生命周期的方法和接口实现的方法
     public partial class EventEdit : LabelWindowContent, IInputEventCallback, IRefresh, ISelectBox
     {
         public int currentBoxID;
-
 
         public BasicLine basicLine;
         public EventLineRenderer eventLineRendererPrefab;
@@ -44,24 +44,30 @@ namespace Form.EventEdit
         public float VerticalLineDistance =>
             Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition);
 
+        public delegate void OnBoxRefreshed(object content);
+        public event OnBoxRefreshed onBoxRefreshed = content => { };
+        public delegate void OnEventDeleted(EventEditItem eventEditItem);
+        public event OnEventDeleted onEventDeleted = eventEditItem => { };
+        public delegate void OnEventRefreshed(List<EventEditItem> eventEditItems);
+        public event OnEventRefreshed onEventRefreshed = eventEditItems => { };
+        public List<EventEditItem> otherBoxEventsClipboard = new();
+        public List<EventEditItem> eventClipboard = new();
+        public bool isCopy;
         private IEnumerator Start()
         {
             yield return new WaitUntil(() => GlobalData.Instance.chartData.globalData.musicLength > 1);
-            Debug.Log(
-                $"GlobalData.Instance.chartData.globalData.musicLength:{GlobalData.Instance.chartData.globalData.musicLength}");
-            //GlobalData.Instance.chartData.boxes = ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
-            RefreshEvents(currentBoxID);
-            UpdateVerticalLineCount();
-            UpdateNoteLocalPositionAndSize();
-            eventLineRenderer = Instantiate(eventLineRendererPrefab, LabelWindowsManager.Instance.lineRendererParent);
             labelWindow.onWindowMoved += LabelWindow_onWindowMoved;
-            WindowSizeChanged_EventEdit2();
-            LabelWindow_onWindowMoved();
             labelWindow.onWindowLostFocus += LabelWindow_onWindowLostFocus;
             labelWindow.onWindowGetFocus += LabelWindow_onWindowGetFocus;
             labelItem.onLabelGetFocus += LabelItem_onLabelGetFocus;
             labelItem.onLabelLostFocus += LabelItem_onLabelLostFocus;
-            Start2();
+            onEventRefreshed += EventEdit_onEventRefreshed;
+            RefreshEvents(currentBoxID);
+            UpdateVerticalLineCount();
+            UpdateNoteLocalPositionAndSize();
+            eventLineRenderer = Instantiate(eventLineRendererPrefab, LabelWindowsManager.Instance.lineRendererParent);
+            UpdateEventEditItemLineRendererRectSize();
+            LabelWindow_onWindowMoved();
         }
 
         private void Update()
@@ -124,341 +130,6 @@ namespace Form.EventEdit
             return res;
         }
 
-        public override void WindowSizeChanged()
-        {
-            base.WindowSizeChanged();
-            UpdateVerticalLineCount();
-            UpdateNoteLocalPositionAndSize();
-            WindowSizeChanged_EventEdit2();
-        }
-
-        public void UpdateNoteLocalPositionAndSize()
-        {
-            for (int i = 0; i < eventEditItems.Count; i++)
-            {
-                foreach (EventVerticalLine item in eventVerticalLines)
-                {
-                    if (item.eventType == eventEditItems[i].eventType)
-                    {
-                        float positionX = item.transform.localPosition.x;
-                        eventEditItems[i].transform.localPosition = new Vector3(positionX,
-                            YScale.Instance.GetPositionYWithBeats(eventEditItems[i].@event.startBeats.ThisStartBPM));
-                        eventEditItems[i].thisEventEditItemRect.sizeDelta = new Vector2(
-                            Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition),
-                            eventEditItems[i].thisEventEditItemRect.sizeDelta.y);
-                    }
-                }
-            }
-        }
-
-        public void UpdateVerticalLineCount()
-        {
-            int subdivision = GlobalData.Instance.chartEditData.eventVerticalSubdivision;
-            Vector3 verticalLineLeftAndRightDelta = verticalLineRight.localPosition - verticalLineLeft.localPosition;
-            Debug.Log($"{verticalLineRight.anchoredPosition}||{verticalLineLeft.anchoredPosition}");
-            for (int i = 1; i < subdivision; i++)
-            {
-                verticalLines[i - 1].localPosition =
-                    (verticalLineLeftAndRightDelta / subdivision * i - verticalLineLeftAndRightDelta / 2) *
-                    Vector2.right;
-            }
-
-            List<RectTransform> allVerticalLines = new(verticalLines);
-            allVerticalLines.Insert(0, verticalLineLeft);
-            allVerticalLines.Add(verticalLineRight);
-            for (int i = 0; i < eventVerticalLines.Count; i++)
-            {
-                eventVerticalLines[i].transform.localPosition =
-                    (allVerticalLines[i + 1].localPosition + allVerticalLines[i].localPosition) / 2;
-            }
-        }
-
-        private void DeleteEventWithUI()
-        {
-            if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType !=
-                LabelWindowContentType.NotePropertyEdit)return;
-            NotePropertyEdit.NotePropertyEdit notePropertyEdit =
-                (NotePropertyEdit.NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem
-                    .labelWindowContent;
-            List<Event> events = notePropertyEdit.@event.eventType switch
-            {
-                EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
-                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
-                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
-                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
-                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
-                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
-                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
-                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
-                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
-                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
-                _ => throw new Exception("耳朵耷拉下来，呜呜呜，没找到事件类型")
-            };
-            if (events.FindIndex(item => item.Equals(notePropertyEdit.@event.@event)) == 0)
-            {
-                LogCenter.Log($"用户尝试删除{notePropertyEdit.@event.eventType}的第一个事件");
-                Alert.EnableAlert("这是第一个事件，不支持删除了啦~");
-                return;
-            }
-
-            LogCenter.Log(
-                $"{notePropertyEdit.@event.eventType}的{notePropertyEdit.@event.@event.startBeats.integer}:{notePropertyEdit.@event.@event.startBeats.molecule}/{notePropertyEdit.@event.@event.startBeats.denominator}事件被删除");
-            events.Remove(notePropertyEdit.@event.@event);
-            onEventDeleted(notePropertyEdit.@event);
-            notePropertyEdit.RefreshEvents();
-            Steps.Instance.Add(Undo, Redo);
-            return;
-            void Undo()
-            {
-
-                Event @event = notePropertyEdit.@event.@event;
-                EventType eventType = notePropertyEdit.@event.eventType;
-                //eventEditItems.Add(eventEditItem);
-                AddNewEvent2EventList(@event, eventType);
-                RefreshEvents(-1);
-            }
-            
-            void Redo()
-            {
-                DeleteEvent(notePropertyEdit.@event);
-                RefreshEditAndChart();
-            }
-        }
-
-        private void AddEvent()
-        {
-            Debug.Log($"{MousePositionInThisRectTransform}");
-            if (!isFirstTime)
-            {
-                isFirstTime = true;
-                FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
-                    out EventVerticalLine nearEventVerticalLine);
-
-                if (nearEventVerticalLine.eventType == EventType.LineAlpha)
-                {
-                    isFirstTime = false;
-                    return;
-                }
-
-                EventEditItem newEventEditItem = Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
-                WindowSizeChanged();
-                newEventEditItem.labelWindow = labelWindow;
-                newEventEditItem.transform.localPosition = new Vector2(nearEventVerticalLine.transform.localPosition.x,
-                    nearBeatLine.transform.localPosition.y);
-                newEventEditItem.@event.startBeats = new BPM(nearBeatLine.thisBPM);
-                newEventEditItem.eventType = nearEventVerticalLine.eventType;
-                StartCoroutine(WaitForPressureAgain(newEventEditItem));
-            }
-            else if (isFirstTime)
-            {
-                //第二次
-                isFirstTime = false;
-                waitForPressureAgain = true;
-            } /*报错*/
-        }
-
-        private void FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
-            out EventVerticalLine nearEventVerticalLine)
-        {
-            nearBeatLine = null;
-            float nearBeatLineDis = float.MaxValue;
-            //第一次
-            foreach (BeatLine item in basicLine.beatLines)
-            {
-                Debug.Log(
-                    $@"{thisEventEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
-                float dis = Vector2.Distance(MousePositionInThisRectTransform,
-                    (Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) +
-                    labelWindow.labelWindowRect.sizeDelta / 2);
-                if (dis < nearBeatLineDis)
-                {
-                    nearBeatLineDis = dis;
-                    nearBeatLine = item;
-                }
-            }
-
-            nearEventVerticalLine = null;
-            float nearEventVerticalLineDis = float.MaxValue;
-            foreach (EventVerticalLine item in eventVerticalLines)
-            {
-                float dis = Vector2.Distance(MousePositionInThisRectTransform,
-                    (Vector2)item.transform.localPosition + labelWindow.labelWindowRect.sizeDelta / 2);
-                if (dis < nearEventVerticalLineDis)
-                {
-                    nearEventVerticalLineDis = dis;
-                    nearEventVerticalLine = item;
-                }
-            }
-        }
-
-        public IEnumerator WaitForPressureAgain(EventEditItem eventEditItem)
-        {
-            while (true)
-            {
-                if (waitForPressureAgain)
-                {
-                    break;
-                }
-
-                BeatLine nearBeatLine = null;
-                float nearBeatLineDis = float.MaxValue;
-                foreach (BeatLine item in basicLine.beatLines)
-                {
-                    Debug.Log(
-                        $@"{thisEventEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
-                    float dis = Vector2.Distance(MousePositionInThisRectTransform,
-                        (Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) +
-                        labelWindow.labelWindowRect.sizeDelta / 2);
-                    if (dis < nearBeatLineDis)
-                    {
-                        nearBeatLineDis = dis;
-                        nearBeatLine = item;
-                    }
-                }
-
-                eventEditItem.thisEventEditItemRect.sizeDelta = new Vector2(
-                    eventEditItem.thisEventEditItemRect.sizeDelta.x,
-                    nearBeatLine.transform.localPosition.y - eventEditItem.transform.localPosition.y);
-                eventEditItem.@event.endBeats = new BPM(nearBeatLine.thisBPM);
-                StartCoroutine(eventEditItem.DrawLineOnEEI());
-                yield return new WaitForEndOfFrame();
-            }
-
-            waitForPressureAgain = false;
-
-            if (eventEditItem.@event.endBeats.ThisStartBPM - eventEditItem.@event.startBeats.ThisStartBPM <= .0001f)
-            {
-                Debug.LogError("哒咩哒咩，长度为0的Hold！");
-                LogCenter.Log("用户尝试放置长度为0的Hold音符");
-                eventEditItems.Remove(eventEditItem);
-                Destroy(eventEditItem.gameObject);
-            }
-            else
-            {
-                //添加事件到对应的地方
-                LogCenter.Log(
-                    $"{eventEditItem.eventType}新事件：{eventEditItem.@event.startBeats.integer}:{eventEditItem.@event.startBeats.molecule}/{eventEditItem.@event.startBeats.denominator}");
-                Steps.Instance.Add(Undo, Redo); 
-                eventEditItems.Add(eventEditItem);
-                AddNewEvent2EventList(eventEditItem);
-
-            }
-            void Undo()
-            {
-                //events.Remove(notePropertyEdit.@event.@event);
-                //onEventDeleted(notePropertyEdit.@event);
-                //notePropertyEdit.RefreshEvents();
-                DeleteEvent(eventEditItem);
-                RefreshEditAndChart();
-            }
-            void Redo()
-            {
-                Event @event = eventEditItem.@event;
-                EventType eventType = eventEditItem.eventType;
-                //eventEditItems.Add(eventEditItem);
-                AddNewEvent2EventList(@event, eventType);
-                RefreshEvents(-1);
-            }
-        }
-
-        public void RefreshEvents(int boxID)
-        {
-            currentBoxID = boxID < 0 ? currentBoxID : boxID;
-            LogCenter.Log($"成功更改框号为{currentBoxID}");
-            if (boxID >= 0)
-            {
-                EventCopy();
-            }
-
-            StartCoroutine(RefreshEvents());
-        }
-
-        public void EventCopy()
-        {
-            if (eventClipboard.Count > 0)
-            {
-                for (int i = 0; i < otherBoxEventsClipboard.Count; i++)
-                {
-                    Destroy(otherBoxEventsClipboard[i].gameObject);
-                }
-
-                otherBoxEventsClipboard.Clear();
-            }
-
-            foreach (EventEditItem item in eventClipboard)
-            {
-                EventEditItem eventEditItem = Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
-                eventEditItem.gameObject.SetActive(false);
-                eventEditItem.@event = item.@event;
-                eventEditItem.eventType = item.eventType;
-                otherBoxEventsClipboard.Add(eventEditItem);
-                item.@event.IsSelected = false;
-            }
-        }
-
-        public IEnumerator RefreshEvents()
-        {
-            yield return new WaitForEndOfFrame();
-            foreach (EventEditItem item in eventEditItems)
-            {
-                Destroy(item.gameObject);
-            }
-
-            eventEditItems.Clear();
-            if (isRef)
-            {
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed, EventType.Speed);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX, EventType.CenterX);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY, EventType.CenterY);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX, EventType.MoveX);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY, EventType.MoveY);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX, EventType.ScaleX);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY, EventType.ScaleY);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate, EventType.Rotate);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha, EventType.Alpha);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,EventType.LineAlpha);
-            }
-
-            UpdateNoteLocalPositionAndSize();
-            onEventRefreshed(eventEditItems);
-            onBoxRefreshed(currentBoxID);
-        }
-
-        private void RefreshEvent(List<Event> events, EventType eventType)
-        {
-            foreach (Event @event in events)
-            {
-                foreach (EventVerticalLine eventVerticalLine in eventVerticalLines)
-                {
-                    if (eventVerticalLine.eventType == eventType)
-                    {
-                        EventEditItem newEventEditItem =
-                            Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
-
-
-                        float currentSecondsTime =
-                            BPMManager.Instance.GetSecondsTimeByBeats(@event.startBeats.ThisStartBPM);
-                        float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
-
-                        newEventEditItem.transform.localPosition =
-                            new Vector2(eventVerticalLine.transform.localPosition.x, positionY);
-
-                        float endBeatsSecondsTime =
-                            BPMManager.Instance.GetSecondsTimeByBeats(@event.endBeats.ThisStartBPM);
-                        float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(endBeatsSecondsTime);
-
-                        newEventEditItem.labelWindow = labelWindow;
-                        newEventEditItem.thisEventEditItemRect.sizeDelta = new Vector2(
-                            newEventEditItem.thisEventEditItemRect.sizeDelta.x, endBeatsPositionY - positionY);
-                        newEventEditItem.@event = @event;
-                        newEventEditItem.eventType = eventType;
-                        newEventEditItem.SetSelectState(@event.IsSelected);
-                        Debug.Log($"{currentBoxID}号方框的{eventVerticalLine.eventType}生成了一个新的eei");
-                        eventEditItems.Add(newEventEditItem);
-                        newEventEditItem.Init();
-                    }
-                }
-            }
-        }
+        
     }
 }

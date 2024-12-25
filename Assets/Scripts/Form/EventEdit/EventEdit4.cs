@@ -1,0 +1,170 @@
+﻿using Form.NoteEdit;
+using Form.PropertyEdit;
+using Log;
+using Manager;
+using System.Collections.Generic;
+using System;
+using System.Linq;
+using UnityEngine;
+using Scenes.DontDestroyOnLoad;
+using Data.Enumerate;
+using Event = Data.ChartEdit.Event;
+using EventType = Data.Enumerate.EventType;
+using Scenes.PublicScripts;
+using CustomSystem;
+using Data.ChartEdit;
+using UtilityCode.ChartTool;
+using System.Collections;
+using UtilityCode.Algorithm;
+
+namespace Form.EventEdit
+{
+    //这里放所有的刷新方法
+    public partial class EventEdit
+    {
+        private void RefreshEditAndChart()
+        {
+            RefreshEvents(-1);
+
+            ChartTool.ConvertAllEditEvents2ChartDataEvents(GlobalData.Instance.chartEditData.boxes[currentBoxID],
+                GlobalData.Instance.chartData.boxes[currentBoxID]);
+            onBoxRefreshed(currentBoxID);
+        }
+        public void RefreshEvents(int boxID)
+        {
+            currentBoxID = boxID < 0 ? currentBoxID : boxID;
+            LogCenter.Log($"成功更改框号为{currentBoxID}");
+            if (boxID >= 0)
+            {
+                EventCopy();
+            }
+
+            StartCoroutine(RefreshEvents());
+        }
+        /// <summary>
+        /// 此方法的作用是，如果要换框，那就把当前剪切板的内容复制到其他剪切板中，实现跨框复制事件的功能
+        /// </summary>
+        public void EventCopy()
+        {
+            if (eventClipboard.Count > 0)
+            {
+                for (int i = 0; i < otherBoxEventsClipboard.Count; i++)
+                {
+                    Destroy(otherBoxEventsClipboard[i].gameObject);
+                }
+
+                otherBoxEventsClipboard.Clear();
+            }
+
+            foreach (EventEditItem item in eventClipboard)
+            {
+                EventEditItem eventEditItem = Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
+                eventEditItem.gameObject.SetActive(false);
+                eventEditItem.@event = item.@event;
+                eventEditItem.eventType = item.eventType;
+                otherBoxEventsClipboard.Add(eventEditItem);
+                item.@event.IsSelected = false;
+            }
+        }
+
+        public IEnumerator RefreshEvents()
+        {
+            yield return new WaitForEndOfFrame();
+            foreach (EventEditItem item in eventEditItems)
+            {
+                Destroy(item.gameObject);
+            }
+
+            eventEditItems.Clear();
+            if (isRef)
+            {
+                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed, EventType.Speed);
+                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX, EventType.CenterX);
+                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY, EventType.CenterY);
+                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX, EventType.MoveX);
+                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY, EventType.MoveY);
+                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX, EventType.ScaleX);
+                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY, EventType.ScaleY);
+                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate, EventType.Rotate);
+                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha, EventType.Alpha);
+                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha, EventType.LineAlpha);
+            }
+
+            UpdateNoteLocalPositionAndSize();
+            onEventRefreshed(eventEditItems);
+            onBoxRefreshed(currentBoxID);
+        }
+
+        private void RefreshEvent(List<Event> events, EventType eventType)
+        {
+            foreach (Event @event in events)
+            {
+                foreach (EventVerticalLine eventVerticalLine in eventVerticalLines)
+                {
+                    if (eventVerticalLine.eventType == eventType)
+                    {
+                        EventEditItem newEventEditItem =
+                            Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
+
+
+                        float currentSecondsTime =
+                            BPMManager.Instance.GetSecondsTimeByBeats(@event.startBeats.ThisStartBPM);
+                        float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
+
+                        newEventEditItem.transform.localPosition =
+                            new Vector2(eventVerticalLine.transform.localPosition.x, positionY);
+
+                        float endBeatsSecondsTime =
+                            BPMManager.Instance.GetSecondsTimeByBeats(@event.endBeats.ThisStartBPM);
+                        float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(endBeatsSecondsTime);
+
+                        newEventEditItem.labelWindow = labelWindow;
+                        newEventEditItem.thisEventEditItemRect.sizeDelta = new Vector2(
+                            newEventEditItem.thisEventEditItemRect.sizeDelta.x, endBeatsPositionY - positionY);
+                        newEventEditItem.@event = @event;
+                        newEventEditItem.eventType = eventType;
+                        newEventEditItem.SetSelectState(@event.IsSelected);
+                        Debug.Log($"{currentBoxID}号方框的{eventVerticalLine.eventType}生成了一个新的eei");
+                        eventEditItems.Add(newEventEditItem);
+                        newEventEditItem.Init();
+                    }
+                }
+            }
+        }
+
+        private void AddEventAndRefresh(Data.ChartEdit.Event copyNewEvent, EventType eventType, int currentBoxID)
+        {
+            List<Data.ChartEdit.Event> events = eventType switch
+            {
+                EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
+                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
+                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
+                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
+                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
+                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
+                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
+                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
+                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
+                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
+                _ => null
+            };
+
+            events.Add(copyNewEvent);
+            Algorithm.BubbleSort(events, (a, b) => //排序
+            {
+                if (a.startBeats.ThisStartBPM > b.startBeats.ThisStartBPM)
+                {
+                    return 1;
+                }
+
+                if (a.startBeats.ThisStartBPM < b.startBeats.ThisStartBPM)
+                {
+                    return -1;
+                }
+
+                return 0;
+            });
+            RefreshEvents(-1);
+        }
+    }
+}

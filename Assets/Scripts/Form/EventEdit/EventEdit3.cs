@@ -1,9 +1,193 @@
+using Form.NoteEdit;
+using Form.PropertyEdit;
+using Log;
+using Manager;
+using System.Collections.Generic;
+using System;
+using System.Linq;
+using UnityEngine;
+using Scenes.DontDestroyOnLoad;
+using Data.Enumerate;
+using Event = Data.ChartEdit.Event;
+using EventType = Data.Enumerate.EventType;
+using Scenes.PublicScripts;
+using CustomSystem;
+using Data.ChartEdit;
+
 namespace Form.EventEdit
 {
+    //这里放用户编辑操作响应相关的事情
     public partial class EventEdit
     {
-        public delegate void OnBoxRefreshed(object content);
+        private void SelectBoxDown()
+        {
+            selectBox.isPressing = true;
+            selectBox.transform.SetAsLastSibling();
+            Debug.Log($@"selectBox.isPressing={selectBox.isPressing}");
+        }
 
-        public event OnBoxRefreshed onBoxRefreshed = c => { };
+        private void SelectBoxUp()
+        {
+            selectBox.isPressing = false;
+            selectBox.transform.SetAsFirstSibling();
+            Debug.Log($@"selectBox.isPressing={selectBox.isPressing}");
+        }
+
+        private void UndoNote()
+        {
+        }
+
+        private void RedoNote()
+        {
+        }
+
+        private void CopyEvent()
+        {
+            Debug.Log("复制事件");
+            isCopy = true;
+            AddEvent2EventClipboard();
+        }
+
+        private void PasteEvent()
+        {
+            Debug.Log("粘贴事件");
+            FindNearBeatLineAndEventVerticalLine(out BeatLine beatLine, out EventVerticalLine verticalLine);
+            if (eventClipboard.Count > 0)
+            {
+                InstNewEvents(eventClipboard, beatLine);
+            }
+            else
+            {
+                InstNewEvents(otherBoxEventsClipboard, beatLine);
+            }
+
+            if (!isCopy)
+            {
+                foreach (EventEditItem eventEditItem in eventClipboard)
+                {
+                    DeleteEvent(eventEditItem);
+                    //Debug.LogError("这里有问题");
+                }
+            }
+
+            LogCenter.Log($"成功{isCopy switch { true => "复制", false => "粘贴" }}{eventClipboard.Count}个音符");
+            RefreshEditAndChart();
+
+            onEventRefreshed(eventEditItems);
+        }
+        private void CutEvent()
+        {
+            Debug.Log("剪切事件");
+            isCopy = false;
+            AddEvent2EventClipboard();
+        }
+        private void MoveUp()
+        {
+            foreach (EventEditItem eventEditItem in selectBox.TransmitObjects().Cast<EventEditItem>())
+            {
+                eventEditItem.@event.startBeats.AddOneBeat();
+                eventEditItem.@event.endBeats.AddOneBeat();
+            }
+
+            LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向上移动一格");
+
+            RefreshEditAndChart();
+        }
+
+        private void MoveDown()
+        {
+            foreach (EventEditItem eventEditItem in selectBox.TransmitObjects().Cast<EventEditItem>())
+            {
+                eventEditItem.@event.startBeats.SubtractionOneBeat();
+                eventEditItem.@event.endBeats.SubtractionOneBeat();
+            }
+
+            LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向下移动一格");
+
+            RefreshEditAndChart();
+        }
+
+        private void DeleteEventWithUI()
+        {
+            if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType !=
+                LabelWindowContentType.NotePropertyEdit) return;
+            NotePropertyEdit.NotePropertyEdit notePropertyEdit =
+                (NotePropertyEdit.NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem
+                    .labelWindowContent;
+            List<Event> events = notePropertyEdit.@event.eventType switch
+            {
+                EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
+                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
+                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
+                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
+                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
+                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
+                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
+                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
+                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
+                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
+                _ => throw new Exception("耳朵耷拉下来，呜呜呜，没找到事件类型")
+            };
+            if (events.FindIndex(item => item.Equals(notePropertyEdit.@event.@event)) == 0)
+            {
+                LogCenter.Log($"用户尝试删除{notePropertyEdit.@event.eventType}的第一个事件");
+                Alert.EnableAlert("这是第一个事件，不支持删除了啦~");
+                return;
+            }
+
+            LogCenter.Log(
+                $"{notePropertyEdit.@event.eventType}的{notePropertyEdit.@event.@event.startBeats.integer}:{notePropertyEdit.@event.@event.startBeats.molecule}/{notePropertyEdit.@event.@event.startBeats.denominator}事件被删除");
+            events.Remove(notePropertyEdit.@event.@event);
+            onEventDeleted(notePropertyEdit.@event);
+            notePropertyEdit.RefreshEvents();
+            Steps.Instance.Add(Undo, Redo);
+            return;
+            void Undo()
+            {
+                Event @event = notePropertyEdit.@event.@event;
+                EventType eventType = notePropertyEdit.@event.eventType;
+                //eventEditItems.Add(eventEditItem);
+                AddNewEvent2EventList(@event, eventType);
+                RefreshEvents(-1);
+            }
+
+            void Redo()
+            {
+                DeleteEvent(notePropertyEdit.@event);
+                RefreshEditAndChart();
+            }
+        }
+
+        private void AddEvent()
+        {
+            Debug.Log($"{MousePositionInThisRectTransform}");
+            if (!isFirstTime)
+            {
+                isFirstTime = true;
+                FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
+                    out EventVerticalLine nearEventVerticalLine);
+
+                if (nearEventVerticalLine.eventType == EventType.LineAlpha)
+                {
+                    isFirstTime = false;
+                    return;
+                }
+
+                EventEditItem newEventEditItem = Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
+                WindowSizeChanged();
+                newEventEditItem.labelWindow = labelWindow;
+                newEventEditItem.transform.localPosition = new Vector2(nearEventVerticalLine.transform.localPosition.x,
+                    nearBeatLine.transform.localPosition.y);
+                newEventEditItem.@event.startBeats = new BPM(nearBeatLine.thisBPM);
+                newEventEditItem.eventType = nearEventVerticalLine.eventType;
+                StartCoroutine(WaitForPressureAgain(newEventEditItem));
+            }
+            else if (isFirstTime)
+            {
+                //第二次
+                isFirstTime = false;
+                waitForPressureAgain = true;
+            } /*报错*/
+        }
     }
 }

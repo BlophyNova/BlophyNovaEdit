@@ -1,206 +1,32 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using CustomSystem;
 using Data.ChartEdit;
+using Data.Enumerate;
+using Data.Interface;
+using Form.LabelWindow;
 using Form.NoteEdit;
+using Form.PropertyEdit;
 using Log;
 using Manager;
+using Scenes.DontDestroyOnLoad;
+using Scenes.Edit;
+using Scenes.PublicScripts;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UtilityCode.Algorithm;
 using UtilityCode.ChartTool;
 using UtilityCode.GameUtility;
-using Event = Data.ChartData.Event;
+using Event = Data.ChartEdit.Event;
 using EventType = Data.Enumerate.EventType;
-using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 
 namespace Form.EventEdit
 {
     public partial class EventEdit
     {
-        public delegate void OnEventDeleted(EventEditItem eventEditItem);
-
-        public delegate void OnEventRefreshed(List<EventEditItem> eventEditItems);
-
-        public List<EventEditItem> otherBoxEventsClipboard = new();
-        public List<EventEditItem> eventClipboard = new();
-        public bool isCopy;
-        public event OnEventDeleted onEventDeleted = eventEditItem => { };
-        public event OnEventRefreshed onEventRefreshed = eventEditItems => { };
-
-        private void Start2()
-        {
-            onEventRefreshed += EventEdit_onEventRefreshed;
-        }
-
-        private void EventEdit_onEventRefreshed(List<EventEditItem> eventEditItems)
-        {
-            eventClipboard.Clear();
-            foreach (EventEditItem item in eventEditItems)
-            {
-                if (item.@event.IsSelected)
-                {
-                    eventClipboard.Add(item);
-                }
-            }
-        }
-
-        private void SelectBoxDown()
-        {
-            selectBox.isPressing = true;
-            selectBox.transform.SetAsLastSibling();
-            Debug.Log($@"selectBox.isPressing={selectBox.isPressing}");
-        }
-
-        private void SelectBoxUp()
-        {
-            selectBox.isPressing = false;
-            selectBox.transform.SetAsFirstSibling();
-            Debug.Log($@"selectBox.isPressing={selectBox.isPressing}");
-        }
-
-        private void AddNewEvent2EventList(EventEditItem eventEditItem)
-        {
-            AddNewEvent2EventList(eventEditItem.@event, eventEditItem.eventType);
-        }
-
-        private void AddNewEvent2EventList(Data.ChartEdit.Event @event, EventType eventType, bool isPaste = false)
-        {
-            List<Data.ChartEdit.Event> events = eventType switch
-            {
-                EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
-                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
-                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
-                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
-                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
-                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
-                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
-                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
-                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
-                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
-                _ => null
-            };
-            if (!isPaste)
-            {
-                @event.startValue = @event.endValue = events[^1].endValue;
-                //@event.Curve = GlobalData.Instance.easeData[0];
-                @event.curveIndex = 0;
-            }
-
-            events.Add(@event);
-            Algorithm.BubbleSort(events, (a, b) => //排序
-            {
-                if (a.startBeats.ThisStartBPM > b.startBeats.ThisStartBPM)
-                {
-                    return 1;
-                }
-
-                if (a.startBeats.ThisStartBPM < b.startBeats.ThisStartBPM)
-                {
-                    return -1;
-                }
-
-                return 0;
-            });
-            List<Event> chartDataEvents = eventType switch
-            {
-                EventType.CenterX => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.centerX,
-                EventType.CenterY => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.centerY,
-                EventType.MoveX => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.moveX,
-                EventType.MoveY => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.moveY,
-                EventType.ScaleX => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.scaleX,
-                EventType.ScaleY => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.scaleY,
-                EventType.Rotate => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.rotate,
-                EventType.Alpha => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.alpha,
-                EventType.LineAlpha => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.lineAlpha,
-                _ => null
-            };
-            if (chartDataEvents == null)
-            {
-                SpeedEvent(eventType);
-                return;
-            }
-
-            ChartTool.RefreshChartEventByChartEditEvent(chartDataEvents, @event);
-
-            if (eventType == EventType.ScaleX && !isPaste) //同步scaleY
-            {
-                List<Data.ChartEdit.Event> scaleYEvents =
-                    GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY;
-                scaleYEvents.Add(new Data.ChartEdit.Event(@event));
-                Algorithm.BubbleSort(scaleYEvents, (a, b) => //排序
-                {
-                    if (a.startBeats.ThisStartBPM > b.startBeats.ThisStartBPM)
-                    {
-                        return 1;
-                    }
-
-                    if (a.startBeats.ThisStartBPM < b.startBeats.ThisStartBPM)
-                    {
-                        return -1;
-                    }
-
-                    return 0;
-                });
-                ChartTool.RefreshChartEventByChartEditEvent(
-                    GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.scaleY,
-                    new Data.ChartEdit.Event(@event));
-                RefreshEvents(-1);
-            }
-            //Debug.LogError("错误记忆");
-        }
-
-        private void SpeedEvent(EventType eventType)
-        {
-            #region 以下代码为speed事件处理相关专属代码，没啥bug的情况下一个字都别改
-
-            if (eventType != EventType.Speed)
-            {
-                return;
-            }
-
-            List<Data.ChartEdit.Event> filledVoid =
-                GameUtility.FillVoid(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed);
-            for (int i = 0; i < GlobalData.Instance.chartData.boxes[currentBoxID].lines.Count; i++)
-            {
-                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].speed = new List<Event>();
-
-
-                ChartTool.ForeachBoxEvents(filledVoid,
-                    GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].speed);
-                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].career = new AnimationCurve
-                    { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
-                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].career.keys = GameUtility
-                    .CalculatedSpeedCurve(GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].speed.ToArray())
-                    .ToArray();
-
-
-                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].far = new AnimationCurve
-                    { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
-                GlobalData.Instance.chartData.boxes[currentBoxID].lines[i].far.keys =
-                    GameUtility.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray();
-            }
-
-            #endregion
-        }
-
-        private void WindowSizeChanged_EventEdit2()
-        {
-            eventLineRenderer.lineRendererTextureRect.sizeDelta = labelWindow.labelWindowRect.sizeDelta;
-        }
-
-        private void LabelWindow_onWindowMoved()
-        {
-            eventLineRenderer.lineRendererTextureRect.anchoredPosition = labelWindow.labelWindowRect.anchoredPosition;
-        }
-
-        private void LabelWindow_onWindowGetFocus()
-        {
-            LabelWindowsManager.Instance.lineRendererParent.transform.SetAsLastSibling();
-        }
-
-        private void LabelWindow_onWindowLostFocus()
-        {
-        }
 
         /// <summary>
         ///     裁剪Texture2D
@@ -251,188 +77,110 @@ namespace Form.EventEdit
             return newTexture;
         }
 
-        private void LabelItem_onLabelLostFocus()
+        private void FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
+            out EventVerticalLine nearEventVerticalLine)
         {
-            eventLineRenderer.gameObject.SetActive(false);
-        }
-
-        private void LabelItem_onLabelGetFocus()
-        {
-            eventLineRenderer.gameObject.SetActive(true);
-        }
-
-
-        private void UndoNote()
-        {
-        }
-
-        private void RedoNote()
-        {
-        }
-
-        private void CopyEvent()
-        {
-            Debug.Log("复制事件");
-            isCopy = true;
-            AddEvent2EventClipboard();
-        }
-
-        private void PasteEvent()
-        {
-            Debug.Log("粘贴事件");
-            FindNearBeatLineAndEventVerticalLine(out BeatLine beatLine, out EventVerticalLine verticalLine);
-            if (eventClipboard.Count > 0)
+            nearBeatLine = null;
+            float nearBeatLineDis = float.MaxValue;
+            //第一次
+            foreach (BeatLine item in basicLine.beatLines)
             {
-                InstNewEvents(eventClipboard, beatLine);
+                Debug.Log(
+                    $@"{thisEventEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
+                float dis = Vector2.Distance(MousePositionInThisRectTransform,
+                    (Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) +
+                    labelWindow.labelWindowRect.sizeDelta / 2);
+                if (dis < nearBeatLineDis)
+                {
+                    nearBeatLineDis = dis;
+                    nearBeatLine = item;
+                }
+            }
+
+            nearEventVerticalLine = null;
+            float nearEventVerticalLineDis = float.MaxValue;
+            foreach (EventVerticalLine item in eventVerticalLines)
+            {
+                float dis = Vector2.Distance(MousePositionInThisRectTransform,
+                    (Vector2)item.transform.localPosition + labelWindow.labelWindowRect.sizeDelta / 2);
+                if (dis < nearEventVerticalLineDis)
+                {
+                    nearEventVerticalLineDis = dis;
+                    nearEventVerticalLine = item;
+                }
+            }
+        }
+
+        public IEnumerator WaitForPressureAgain(EventEditItem eventEditItem)
+        {
+            while (true)
+            {
+                if (waitForPressureAgain)
+                {
+                    break;
+                }
+
+                BeatLine nearBeatLine = null;
+                float nearBeatLineDis = float.MaxValue;
+                foreach (BeatLine item in basicLine.beatLines)
+                {
+                    Debug.Log(
+                        $@"{thisEventEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
+                    float dis = Vector2.Distance(MousePositionInThisRectTransform,
+                        (Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) +
+                        labelWindow.labelWindowRect.sizeDelta / 2);
+                    if (dis < nearBeatLineDis)
+                    {
+                        nearBeatLineDis = dis;
+                        nearBeatLine = item;
+                    }
+                }
+
+                eventEditItem.thisEventEditItemRect.sizeDelta = new Vector2(
+                    eventEditItem.thisEventEditItemRect.sizeDelta.x,
+                    nearBeatLine.transform.localPosition.y - eventEditItem.transform.localPosition.y);
+                eventEditItem.@event.endBeats = new BPM(nearBeatLine.thisBPM);
+                StartCoroutine(eventEditItem.DrawLineOnEEI());
+                yield return new WaitForEndOfFrame();
+            }
+
+            waitForPressureAgain = false;
+
+            if (eventEditItem.@event.endBeats.ThisStartBPM - eventEditItem.@event.startBeats.ThisStartBPM <= .0001f)
+            {
+                Debug.LogError("哒咩哒咩，长度为0的Hold！");
+                LogCenter.Log("用户尝试放置长度为0的Hold音符");
+                eventEditItems.Remove(eventEditItem);
+                Destroy(eventEditItem.gameObject);
             }
             else
             {
-                InstNewEvents(otherBoxEventsClipboard, beatLine);
+                //添加事件到对应的地方
+                LogCenter.Log(
+                    $"{eventEditItem.eventType}新事件：{eventEditItem.@event.startBeats.integer}:{eventEditItem.@event.startBeats.molecule}/{eventEditItem.@event.startBeats.denominator}");
+                Steps.Instance.Add(Undo, Redo); 
+                eventEditItems.Add(eventEditItem);
+                AddNewEvent2EventList(eventEditItem);
+
             }
-
-            if (!isCopy)
+            yield return null;
+            void Undo()
             {
-                foreach (EventEditItem eventEditItem in eventClipboard)
-                {
-                    DeleteEvent(eventEditItem);
-                    //Debug.LogError("这里有问题");
-                }
+                //events.Remove(notePropertyEdit.@event.@event);
+                //onEventDeleted(notePropertyEdit.@event);
+                //notePropertyEdit.RefreshEvents();
+                DeleteEvent(eventEditItem);
+                RefreshEditAndChart();
             }
-
-            LogCenter.Log($"成功{isCopy switch { true => "复制", false => "粘贴" }}{eventClipboard.Count}个音符");
-            RefreshEditAndChart();
-
-            onEventRefreshed(eventEditItems);
-        }
-
-        private void InstNewEvents(List<EventEditItem> eventClipboard, BeatLine beatLine)
-        {
-            BPM firstEventStartBeats = eventClipboard[0].@event.startBeats;
-            for (int i = 0; i < eventClipboard.Count; i++)
+            void Redo()
             {
-                EventEditItem @event = eventClipboard[i];
-                Data.ChartEdit.Event copyNewEvent = new(@event.@event);
-                copyNewEvent.startBeats = new BPM(beatLine.thisBPM) +
-                                          (new BPM(@event.@event.startBeats) - new BPM(firstEventStartBeats));
-                copyNewEvent.endBeats = new BPM(beatLine.thisBPM) +
-                                        (new BPM(@event.@event.endBeats) - new BPM(firstEventStartBeats));
-                if (isCopy)
-                {
-                    copyNewEvent.IsSelected = false;
-                }
-
-                //AddEventAndRefresh(copyNewEvent, currentBoxID);
-                AddNewEvent2EventList(copyNewEvent, @event.eventType, true);
-                //Debug.LogError("这里有问题");
+                Event @event = eventEditItem.@event;
+                EventType eventType = eventEditItem.eventType;
+                //eventEditItems.Add(eventEditItem);
+                AddNewEvent2EventList(@event, eventType);
+                RefreshEvents(-1);
             }
         }
 
-        private void RefreshEditAndChart()
-        {
-            RefreshEvents(-1);
-
-            ChartTool.ConvertAllEditEvents2ChartDataEvents(GlobalData.Instance.chartEditData.boxes[currentBoxID],
-                GlobalData.Instance.chartData.boxes[currentBoxID]);
-            onBoxRefreshed(currentBoxID);
-        }
-
-        private void AddEventAndRefresh(Data.ChartEdit.Event copyNewEvent, EventType eventType, int currentBoxID)
-        {
-            List<Data.ChartEdit.Event> events = eventType switch
-            {
-                EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
-                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
-                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
-                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
-                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
-                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
-                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
-                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
-                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
-                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
-                _ => null
-            };
-
-            events.Add(copyNewEvent);
-            Algorithm.BubbleSort(events, (a, b) => //排序
-            {
-                if (a.startBeats.ThisStartBPM > b.startBeats.ThisStartBPM)
-                {
-                    return 1;
-                }
-
-                if (a.startBeats.ThisStartBPM < b.startBeats.ThisStartBPM)
-                {
-                    return -1;
-                }
-
-                return 0;
-            });
-            RefreshEvents(-1);
-        }
-
-        private void CutEvent()
-        {
-            Debug.Log("剪切事件");
-            isCopy = false;
-            AddEvent2EventClipboard();
-        }
-
-        private void AddEvent2EventClipboard()
-        {
-            eventClipboard.Clear();
-            foreach (EventEditItem selectedEventEditItem in selectBox.TransmitObjects().Cast<EventEditItem>())
-            {
-                eventClipboard.Add(selectedEventEditItem);
-            }
-
-            LogCenter.Log($@"已将{eventClipboard.Count}个事件发送至剪切板！");
-        }
-
-        private void MoveUp()
-        {
-            foreach (EventEditItem eventEditItem in selectBox.TransmitObjects().Cast<EventEditItem>())
-            {
-                eventEditItem.@event.startBeats.AddOneBeat();
-                eventEditItem.@event.endBeats.AddOneBeat();
-            }
-
-            LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向上移动一格");
-
-            RefreshEditAndChart();
-        }
-
-        private void MoveDown()
-        {
-            foreach (EventEditItem eventEditItem in selectBox.TransmitObjects().Cast<EventEditItem>())
-            {
-                eventEditItem.@event.startBeats.SubtractionOneBeat();
-                eventEditItem.@event.endBeats.SubtractionOneBeat();
-            }
-
-            LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向下移动一格");
-
-            RefreshEditAndChart();
-        }
-
-        private void DeleteEvent(EventEditItem eventEditItem)
-        {
-            List<Data.ChartEdit.Event> events = eventEditItem.eventType switch
-            {
-                EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
-                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
-                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
-                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
-                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
-                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
-                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
-                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
-                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
-                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
-                _ => throw new Exception("耳朵耷拉下来，呜呜呜，没找到事件类型")
-            };
-            events.Remove(eventEditItem.@event);
-            onEventDeleted(eventEditItem);
-        }
     }
 }
