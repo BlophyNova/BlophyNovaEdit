@@ -150,29 +150,6 @@ namespace Form.NotePropertyEdit
                 RefreshChartPreviewAndChartEditCanvas();
             }
         }
-
-        //private void EventValueChanged(Match match,BPM bpm)
-        //{
-        //    BPM sourceValue = new(bpm);
-        //    BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
-        //    Steps.Instance.Add(Undo, Redo);
-        //    Redo();
-        //    //LogCenter.Log($"事件EndBeats从{bpm.integer}:{bpm.molecule}/{bpm.denominator}变更为{match.Groups[1].Value}:{match.Groups[2].Value}/{match.Groups[3].Value}");
-        //    //BPM endBeats = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
-        //    //    int.Parse(match.Groups[3].Value));
-        //    return;
-        //    void Redo()
-        //    {
-        //        bpm = targetValue;
-        //        RefreshChartPreviewAndChartEditCanvas();
-        //    }
-        //    void Undo()
-        //    {
-        //        bpm = sourceValue;
-        //        RefreshChartPreviewAndChartEditCanvas();
-        //    }
-        //}
-
         private void EaseChanged(int value)
         {
             int sourceValue = @event.@event.curveIndex;
@@ -337,9 +314,5 @@ namespace Form.NotePropertyEdit
             }
         }
 
-        public void SelectedNote(Scenes.Edit.NoteEdit note)
-        {
-            SelectedNote(note.thisNoteData);
-        }
     }
 }

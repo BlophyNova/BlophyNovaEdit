@@ -52,13 +52,14 @@ namespace Form.EventEdit
         {
             Debug.Log("粘贴事件");
             FindNearBeatLineAndEventVerticalLine(out BeatLine beatLine, out EventVerticalLine verticalLine);
+            KeyValueList<Event, EventType> newEvents =null;
             if (eventClipboard.Count > 0)
             {
-                InstNewEvents(eventClipboard, beatLine);
+                newEvents = InstNewEvents(eventClipboard, beatLine);
             }
             else
             {
-                InstNewEvents(otherBoxEventsClipboard, beatLine);
+                newEvents = InstNewEvents(otherBoxEventsClipboard, beatLine);
             }
 
             if (!isCopy)
@@ -71,9 +72,27 @@ namespace Form.EventEdit
             }
 
             LogCenter.Log($"成功{isCopy switch { true => "复制", false => "粘贴" }}{eventClipboard.Count}个音符");
-            RefreshEditAndChart();
-
+            RefreshAll();
+            Steps.Instance.Add(Undo, Redo);
             onEventRefreshed(eventEditItems);
+            return;
+            void Undo()
+            {
+                //foreach (EventEditItem newEvent in newEvents)
+                //{
+                //    DeleteEvent(newEvent);
+                //}
+                for (int i = 0; i < newEvents.Count; i++)
+                {
+                    DeleteEvent(newEvents.GetKey(i),newEvents.GetValue(i));
+                }
+                RefreshAll();
+            }
+            void Redo()
+            {
+                InstNewEvents(newEvents, beatLine);
+                RefreshAll();
+            }
         }
         private void CutEvent()
         {
@@ -91,7 +110,7 @@ namespace Form.EventEdit
 
             LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向上移动一格");
 
-            RefreshEditAndChart();
+            RefreshAll();
         }
 
         private void MoveDown()
@@ -104,7 +123,7 @@ namespace Form.EventEdit
 
             LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向下移动一格");
 
-            RefreshEditAndChart();
+            RefreshAll();
         }
 
         private void DeleteEventWithUI()
@@ -147,14 +166,14 @@ namespace Form.EventEdit
                 Event @event = notePropertyEdit.@event.@event;
                 EventType eventType = notePropertyEdit.@event.eventType;
                 //eventEditItems.Add(eventEditItem);
-                AddNewEvent2EventList(@event, eventType);
-                RefreshEvents(-1);
+                AddEvent(@event, eventType);
+                RefreshEditEvents(-1);
             }
 
             void Redo()
             {
                 DeleteEvent(notePropertyEdit.@event);
-                RefreshEditAndChart();
+                RefreshAll();
             }
         }
 

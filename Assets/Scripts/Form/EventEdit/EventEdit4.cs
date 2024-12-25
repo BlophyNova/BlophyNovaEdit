@@ -22,15 +22,28 @@ namespace Form.EventEdit
     //这里放所有的刷新方法
     public partial class EventEdit
     {
-        private void RefreshEditAndChart()
+        private void RefreshAll()
         {
-            RefreshEvents(-1);
-
-            ChartTool.ConvertAllEditEvents2ChartDataEvents(GlobalData.Instance.chartEditData.boxes[currentBoxID],
-                GlobalData.Instance.chartData.boxes[currentBoxID]);
+            RefreshEditEvents(-1,false);
+            RefreshPlayerEvents(false);
             onBoxRefreshed(currentBoxID);
         }
-        public void RefreshEvents(int boxID)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="isExeRefreshEvent">是否执行刷新事件</param>
+        private void RefreshPlayerEvents(bool isExeRefreshEvent=true)
+        {
+            ChartTool.ConvertAllEditEvents2ChartDataEvents(GlobalData.Instance.chartEditData.boxes[currentBoxID],
+                GlobalData.Instance.chartData.boxes[currentBoxID]);
+            if (isExeRefreshEvent)
+                onBoxRefreshed(currentBoxID);
+        }
+        /// <summary>
+        /// 刷新某一个方框的所有事件
+        /// </summary>
+        /// <param name="boxID">方框ID</param>
+        public void RefreshEditEvents(int boxID, bool isExeRefreshEvent = true)
         {
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
             LogCenter.Log($"成功更改框号为{currentBoxID}");
@@ -39,7 +52,34 @@ namespace Form.EventEdit
                 EventCopy();
             }
 
-            StartCoroutine(RefreshEvents());
+            StartCoroutine(RefreshEditEvents(isExeRefreshEvent));
+        }
+        public IEnumerator RefreshEditEvents(bool isExeRefreshEvent = true)
+        {
+            yield return new WaitForEndOfFrame();
+            foreach (EventEditItem item in eventEditItems)
+            {
+                Destroy(item.gameObject);
+            }
+
+            eventEditItems.Clear();
+            if (isRef)
+            {
+                RefreshEditEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed, EventType.Speed);
+                RefreshEditEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX, EventType.CenterX);
+                RefreshEditEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY, EventType.CenterY);
+                RefreshEditEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX, EventType.MoveX);
+                RefreshEditEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY, EventType.MoveY);
+                RefreshEditEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX, EventType.ScaleX);
+                RefreshEditEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY, EventType.ScaleY);
+                RefreshEditEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate, EventType.Rotate);
+                RefreshEditEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha, EventType.Alpha);
+                RefreshEditEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha, EventType.LineAlpha);
+            }
+
+            UpdateNoteLocalPositionAndSize();
+            onEventRefreshed(eventEditItems);
+            if(isExeRefreshEvent) onBoxRefreshed(currentBoxID);
         }
         /// <summary>
         /// 此方法的作用是，如果要换框，那就把当前剪切板的内容复制到其他剪切板中，实现跨框复制事件的功能
@@ -67,35 +107,7 @@ namespace Form.EventEdit
             }
         }
 
-        public IEnumerator RefreshEvents()
-        {
-            yield return new WaitForEndOfFrame();
-            foreach (EventEditItem item in eventEditItems)
-            {
-                Destroy(item.gameObject);
-            }
-
-            eventEditItems.Clear();
-            if (isRef)
-            {
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed, EventType.Speed);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX, EventType.CenterX);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY, EventType.CenterY);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX, EventType.MoveX);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY, EventType.MoveY);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX, EventType.ScaleX);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY, EventType.ScaleY);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate, EventType.Rotate);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha, EventType.Alpha);
-                RefreshEvent(GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha, EventType.LineAlpha);
-            }
-
-            UpdateNoteLocalPositionAndSize();
-            onEventRefreshed(eventEditItems);
-            onBoxRefreshed(currentBoxID);
-        }
-
-        private void RefreshEvent(List<Event> events, EventType eventType)
+        private void RefreshEditEvent(List<Event> events, EventType eventType)
         {
             foreach (Event @event in events)
             {
@@ -164,7 +176,7 @@ namespace Form.EventEdit
 
                 return 0;
             });
-            RefreshEvents(-1);
+            RefreshEditEvents(-1);
         }
     }
 }

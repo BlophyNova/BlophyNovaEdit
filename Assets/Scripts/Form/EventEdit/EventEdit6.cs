@@ -28,47 +28,25 @@ namespace Form.EventEdit
     //这里放处理数据的方法
     public partial class EventEdit
     {
-
         private void DeleteEvent(EventEditItem eventEditItem)
         {
-            List<Data.ChartEdit.Event> events = eventEditItem.eventType switch
-            {
-                EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
-                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
-                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
-                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
-                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
-                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
-                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
-                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
-                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
-                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
-                _ => throw new Exception("耳朵耷拉下来，呜呜呜，没找到事件类型")
-            };
+            List<Event> events = FindEditEventListByEventType(eventEditItem.eventType); 
             events.Remove(eventEditItem.@event);
             onEventDeleted(eventEditItem);
         }
-        private void AddNewEvent2EventList(EventEditItem eventEditItem)
+        private void DeleteEvent(Event @event,EventType eventType)
         {
-            AddNewEvent2EventList(eventEditItem.@event, eventEditItem.eventType);
+            List<Event> events = FindEditEventListByEventType(eventType);
+            events.Remove(@event);
+        }
+        private void AddEvent(EventEditItem eventEditItem)
+        {
+            AddEvent(eventEditItem.@event, eventEditItem.eventType);
         }
 
-        private void AddNewEvent2EventList(Data.ChartEdit.Event @event, EventType eventType, bool isPaste = false)
+        private void AddEvent(Data.ChartEdit.Event @event, EventType eventType, bool isPaste = false)
         {
-            List<Data.ChartEdit.Event> events = eventType switch
-            {
-                EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
-                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
-                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
-                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
-                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
-                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
-                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
-                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
-                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
-                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
-                _ => null
-            };
+            List<Event> events = FindEditEventListByEventType(eventType);
             if (!isPaste)
             {
                 @event.startValue = @event.endValue = events[^1].endValue;
@@ -79,19 +57,46 @@ namespace Form.EventEdit
             events.Add(@event);
             Algorithm.BubbleSort(events, (a, b) => //排序
             {
-                if (a.startBeats.ThisStartBPM > b.startBeats.ThisStartBPM)
-                {
-                    return 1;
-                }
-
-                if (a.startBeats.ThisStartBPM < b.startBeats.ThisStartBPM)
-                {
-                    return -1;
-                }
-
+                if (a.startBeats.ThisStartBPM > b.startBeats.ThisStartBPM) return 1;
+                if (a.startBeats.ThisStartBPM < b.startBeats.ThisStartBPM) return -1;
                 return 0;
             });
-            List<Data.ChartData.Event> chartDataEvents = eventType switch
+            List<Data.ChartData.Event> chartDataEvents = FindPlayerEventListByEventType(eventType);
+            if (chartDataEvents == null)
+            {
+                SpeedEvent(eventType);
+                return;
+            }
+
+            ChartTool.InsertEditEvent2PlayerEvent(chartDataEvents, @event);
+
+            SyncScaleY(@event, eventType, isPaste);
+            //Debug.LogError("错误记忆");
+        }
+
+        private void SyncScaleY(Event @event, EventType eventType, bool isPaste)
+        {
+            if (eventType == EventType.ScaleX && !isPaste) //同步scaleY
+            {
+                List<Data.ChartEdit.Event> scaleYEvents =
+                    GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY;
+                scaleYEvents.Add(new Data.ChartEdit.Event(@event));
+                Algorithm.BubbleSort(scaleYEvents, (a, b) => //排序
+                {
+                    if (a.startBeats.ThisStartBPM > b.startBeats.ThisStartBPM) return 1;
+                    if (a.startBeats.ThisStartBPM < b.startBeats.ThisStartBPM) return -1;
+                    return 0;
+                });
+                ChartTool.InsertEditEvent2PlayerEvent(
+                    GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.scaleY,
+                    new Data.ChartEdit.Event(@event));
+                RefreshEditEvents(-1);
+            }
+        }
+
+        private List<Data.ChartData.Event> FindPlayerEventListByEventType(EventType eventType)
+        {
+            return eventType switch
             {
                 EventType.CenterX => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.centerX,
                 EventType.CenterY => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.centerY,
@@ -104,40 +109,26 @@ namespace Form.EventEdit
                 EventType.LineAlpha => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.lineAlpha,
                 _ => null
             };
-            if (chartDataEvents == null)
-            {
-                SpeedEvent(eventType);
-                return;
-            }
-
-            ChartTool.RefreshChartEventByChartEditEvent(chartDataEvents, @event);
-
-            if (eventType == EventType.ScaleX && !isPaste) //同步scaleY
-            {
-                List<Data.ChartEdit.Event> scaleYEvents =
-                    GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY;
-                scaleYEvents.Add(new Data.ChartEdit.Event(@event));
-                Algorithm.BubbleSort(scaleYEvents, (a, b) => //排序
-                {
-                    if (a.startBeats.ThisStartBPM > b.startBeats.ThisStartBPM)
-                    {
-                        return 1;
-                    }
-
-                    if (a.startBeats.ThisStartBPM < b.startBeats.ThisStartBPM)
-                    {
-                        return -1;
-                    }
-
-                    return 0;
-                });
-                ChartTool.RefreshChartEventByChartEditEvent(
-                    GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.scaleY,
-                    new Data.ChartEdit.Event(@event));
-                RefreshEvents(-1);
-            }
-            //Debug.LogError("错误记忆");
         }
+
+        private List<Event> FindEditEventListByEventType(EventType eventType)
+        {
+            return eventType switch
+            {
+                EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
+                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
+                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
+                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
+                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
+                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
+                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
+                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
+                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
+                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
+                _ => null
+            };
+        }
+
         private void AddEvent2EventClipboard()
         {
             eventClipboard.Clear();
@@ -145,7 +136,6 @@ namespace Form.EventEdit
             {
                 eventClipboard.Add(selectedEventEditItem);
             }
-
             LogCenter.Log($@"已将{eventClipboard.Count}个事件发送至剪切板！");
         }
         private void SpeedEvent(EventType eventType)
@@ -182,25 +172,45 @@ namespace Form.EventEdit
             #endregion
         }
 
-        private void InstNewEvents(List<EventEditItem> eventClipboard, BeatLine beatLine)
+        private KeyValueList<Event,EventType> InstNewEvents(List<EventEditItem> eventClipboard, BeatLine beatLine)
         {
+            KeyValueList<Event, EventType> newEvents = new();
             BPM firstEventStartBeats = eventClipboard[0].@event.startBeats;
             for (int i = 0; i < eventClipboard.Count; i++)
             {
                 EventEditItem @event = eventClipboard[i];
-                Data.ChartEdit.Event copyNewEvent = new(@event.@event);
-                copyNewEvent.startBeats = new BPM(beatLine.thisBPM) +
-                                          (new BPM(@event.@event.startBeats) - new BPM(firstEventStartBeats));
-                copyNewEvent.endBeats = new BPM(beatLine.thisBPM) +
-                                        (new BPM(@event.@event.endBeats) - new BPM(firstEventStartBeats));
+                Event copyNewEvent = new(@event.@event)
+                {
+                    startBeats = new BPM(beatLine.thisBPM) + (new BPM(@event.@event.startBeats) - new BPM(firstEventStartBeats)),
+                    endBeats = new BPM(beatLine.thisBPM) + (new BPM(@event.@event.endBeats) - new BPM(firstEventStartBeats))
+                };
                 if (isCopy)
                 {
                     copyNewEvent.IsSelected = false;
                 }
-
+                newEvents.Add(copyNewEvent,@event.eventType);
                 //AddEventAndRefresh(copyNewEvent, currentBoxID);
-                AddNewEvent2EventList(copyNewEvent, @event.eventType, true);
-                //Debug.LogError("这里有问题");
+                AddEvent(copyNewEvent, @event.eventType, true);
+            }
+            return newEvents;
+        }
+        private void InstNewEvents(KeyValueList<Event, EventType> eventClipboard, BeatLine beatLine)
+        {
+            BPM firstEventStartBeats = eventClipboard[0].startBeats;
+            for (int i = 0; i < eventClipboard.Count; i++)
+            {
+                Event @event = eventClipboard[i];
+                Event copyNewEvent = new(@event)
+                {
+                    startBeats = new BPM(beatLine.thisBPM) + (new BPM(@event.startBeats) - new BPM(firstEventStartBeats)),
+                    endBeats = new BPM(beatLine.thisBPM) + (new BPM(@event.endBeats) - new BPM(firstEventStartBeats))
+                };
+                if (isCopy)
+                {
+                    copyNewEvent.IsSelected = false;
+                }
+                //AddEventAndRefresh(copyNewEvent, currentBoxID);
+                AddEvent(copyNewEvent, eventClipboard.GetValue(i), true);
             }
         }
     }

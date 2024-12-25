@@ -160,25 +160,24 @@ namespace Form.EventEdit
                     $"{eventEditItem.eventType}新事件：{eventEditItem.@event.startBeats.integer}:{eventEditItem.@event.startBeats.molecule}/{eventEditItem.@event.startBeats.denominator}");
                 Steps.Instance.Add(Undo, Redo); 
                 eventEditItems.Add(eventEditItem);
-                AddNewEvent2EventList(eventEditItem);
+                AddEvent(eventEditItem);
 
             }
-            yield return null;
             void Undo()
             {
                 //events.Remove(notePropertyEdit.@event.@event);
                 //onEventDeleted(notePropertyEdit.@event);
                 //notePropertyEdit.RefreshEvents();
                 DeleteEvent(eventEditItem);
-                RefreshEditAndChart();
+                RefreshAll();
             }
             void Redo()
             {
                 Event @event = eventEditItem.@event;
                 EventType eventType = eventEditItem.eventType;
                 //eventEditItems.Add(eventEditItem);
-                AddNewEvent2EventList(@event, eventType);
-                RefreshEvents(-1);
+                AddEvent(@event, eventType);
+                RefreshEditEvents(-1);
             }
         }
 

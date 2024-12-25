@@ -155,7 +155,7 @@ namespace Form.NotePropertyEdit
                     .scaleY);
             }
 
-            eventEdit.RefreshEvents(-1);
+            eventEdit.RefreshEditEvents(-1);
             //GlobalData.Refresh<IRefreshUI>((interfaceMethod) => interfaceMethod.RefreshUI());
         }
 
@@ -223,6 +223,10 @@ namespace Form.NotePropertyEdit
 
             GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
             LogCenter.Log("音符属性编辑控件接收一个事件");
+        }
+        public void SelectedNote(Scenes.Edit.NoteEdit note)
+        {
+            SelectedNote(note.thisNoteData);
         }
     }
 }

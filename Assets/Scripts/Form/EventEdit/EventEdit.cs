@@ -62,7 +62,7 @@ namespace Form.EventEdit
             labelItem.onLabelGetFocus += LabelItem_onLabelGetFocus;
             labelItem.onLabelLostFocus += LabelItem_onLabelLostFocus;
             onEventRefreshed += EventEdit_onEventRefreshed;
-            RefreshEvents(currentBoxID);
+            RefreshEditEvents(currentBoxID);
             UpdateVerticalLineCount();
             UpdateNoteLocalPositionAndSize();
             eventLineRenderer = Instantiate(eventLineRendererPrefab, LabelWindowsManager.Instance.lineRendererParent);
@@ -114,7 +114,7 @@ namespace Form.EventEdit
         public void Refresh()
         {
             UpdateVerticalLineCount();
-            RefreshEvents(-1);
+            RefreshEditEvents(-1);
         }
 
         public List<ISelectBoxItem> TransmitObjects()

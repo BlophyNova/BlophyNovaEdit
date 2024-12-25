@@ -59,7 +59,7 @@ namespace Form.PropertyEdit
                 if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit)
                 {
                     EventEdit.EventEdit eventEdit = (EventEdit.EventEdit)item.labelWindowContent;
-                    eventEdit.RefreshEvents(boxID);
+                    eventEdit.RefreshEditEvents(boxID);
                 }
 
                 if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)

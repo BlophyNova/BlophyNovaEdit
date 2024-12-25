@@ -50,7 +50,8 @@ namespace UtilityCode.ChartTool
             //}
         }
 
-        public static void RefreshChartEventByChartEditEvent(List<Event> chartDataEvent,
+        //public static void RefreshChartEventByChartEditEvent(List<Event> chartDataEvent,
+        public static void InsertEditEvent2PlayerEvent(List<Event> chartDataEvent,
             Data.ChartEdit.Event chartEditDataEvent)
         {
             int index_noteEdits = Algorithm.Algorithm.BinarySearch(chartDataEvent,
