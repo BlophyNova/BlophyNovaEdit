@@ -175,38 +175,53 @@ namespace Form.EventEdit
 
         private void DeleteEventWithUI()
         {
-            if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType ==
-                LabelWindowContentType.NotePropertyEdit)
+            if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType !=
+                LabelWindowContentType.NotePropertyEdit)return;
+            NotePropertyEdit.NotePropertyEdit notePropertyEdit =
+                (NotePropertyEdit.NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem
+                    .labelWindowContent;
+            List<Event> events = notePropertyEdit.@event.eventType switch
             {
-                NotePropertyEdit.NotePropertyEdit notePropertyEdit =
-                    (NotePropertyEdit.NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem
-                        .labelWindowContent;
-                List<Event> events = notePropertyEdit.@event.eventType switch
-                {
-                    EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
-                    EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
-                    EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
-                    EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
-                    EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
-                    EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
-                    EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
-                    EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
-                    EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
-                    EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
-                    _ => throw new Exception("耳朵耷拉下来，呜呜呜，没找到事件类型")
-                };
-                if (events.FindIndex(item => item.Equals(notePropertyEdit.@event.@event)) == 0)
-                {
-                    LogCenter.Log($"用户尝试删除{notePropertyEdit.@event.eventType}的第一个事件");
-                    Alert.EnableAlert("这是第一个事件，不支持删除了啦~");
-                    return;
-                }
+                EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
+                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
+                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
+                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
+                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
+                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
+                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
+                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
+                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
+                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
+                _ => throw new Exception("耳朵耷拉下来，呜呜呜，没找到事件类型")
+            };
+            if (events.FindIndex(item => item.Equals(notePropertyEdit.@event.@event)) == 0)
+            {
+                LogCenter.Log($"用户尝试删除{notePropertyEdit.@event.eventType}的第一个事件");
+                Alert.EnableAlert("这是第一个事件，不支持删除了啦~");
+                return;
+            }
 
-                LogCenter.Log(
-                    $"{notePropertyEdit.@event.eventType}的{notePropertyEdit.@event.@event.startBeats.integer}:{notePropertyEdit.@event.@event.startBeats.molecule}/{notePropertyEdit.@event.@event.startBeats.denominator}事件被删除");
-                events.Remove(notePropertyEdit.@event.@event);
-                onEventDeleted(notePropertyEdit.@event);
-                notePropertyEdit.RefreshEvents();
+            LogCenter.Log(
+                $"{notePropertyEdit.@event.eventType}的{notePropertyEdit.@event.@event.startBeats.integer}:{notePropertyEdit.@event.@event.startBeats.molecule}/{notePropertyEdit.@event.@event.startBeats.denominator}事件被删除");
+            events.Remove(notePropertyEdit.@event.@event);
+            onEventDeleted(notePropertyEdit.@event);
+            notePropertyEdit.RefreshEvents();
+            Steps.Instance.Add(Undo, Redo);
+            return;
+            void Undo()
+            {
+
+                Event @event = notePropertyEdit.@event.@event;
+                EventType eventType = notePropertyEdit.@event.eventType;
+                //eventEditItems.Add(eventEditItem);
+                AddNewEvent2EventList(@event, eventType);
+                RefreshEvents(-1);
+            }
+            
+            void Redo()
+            {
+                DeleteEvent(notePropertyEdit.@event);
+                RefreshEditAndChart();
             }
         }
 
