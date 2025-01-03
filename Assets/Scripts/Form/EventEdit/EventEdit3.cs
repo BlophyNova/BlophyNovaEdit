@@ -139,8 +139,9 @@ namespace Form.EventEdit
             List<EventEditItem> selectedBox = selectBox.TransmitObjects().Cast<EventEditItem>().ToList();
             foreach (EventEditItem eventEditItem in selectedBox)
             {
+                BPM delta =new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
                 eventEditItem.@event.startBeats.AddOneBeat();
-                eventEditItem.@event.endBeats.AddOneBeat();
+                eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
             }
 
             LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向上移动一格");
@@ -152,8 +153,9 @@ namespace Form.EventEdit
             {
                 foreach (EventEditItem eventEditItem in selectedBox)
                 {
+                    BPM delta =new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
                     eventEditItem.@event.startBeats.SubtractionOneBeat();
-                    eventEditItem.@event.endBeats.SubtractionOneBeat();
+                    eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
                 }
             }
 
@@ -161,8 +163,9 @@ namespace Form.EventEdit
             {
                 foreach (EventEditItem eventEditItem in selectedBox)
                 {
+                    BPM delta =new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
                     eventEditItem.@event.startBeats.AddOneBeat();
-                    eventEditItem.@event.endBeats.AddOneBeat();
+                    eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
                 }
             }
         }
@@ -172,8 +175,9 @@ namespace Form.EventEdit
             List<EventEditItem> selectedBox = selectBox.TransmitObjects().Cast<EventEditItem>().ToList();
             foreach (EventEditItem eventEditItem in selectedBox)
             {
+                BPM delta =new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
                 eventEditItem.@event.startBeats.SubtractionOneBeat();
-                eventEditItem.@event.endBeats.SubtractionOneBeat();
+                eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
             }
 
             LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向下移动一格");
@@ -185,8 +189,9 @@ namespace Form.EventEdit
             {
                 foreach (EventEditItem eventEditItem in selectedBox)
                 {
+                    BPM delta =new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
                     eventEditItem.@event.startBeats.AddOneBeat();
-                    eventEditItem.@event.endBeats.AddOneBeat();
+                    eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
                 }
             }
 
@@ -194,8 +199,9 @@ namespace Form.EventEdit
             {
                 foreach (EventEditItem eventEditItem in selectedBox)
                 {
+                    BPM delta =new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
                     eventEditItem.@event.startBeats.SubtractionOneBeat();
-                    eventEditItem.@event.endBeats.SubtractionOneBeat();
+                    eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
                 }
             }
         }

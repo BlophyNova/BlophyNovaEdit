@@ -123,19 +123,14 @@ namespace Scenes.Edit
                     Debug.Log("SelectBox第一帧");
                     StartHandle();
                 }
-
-                Debug.Log($"SelectBox被按下，noteEdit={noteEdit}，eventEdit={eventEdit}");
-
                 HoldHandle();
-
                 return;
             }
 
-            if (!selectBoxTexture.color.Equals(disableSelectBoxTextureColor))
-            {
-                Debug.Log("SelectBox最后一帧");
-                EndHandle();
-            }
+            if (selectBoxTexture.color.Equals(disableSelectBoxTextureColor)) return;
+
+            Debug.Log("SelectBox最后一帧");
+            EndHandle();
         }
 
         public List<ISelectBoxItem> TransmitObjects()

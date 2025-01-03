@@ -136,7 +136,6 @@ namespace Form.EventEdit
                         newEventEditItem.@event = @event;
                         newEventEditItem.eventType = eventType;
                         newEventEditItem.SetSelectState(@event.IsSelected);
-                        Debug.Log($"{currentBoxID}号方框的{eventVerticalLine.eventType}生成了一个新的eei");
                         eventEditItems.Add(newEventEditItem);
                         newEventEditItem.Init();
                     }

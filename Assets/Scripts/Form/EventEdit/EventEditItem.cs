@@ -61,7 +61,6 @@ namespace Form.EventEdit
             ThisEventEdit.labelItem.onLabelGetFocus -= LabelWindow_onLabelGetFocus;
             ThisEventEdit.labelItem.onLabelLostFocus -= LabelWindow_onLabelLostFocus;
             labelWindow.onWindowSizeChanged -= LabelWindow_onWindowSizeChanged;
-            Debug.Log($@"呜呜，我是EEI，喔被销毁了，我的相关信息如下：startBeats:{@event.startBeats};eventType:{eventType};");
         }
 
         public bool IsNoteEdit => false;
@@ -77,8 +76,6 @@ namespace Form.EventEdit
         {
             @event.IsSelected = active;
             isSelectedRect.gameObject.SetActive(active);
-            LogCenter.Log(
-                $@"{ThisEventEdit.currentBoxID}号框的{eventType}事件的{@event.startBeats.integer}:{@event.startBeats.molecule}/{@event.startBeats.denominator}的选择状态被改为：{isSelectedRect.gameObject.activeSelf}");
         }
 
         private void LabelWindow_onWindowSizeChanged()

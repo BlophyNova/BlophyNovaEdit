@@ -124,16 +124,13 @@ namespace Form.EventEdit
                 float nearBeatLineDis = float.MaxValue;
                 foreach (BeatLine item in basicLine.beatLines)
                 {
-                    Debug.Log(
-                        $@"{thisEventEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
                     float dis = Vector2.Distance(MousePositionInThisRectTransform,
                         (Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) +
                         labelWindow.labelWindowRect.sizeDelta / 2);
-                    if (dis < nearBeatLineDis)
-                    {
-                        nearBeatLineDis = dis;
-                        nearBeatLine = item;
-                    }
+                    if (!(dis < nearBeatLineDis)) continue;
+
+                    nearBeatLineDis = dis;
+                    nearBeatLine = item;
                 }
 
                 eventEditItem.thisEventEditItemRect.sizeDelta = new Vector2(
@@ -163,6 +160,9 @@ namespace Form.EventEdit
                 AddEvent(eventEditItem);
 
             }
+
+            yield break;
+
             void Undo()
             {
                 //events.Remove(notePropertyEdit.@event.@event);

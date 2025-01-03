@@ -144,7 +144,6 @@ namespace Form.NotePropertyEdit
                 List<Event> scaleY = GlobalData.Instance.chartEditData.boxes[eventEdit.currentBoxID].boxEvents.scaleY;
                 for (int i = 0; i < scaleY.Count; i++)
                 {
-                    Debug.Log($@"scaleY中第{i}个事件的结果为：{eventMemory.Equals(scaleY[i])}");
                     if (eventMemory.Equals(scaleY[i]))
                     {
                         scaleY[i] = new Event(@event.@event);
@@ -191,7 +190,6 @@ namespace Form.NotePropertyEdit
 
             postionX.SetTextWithoutNotify($"{this.note.positionX}");
             isClockwise.SetIsOnWithoutNotify(this.note.isClockwise);
-            LogCenter.Log("音符属性编辑控件接收一个音符");
         }
 
         public void SelectedNote(EventEditItem @event)
@@ -222,7 +220,6 @@ namespace Form.NotePropertyEdit
             ease.SetValueWithoutNotify(@event.@event.curveIndex);
 
             GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
-            LogCenter.Log("音符属性编辑控件接收一个事件");
         }
         public void SelectedNote(Scenes.Edit.NoteEdit note)
         {

@@ -138,5 +138,34 @@ namespace UtilityCode.Algorithm
                 }
             }
         }
+        /// <summary>
+        /// 获取最大公约数
+        /// </summary>
+        /// <param name="n1"></param>
+        /// <param name="n2"></param>
+        /// <returns></returns>
+        public static int GetLargestCommonDivisor(int n1, int n2)
+        {
+            int max = Mathf.Max(n1,n2);
+            int min = Mathf.Min(n1,n2);
+            int remainder;
+            while (min != 0)
+            {
+                remainder = max % min;
+                max = min;
+                min = remainder;
+            }
+            return max;
+        }
+        /// <summary>
+        /// 获取最小公倍数
+        /// </summary>
+        /// <param name="n1"></param>
+        /// <param name="n2"></param>
+        /// <returns></returns>
+        public static int GetLeastCommonMutiple(int n1, int n2)
+        {
+            return n1 * n2 / GetLargestCommonDivisor(n1, n2);
+        }
     }
 }

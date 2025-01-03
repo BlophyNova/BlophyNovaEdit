@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Data.ChartData;
 using Newtonsoft.Json;
 using UnityEngine;
+using UtilityCode.Algorithm;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 
 namespace Data.ChartEdit
@@ -71,9 +72,9 @@ namespace Data.ChartEdit
         public static BPM Zero => new();
         public static BPM One => new(1, 0, 1);
 
-        public void AddOneBeat()
+        public void AddOneBeat(int beatSubdivision=-1)
         {
-            denominator = GlobalData.Instance.chartEditData.beatSubdivision;
+            denominator =GlobalData.Instance.chartEditData.beatSubdivision;
             if (molecule < denominator - 1)
             {
                 molecule++;
@@ -85,9 +86,9 @@ namespace Data.ChartEdit
             }
         }
 
-        public void SubtractionOneBeat()
+        public void SubtractionOneBeat(int beatSubdivision=-1)
         {
-            denominator = GlobalData.Instance.chartEditData.beatSubdivision;
+            denominator = beatSubdivision<=0? GlobalData.Instance.chartEditData.beatSubdivision:beatSubdivision;
             if (molecule > 0)
             {
                 molecule--;
@@ -101,13 +102,20 @@ namespace Data.ChartEdit
 
         public static BPM operator +(BPM a, BPM b)
         {
-            while (b.ThisStartBPM > 0)
+            BPM _a = new(a);
+            BPM _b = new(b);
+            int _c = Algorithm.GetLeastCommonMutiple(_a.denominator, _b.denominator);
+            _a.denominator = _c;
+            _b.denominator = _c;
+            _a.molecule *= _c / _a.denominator;
+            _b.molecule *= _c / _b.denominator;
+            while (_b.ThisStartBPM > 0)
             {
-                a.AddOneBeat();
-                b.SubtractionOneBeat();
+                _a.AddOneBeat();
+                _b.SubtractionOneBeat();
             }
 
-            return a;
+            return _a;
         }
 
         public static BPM operator -(BPM a, BPM b)
@@ -241,11 +249,7 @@ namespace Data.ChartEdit
         public BPM HitBeats
         {
             get => hitBeats;
-            set
-            {
-                hitBeats = value;
-                Debug.Log(@"有人在碰我敏感肌呜呜呜···");
-            }
+            set=>hitBeats = value;
         }
 
         [JsonIgnore]
@@ -442,18 +446,8 @@ namespace Data.ChartEdit
 
         public bool IsSelected
         {
-            get
-            {
-                Debug.Log(
-                    @$"startBeats:{startBeats.integer}:{startBeats.molecule}/{startBeats.denominator};IsSelected：{isSelected}");
-                return isSelected;
-            }
-            set
-            {
-                isSelected = value;
-                Debug.Log(
-                    @$"startBeats:{startBeats.integer}:{startBeats.molecule}/{startBeats.denominator};IsSelected：{isSelected}");
-            }
+            get=>isSelected;
+            set=>isSelected = value;
         }
 
         //public EaseData curve;
