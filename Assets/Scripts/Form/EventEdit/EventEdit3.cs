@@ -143,8 +143,27 @@ namespace Form.EventEdit
             }
 
             LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向上移动一格");
-
+            Steps.Instance.Add(Undo,Redo,RefreshAll);
             RefreshAll();
+            return;
+
+            void Undo()
+            {
+                foreach (EventEditItem eventEditItem in selectBox.TransmitObjects().Cast<EventEditItem>())
+                {
+                    eventEditItem.@event.startBeats.SubtractionOneBeat();
+                    eventEditItem.@event.endBeats.SubtractionOneBeat();
+                }
+            }
+
+            void Redo()
+            {
+                foreach (EventEditItem eventEditItem in selectBox.TransmitObjects().Cast<EventEditItem>())
+                {
+                    eventEditItem.@event.startBeats.AddOneBeat();
+                    eventEditItem.@event.endBeats.AddOneBeat();
+                }
+            }
         }
 
         private void MoveDown()
