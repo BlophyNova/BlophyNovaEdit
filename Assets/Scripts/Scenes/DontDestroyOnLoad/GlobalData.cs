@@ -72,6 +72,17 @@ namespace Scenes.DontDestroyOnLoad
                 //chartData.boxes = ChartTool.ConvertChartEdit2ChartData(chartEditData.boxes);
             }
 
+            if (File.Exists($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"))
+            {
+                if(bool.TryParse(File.ReadAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"),out bool result)&&!result)
+                {
+                    ShowDisclaimer();
+                }
+            }
+            else
+            {
+                ShowDisclaimer();
+            }
             while (true)
             {
                 yield return new WaitForSeconds(.1f);
@@ -84,6 +95,12 @@ namespace Scenes.DontDestroyOnLoad
                 loopCallBacks.RemoveAt(0);
                 action();
             }
+        }
+
+        private static void ShowDisclaimer()
+        {
+            Alert.EnableAlert("使用本软件制作谱面之前，请明确获得相关素材的作者授权，本软件以及开发者不为因使用未授权的相关素材或其他形式产生的版权问题负责。继续使用本软件代表您同意，否则关闭本软件。");
+            File.WriteAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt","True");
         }
 
         private void OnDestroy()

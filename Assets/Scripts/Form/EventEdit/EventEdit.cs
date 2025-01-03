@@ -96,16 +96,16 @@ namespace Form.EventEdit
             //事件w抬起的时候调用
             Action action = callbackContext.action.name switch
             {
-                "AddEvent" => () => AddEvent(),
-                "Delete" => () => DeleteEventWithUI(),
-                "SelectBox" => () => SelectBoxUp(),
-                "Undo" => () => UndoNote(),
-                "Redo" => () => RedoNote(),
-                "Copy" => () => CopyEvent(),
-                "Paste" => () => PasteEvent(),
-                "Cut" => () => CutEvent(),
-                "MoveUp" => () => MoveUp(),
-                "MoveDown" => () => MoveDown(),
+                "AddEvent" => AddEvent,
+                "Delete" => DeleteEventWithUI,
+                "SelectBox" => SelectBoxUp,
+                "Undo" => UndoNote,
+                "Redo" => RedoNote,
+                "Copy" => CopyEvent,
+                "Paste" => PasteEvent,
+                "Cut" => CutEvent,
+                "MoveUp" => MoveUp,
+                "MoveDown" => MoveDown,
                 _ => () => Alert.EnableAlert("欸···？怎么回事，怎么会找不到你想添加的是哪个音符呢···")
             };
             action();
