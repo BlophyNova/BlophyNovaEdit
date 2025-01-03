@@ -136,7 +136,8 @@ namespace Form.EventEdit
         }
         private void MoveUp()
         {
-            foreach (EventEditItem eventEditItem in selectBox.TransmitObjects().Cast<EventEditItem>())
+            List<EventEditItem> selectedBox = selectBox.TransmitObjects().Cast<EventEditItem>().ToList();
+            foreach (EventEditItem eventEditItem in selectedBox)
             {
                 eventEditItem.@event.startBeats.AddOneBeat();
                 eventEditItem.@event.endBeats.AddOneBeat();
@@ -149,7 +150,7 @@ namespace Form.EventEdit
 
             void Undo()
             {
-                foreach (EventEditItem eventEditItem in selectBox.TransmitObjects().Cast<EventEditItem>())
+                foreach (EventEditItem eventEditItem in selectedBox)
                 {
                     eventEditItem.@event.startBeats.SubtractionOneBeat();
                     eventEditItem.@event.endBeats.SubtractionOneBeat();
@@ -158,7 +159,7 @@ namespace Form.EventEdit
 
             void Redo()
             {
-                foreach (EventEditItem eventEditItem in selectBox.TransmitObjects().Cast<EventEditItem>())
+                foreach (EventEditItem eventEditItem in selectedBox)
                 {
                     eventEditItem.@event.startBeats.AddOneBeat();
                     eventEditItem.@event.endBeats.AddOneBeat();
@@ -168,15 +169,35 @@ namespace Form.EventEdit
 
         private void MoveDown()
         {
-            foreach (EventEditItem eventEditItem in selectBox.TransmitObjects().Cast<EventEditItem>())
+            List<EventEditItem> selectedBox = selectBox.TransmitObjects().Cast<EventEditItem>().ToList();
+            foreach (EventEditItem eventEditItem in selectedBox)
             {
                 eventEditItem.@event.startBeats.SubtractionOneBeat();
                 eventEditItem.@event.endBeats.SubtractionOneBeat();
             }
 
             LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向下移动一格");
-
+            Steps.Instance.Add(Undo, Redo, RefreshAll);
             RefreshAll();
+            return;
+
+            void Undo()
+            {
+                foreach (EventEditItem eventEditItem in selectedBox)
+                {
+                    eventEditItem.@event.startBeats.AddOneBeat();
+                    eventEditItem.@event.endBeats.AddOneBeat();
+                }
+            }
+
+            void Redo()
+            {
+                foreach (EventEditItem eventEditItem in selectedBox)
+                {
+                    eventEditItem.@event.startBeats.SubtractionOneBeat();
+                    eventEditItem.@event.endBeats.SubtractionOneBeat();
+                }
+            }
         }
 
         private void DeleteEventWithUI()
