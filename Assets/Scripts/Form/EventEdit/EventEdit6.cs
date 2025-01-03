@@ -172,7 +172,7 @@ namespace Form.EventEdit
             #endregion
         }
 
-        private KeyValueList<Event,EventType> InstNewEvents(List<EventEditItem> eventClipboard, BeatLine beatLine)
+        private KeyValueList<Event,EventType> InstNewEvents(List<EventEditItem> eventClipboard, BPM beatLineBpm)
         {
             KeyValueList<Event, EventType> newEvents = new();
             BPM firstEventStartBeats = eventClipboard[0].@event.startBeats;
@@ -181,8 +181,8 @@ namespace Form.EventEdit
                 EventEditItem @event = eventClipboard[i];
                 Event copyNewEvent = new(@event.@event)
                 {
-                    startBeats = new BPM(beatLine.thisBPM) + (new BPM(@event.@event.startBeats) - new BPM(firstEventStartBeats)),
-                    endBeats = new BPM(beatLine.thisBPM) + (new BPM(@event.@event.endBeats) - new BPM(firstEventStartBeats))
+                    startBeats = new BPM(beatLineBpm) + (new BPM(@event.@event.startBeats) - new BPM(firstEventStartBeats)),
+                    endBeats = new BPM(beatLineBpm) + (new BPM(@event.@event.endBeats) - new BPM(firstEventStartBeats))
                 };
                 if (isCopy)
                 {
@@ -194,7 +194,7 @@ namespace Form.EventEdit
             }
             return newEvents;
         }
-        private void InstNewEvents(KeyValueList<Event, EventType> eventClipboard, BeatLine beatLine)
+        private void InstNewEvents(KeyValueList<Event, EventType> eventClipboard, BPM beatLineBpm)
         {
             BPM firstEventStartBeats = eventClipboard[0].startBeats;
             for (int i = 0; i < eventClipboard.Count; i++)
@@ -202,8 +202,8 @@ namespace Form.EventEdit
                 Event @event = eventClipboard[i];
                 Event copyNewEvent = new(@event)
                 {
-                    startBeats = new BPM(beatLine.thisBPM) + (new BPM(@event.startBeats) - new BPM(firstEventStartBeats)),
-                    endBeats = new BPM(beatLine.thisBPM) + (new BPM(@event.endBeats) - new BPM(firstEventStartBeats))
+                    startBeats = new BPM(beatLineBpm) + (new BPM(@event.startBeats) - new BPM(firstEventStartBeats)),
+                    endBeats = new BPM(beatLineBpm) + (new BPM(@event.endBeats) - new BPM(firstEventStartBeats))
                 };
                 if (isCopy)
                 {

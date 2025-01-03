@@ -16,7 +16,7 @@ using Data.ChartEdit;
 
 namespace Form.EventEdit
 {
-    //ÕâÀï·ÅÓÃ»§±à¼­²Ù×÷ÏìÓ¦Ïà¹ØµÄÊÂÇé
+    //è¿™é‡Œæ”¾ç”¨æˆ·ç¼–è¾‘æ“ä½œå“åº”ç›¸å…³çš„äº‹æƒ…
     public partial class EventEdit
     {
         private void SelectBoxDown()
@@ -43,30 +43,37 @@ namespace Form.EventEdit
 
         private void CopyEvent()
         {
-            Debug.Log("¸´ÖÆÊÂ¼ş");
+            Debug.Log("å¤åˆ¶äº‹ä»¶");
             isCopy = true;
             AddEvent2EventClipboard();
         }
 
         private void PasteEvent()
         {
-            Debug.Log("Õ³ÌùÊÂ¼ş");
+            Debug.Log("ç²˜è´´äº‹ä»¶");
             FindNearBeatLineAndEventVerticalLine(out BeatLine beatLine, out EventVerticalLine verticalLine);
             KeyValueList<Event, EventType> newEvents = null;
             if (eventClipboard.Count > 0)
             {
-                newEvents = InstNewEvents(eventClipboard, beatLine);
+                newEvents = InstNewEvents(eventClipboard, beatLine.thisBPM);
             }
             else
             {
-                newEvents = InstNewEvents(otherBoxEventsClipboard, beatLine);
+                newEvents = InstNewEvents(otherBoxEventsClipboard, beatLine.thisBPM);
             }
 
-            KeyValueList<Event, EventType> deletedEvents = DeleteSourceEvent();
+            KeyValueList<Event, EventType> deletedEvents = DeleteSourceEvent(eventClipboard);
 
-            LogCenter.Log($"³É¹¦{isCopy switch { true => "¸´ÖÆ", false => "Õ³Ìù" }}{eventClipboard.Count}¸öÒô·û");
+            LogCenter.Log($"æˆåŠŸ{isCopy switch { true => "å¤åˆ¶", false => "ç²˜è´´" }}{eventClipboard.Count}ä¸ªéŸ³ç¬¦");
             RefreshAll();
-            Steps.Instance.Add(CopyUndo, CopyRedo,RefreshAll);
+            if (isCopy)
+            {
+                Steps.Instance.Add(CopyUndo, CopyRedo,RefreshAll);
+            }
+            else
+            {
+                Steps.Instance.Add(PasteUndo, PasteRedo,RefreshAll);
+            }
             onEventRefreshed(eventEditItems);
             return;
             void CopyUndo()
@@ -82,37 +89,48 @@ namespace Form.EventEdit
             }
             void CopyRedo()
             {
-                InstNewEvents(newEvents, beatLine);
+                InstNewEvents(newEvents, beatLine.thisBPM);
                 //DeleteSourceEvent();
             }
             void PasteUndo()
             {
+                for (int i = 0; i < newEvents.Count; i++)
+                {
+                    DeleteEvent(newEvents.GetKey(i), newEvents.GetValue(i));
+                }
 
+                InstNewEvents(deletedEvents,deletedEvents[0].startBeats);
             }
             void PasteRedo()
             {
-
+                for (int i = 0; i < deletedEvents.Count; i++)
+                {
+                    DeleteEvent(deletedEvents.GetKey(i), deletedEvents.GetValue(i));
+                }
+                InstNewEvents(newEvents,newEvents[0].startBeats);
             }
         }
 
-        private KeyValueList<Event, EventType> DeleteSourceEvent()
+        private KeyValueList<Event, EventType> DeleteSourceEvent(List<EventEditItem> eventEditItems)
         {
             KeyValueList<Event, EventType> deletedEvents = new();
-            if (!isCopy)
+            if (isCopy)
             {
-                foreach (EventEditItem eventEditItem in eventClipboard)
-                {
-                    DeleteEvent(eventEditItem);
-                    deletedEvents.Add(eventEditItem.@event,eventEditItem.eventType);
-                    //Debug.LogError("ÕâÀïÓĞÎÊÌâ");
-                }
+                return deletedEvents;
+            }
+
+            foreach (EventEditItem eventEditItem in eventEditItems)
+            {
+                DeleteEvent(eventEditItem);
+                deletedEvents.Add(eventEditItem.@event,eventEditItem.eventType);
+                //Debug.LogError("è¿™é‡Œæœ‰é—®é¢˜");
             }
             return deletedEvents;
         }
 
         private void CutEvent()
         {
-            Debug.Log("¼ôÇĞÊÂ¼ş");
+            Debug.Log("å‰ªåˆ‡äº‹ä»¶");
             isCopy = false;
             AddEvent2EventClipboard();
         }
@@ -124,7 +142,7 @@ namespace Form.EventEdit
                 eventEditItem.@event.endBeats.AddOneBeat();
             }
 
-            LogCenter.Log($"³É¹¦½«{selectBox.TransmitObjects().Count}¸öÊÂ¼şÏòÉÏÒÆ¶¯Ò»¸ñ");
+            LogCenter.Log($"æˆåŠŸå°†{selectBox.TransmitObjects().Count}ä¸ªäº‹ä»¶å‘ä¸Šç§»åŠ¨ä¸€æ ¼");
 
             RefreshAll();
         }
@@ -137,7 +155,7 @@ namespace Form.EventEdit
                 eventEditItem.@event.endBeats.SubtractionOneBeat();
             }
 
-            LogCenter.Log($"³É¹¦½«{selectBox.TransmitObjects().Count}¸öÊÂ¼şÏòÏÂÒÆ¶¯Ò»¸ñ");
+            LogCenter.Log($"æˆåŠŸå°†{selectBox.TransmitObjects().Count}ä¸ªäº‹ä»¶å‘ä¸‹ç§»åŠ¨ä¸€æ ¼");
 
             RefreshAll();
         }
@@ -161,17 +179,17 @@ namespace Form.EventEdit
                 EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
                 EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
                 EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
-                _ => throw new Exception("¶ú¶äŞÇÀ­ÏÂÀ´£¬ÎØÎØÎØ£¬Ã»ÕÒµ½ÊÂ¼şÀàĞÍ")
+                _ => throw new Exception("è€³æœµè€·æ‹‰ä¸‹æ¥ï¼Œå‘œå‘œå‘œï¼Œæ²¡æ‰¾åˆ°äº‹ä»¶ç±»å‹")
             };
             if (events.FindIndex(item => item.Equals(notePropertyEdit.@event.@event)) == 0)
             {
-                LogCenter.Log($"ÓÃ»§³¢ÊÔÉ¾³ı{notePropertyEdit.@event.eventType}µÄµÚÒ»¸öÊÂ¼ş");
-                Alert.EnableAlert("ÕâÊÇµÚÒ»¸öÊÂ¼ş£¬²»Ö§³ÖÉ¾³ıÁËÀ²~");
+                LogCenter.Log($"ç”¨æˆ·å°è¯•åˆ é™¤{notePropertyEdit.@event.eventType}çš„ç¬¬ä¸€ä¸ªäº‹ä»¶");
+                Alert.EnableAlert("è¿™æ˜¯ç¬¬ä¸€ä¸ªäº‹ä»¶ï¼Œä¸æ”¯æŒåˆ é™¤äº†å•¦~");
                 return;
             }
 
             LogCenter.Log(
-                $"{notePropertyEdit.@event.eventType}µÄ{notePropertyEdit.@event.@event.startBeats.integer}:{notePropertyEdit.@event.@event.startBeats.molecule}/{notePropertyEdit.@event.@event.startBeats.denominator}ÊÂ¼ş±»É¾³ı");
+                $"{notePropertyEdit.@event.eventType}çš„{notePropertyEdit.@event.@event.startBeats.integer}:{notePropertyEdit.@event.@event.startBeats.molecule}/{notePropertyEdit.@event.@event.startBeats.denominator}äº‹ä»¶è¢«åˆ é™¤");
             events.Remove(notePropertyEdit.@event.@event);
             onEventDeleted(notePropertyEdit.@event);
             notePropertyEdit.RefreshEvents();
@@ -219,10 +237,10 @@ namespace Form.EventEdit
             }
             else if (isFirstTime)
             {
-                //µÚ¶ş´Î
+                //ç¬¬äºŒæ¬¡
                 isFirstTime = false;
                 waitForPressureAgain = true;
-            } /*±¨´í*/
+            } /*æŠ¥é”™*/
         }
     }
 }
