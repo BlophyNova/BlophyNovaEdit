@@ -10,9 +10,9 @@ namespace CustomSystem
         public int currentStepsIndex;
         public List<Step> steps = new();
 
-        public void Add(Action undo, Action redo)
+        public void Add(Action undo, Action redo,Action @finally)
         {
-            steps.Add(new Step { Undo = undo, Redo = redo });
+            steps.Add(new Step { Undo = undo, Redo = redo,Finally=@finally });
             currentStepsIndex++;
             CheckMaxLength();
         }
@@ -24,13 +24,15 @@ namespace CustomSystem
                 return;
             }
 
-            steps[currentStepsIndex-- - 1].Undo();
+            steps[currentStepsIndex - 1].Undo();
+            steps[currentStepsIndex-- - 1].Finally();
             CheckMaxLength();
         }
 
         public void Redo()
         {
-            steps[currentStepsIndex++].Redo();
+            steps[currentStepsIndex].Redo();
+            steps[currentStepsIndex++].Finally();
             CheckMaxLength();
         }
 
@@ -62,5 +64,6 @@ namespace CustomSystem
     {
         public Action Redo;
         public Action Undo;
+        public Action Finally;
     }
 }

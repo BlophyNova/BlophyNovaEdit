@@ -158,7 +158,7 @@ namespace Form.EventEdit
                 //添加事件到对应的地方
                 LogCenter.Log(
                     $"{eventEditItem.eventType}新事件：{eventEditItem.@event.startBeats.integer}:{eventEditItem.@event.startBeats.molecule}/{eventEditItem.@event.startBeats.denominator}");
-                Steps.Instance.Add(Undo, Redo); 
+                Steps.Instance.Add(Undo, Redo,default); 
                 eventEditItems.Add(eventEditItem);
                 AddEvent(eventEditItem);
 

@@ -67,18 +67,16 @@ namespace Form.NotePropertyEdit
             //EventValueChanged(match, note.HitBeats);
             BPM sourceValue = new(note.HitBeats);
             BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
-            Steps.Instance.Add(Undo, Redo);
+            Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             return;
             void Redo()
             {
                 note.HitBeats = targetValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
             void Undo()
             {
                 note.HitBeats = sourceValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
         }
 
@@ -92,18 +90,16 @@ namespace Form.NotePropertyEdit
             BPM sourceValue = new(note.holdBeats);
             BPM targetValue = endBeats - new BPM(note.HitBeats);
 
-            Steps.Instance.Add(Undo, Redo);
+            Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             return;
             void Redo()
             {
                 note.holdBeats = targetValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
             void Undo()
             {
                 note.holdBeats = sourceValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
         }
 
@@ -114,18 +110,16 @@ namespace Form.NotePropertyEdit
             //EventValueChanged(match, @event.@event.startBeats);
             BPM sourceValue = new(@event.@event.startBeats);
             BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
-            Steps.Instance.Add(Undo, Redo);
+            Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             return;
             void Redo()
             {
                 @event.@event.startBeats = targetValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
             void Undo()
             {
                 @event.@event.startBeats = sourceValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
         }
 
@@ -136,25 +130,23 @@ namespace Form.NotePropertyEdit
             //EventValueChanged(match, @event.@event.endBeats);
             BPM sourceValue = new(@event.@event.endBeats);
             BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
-            Steps.Instance.Add(Undo, Redo);
+            Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             return;
             void Redo()
             {
                 @event.@event.endBeats = targetValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
             void Undo()
             {
                 @event.@event.endBeats = sourceValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
         }
         private void EaseChanged(int value)
         {
             int sourceValue = @event.@event.curveIndex;
             int targetValue = value;
-            Steps.Instance.Add(Undo, Redo);
+            Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             LogCenter.Log($"事件Ease从{@event.@event.Curve.easeType}变更为{GlobalData.Instance.easeDatas[value].easeType}");
             return;
@@ -162,12 +154,10 @@ namespace Form.NotePropertyEdit
             void Redo()
             {
                 @event.@event.curveIndex = targetValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
             void Undo()
             {
                 @event.@event.curveIndex = sourceValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
         }
 
@@ -175,19 +165,17 @@ namespace Form.NotePropertyEdit
         {
             bool sourceValue = note.isClockwise;
             bool targetValue = value;
-            Steps.Instance.Add(Undo, Redo);
+            Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             LogCenter.Log($"音符IsClockWise从{sourceValue}变更为{targetValue}");
             return;
             void Redo()
             {
                 note.isClockwise = targetValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
             void Undo()
             {
                 note.isClockwise = sourceValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
         }
 
@@ -197,19 +185,17 @@ namespace Form.NotePropertyEdit
 
             float sourceValue = note.positionX;
             float targetValue = result;
-            Steps.Instance.Add(Undo, Redo);
+            Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             LogCenter.Log($"音符PositionX从{note.positionX}变更为{value}");
             return;
             void Redo()
             {
                 note.positionX = targetValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
             void Undo()
             {
                 note.positionX = sourceValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
         }
 
@@ -219,19 +205,17 @@ namespace Form.NotePropertyEdit
 
             float sourceValue = @event.@event.endValue;
             float targetValue = result;
-            Steps.Instance.Add(Undo,Redo);
+            Steps.Instance.Add(Undo,Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             LogCenter.Log($"事件EndValue从{@event.@event.endValue}变更为{result}");
             return;
             void Redo()
             {
                 @event.@event.endValue = targetValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
             void Undo()
             {
                 @event.@event.endValue = sourceValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
         }
 
@@ -241,19 +225,17 @@ namespace Form.NotePropertyEdit
 
             float sourceValue= @event.@event.startValue;
             float targetValue=result;
-            Steps.Instance.Add(Undo, Redo);
+            Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             LogCenter.Log($"事件StartValue从{@event.@event.startValue}变更为{result}");
             return;
             void Redo()
             {
                 @event.@event.startValue = targetValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
             void Undo()
             {
                 @event.@event.startValue = sourceValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
         }
 
@@ -275,19 +257,17 @@ namespace Form.NotePropertyEdit
                 true => note.effect | noteEffect,
                 false => note.effect ^ noteEffect
             };
-            Steps.Instance.Add(Undo, Redo);
+            Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             LogCenter.Log($"成功{value switch { true => "添加", false => "取消" }}{noteEffect}特效");
             return;
             void Undo()
             {
                 note.effect = sourceValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
             void Redo()
             {
                 note.effect = targetValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
         }
 
@@ -296,7 +276,7 @@ namespace Form.NotePropertyEdit
             int sourceValue = (int)note.noteType;
             int targetValue = value;
             LogCenter.Log($"音符类型从{note.noteType}变更为{(NoteType)value}");
-            Steps.Instance.Add(Undo, Redo);
+            Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             return;
 
@@ -304,13 +284,11 @@ namespace Form.NotePropertyEdit
             void Undo()
             {
                 note.noteType = (NoteType)sourceValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
 
             void Redo()
             {
                 note.noteType = (NoteType)targetValue;
-                RefreshChartPreviewAndChartEditCanvas();
             }
         }
 

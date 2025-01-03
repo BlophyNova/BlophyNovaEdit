@@ -52,7 +52,7 @@ namespace Form.EventEdit
         {
             Debug.Log("粘贴事件");
             FindNearBeatLineAndEventVerticalLine(out BeatLine beatLine, out EventVerticalLine verticalLine);
-            KeyValueList<Event, EventType> newEvents =null;
+            KeyValueList<Event, EventType> newEvents = null;
             if (eventClipboard.Count > 0)
             {
                 newEvents = InstNewEvents(eventClipboard, beatLine);
@@ -62,38 +62,54 @@ namespace Form.EventEdit
                 newEvents = InstNewEvents(otherBoxEventsClipboard, beatLine);
             }
 
+            KeyValueList<Event, EventType> deletedEvents = DeleteSourceEvent();
+
+            LogCenter.Log($"成功{isCopy switch { true => "复制", false => "粘贴" }}{eventClipboard.Count}个音符");
+            RefreshAll();
+            Steps.Instance.Add(CopyUndo, CopyRedo,RefreshAll);
+            onEventRefreshed(eventEditItems);
+            return;
+            void CopyUndo()
+            {
+                for (int i = 0; i < newEvents.Count; i++)
+                {
+                    DeleteEvent(newEvents.GetKey(i), newEvents.GetValue(i));
+                }
+                //if (!isCopy)
+                //{
+                //    InstNewEvents(deletedEvents,beatLine);
+                //}
+            }
+            void CopyRedo()
+            {
+                InstNewEvents(newEvents, beatLine);
+                //DeleteSourceEvent();
+            }
+            void PasteUndo()
+            {
+
+            }
+            void PasteRedo()
+            {
+
+            }
+        }
+
+        private KeyValueList<Event, EventType> DeleteSourceEvent()
+        {
+            KeyValueList<Event, EventType> deletedEvents = new();
             if (!isCopy)
             {
                 foreach (EventEditItem eventEditItem in eventClipboard)
                 {
                     DeleteEvent(eventEditItem);
+                    deletedEvents.Add(eventEditItem.@event,eventEditItem.eventType);
                     //Debug.LogError("这里有问题");
                 }
             }
-
-            LogCenter.Log($"成功{isCopy switch { true => "复制", false => "粘贴" }}{eventClipboard.Count}个音符");
-            RefreshAll();
-            Steps.Instance.Add(Undo, Redo);
-            onEventRefreshed(eventEditItems);
-            return;
-            void Undo()
-            {
-                //foreach (EventEditItem newEvent in newEvents)
-                //{
-                //    DeleteEvent(newEvent);
-                //}
-                for (int i = 0; i < newEvents.Count; i++)
-                {
-                    DeleteEvent(newEvents.GetKey(i),newEvents.GetValue(i));
-                }
-                RefreshAll();
-            }
-            void Redo()
-            {
-                InstNewEvents(newEvents, beatLine);
-                RefreshAll();
-            }
+            return deletedEvents;
         }
+
         private void CutEvent()
         {
             Debug.Log("剪切事件");
@@ -159,7 +175,7 @@ namespace Form.EventEdit
             events.Remove(notePropertyEdit.@event.@event);
             onEventDeleted(notePropertyEdit.@event);
             notePropertyEdit.RefreshEvents();
-            Steps.Instance.Add(Undo, Redo);
+            Steps.Instance.Add(Undo, Redo,default);
             return;
             void Undo()
             {
