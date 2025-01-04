@@ -13,6 +13,8 @@ using EventType = Data.Enumerate.EventType;
 using Scenes.PublicScripts;
 using CustomSystem;
 using Data.ChartEdit;
+using UnityEngine.InputSystem;
+using static UnityEngine.Camera;
 
 namespace Form.EventEdit
 {
@@ -140,6 +142,12 @@ namespace Form.EventEdit
             foreach (EventEditItem eventEditItem in selectedBox)
             {
                 BPM delta =new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
+
+                if (eventEditItem.@event.startBeats.denominator != GlobalData.Instance.chartEditData.beatSubdivision)
+                {
+                    BPM nearBpm = new(FindNearBeatLine((Vector2)transform.InverseTransformPoint(transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM);
+                    eventEditItem.@event.startBeats = nearBpm;
+                }
                 eventEditItem.@event.startBeats.AddOneBeat();
                 eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
             }
@@ -176,6 +184,11 @@ namespace Form.EventEdit
             foreach (EventEditItem eventEditItem in selectedBox)
             {
                 BPM delta =new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
+                if (eventEditItem.@event.startBeats.denominator != GlobalData.Instance.chartEditData.beatSubdivision)
+                {
+                    BPM nearBpm = new(FindNearBeatLine((Vector2)transform.InverseTransformPoint(transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM);
+                    eventEditItem.@event.startBeats = nearBpm;
+                }
                 eventEditItem.@event.startBeats.SubtractionOneBeat();
                 eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
             }

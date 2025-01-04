@@ -74,7 +74,11 @@ namespace Data.ChartEdit
 
         public void AddOneBeat(int beatSubdivision=-1)
         {
-            denominator =GlobalData.Instance.chartEditData.beatSubdivision;
+            denominator = beatSubdivision switch
+            {
+                <= 0 => denominator,
+                _ => beatSubdivision
+            };
             if (molecule < denominator - 1)
             {
                 molecule++;
@@ -88,7 +92,11 @@ namespace Data.ChartEdit
 
         public void SubtractionOneBeat(int beatSubdivision=-1)
         {
-            denominator = beatSubdivision<=0? GlobalData.Instance.chartEditData.beatSubdivision:beatSubdivision;
+            denominator = beatSubdivision switch
+            {
+                <= 0 => denominator,
+                _ => beatSubdivision
+            };
             if (molecule > 0)
             {
                 molecule--;
@@ -104,29 +112,59 @@ namespace Data.ChartEdit
         {
             BPM _a = new(a);
             BPM _b = new(b);
-            int _c = Algorithm.GetLeastCommonMutiple(_a.denominator, _b.denominator);
-            _a.denominator = _c;
-            _b.denominator = _c;
-            _a.molecule *= _c / _a.denominator;
-            _b.molecule *= _c / _b.denominator;
+            int lcm = Algorithm.GetLeastCommonMutiple(_a.denominator, _b.denominator);
+            _a.molecule *= lcm / _a.denominator;
+            _b.molecule *= lcm / _b.denominator;
+            _a.denominator = lcm;
+            _b.denominator = lcm;
             while (_b.ThisStartBPM > 0)
             {
                 _a.AddOneBeat();
                 _b.SubtractionOneBeat();
             }
-
+            ReducedFraction(_a);
             return _a;
+
+            //while (b.ThisStartBPM > 0)
+            //{
+            //    a.AddOneBeat();
+            //    b.SubtractionOneBeat();
+            //}
+
+            //return a;
         }
 
         public static BPM operator -(BPM a, BPM b)
         {
-            while (b.ThisStartBPM > 0)
+            BPM _a = new(a);
+            BPM _b = new(b);
+            int lcm = Algorithm.GetLeastCommonMutiple(_a.denominator, _b.denominator);
+            _a.molecule *= lcm / _a.denominator;
+            _b.molecule *= lcm / _b.denominator;
+            _a.denominator = lcm;
+            _b.denominator = lcm;
+            while (_b.ThisStartBPM > 0)
             {
-                a.SubtractionOneBeat();
-                b.SubtractionOneBeat();
+                _a.SubtractionOneBeat();
+                _b.SubtractionOneBeat();
             }
 
-            return a;
+            ReducedFraction(_a);
+            return _a;
+            //while (b.ThisStartBPM > 0)
+            //{
+            //    a.SubtractionOneBeat();
+            //    b.SubtractionOneBeat();
+            //}
+
+            //return a;
+        }
+
+        private static void ReducedFraction(BPM bpm)
+        {
+            int gcd = Algorithm.GetLargestCommonDivisor(bpm.denominator, bpm.molecule);
+            bpm.denominator /= gcd;
+            bpm.molecule /= gcd;
         }
 
         public static BPM operator *(BPM a, int b)

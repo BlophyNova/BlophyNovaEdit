@@ -77,17 +77,41 @@ namespace Form.EventEdit
             return newTexture;
         }
 
-        private void FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
-            out EventVerticalLine nearEventVerticalLine)
+        private void FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine, out EventVerticalLine nearEventVerticalLine)
         {
-            nearBeatLine = null;
+            nearBeatLine = FindNearBeatLine(MousePositionInThisRectTransform);
+
+            nearEventVerticalLine = FindNearEventVerticalLine(MousePositionInThisRectTransform);
+        }
+
+        private EventVerticalLine FindNearEventVerticalLine(Vector2 mousePosition)
+        {
+            EventVerticalLine nearEventVerticalLine = null;
+            float nearEventVerticalLineDis = float.MaxValue;
+            foreach (EventVerticalLine item in eventVerticalLines)
+            {
+                float dis = Vector2.Distance(mousePosition,
+                    (Vector2)item.transform.localPosition + labelWindow.labelWindowRect.sizeDelta / 2);
+                if (dis < nearEventVerticalLineDis)
+                {
+                    nearEventVerticalLineDis = dis;
+                    nearEventVerticalLine = item;
+                }
+            }
+
+            return nearEventVerticalLine;
+        }
+
+        private BeatLine FindNearBeatLine(Vector2 mousePosition)
+        {
+            BeatLine nearBeatLine = null;
             float nearBeatLineDis = float.MaxValue;
             //第一次
             foreach (BeatLine item in basicLine.beatLines)
             {
                 Debug.Log(
                     $@"{thisEventEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
-                float dis = Vector2.Distance(MousePositionInThisRectTransform,
+                float dis = Vector2.Distance(mousePosition,
                     (Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) +
                     labelWindow.labelWindowRect.sizeDelta / 2);
                 if (dis < nearBeatLineDis)
@@ -97,18 +121,7 @@ namespace Form.EventEdit
                 }
             }
 
-            nearEventVerticalLine = null;
-            float nearEventVerticalLineDis = float.MaxValue;
-            foreach (EventVerticalLine item in eventVerticalLines)
-            {
-                float dis = Vector2.Distance(MousePositionInThisRectTransform,
-                    (Vector2)item.transform.localPosition + labelWindow.labelWindowRect.sizeDelta / 2);
-                if (dis < nearEventVerticalLineDis)
-                {
-                    nearEventVerticalLineDis = dis;
-                    nearEventVerticalLine = item;
-                }
-            }
+            return nearBeatLine;
         }
 
         public IEnumerator WaitForPressureAgain(EventEditItem eventEditItem)

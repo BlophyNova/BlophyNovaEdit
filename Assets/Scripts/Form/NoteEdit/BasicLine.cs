@@ -3,6 +3,7 @@ using Data.ChartEdit;
 using Data.Interface;
 using Form.PropertyEdit;
 using Manager;
+using Scenes.DontDestroyOnLoad;
 using TMPro;
 using UnityEngine;
 
@@ -68,7 +69,7 @@ namespace Form.NoteEdit
                     .Init(nextBPMWithAriseLine.ThisStartBPM, nextBPMWithAriseLine);
                 initBeatLine.transform.SetAsFirstSibling();
                 beatLines.Add(initBeatLine);
-                nextBPMWithAriseLine.AddOneBeat();
+                nextBPMWithAriseLine.AddOneBeat(GlobalData.Instance.chartEditData.beatSubdivision);
             }
 
             float currentBeats =
