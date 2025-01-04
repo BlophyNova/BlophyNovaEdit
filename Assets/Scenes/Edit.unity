@@ -4318,6 +4318,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Devices
       objectReference: {fileID: 0}
+    - target: {fileID: 9209745876606500233, guid: fbb1ca787ae4740bf9a381824319bf0e, type: 3}
+      propertyPath: m_fontSize
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209745876606500233, guid: fbb1ca787ae4740bf9a381824319bf0e, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 9209745876606500233, guid: fbb1ca787ae4740bf9a381824319bf0e, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbb1ca787ae4740bf9a381824319bf0e, type: 3}
 --- !u!114 &1023547968 stripped

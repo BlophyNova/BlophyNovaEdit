@@ -15,6 +15,10 @@ namespace Form.Devices
 
         private void Start()
         {
+        }
+
+        private void FindNet()
+        {
             IThenStartup startup = (IThenStartup)new GameObject().AddComponent(Type.GetType("HuaWaterED.ThenStartup"));
             if (startup == null)
             {
