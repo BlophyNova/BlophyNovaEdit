@@ -103,7 +103,8 @@ namespace Form.NoteEdit
 
         public void Refresh()
         {
-            UpdateVerticalLineCount();
+            UpdateVerticalLineCount(); 
+            RefreshNotes(currentBoxID, currentLineID);
         }
 
         public List<ISelectBoxItem> TransmitObjects()
