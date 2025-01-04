@@ -1,5 +1,6 @@
 using Data.Enumerate;
 using Data.Interface;
+using Form.LabelWindow;
 using Log;
 using Scenes.PublicScripts;
 using TMPro;
@@ -55,12 +56,13 @@ namespace Form.PropertyEdit
 
         private void RefreshNote()
         {
-            if (propertyEdit.labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent
-                    .labelWindowContentType == LabelWindowContentType.NoteEdit)
+            foreach (LabelItem item in propertyEdit.labelWindow.associateLabelWindow.labels)
             {
-                NoteEdit.NoteEdit noteEdit = (NoteEdit.NoteEdit)propertyEdit.labelWindow.associateLabelWindow
-                    .currentLabelItem.labelWindowContent;
-                noteEdit.RefreshNotes(-1, lineID);
+                if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
+                {
+                    NoteEdit.NoteEdit noteEdit = (NoteEdit.NoteEdit)item.labelWindowContent;
+                    noteEdit.RefreshNotes(-1, lineID);
+                }
             }
         }
     }
