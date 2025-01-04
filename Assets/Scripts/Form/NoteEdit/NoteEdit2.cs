@@ -23,8 +23,6 @@ namespace Form.NoteEdit
 {
     public partial class NoteEdit
     {
-
-
         private void FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine)
         {
             nearBeatLine = null;
@@ -91,6 +89,5 @@ namespace Form.NoteEdit
                 AddNoteAndRefresh(newHoldEdit.thisNoteData, boxID, lineID);
             }
         }
-
     }
 }

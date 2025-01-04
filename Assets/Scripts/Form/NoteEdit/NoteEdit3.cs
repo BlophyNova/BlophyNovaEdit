@@ -36,7 +36,7 @@ namespace Form.NoteEdit
 
             note.noteType = noteType;
             note.HitBeats = new BPM(nearBeatLine.thisBPM);
-            note.holdBeats = new BPM();
+            note.holdBeats = BPM.One;
             note.effect = noteEffect;
             note.positionX =
                 (nearVerticalLine.localPosition.x +
@@ -106,7 +106,7 @@ namespace Form.NoteEdit
                 _ => throw new Exception("呜呜呜，怎么找不到究竟是粉色的FullFlick还是蓝色的FullFlick呢...")
             };
             note.HitBeats = nearBeatLine.thisBPM;
-            note.holdBeats = new BPM();
+            note.holdBeats = BPM.One;
             note.effect = 0;
             note.isClockwise = note.positionX switch
             {

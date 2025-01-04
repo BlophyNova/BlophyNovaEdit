@@ -69,6 +69,7 @@ namespace Form.NotePropertyEdit
             BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
             Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
+            RefreshChartPreviewAndChartEditCanvas();
             return;
             void Redo()
             {
@@ -92,6 +93,7 @@ namespace Form.NotePropertyEdit
 
             Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
+            RefreshChartPreviewAndChartEditCanvas();
             return;
             void Redo()
             {
@@ -112,6 +114,7 @@ namespace Form.NotePropertyEdit
             BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
             Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
+            RefreshChartPreviewAndChartEditCanvas();
             return;
             void Redo()
             {
@@ -132,6 +135,7 @@ namespace Form.NotePropertyEdit
             BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
             Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
+            RefreshChartPreviewAndChartEditCanvas();
             return;
             void Redo()
             {
@@ -148,6 +152,7 @@ namespace Form.NotePropertyEdit
             int targetValue = value;
             Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
+            RefreshChartPreviewAndChartEditCanvas();
             LogCenter.Log($"事件Ease从{@event.@event.Curve.easeType}变更为{GlobalData.Instance.easeDatas[value].easeType}");
             return;
             //@event.@event.Curve = GlobalData.Instance.easeData[value];
@@ -167,6 +172,7 @@ namespace Form.NotePropertyEdit
             bool targetValue = value;
             Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
+            RefreshChartPreviewAndChartEditCanvas();
             LogCenter.Log($"音符IsClockWise从{sourceValue}变更为{targetValue}");
             return;
             void Redo()
@@ -187,6 +193,7 @@ namespace Form.NotePropertyEdit
             float targetValue = result;
             Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
+            RefreshChartPreviewAndChartEditCanvas();
             LogCenter.Log($"音符PositionX从{note.positionX}变更为{value}");
             return;
             void Redo()
@@ -207,6 +214,7 @@ namespace Form.NotePropertyEdit
             float targetValue = result;
             Steps.Instance.Add(Undo,Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
+            RefreshChartPreviewAndChartEditCanvas();
             LogCenter.Log($"事件EndValue从{@event.@event.endValue}变更为{result}");
             return;
             void Redo()
@@ -227,6 +235,7 @@ namespace Form.NotePropertyEdit
             float targetValue=result;
             Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
+            RefreshChartPreviewAndChartEditCanvas();
             LogCenter.Log($"事件StartValue从{@event.@event.startValue}变更为{result}");
             return;
             void Redo()
@@ -259,6 +268,7 @@ namespace Form.NotePropertyEdit
             };
             Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
+            RefreshChartPreviewAndChartEditCanvas();
             LogCenter.Log($"成功{value switch { true => "添加", false => "取消" }}{noteEffect}特效");
             return;
             void Undo()
@@ -278,6 +288,7 @@ namespace Form.NotePropertyEdit
             LogCenter.Log($"音符类型从{note.noteType}变更为{(NoteType)value}");
             Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
+            RefreshChartPreviewAndChartEditCanvas();
             return;
 
             //这里不能把两个方法的RefreshChartPreviewAndChartEditCanvas方法提出来，因为后面进行撤销和重做的操作是需要执行的
