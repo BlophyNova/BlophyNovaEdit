@@ -25,14 +25,39 @@ namespace Form.NoteEdit
     {
         private void FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine)
         {
-            nearBeatLine = null;
+            nearBeatLine = FindNearBeatLine(MousePositionInThisRectTransform);
+
+            nearVerticalLine = FindNearVerticalLine(MousePositionInThisRectTransform);
+        }
+
+        private RectTransform FindNearVerticalLine(Vector2 mousePosition)
+        {
+            RectTransform nearVerticalLine = null;
+            float nearVerticalLineDis = float.MaxValue;
+            foreach (RectTransform item in verticalLines)
+            {
+                float dis = Vector2.Distance(mousePosition,
+                    (Vector2)item.transform.localPosition + labelWindow.labelWindowRect.sizeDelta / 2);
+                if (dis < nearVerticalLineDis)
+                {
+                    nearVerticalLineDis = dis;
+                    nearVerticalLine = item;
+                }
+            }
+
+            return nearVerticalLine;
+        }
+
+        private BeatLine FindNearBeatLine(Vector2 mousePosition)
+        {
+            BeatLine nearBeatLine = null;
             float nearBeatLineDis = float.MaxValue;
             //第一次
             foreach (BeatLine item in basicLine.beatLines)
             {
                 Debug.Log(
                     $@"{noteEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)noteEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
-                float dis = Vector2.Distance(MousePositionInThisRectTransform,
+                float dis = Vector2.Distance(mousePosition,
                     (Vector2)noteEditRect.InverseTransformPoint(item.transform.position) +
                     labelWindow.labelWindowRect.sizeDelta / 2);
                 if (dis < nearBeatLineDis)
@@ -42,18 +67,7 @@ namespace Form.NoteEdit
                 }
             }
 
-            nearVerticalLine = null;
-            float nearVerticalLineDis = float.MaxValue;
-            foreach (RectTransform item in verticalLines)
-            {
-                float dis = Vector2.Distance(MousePositionInThisRectTransform,
-                    (Vector2)item.transform.localPosition + labelWindow.labelWindowRect.sizeDelta / 2);
-                if (dis < nearVerticalLineDis)
-                {
-                    nearVerticalLineDis = dis;
-                    nearVerticalLine = item;
-                }
-            }
+            return nearBeatLine;
         }
 
         public IEnumerator WaitForPressureAgain(Scenes.Edit.NoteEdit newHoldEdit, int boxID, int lineID)

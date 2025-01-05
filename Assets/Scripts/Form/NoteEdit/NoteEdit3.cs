@@ -19,6 +19,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 using Note = Data.ChartEdit.Note;
+using static UnityEngine.Camera;
 namespace Form.NoteEdit
 {
     //这里放用户编辑操作响应相关的事情
@@ -39,9 +40,7 @@ namespace Form.NoteEdit
             note.holdBeats = BPM.One;
             note.effect = noteEffect;
             note.positionX =
-                (nearVerticalLine.localPosition.x +
-                 (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) /
-                (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
+                (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
             Scenes.Edit.NoteEdit instNewNoteEditPrefab = note.noteType switch
             {
                 NoteType.Tap => GlobalData.Instance.tapEditPrefab,
@@ -234,9 +233,12 @@ namespace Form.NoteEdit
         {
             foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>())
             {
-                float verticalLineDelta = 2 / (float)GlobalData.Instance.chartEditData.eventVerticalSubdivision;
+                //float verticalLineDelta = 2 / (float)GlobalData.Instance.chartEditData.eventVerticalSubdivision;
+                //RectTransform nearVerticalLine = FindNearVerticalLine((Vector2)transform.InverseTransformPoint(PositionConvert.UIPointToScreenPoint(noteEdit.transform.position)) + labelWindow.labelWindowRect.sizeDelta / 2);
+                //float poxitionX01 = ((nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x)) / 2) / 2 / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x);
+                //float positionX = poxitionX01 * 2 - 1;
                 float positionX = noteEdit.thisNoteData.positionX;
-                positionX -= verticalLineDelta;
+                positionX -= verticalLineDeltaDataForChartData;
                 positionX = positionX < -1 ? -1 : positionX;
                 noteEdit.thisNoteData.positionX = positionX;
             }
@@ -249,9 +251,9 @@ namespace Form.NoteEdit
         {
             foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>())
             {
-                float verticalLineDelta = 2 / (float)GlobalData.Instance.chartEditData.eventVerticalSubdivision;
+                //float verticalLineDelta = 2 / (float)GlobalData.Instance.chartEditData.eventVerticalSubdivision;
                 float positionX = noteEdit.thisNoteData.positionX;
-                positionX += verticalLineDelta;
+                positionX += verticalLineDeltaDataForChartData;
                 positionX = positionX > 1 ? 1 : positionX;
                 noteEdit.thisNoteData.positionX = positionX;
             }

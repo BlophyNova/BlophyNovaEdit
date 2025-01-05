@@ -145,7 +145,7 @@ namespace Form.EventEdit
 
                 if (eventEditItem.@event.startBeats.denominator != GlobalData.Instance.chartEditData.beatSubdivision)
                 {
-                    BPM nearBpm = new(FindNearBeatLine((Vector2)transform.InverseTransformPoint(transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM);
+                    BPM nearBpm = new(FindNearBeatLine((Vector2)transform.InverseTransformPoint((Vector2)transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM);
                     eventEditItem.@event.startBeats = nearBpm;
                 }
                 eventEditItem.@event.startBeats.AddOneBeat();

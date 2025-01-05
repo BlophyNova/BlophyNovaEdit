@@ -7,6 +7,7 @@ namespace Controller
     public class CameraController : MonoBehaviourSingleton<CameraController>
     {
         //public Camera otherCamera;
+        public Camera backgroundCamera;
         private const float Is16To9 = 0.5625f;
 
         public int lastWidth;

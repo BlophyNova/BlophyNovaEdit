@@ -27,6 +27,8 @@ namespace Form.NoteEdit
         public int currentBoxID;
         public int currentLineID;
 
+        public float verticalLineDeltaDataForChartData;
+
         public RectTransform noteEditRect;
 
         public RectTransform verticalLineLeft;
@@ -53,7 +55,7 @@ namespace Form.NoteEdit
         public bool isCopy;
 
         public delegate void OnBoxRefreshed(object content);
-        public event OnBoxRefreshed onBoxRefreshed = c => { };
+        public event OnBoxRefreshed onBoxRefreshed = content => { };
 
         private void Start()
         {
@@ -114,7 +116,7 @@ namespace Form.NoteEdit
         public void Refresh()
         {
             UpdateVerticalLineCount();
-            RefreshNotes(currentBoxID, currentLineID);
+            RefreshNotes(-1, -1);
         }
 
         public List<ISelectBoxItem> TransmitObjects()

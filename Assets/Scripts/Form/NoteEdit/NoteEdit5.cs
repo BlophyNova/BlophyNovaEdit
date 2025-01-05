@@ -52,6 +52,8 @@ namespace Form.NoteEdit
                 newVerticalLine.SetSiblingIndex(4);
                 verticalLines.Add(newVerticalLine);
             }
+            //note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
+            verticalLineDeltaDataForChartData = ((verticalLines[1].localPosition.x - verticalLines[0].localPosition.x) / verticalLineLeftAndRightDelta.x)*2;
         }
     }
 }

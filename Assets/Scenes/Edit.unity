@@ -2174,6 +2174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ceabd8729e99694a834604f5e82f6c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backgroundCamera: {fileID: 434034784}
   lastWidth: 0
   lastHeight: 0
 --- !u!120 &519420034
