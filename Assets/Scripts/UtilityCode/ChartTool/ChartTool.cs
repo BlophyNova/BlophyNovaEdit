@@ -10,7 +10,9 @@ using ChartData = Data.ChartEdit.ChartData;
 using Event = Data.ChartData.Event;
 using Line = Data.ChartEdit.Line;
 using Note = Data.ChartData.Note;
-
+using EventType = Data.Enumerate.EventType;
+using GU = UtilityCode.GameUtility.GameUtility;
+using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 namespace UtilityCode.ChartTool
 {
     public class ChartTool
@@ -211,7 +213,65 @@ namespace UtilityCode.ChartTool
                 };
             }
         }
+        public static void ConvertEditEvents2ChartDataEvents(Data.ChartEdit.Box editBox, Box chartDataBox, EventType eventType)
+        {
+            List<Event> chartDataEvents= FindPlayerEventListByEventType(chartDataBox,eventType);
+            List<Data.ChartEdit.Event> chartEditEvents=FindEditEventListByEventType(editBox,eventType);
+            if (eventType != EventType.Speed)
+            {
+                ForeachBoxEvents(chartEditEvents, chartDataEvents);
+            }
+            else
+            {
+                for (int i = 0; i < chartDataBox.lines.Count; i++)
+                {
+                    Data.ChartData.Line line = chartDataBox.lines[i];
+                    List<Data.ChartEdit.Event> filledVoid = GU.FillVoid(editBox.boxEvents.speed);
+                    line.speed = new List<Event>();
+                    ForeachBoxEvents(filledVoid, line.speed);
+                    line.career = new AnimationCurve
+                    { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
+                    line.career.keys = GU.CalculatedSpeedCurve(line.speed.ToArray()).ToArray();
+                    line.far = new AnimationCurve
+                    { postWrapMode = WrapMode.ClampForever, preWrapMode = WrapMode.ClampForever };
+                    line.far.keys = GU.CalculatedFarCurveByChartEditSpeed(filledVoid).ToArray();
+                }
+            }
+        }
+        private static List<Event> FindPlayerEventListByEventType(Box chartDataBoxEvent,EventType eventType)
+        {
+            return eventType switch
+            {
+                EventType.CenterX => chartDataBoxEvent.boxEvents.centerX,
+                EventType.CenterY => chartDataBoxEvent.boxEvents.centerY,
+                EventType.MoveX => chartDataBoxEvent.boxEvents.moveX,
+                EventType.MoveY => chartDataBoxEvent.boxEvents.moveY,
+                EventType.ScaleX => chartDataBoxEvent.boxEvents.scaleX,
+                EventType.ScaleY => chartDataBoxEvent.boxEvents.scaleY,
+                EventType.Rotate => chartDataBoxEvent.boxEvents.rotate,
+                EventType.Alpha => chartDataBoxEvent.boxEvents.alpha,
+                EventType.LineAlpha => chartDataBoxEvent.boxEvents.lineAlpha,
+                _ => null
+            };
+        }
 
+        private static List<Data.ChartEdit.Event> FindEditEventListByEventType(Data.ChartEdit.Box editBoxEvent,EventType eventType)
+        {
+            return eventType switch
+            {
+                EventType.Speed => editBoxEvent.boxEvents.speed,
+                EventType.CenterX => editBoxEvent.boxEvents.centerX,
+                EventType.CenterY => editBoxEvent.boxEvents.centerY,
+                EventType.MoveX => editBoxEvent.boxEvents.moveX,
+                EventType.MoveY => editBoxEvent.boxEvents.moveY,
+                EventType.ScaleX => editBoxEvent.boxEvents.scaleX,
+                EventType.ScaleY => editBoxEvent.boxEvents.scaleY,
+                EventType.Rotate => editBoxEvent.boxEvents.rotate,
+                EventType.Alpha => editBoxEvent.boxEvents.alpha,
+                EventType.LineAlpha => editBoxEvent.boxEvents.lineAlpha,
+                _ => null
+            };
+        }
         public static void ConvertEditLine2ChartDataLine(Data.ChartEdit.Box box, Box chartDataBox, int i)
         {
             foreach (Data.ChartEdit.Note item in box.lines[i].offlineNotes)

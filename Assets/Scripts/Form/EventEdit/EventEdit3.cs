@@ -15,6 +15,7 @@ using CustomSystem;
 using Data.ChartEdit;
 using UnityEngine.InputSystem;
 using static UnityEngine.Camera;
+using UtilityCode.ChartTool;
 
 namespace Form.EventEdit
 {
@@ -221,52 +222,33 @@ namespace Form.EventEdit
 
         private void DeleteEventWithUI()
         {
-            if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType !=
-                LabelWindowContentType.NotePropertyEdit) return;
-            NotePropertyEdit.NotePropertyEdit notePropertyEdit =
-                (NotePropertyEdit.NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem
-                    .labelWindowContent;
-            List<Event> events = notePropertyEdit.@event.eventType switch
+            KeyValueList<Event,EventType> deletedEvents = new();
+            foreach (EventEditItem eventEditItem in eventClipboard)
             {
-                EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
-                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
-                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
-                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
-                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
-                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
-                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
-                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
-                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
-                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
-                _ => throw new Exception("耳朵耷拉下来，呜呜呜，没找到事件类型")
-            };
-            if (events.FindIndex(item => item.Equals(notePropertyEdit.@event.@event)) == 0)
-            {
-                LogCenter.Log($"用户尝试删除{notePropertyEdit.@event.eventType}的第一个事件");
-                Alert.EnableAlert("这是第一个事件，不支持删除了啦~");
-                return;
+                List<Event> events= FindEditEventListByEventType(eventEditItem.eventType);
+                if (events.Count - 1 <= 0) continue;
+                events.Remove(eventEditItem.@event);
+                deletedEvents.Add(eventEditItem.@event,eventEditItem.eventType);
+                onEventDeleted(eventEditItem);
             }
-
-            LogCenter.Log(
-                $"{notePropertyEdit.@event.eventType}的{notePropertyEdit.@event.@event.startBeats.integer}:{notePropertyEdit.@event.@event.startBeats.molecule}/{notePropertyEdit.@event.@event.startBeats.denominator}事件被删除");
-            events.Remove(notePropertyEdit.@event.@event);
-            onEventDeleted(notePropertyEdit.@event);
-            notePropertyEdit.RefreshEvents();
-            Steps.Instance.Add(Undo, Redo,default);
+            RefreshAll();
+            Steps.Instance.Add(Undo, Redo, RefreshAll);
             return;
             void Undo()
             {
-                Event @event = notePropertyEdit.@event.@event;
-                EventType eventType = notePropertyEdit.@event.eventType;
-                //eventEditItems.Add(eventEditItem);
-                AddEvent(@event, eventType);
-                RefreshEditEvents(-1);
+                for (int i = 0; i < deletedEvents.Count; i++) 
+                {
+                    AddEvent(deletedEvents[i], deletedEvents.GetValue(i));
+                }
             }
 
             void Redo()
             {
-                DeleteEvent(notePropertyEdit.@event);
-                RefreshAll();
+                for (int i = 0; i < deletedEvents.Count; i++)
+                {
+                    List<Event> events = FindEditEventListByEventType(deletedEvents.GetValue(i));
+                    events.Remove(deletedEvents[i]);
+                }
             }
         }
 
