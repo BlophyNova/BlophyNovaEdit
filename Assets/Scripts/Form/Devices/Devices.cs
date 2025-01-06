@@ -1,9 +1,9 @@
-using System;
 using Data.Interface;
 using Form.LabelWindow;
 using Log;
 using Manager;
 using Scenes.PublicScripts;
+using System;
 using TMPro;
 using UnityEngine;
 

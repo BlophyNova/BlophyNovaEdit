@@ -1,23 +1,16 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using CustomSystem;
-using Data.ChartEdit;
-using Data.Enumerate;
 using Data.Interface;
 using Form.LabelWindow;
 using Form.NoteEdit;
-using Form.PropertyEdit;
-using Log;
 using Manager;
 using Scenes.DontDestroyOnLoad;
 using Scenes.Edit;
 using Scenes.PublicScripts;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Event = Data.ChartEdit.Event;
-using EventType = Data.Enumerate.EventType;
 
 namespace Form.EventEdit
 {
@@ -131,6 +124,6 @@ namespace Form.EventEdit
             return res;
         }
 
-        
+
     }
 }

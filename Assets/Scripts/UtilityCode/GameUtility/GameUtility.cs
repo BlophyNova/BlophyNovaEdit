@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
 using Data.ChartEdit;
 using Manager;
 using Scenes.DontDestroyOnLoad;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UtilityCode.Extension;
 using Event = Data.ChartData.Event;
@@ -255,7 +255,8 @@ namespace UtilityCode.GameUtility
 
             return new AnimationCurve
             {
-                keys = resultKeyframes.ToArray(), preWrapMode = WrapMode.ClampForever,
+                keys = resultKeyframes.ToArray(),
+                preWrapMode = WrapMode.ClampForever,
                 postWrapMode = WrapMode.ClampForever
             }; //把处理好的Key放到AnimationCurve里返回出去
         }
@@ -330,7 +331,7 @@ namespace UtilityCode.GameUtility
                 NegationValue(ref signOutTangentLastKeyframe); //取反操作
             }
 
-            SkipLastKeyframe:
+        SkipLastKeyframe:
             //检测上一个点是否需要取反，原理：如果Value>0并且斜率小于0并且不是同一时间上的Key，需要再次取反
             if (firstKeyframe.value < keyframes[indexFirstKeyframe - 1].value
                 && firstKeyframe.time != keyframes[indexFirstKeyframe - 1].time

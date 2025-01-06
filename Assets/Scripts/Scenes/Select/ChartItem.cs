@@ -1,7 +1,7 @@
-using System.Collections;
 using Data;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;

@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using Form.LabelWindow;
 using Log;
 using Scenes.PublicScripts;
+using System.Collections.Generic;
 using UnityEngine;
 using UtilityCode.Singleton;
 

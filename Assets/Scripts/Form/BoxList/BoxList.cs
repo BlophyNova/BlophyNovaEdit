@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using Data.Interface;
 using Form.LabelWindow;
 using Scenes.DontDestroyOnLoad;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 

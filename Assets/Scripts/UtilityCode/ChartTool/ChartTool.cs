@@ -1,18 +1,17 @@
-using System.Collections.Generic;
 using Data.ChartData;
 using Data.ChartEdit;
 using Data.EaseData;
 using Manager;
+using System.Collections.Generic;
 using UnityEngine;
 using Box = Data.ChartData.Box;
 using BoxEvents = Data.ChartEdit.BoxEvents;
 using ChartData = Data.ChartEdit.ChartData;
 using Event = Data.ChartData.Event;
-using Line = Data.ChartEdit.Line;
-using Note = Data.ChartData.Note;
 using EventType = Data.Enumerate.EventType;
 using GU = UtilityCode.GameUtility.GameUtility;
-using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
+using Line = Data.ChartEdit.Line;
+using Note = Data.ChartData.Note;
 namespace UtilityCode.ChartTool
 {
     public class ChartTool
@@ -100,25 +99,25 @@ namespace UtilityCode.ChartTool
                 }
             };
             chartEditBox.boxEvents.scaleX.Add(new Data.ChartEdit.Event
-                { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 2.7f, endValue = 2.7f });
+            { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 2.7f, endValue = 2.7f });
             chartEditBox.boxEvents.scaleY.Add(new Data.ChartEdit.Event
-                { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 2.7f, endValue = 2.7f });
+            { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 2.7f, endValue = 2.7f });
             chartEditBox.boxEvents.moveX.Add(new Data.ChartEdit.Event
-                { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0 });
+            { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0 });
             chartEditBox.boxEvents.moveY.Add(new Data.ChartEdit.Event
-                { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0 });
+            { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0 });
             chartEditBox.boxEvents.centerX.Add(new Data.ChartEdit.Event
-                { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = .5f, endValue = .5f });
+            { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = .5f, endValue = .5f });
             chartEditBox.boxEvents.centerY.Add(new Data.ChartEdit.Event
-                { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = .5f, endValue = .5f });
+            { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = .5f, endValue = .5f });
             chartEditBox.boxEvents.alpha.Add(new Data.ChartEdit.Event
-                { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 1, endValue = 1 });
+            { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 1, endValue = 1 });
             chartEditBox.boxEvents.lineAlpha.Add(new Data.ChartEdit.Event
-                { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0 });
+            { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0 });
             chartEditBox.boxEvents.rotate.Add(new Data.ChartEdit.Event
-                { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0 });
+            { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0 });
             chartEditBox.boxEvents.speed.Add(new Data.ChartEdit.Event
-                { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 3, endValue = 3 });
+            { startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 3, endValue = 3 });
             for (int i = 0; i < chartEditBox.lines.Count; i++)
             {
                 chartEditBox.lines[i].offlineNotes = new List<Data.ChartEdit.Note>();
@@ -215,8 +214,8 @@ namespace UtilityCode.ChartTool
         }
         public static void ConvertEditEvents2ChartDataEvents(Data.ChartEdit.Box editBox, Box chartDataBox, EventType eventType)
         {
-            List<Event> chartDataEvents= FindPlayerEventListByEventType(chartDataBox,eventType);
-            List<Data.ChartEdit.Event> chartEditEvents=FindEditEventListByEventType(editBox,eventType);
+            List<Event> chartDataEvents = FindPlayerEventListByEventType(chartDataBox, eventType);
+            List<Data.ChartEdit.Event> chartEditEvents = FindEditEventListByEventType(editBox, eventType);
             if (eventType != EventType.Speed)
             {
                 ForeachBoxEvents(chartEditEvents, chartDataEvents);
@@ -238,7 +237,7 @@ namespace UtilityCode.ChartTool
                 }
             }
         }
-        private static List<Event> FindPlayerEventListByEventType(Box chartDataBoxEvent,EventType eventType)
+        private static List<Event> FindPlayerEventListByEventType(Box chartDataBoxEvent, EventType eventType)
         {
             return eventType switch
             {
@@ -255,7 +254,7 @@ namespace UtilityCode.ChartTool
             };
         }
 
-        private static List<Data.ChartEdit.Event> FindEditEventListByEventType(Data.ChartEdit.Box editBoxEvent,EventType eventType)
+        private static List<Data.ChartEdit.Event> FindEditEventListByEventType(Data.ChartEdit.Box editBoxEvent, EventType eventType)
         {
             return eventType switch
             {

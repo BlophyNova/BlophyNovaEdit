@@ -35,7 +35,7 @@ public class PositionConvert
     // 上面三个坐标转换的方法使用 Camera 的地方
     // 当 Canvas renderMode 为 RenderMode.ScreenSpaceCamera、RenderMode.WorldSpace 时 传递参数 canvas.worldCamera
     // 当 Canvas renderMode 为 RenderMode.ScreenSpaceOverlay 时 传递参数 null
-    
+
     // UI 坐标转换为屏幕坐标
     public static Vector2 UIPointToScreenPoint(Vector3 worldPoint)
     {

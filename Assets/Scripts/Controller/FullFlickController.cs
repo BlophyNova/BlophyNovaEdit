@@ -66,7 +66,7 @@ namespace Controller
             //这里放CurrentX，X的数据是-1-1之间的数据，理论上应该根据时间，计算出当前X
             float currentX = transform.localPosition.x; //默认赋值当前的LocalPosition.X
             if (isJudged && isMoved) //如果判定成功
-                //if (true)
+                                     //if (true)
             {
                 float percent = ((float)currentTime - thisNote.hitTime) / thisNote.HoldTime; //计算当前时间距离开始和结束过去了百分之多少
                 currentX = (decisionEndPoint - thisNote.positionX) * percent +

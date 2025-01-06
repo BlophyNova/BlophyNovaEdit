@@ -146,8 +146,8 @@ namespace UtilityCode.Algorithm
         /// <returns></returns>
         public static int GetLargestCommonDivisor(int n1, int n2)
         {
-            int max = Mathf.Max(n1,n2);
-            int min = Mathf.Min(n1,n2);
+            int max = Mathf.Max(n1, n2);
+            int min = Mathf.Min(n1, n2);
             int remainder;
             while (min != 0)
             {

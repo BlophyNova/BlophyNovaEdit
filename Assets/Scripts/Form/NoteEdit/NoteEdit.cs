@@ -1,23 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Controller;
-using Data.ChartData;
-using Data.ChartEdit;
 using Data.Interface;
 using Form.LabelWindow;
-using Form.PropertyEdit;
-using Log;
-using Manager;
 using Scenes.Edit;
 using Scenes.PublicScripts;
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UtilityCode.ChartTool;
-using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
-using Note = Data.ChartEdit.Note;
 
 namespace Form.NoteEdit
 {

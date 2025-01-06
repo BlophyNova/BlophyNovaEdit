@@ -1,25 +1,13 @@
-using System.Collections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Controller;
+using Data.ChartData;
 using Data.ChartEdit;
 using Data.Interface;
 using Log;
-using Manager;
-using Scenes.DontDestroyOnLoad;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UtilityCode.ChartTool;
-using Data.ChartData;
-using Form.LabelWindow;
-using Form.PropertyEdit;
-using Scenes.Edit;
-using Scenes.PublicScripts;
-using TMPro;
-using UnityEngine.InputSystem;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 using Note = Data.ChartEdit.Note;
-using static UnityEngine.Camera;
 namespace Form.NoteEdit
 {
     //这里放用户编辑操作响应相关的事情

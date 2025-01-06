@@ -1,27 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using CustomSystem;
-using Data.ChartEdit;
-using Data.Enumerate;
-using Data.Interface;
-using Form.LabelWindow;
-using Form.NoteEdit;
-using Form.PropertyEdit;
-using Log;
+﻿using Form.PropertyEdit;
 using Manager;
 using Scenes.DontDestroyOnLoad;
-using Scenes.Edit;
-using Scenes.PublicScripts;
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UtilityCode.Algorithm;
-using UtilityCode.ChartTool;
-using UtilityCode.GameUtility;
-using Event = Data.ChartEdit.Event;
-using EventType = Data.Enumerate.EventType;
 
 namespace Form.EventEdit
 {

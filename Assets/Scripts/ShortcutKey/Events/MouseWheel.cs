@@ -2,7 +2,6 @@ using Data.Enumerate;
 using Data.Interface;
 using Manager;
 using Scenes.DontDestroyOnLoad;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

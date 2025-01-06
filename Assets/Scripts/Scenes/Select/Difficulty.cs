@@ -1,5 +1,5 @@
-using System;
 using Scenes.DontDestroyOnLoad;
+using System;
 using TMPro;
 using UnityEngine;
 

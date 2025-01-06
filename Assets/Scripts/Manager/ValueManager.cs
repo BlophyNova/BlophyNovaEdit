@@ -6,7 +6,8 @@ namespace Manager
 {
     public class ValueManager : MonoBehaviourSingleton<ValueManager> //这里存放一些数值相关的东西
     {
-        [Header("下面这些值都是人为根据需求拟定")] [Tooltip("计算面积的精细度")]
+        [Header("下面这些值都是人为根据需求拟定")]
+        [Tooltip("计算面积的精细度")]
         public float calculatedAreaRange;
 
         [Tooltip("保留多少位，和上边的有强关联，如0.1就保留1位，0.01就2位，以此类推")]
@@ -26,7 +27,8 @@ namespace Manager
         [Tooltip("因为编辑器检测屏幕刷新了始终是0，所以这里手动设置编辑器目标FPS")]
         public int editorTargetFPS;
 
-        [FormerlySerializedAs("FPS")] [Tooltip("Runtime目标FPS")]
+        [FormerlySerializedAs("FPS")]
+        [Tooltip("Runtime目标FPS")]
         public int fps;
 
         [Tooltip("Good判定为Perfect的百分之多少，这里输入0-1之间的数据表示百分比")]
@@ -37,10 +39,12 @@ namespace Manager
         [Tooltip("音符右边的空间判定范围，世界坐标为主")] public float noteRightJudgeRange;
         [Tooltip("音符左边的空间判定范围，世界坐标为主")] public float noteLeftJudgeRange;
 
-        [FormerlySerializedAs("fullFlick_noteRightJudgeRange")] [Tooltip("大滑键音符左边的空间判定范围，世界坐标为主")]
+        [FormerlySerializedAs("fullFlick_noteRightJudgeRange")]
+        [Tooltip("大滑键音符左边的空间判定范围，世界坐标为主")]
         public float fullFlickNoteRightJudgeRange;
 
-        [FormerlySerializedAs("fullFlick_noteLeftJudgeRange")] [Tooltip("大滑键音符左边的空间判定范围，世界坐标为主")]
+        [FormerlySerializedAs("fullFlick_noteLeftJudgeRange")]
+        [Tooltip("大滑键音符左边的空间判定范围，世界坐标为主")]
         public float fullFlickNoteLeftJudgeRange;
 
         [Tooltip("当前系统的目标帧率")] public int currentTargetFPS;
@@ -57,7 +61,8 @@ namespace Manager
         [Tooltip("Hold音符判定手指离开多长时间重新放回去是为不Miss")]
         public float holdLeaveScreenTime;
 
-        [FormerlySerializedAs("holdHitEffectCDTime")] [Tooltip("Hold音符的特效播放间隔多长时间")]
+        [FormerlySerializedAs("holdHitEffectCDTime")]
+        [Tooltip("Hold音符的特效播放间隔多长时间")]
         public float holdHitEffectCdTime; //就是Hold打击特效播放完一次后CD是多少，播放完一次后多少秒内不能继续播放
 
         [Tooltip("Tap音符权重")] public int tapWeight;

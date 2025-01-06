@@ -1,6 +1,6 @@
-using System.Collections;
 using Data.ChartData;
 using Manager;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UtilityCode.GameUtility;

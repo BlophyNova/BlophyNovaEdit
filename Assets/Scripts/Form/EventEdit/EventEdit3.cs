@@ -1,21 +1,13 @@
-using Form.NoteEdit;
-using Form.PropertyEdit;
-using Log;
-using Manager;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using UnityEngine;
-using Scenes.DontDestroyOnLoad;
-using Data.Enumerate;
-using Event = Data.ChartEdit.Event;
-using EventType = Data.Enumerate.EventType;
-using Scenes.PublicScripts;
 using CustomSystem;
 using Data.ChartEdit;
-using UnityEngine.InputSystem;
-using static UnityEngine.Camera;
-using UtilityCode.ChartTool;
+using Form.NoteEdit;
+using Log;
+using Scenes.DontDestroyOnLoad;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using Event = Data.ChartEdit.Event;
+using EventType = Data.Enumerate.EventType;
 
 namespace Form.EventEdit
 {
@@ -73,11 +65,11 @@ namespace Form.EventEdit
             RefreshAll();
             if (isCopy)
             {
-                Steps.Instance.Add(CopyUndo, CopyRedo,RefreshAll);
+                Steps.Instance.Add(CopyUndo, CopyRedo, RefreshAll);
             }
             else
             {
-                Steps.Instance.Add(PasteUndo, PasteRedo,RefreshAll);
+                Steps.Instance.Add(PasteUndo, PasteRedo, RefreshAll);
             }
             onEventRefreshed(eventEditItems);
             return;
@@ -104,7 +96,7 @@ namespace Form.EventEdit
                     DeleteEvent(newEvents.GetKey(i), newEvents.GetValue(i));
                 }
 
-                InstNewEvents(deletedEvents,deletedEvents[0].startBeats);
+                InstNewEvents(deletedEvents, deletedEvents[0].startBeats);
             }
             void PasteRedo()
             {
@@ -112,11 +104,11 @@ namespace Form.EventEdit
                 {
                     DeleteEvent(deletedEvents.GetKey(i), deletedEvents.GetValue(i));
                 }
-                InstNewEvents(newEvents,newEvents[0].startBeats);
+                InstNewEvents(newEvents, newEvents[0].startBeats);
             }
         }
 
-        private KeyValueList<Event, EventType> DeleteSourceEvent(List<EventEditItem> eventEditItems,int boxID)
+        private KeyValueList<Event, EventType> DeleteSourceEvent(List<EventEditItem> eventEditItems, int boxID)
         {
             KeyValueList<Event, EventType> deletedEvents = new();
             if (isCopy)
@@ -127,7 +119,7 @@ namespace Form.EventEdit
             foreach (EventEditItem eventEditItem in eventEditItems)
             {
                 DeleteEvent(eventEditItem, boxID);
-                deletedEvents.Add(eventEditItem.@event,eventEditItem.eventType);
+                deletedEvents.Add(eventEditItem.@event, eventEditItem.eventType);
                 //Debug.LogError("这里有问题");
             }
             return deletedEvents;
@@ -144,7 +136,7 @@ namespace Form.EventEdit
             List<EventEditItem> selectedBox = selectBox.TransmitObjects().Cast<EventEditItem>().ToList();
             foreach (EventEditItem eventEditItem in selectedBox)
             {
-                BPM delta =new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
+                BPM delta = new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
 
                 if (eventEditItem.@event.startBeats.denominator != GlobalData.Instance.chartEditData.beatSubdivision)
                 {
@@ -156,7 +148,7 @@ namespace Form.EventEdit
             }
 
             LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向上移动一格");
-            Steps.Instance.Add(Undo,Redo,RefreshAll);
+            Steps.Instance.Add(Undo, Redo, RefreshAll);
             RefreshAll();
             return;
 
@@ -164,7 +156,7 @@ namespace Form.EventEdit
             {
                 foreach (EventEditItem eventEditItem in selectedBox)
                 {
-                    BPM delta =new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
+                    BPM delta = new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
                     eventEditItem.@event.startBeats.SubtractionOneBeat();
                     eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
                 }
@@ -174,7 +166,7 @@ namespace Form.EventEdit
             {
                 foreach (EventEditItem eventEditItem in selectedBox)
                 {
-                    BPM delta =new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
+                    BPM delta = new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
                     eventEditItem.@event.startBeats.AddOneBeat();
                     eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
                 }
@@ -186,7 +178,7 @@ namespace Form.EventEdit
             List<EventEditItem> selectedBox = selectBox.TransmitObjects().Cast<EventEditItem>().ToList();
             foreach (EventEditItem eventEditItem in selectedBox)
             {
-                BPM delta =new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
+                BPM delta = new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
                 if (eventEditItem.@event.startBeats.denominator != GlobalData.Instance.chartEditData.beatSubdivision)
                 {
                     BPM nearBpm = new(FindNearBeatLine((Vector2)transform.InverseTransformPoint(transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM);
@@ -205,7 +197,7 @@ namespace Form.EventEdit
             {
                 foreach (EventEditItem eventEditItem in selectedBox)
                 {
-                    BPM delta =new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
+                    BPM delta = new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
                     eventEditItem.@event.startBeats.AddOneBeat();
                     eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
                 }
@@ -215,7 +207,7 @@ namespace Form.EventEdit
             {
                 foreach (EventEditItem eventEditItem in selectedBox)
                 {
-                    BPM delta =new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
+                    BPM delta = new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
                     eventEditItem.@event.startBeats.SubtractionOneBeat();
                     eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
                 }
@@ -224,13 +216,13 @@ namespace Form.EventEdit
 
         private void DeleteEventWithUI()
         {
-            KeyValueList<Event,EventType> deletedEvents = new();
+            KeyValueList<Event, EventType> deletedEvents = new();
             foreach (EventEditItem eventEditItem in eventClipboard)
             {
-                List<Event> events= FindEditEventListByEventType(eventEditItem.eventType,currentBoxID);
+                List<Event> events = FindEditEventListByEventType(eventEditItem.eventType, currentBoxID);
                 if (events.Count - 1 <= 0) continue;
                 events.Remove(eventEditItem.@event);
-                deletedEvents.Add(eventEditItem.@event,eventEditItem.eventType);
+                deletedEvents.Add(eventEditItem.@event, eventEditItem.eventType);
                 onEventDeleted(eventEditItem);
             }
             RefreshAll();
@@ -238,7 +230,7 @@ namespace Form.EventEdit
             return;
             void Undo()
             {
-                for (int i = 0; i < deletedEvents.Count; i++) 
+                for (int i = 0; i < deletedEvents.Count; i++)
                 {
                     AddEvent(deletedEvents[i], deletedEvents.GetValue(i));
                 }

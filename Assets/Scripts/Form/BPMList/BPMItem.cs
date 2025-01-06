@@ -1,10 +1,10 @@
-using System.Text.RegularExpressions;
 using Data.ChartEdit;
 using Data.Interface;
 using Log;
 using Manager;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

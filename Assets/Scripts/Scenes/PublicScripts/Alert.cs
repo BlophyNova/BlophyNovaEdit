@@ -1,6 +1,6 @@
+using Scenes.DontDestroyOnLoad;
 using System;
 using System.Collections.Generic;
-using Scenes.DontDestroyOnLoad;
 using TMPro;
 
 namespace Scenes.PublicScripts

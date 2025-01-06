@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using Data.ChartData;
 using Data.Interface;
 using Manager;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UtilityCode.Algorithm;
@@ -10,7 +10,8 @@ namespace Controller
 {
     public class LineNoteController : MonoBehaviour, IRefresh
     {
-        [FormerlySerializedAs("freeBox_NoteParsent")] [Tooltip("如果是自由框，那就用这个作为音符的爸爸")]
+        [FormerlySerializedAs("freeBox_NoteParsent")]
+        [Tooltip("如果是自由框，那就用这个作为音符的爸爸")]
         public Transform freeBoxNoteParsent;
 
         public DecideLineController decideLineController; //判定线控制

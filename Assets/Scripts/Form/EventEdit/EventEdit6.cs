@@ -1,22 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using Data.ChartEdit;
+using Log;
+using Scenes.DontDestroyOnLoad;
 using System.Collections.Generic;
 using System.Linq;
-using CustomSystem;
-using Data.ChartEdit;
-using Data.Enumerate;
-using Data.Interface;
-using Form.LabelWindow;
-using Form.NoteEdit;
-using Form.PropertyEdit;
-using Log;
-using Manager;
-using Scenes.DontDestroyOnLoad;
-using Scenes.Edit;
-using Scenes.PublicScripts;
-using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UtilityCode.Algorithm;
 using UtilityCode.ChartTool;
 using UtilityCode.GameUtility;
@@ -28,13 +15,13 @@ namespace Form.EventEdit
     //这里放处理数据的方法
     public partial class EventEdit
     {
-        private void DeleteEvent(EventEditItem eventEditItem,int boxID)
+        private void DeleteEvent(EventEditItem eventEditItem, int boxID)
         {
-            List<Event> events = FindEditEventListByEventType(eventEditItem.eventType, boxID); 
+            List<Event> events = FindEditEventListByEventType(eventEditItem.eventType, boxID);
             events.Remove(eventEditItem.@event);
             onEventDeleted(eventEditItem);
         }
-        private void DeleteEvent(Event @event,EventType eventType)
+        private void DeleteEvent(Event @event, EventType eventType)
         {
             List<Event> events = FindEditEventListByEventType(eventType, currentBoxID);
             events.Remove(@event);
@@ -111,7 +98,7 @@ namespace Form.EventEdit
             };
         }
 
-        private List<Event> FindEditEventListByEventType(EventType eventType,int boxID)
+        private List<Event> FindEditEventListByEventType(EventType eventType, int boxID)
         {
             return eventType switch
             {
@@ -172,7 +159,7 @@ namespace Form.EventEdit
             #endregion
         }
 
-        private KeyValueList<Event,EventType> InstNewEvents(List<EventEditItem> eventClipboard, BPM beatLineBpm)
+        private KeyValueList<Event, EventType> InstNewEvents(List<EventEditItem> eventClipboard, BPM beatLineBpm)
         {
             KeyValueList<Event, EventType> newEvents = new();
             BPM firstEventStartBeats = eventClipboard[0].@event.startBeats;
@@ -188,7 +175,7 @@ namespace Form.EventEdit
                 {
                     copyNewEvent.IsSelected = false;
                 }
-                newEvents.Add(copyNewEvent,@event.eventType);
+                newEvents.Add(copyNewEvent, @event.eventType);
                 //AddEventAndRefresh(copyNewEvent, currentBoxID);
                 AddEvent(copyNewEvent, @event.eventType, true);
             }

@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Data.ChartData;
 using Data.ChartEdit;
 using Data.Enumerate;
@@ -9,6 +6,9 @@ using Form.EventEdit;
 using Form.LabelWindow;
 using Form.NotePropertyEdit;
 using Log;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Note = Data.ChartEdit.Note;

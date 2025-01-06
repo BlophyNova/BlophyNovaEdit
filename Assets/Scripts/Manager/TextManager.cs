@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using Controller;
 using Data.ChartData;
+using System.Collections.Generic;
 using UnityEngine;
 using UtilityCode.ObjectPool;
 using UtilityCode.Singleton;

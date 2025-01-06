@@ -1,24 +1,5 @@
-﻿using System.Collections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Controller;
-using Data.ChartEdit;
-using Data.Interface;
-using Log;
-using Manager;
-using Scenes.DontDestroyOnLoad;
-using UnityEngine;
-using UtilityCode.ChartTool;
-using Data.ChartData;
-using Form.LabelWindow;
-using Form.PropertyEdit;
-using Scenes.Edit;
-using Scenes.PublicScripts;
-using TMPro;
-using UnityEngine.InputSystem;
+﻿using UnityEngine;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
-using Note = Data.ChartEdit.Note;
 
 namespace Form.NoteEdit
 {
@@ -53,7 +34,7 @@ namespace Form.NoteEdit
                 verticalLines.Add(newVerticalLine);
             }
             //note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
-            verticalLineDeltaDataForChartData = ((verticalLines[1].localPosition.x - verticalLines[0].localPosition.x) / verticalLineLeftAndRightDelta.x)*2;
+            verticalLineDeltaDataForChartData = ((verticalLines[1].localPosition.x - verticalLines[0].localPosition.x) / verticalLineLeftAndRightDelta.x) * 2;
         }
     }
 }

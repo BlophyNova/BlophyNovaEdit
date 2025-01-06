@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Data.ChartData;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UtilityCode.Algorithm;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
@@ -72,7 +72,7 @@ namespace Data.ChartEdit
         public static BPM Zero => new();
         public static BPM One => new(1, 0, 1);
 
-        public void AddOneBeat(int beatSubdivision=-1)
+        public void AddOneBeat(int beatSubdivision = -1)
         {
             denominator = beatSubdivision switch
             {
@@ -90,7 +90,7 @@ namespace Data.ChartEdit
             }
         }
 
-        public void SubtractionOneBeat(int beatSubdivision=-1)
+        public void SubtractionOneBeat(int beatSubdivision = -1)
         {
             denominator = beatSubdivision switch
             {
@@ -287,7 +287,7 @@ namespace Data.ChartEdit
         public BPM HitBeats
         {
             get => hitBeats;
-            set=>hitBeats = value;
+            set => hitBeats = value;
         }
 
         [JsonIgnore]
@@ -484,8 +484,8 @@ namespace Data.ChartEdit
 
         public bool IsSelected
         {
-            get=>isSelected;
-            set=>isSelected = value;
+            get => isSelected;
+            set => isSelected = value;
         }
 
         //public EaseData curve;

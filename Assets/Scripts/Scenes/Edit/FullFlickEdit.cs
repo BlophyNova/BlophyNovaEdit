@@ -1,5 +1,5 @@
-using System;
 using Data.ChartData;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Note = Data.ChartEdit.Note;

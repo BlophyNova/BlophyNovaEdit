@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using Manager;
 using Scenes.DontDestroyOnLoad;
+using System.Collections.Generic;
 using UnityEngine;
 using UtilityCode.Algorithm;
 using UtilityCode.Singleton;

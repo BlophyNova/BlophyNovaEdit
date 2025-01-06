@@ -1,9 +1,9 @@
-using System.Collections.Generic;
 using Data.ChartEdit;
 using Data.Interface;
 using Form.PropertyEdit;
 using Manager;
 using Scenes.DontDestroyOnLoad;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 

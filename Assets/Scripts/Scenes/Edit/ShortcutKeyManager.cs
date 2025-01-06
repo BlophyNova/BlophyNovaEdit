@@ -1,10 +1,8 @@
-using Log;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Utilities;
 using UtilityCode.Singleton;
 using Application = UnityEngine.Application;
 
@@ -53,12 +51,12 @@ namespace Scenes.Edit
 
             return assignStateActions;
         }
-        public void RegisterEvents(string actionNameOrId,Action<InputAction.CallbackContext> started,Action<InputAction.CallbackContext> performed,Action<InputAction.CallbackContext> canceled)
+        public void RegisterEvents(string actionNameOrId, Action<InputAction.CallbackContext> started, Action<InputAction.CallbackContext> performed, Action<InputAction.CallbackContext> canceled)
         {
             InputAction inputAction = playerInput.actions[actionNameOrId];
-            inputAction.started += callbackContext => this.started.Add(() => started(callbackContext),callbackContext);
-            inputAction.performed += callbackContext => this.performed.Add(()=>performed(callbackContext),callbackContext);
-            inputAction.canceled += callbackContext => this.canceled.Add(()=>canceled(callbackContext),callbackContext); 
+            inputAction.started += callbackContext => this.started.Add(() => started(callbackContext), callbackContext);
+            inputAction.performed += callbackContext => this.performed.Add(() => performed(callbackContext), callbackContext);
+            inputAction.canceled += callbackContext => this.canceled.Add(() => canceled(callbackContext), callbackContext);
             inputAction.Enable();
         }
         private void LateUpdate()
@@ -76,7 +74,7 @@ namespace Scenes.Edit
                 {
                     keyValueList[i]();
                 }
-                catch(Exception e) 
+                catch (Exception e)
                 {
                     Debug.LogError(e.Message);
                 }

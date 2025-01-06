@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using System.Diagnostics;
 using Controller;
 using Data.ChartData;
+using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UtilityCode.Singleton;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;

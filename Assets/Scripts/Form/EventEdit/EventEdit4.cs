@@ -1,21 +1,14 @@
-﻿using Form.NoteEdit;
-using Form.PropertyEdit;
+﻿using Form.PropertyEdit;
 using Log;
 using Manager;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using UnityEngine;
 using Scenes.DontDestroyOnLoad;
-using Data.Enumerate;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UtilityCode.Algorithm;
+using UtilityCode.ChartTool;
 using Event = Data.ChartEdit.Event;
 using EventType = Data.Enumerate.EventType;
-using Scenes.PublicScripts;
-using CustomSystem;
-using Data.ChartEdit;
-using UtilityCode.ChartTool;
-using System.Collections;
-using UtilityCode.Algorithm;
 
 namespace Form.EventEdit
 {
@@ -24,7 +17,7 @@ namespace Form.EventEdit
     {
         private void RefreshAll()
         {
-            RefreshEditEvents(-1,false);
+            RefreshEditEvents(-1, false);
             RefreshPlayerEvents(false);
             onBoxRefreshed(currentBoxID);
         }
@@ -32,7 +25,7 @@ namespace Form.EventEdit
         /// 
         /// </summary>
         /// <param name="isExeRefreshEvent">是否执行刷新事件</param>
-        private void RefreshPlayerEvents(bool isExeRefreshEvent=true)
+        private void RefreshPlayerEvents(bool isExeRefreshEvent = true)
         {
             ChartTool.ConvertAllEditEvents2ChartDataEvents(GlobalData.Instance.chartEditData.boxes[currentBoxID],
                 GlobalData.Instance.chartData.boxes[currentBoxID]);
@@ -80,7 +73,7 @@ namespace Form.EventEdit
 
             UpdateNoteLocalPositionAndSize();
             onEventRefreshed(eventEditItems);
-            if(isExeRefreshEvent) onBoxRefreshed(currentBoxID);
+            if (isExeRefreshEvent) onBoxRefreshed(currentBoxID);
         }
         /// <summary>
         /// 此方法的作用是，如果要换框，那就把当前剪切板的内容复制到其他剪切板中，实现跨框复制事件的功能

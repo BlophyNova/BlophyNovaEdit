@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Controller;
 using Data.ChartData;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UtilityCode.Algorithm;

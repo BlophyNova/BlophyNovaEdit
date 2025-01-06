@@ -1,24 +1,14 @@
 using CustomSystem;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using Controller;
 using Data.ChartData;
 using Data.ChartEdit;
-using Data.Enumerate;
-using Data.Interface;
 using Form.EventEdit;
 using Form.LabelWindow;
 using Log;
-using Manager;
+using System.Text.RegularExpressions;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
-using UtilityCode.ChartTool;
-using UtilityCode.GameUtility;
 using Event = Data.ChartEdit.Event;
-using EventType = Data.Enumerate.EventType;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
-using Line = Data.ChartData.Line;
 using Note = Data.ChartEdit.Note;
 
 namespace Form.NotePropertyEdit
@@ -187,7 +177,7 @@ namespace Form.NotePropertyEdit
 
         private void PositionXChanged(string value)
         {
-            if (!float.TryParse(value, out float result))return;
+            if (!float.TryParse(value, out float result)) return;
 
             float sourceValue = note.positionX;
             float targetValue = result;
@@ -212,7 +202,7 @@ namespace Form.NotePropertyEdit
 
             float sourceValue = @event.@event.endValue;
             float targetValue = result;
-            Steps.Instance.Add(Undo,Redo, RefreshChartPreviewAndChartEditCanvas);
+            Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             RefreshChartPreviewAndChartEditCanvas();
             LogCenter.Log($"事件EndValue从{@event.@event.endValue}变更为{result}");
@@ -231,8 +221,8 @@ namespace Form.NotePropertyEdit
         {
             if (!float.TryParse(value, out float result)) return;
 
-            float sourceValue= @event.@event.startValue;
-            float targetValue=result;
+            float sourceValue = @event.@event.startValue;
+            float targetValue = result;
             Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             RefreshChartPreviewAndChartEditCanvas();

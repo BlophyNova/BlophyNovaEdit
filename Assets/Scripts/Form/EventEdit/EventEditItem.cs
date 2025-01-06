@@ -1,12 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Data.Enumerate;
 using Data.Interface;
 using Form.LabelWindow;
-using Log;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Event = Data.ChartEdit.Event;
 using EventType = Data.Enumerate.EventType;

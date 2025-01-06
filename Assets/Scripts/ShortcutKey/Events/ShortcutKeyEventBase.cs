@@ -26,6 +26,6 @@ namespace ShortcutKey.Events
         }
 
         protected void Init() => ShortcutKeyManager.Instance.RegisterEvents(inputActionName, Started, Performed, Canceled);
-        
+
     }
 }

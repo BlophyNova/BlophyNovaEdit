@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
 using Data.ChartData;
 using Data.Enumerate;
 using Manager;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 

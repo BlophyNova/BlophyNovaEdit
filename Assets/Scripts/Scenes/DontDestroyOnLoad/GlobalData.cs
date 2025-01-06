@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using Data.ChartData;
 using Data.EaseData;
 using Data.Enumerate;
@@ -10,6 +6,10 @@ using Form.LabelWindow;
 using Newtonsoft.Json;
 using Scenes.Edit;
 using Scenes.PublicScripts;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;
@@ -74,7 +74,7 @@ namespace Scenes.DontDestroyOnLoad
 
             if (File.Exists($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"))
             {
-                if(bool.TryParse(File.ReadAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"),out bool result)&&!result)
+                if (bool.TryParse(File.ReadAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"), out bool result) && !result)
                 {
                     ShowDisclaimer();
                 }
@@ -100,7 +100,7 @@ namespace Scenes.DontDestroyOnLoad
         private static void ShowDisclaimer()
         {
             Alert.EnableAlert("使用本软件制作谱面之前，请明确获得相关素材的作者授权，本软件以及开发者不为因使用未授权的相关素材或其他形式产生的版权问题负责。继续使用本软件代表您同意，否则关闭本软件。");
-            File.WriteAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt","True");
+            File.WriteAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt", "True");
         }
 
         private void OnDestroy()
