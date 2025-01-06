@@ -100,6 +100,7 @@ namespace Form.NoteEdit
                 "MoveDown" => MoveDown,
                 "MoveLeft" => MoveLeft,
                 "MoveRight" => MoveRight,
+                "MirrorFlip" => MirrorFlip,
                 _ => () => Alert.EnableAlert("欸···？怎么回事，怎么会找不到事件呢···")
             };
             action();

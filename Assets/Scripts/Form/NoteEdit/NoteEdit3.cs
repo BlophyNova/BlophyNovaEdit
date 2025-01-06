@@ -283,5 +283,13 @@ namespace Form.NoteEdit
             RefreshNoteEditAndChartPreview();
             LogCenter.Log($"³É¹¦¾µÏñ{selectedBoxItems.Count}¸öÒô·û");
         }
+        void MirrorFlip()
+        {
+            foreach (Scenes.Edit.NoteEdit noteEdit in noteClipboard)
+            {
+                noteEdit.thisNoteData.positionX = -noteEdit.thisNoteData.positionX;
+            }
+            RefreshNoteEditAndChartPreview();
+        }
     }
 }

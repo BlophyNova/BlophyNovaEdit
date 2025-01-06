@@ -301,6 +301,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "MirrorFlip",
+                    "type": "Button",
+                    "id": "4e4efc6b-69d7-48f9-996d-074885e99278",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1205,6 +1214,17 @@
                     "action": "AligningTime2BeatLine",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "279139d0-2df1-419b-bd55-b649c6704997",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "MirrorFlip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
