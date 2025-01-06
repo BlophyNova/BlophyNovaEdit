@@ -139,7 +139,8 @@ namespace Form.NotePropertyEdit
                 {
                     if (eventMemory.Equals(scaleY[i]))
                     {
-                        scaleY[i] = new Event(@event.@event);
+                        scaleY[i] = new(@event.@event);
+                        eventMemory = new(@event.@event);
                     }
                 }
 
@@ -188,7 +189,7 @@ namespace Form.NotePropertyEdit
         public void SelectedNote(EventEditItem @event)
         {
             this.@event = @event;
-            eventMemory = new Event(@event.@event);
+            eventMemory = new(@event.@event);
             noteType.interactable = false;
             commonEffect.interactable = false;
             ripple.interactable = false;
