@@ -55,6 +55,7 @@ namespace Scenes.Select
             descriptionText.text = string.Empty;
             image.sprite = null;
             image.color = illustrationPreviewNone;
+            thisButton.interactable = true;
         }
 
         private void CreatChart()
@@ -109,6 +110,7 @@ namespace Scenes.Select
 
         public void OnClick()
         {
+            thisButton.interactable = false;
             if (VerifyLocalMusicExistence() &
                 VerifyLocalIllustrationExistence())
             {
@@ -130,7 +132,9 @@ namespace Scenes.Select
 
                 parentObject.gameObject.SetActive(false);
                 ChartList.Instance.RefreshList();
+                return;
             }
+            thisButton.interactable = true;
         }
 
         private void CreateNewChartIndex(string indexJSONPath, List<ChartFileIndex> chartFileIndices)
