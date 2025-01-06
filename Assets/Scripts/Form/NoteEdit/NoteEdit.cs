@@ -24,6 +24,8 @@ namespace Form.NoteEdit
     //由于这个控件需要的功能太多，所以这里做个分类，此文件负责字段事件委托属性，以及Unity生命周期的方法和接口实现的方法
     public partial class NoteEdit : LabelWindowContent, IInputEventCallback, IRefresh, ISelectBox
     {
+        public int lastBoxID;
+        public int lastLineID;
         public int currentBoxID;
         public int currentLineID;
 

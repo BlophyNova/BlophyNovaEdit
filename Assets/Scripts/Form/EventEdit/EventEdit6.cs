@@ -28,15 +28,15 @@ namespace Form.EventEdit
     //这里放处理数据的方法
     public partial class EventEdit
     {
-        private void DeleteEvent(EventEditItem eventEditItem)
+        private void DeleteEvent(EventEditItem eventEditItem,int boxID)
         {
-            List<Event> events = FindEditEventListByEventType(eventEditItem.eventType); 
+            List<Event> events = FindEditEventListByEventType(eventEditItem.eventType, boxID); 
             events.Remove(eventEditItem.@event);
             onEventDeleted(eventEditItem);
         }
         private void DeleteEvent(Event @event,EventType eventType)
         {
-            List<Event> events = FindEditEventListByEventType(eventType);
+            List<Event> events = FindEditEventListByEventType(eventType, currentBoxID);
             events.Remove(@event);
         }
         private void AddEvent(EventEditItem eventEditItem)
@@ -46,7 +46,7 @@ namespace Form.EventEdit
 
         private void AddEvent(Data.ChartEdit.Event @event, EventType eventType, bool isPaste = false)
         {
-            List<Event> events = FindEditEventListByEventType(eventType);
+            List<Event> events = FindEditEventListByEventType(eventType, currentBoxID);
             if (!isPaste)
             {
                 @event.startValue = @event.endValue = events[^1].endValue;
@@ -61,7 +61,7 @@ namespace Form.EventEdit
                 if (a.startBeats.ThisStartBPM < b.startBeats.ThisStartBPM) return -1;
                 return 0;
             });
-            List<Data.ChartData.Event> chartDataEvents = FindPlayerEventListByEventType(eventType);
+            List<Data.ChartData.Event> chartDataEvents = FindPlayerEventListByEventType(eventType, currentBoxID);
             if (chartDataEvents == null)
             {
                 SpeedEvent(eventType);
@@ -78,9 +78,9 @@ namespace Form.EventEdit
         {
             if (eventType == EventType.ScaleX && !isPaste) //同步scaleY
             {
-                List<Data.ChartEdit.Event> scaleYEvents =
+                List<Event> scaleYEvents =
                     GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY;
-                scaleYEvents.Add(new Data.ChartEdit.Event(@event));
+                scaleYEvents.Add(new Event(@event));
                 Algorithm.BubbleSort(scaleYEvents, (a, b) => //排序
                 {
                     if (a.startBeats.ThisStartBPM > b.startBeats.ThisStartBPM) return 1;
@@ -89,42 +89,42 @@ namespace Form.EventEdit
                 });
                 ChartTool.InsertEditEvent2PlayerEvent(
                     GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.scaleY,
-                    new Data.ChartEdit.Event(@event));
+                    new Event(@event));
                 RefreshEditEvents(-1);
             }
         }
 
-        private List<Data.ChartData.Event> FindPlayerEventListByEventType(EventType eventType)
+        private List<Data.ChartData.Event> FindPlayerEventListByEventType(EventType eventType, int boxID)
         {
             return eventType switch
             {
-                EventType.CenterX => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.centerX,
-                EventType.CenterY => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.centerY,
-                EventType.MoveX => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.moveX,
-                EventType.MoveY => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.moveY,
-                EventType.ScaleX => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.scaleX,
-                EventType.ScaleY => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.scaleY,
-                EventType.Rotate => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.rotate,
-                EventType.Alpha => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.alpha,
-                EventType.LineAlpha => GlobalData.Instance.chartData.boxes[currentBoxID].boxEvents.lineAlpha,
+                EventType.CenterX => GlobalData.Instance.chartData.boxes[boxID].boxEvents.centerX,
+                EventType.CenterY => GlobalData.Instance.chartData.boxes[boxID].boxEvents.centerY,
+                EventType.MoveX => GlobalData.Instance.chartData.boxes[boxID].boxEvents.moveX,
+                EventType.MoveY => GlobalData.Instance.chartData.boxes[boxID].boxEvents.moveY,
+                EventType.ScaleX => GlobalData.Instance.chartData.boxes[boxID].boxEvents.scaleX,
+                EventType.ScaleY => GlobalData.Instance.chartData.boxes[boxID].boxEvents.scaleY,
+                EventType.Rotate => GlobalData.Instance.chartData.boxes[boxID].boxEvents.rotate,
+                EventType.Alpha => GlobalData.Instance.chartData.boxes[boxID].boxEvents.alpha,
+                EventType.LineAlpha => GlobalData.Instance.chartData.boxes[boxID].boxEvents.lineAlpha,
                 _ => null
             };
         }
 
-        private List<Event> FindEditEventListByEventType(EventType eventType)
+        private List<Event> FindEditEventListByEventType(EventType eventType,int boxID)
         {
             return eventType switch
             {
-                EventType.Speed => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.speed,
-                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerX,
-                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.centerY,
-                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveX,
-                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.moveY,
-                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleX,
-                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.scaleY,
-                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.rotate,
-                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.alpha,
-                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[currentBoxID].boxEvents.lineAlpha,
+                EventType.Speed => GlobalData.Instance.chartEditData.boxes[boxID].boxEvents.speed,
+                EventType.CenterX => GlobalData.Instance.chartEditData.boxes[boxID].boxEvents.centerX,
+                EventType.CenterY => GlobalData.Instance.chartEditData.boxes[boxID].boxEvents.centerY,
+                EventType.MoveX => GlobalData.Instance.chartEditData.boxes[boxID].boxEvents.moveX,
+                EventType.MoveY => GlobalData.Instance.chartEditData.boxes[boxID].boxEvents.moveY,
+                EventType.ScaleX => GlobalData.Instance.chartEditData.boxes[boxID].boxEvents.scaleX,
+                EventType.ScaleY => GlobalData.Instance.chartEditData.boxes[boxID].boxEvents.scaleY,
+                EventType.Rotate => GlobalData.Instance.chartEditData.boxes[boxID].boxEvents.rotate,
+                EventType.Alpha => GlobalData.Instance.chartEditData.boxes[boxID].boxEvents.alpha,
+                EventType.LineAlpha => GlobalData.Instance.chartEditData.boxes[boxID].boxEvents.lineAlpha,
                 _ => null
             };
         }

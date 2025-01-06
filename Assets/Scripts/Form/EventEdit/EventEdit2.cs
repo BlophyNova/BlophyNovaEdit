@@ -181,7 +181,7 @@ namespace Form.EventEdit
                 //events.Remove(notePropertyEdit.@event.@event);
                 //onEventDeleted(notePropertyEdit.@event);
                 //notePropertyEdit.RefreshEvents();
-                DeleteEvent(eventEditItem);
+                DeleteEvent(eventEditItem, currentBoxID);
                 RefreshAll();
             }
             void Redo()

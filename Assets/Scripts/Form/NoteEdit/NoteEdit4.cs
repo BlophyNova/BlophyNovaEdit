@@ -59,7 +59,7 @@ namespace Form.NoteEdit
                     _ => throw new Exception("怎么回事呢···有非通用note代码进入了通用生成note的通道")
                 };
                 Scenes.Edit.NoteEdit noteEdit = Instantiate(instNewNoteEditPrefab, basicLine.noteCanvas)
-                    .Init(new Note(item.thisNoteData));
+                    .Init(item.thisNoteData);
                 noteEdit.gameObject.SetActive(false);
                 otherLineNoteClipboard.Add(noteEdit);
                 item.thisNoteData.isSelected = false;
@@ -68,6 +68,8 @@ namespace Form.NoteEdit
 
         public void RefreshNotes(int boxID, int lineID)
         {
+            lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
+            lastLineID = boxID < 0 ? lastLineID : currentLineID;
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
             currentLineID = lineID < 0 ? currentLineID : lineID;
             LogCenter.Log($"成功更改框号为{currentBoxID}｜线号为{currentLineID}");

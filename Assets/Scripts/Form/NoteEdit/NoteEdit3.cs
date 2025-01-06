@@ -181,9 +181,12 @@ namespace Form.NoteEdit
 
             if (!isCopy)
             {
-                foreach (Scenes.Edit.NoteEdit note in noteClipboard)
+                foreach (Scenes.Edit.NoteEdit note in otherLineNoteClipboard)
                 {
-                    DeleteNote(note);
+                    List<Note> notes = GlobalData.Instance.chartEditData.boxes[lastBoxID].lines[lastLineID].onlineNotes;
+                    notes.Remove(note.thisNoteData);
+                    onNoteDeleted(note);
+                    onBoxRefreshed(currentBoxID);
                 }
             }
 

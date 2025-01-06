@@ -56,16 +56,18 @@ namespace Form.EventEdit
             Debug.Log("粘贴事件");
             FindNearBeatLineAndEventVerticalLine(out BeatLine beatLine, out EventVerticalLine verticalLine);
             KeyValueList<Event, EventType> newEvents = null;
+            KeyValueList<Event, EventType> deletedEvents = new();
             if (eventClipboard.Count > 0)
             {
                 newEvents = InstNewEvents(eventClipboard, beatLine.thisBPM);
+                deletedEvents = DeleteSourceEvent(eventClipboard, currentBoxID);
             }
             else
             {
                 newEvents = InstNewEvents(otherBoxEventsClipboard, beatLine.thisBPM);
+                deletedEvents = DeleteSourceEvent(otherBoxEventsClipboard, lastBoxID);
             }
 
-            KeyValueList<Event, EventType> deletedEvents = DeleteSourceEvent(eventClipboard);
 
             LogCenter.Log($"成功{isCopy switch { true => "复制", false => "粘贴" }}{eventClipboard.Count}个音符");
             RefreshAll();
@@ -114,7 +116,7 @@ namespace Form.EventEdit
             }
         }
 
-        private KeyValueList<Event, EventType> DeleteSourceEvent(List<EventEditItem> eventEditItems)
+        private KeyValueList<Event, EventType> DeleteSourceEvent(List<EventEditItem> eventEditItems,int boxID)
         {
             KeyValueList<Event, EventType> deletedEvents = new();
             if (isCopy)
@@ -124,7 +126,7 @@ namespace Form.EventEdit
 
             foreach (EventEditItem eventEditItem in eventEditItems)
             {
-                DeleteEvent(eventEditItem);
+                DeleteEvent(eventEditItem, boxID);
                 deletedEvents.Add(eventEditItem.@event,eventEditItem.eventType);
                 //Debug.LogError("这里有问题");
             }
@@ -225,7 +227,7 @@ namespace Form.EventEdit
             KeyValueList<Event,EventType> deletedEvents = new();
             foreach (EventEditItem eventEditItem in eventClipboard)
             {
-                List<Event> events= FindEditEventListByEventType(eventEditItem.eventType);
+                List<Event> events= FindEditEventListByEventType(eventEditItem.eventType,currentBoxID);
                 if (events.Count - 1 <= 0) continue;
                 events.Remove(eventEditItem.@event);
                 deletedEvents.Add(eventEditItem.@event,eventEditItem.eventType);
@@ -246,7 +248,7 @@ namespace Form.EventEdit
             {
                 for (int i = 0; i < deletedEvents.Count; i++)
                 {
-                    List<Event> events = FindEditEventListByEventType(deletedEvents.GetValue(i));
+                    List<Event> events = FindEditEventListByEventType(deletedEvents.GetValue(i), currentBoxID);
                     events.Remove(deletedEvents[i]);
                 }
             }
