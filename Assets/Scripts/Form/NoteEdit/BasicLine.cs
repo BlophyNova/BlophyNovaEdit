@@ -49,6 +49,7 @@ namespace Form.NoteEdit
             nextBPMWithAriseLine =
                 new BPM(BPMManager.Instance.GetBeatsBySeconds((float)ProgressManager.Instance.CurrentTime).integer, 0,
                     1);
+            if (nextBPMWithAriseLine.ThisStartBPM < 0) nextBPMWithAriseLine = BPM.Zero;
             foreach (BeatLine item in beatLines)
             {
                 Destroy(item.gameObject);
