@@ -262,8 +262,9 @@ namespace Form.NoteEdit
                 return;
             }
 
-            foreach (Scenes.Edit.NoteEdit selectedBoxItem in selectedBoxItems.Cast<Scenes.Edit.NoteEdit>())
+            for (int i=0;i<selectedBoxItems.Count;i++)
             {
+                Scenes.Edit.NoteEdit selectedBoxItem = (Scenes.Edit.NoteEdit)selectedBoxItems[i];
                 Note noteData = selectedBoxItem.thisNoteData;
                 if (noteData.positionX == 0)
                 {
@@ -272,10 +273,7 @@ namespace Form.NoteEdit
 
                 Note newNote = new(noteData);
                 newNote.positionX = -newNote.positionX;
-                if (isCopy)
-                {
                     newNote.isSelected = false;
-                }
 
                 AddNoteAndRefresh(newNote, currentBoxID, currentLineID);
             }

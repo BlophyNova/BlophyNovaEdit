@@ -76,7 +76,7 @@ namespace Scenes.Edit
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError(e.Message);
+                    Debug.LogError($"{e.Message}\n{e.StackTrace}");
                 }
                 keyValueList.RemoveAt(i);
             }

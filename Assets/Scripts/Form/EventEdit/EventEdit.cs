@@ -120,10 +120,7 @@ namespace Form.EventEdit
                 //item.thisEventEditItemRect.GetLocalCorners(corners);
                 res.Add(item);
             }
-
             return res;
         }
-
-
     }
 }
