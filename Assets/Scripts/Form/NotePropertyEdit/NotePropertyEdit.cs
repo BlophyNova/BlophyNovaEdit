@@ -208,6 +208,8 @@ namespace Form.NotePropertyEdit
                 Data.Enumerate.EventType.MoveY => value => Value16_9ToMoveXY(value, false),
                 Data.Enumerate.EventType.ScaleX => value => Value16_9ToScaleXY(value, true),
                 Data.Enumerate.EventType.ScaleY => value => Value16_9ToScaleXY(value, false),
+                Data.Enumerate.EventType.Alpha => value => Value0_255ToAlpha(value, true),
+                Data.Enumerate.EventType.LineAlpha => value => Value0_255ToAlpha(value, true),
                 _ => value => value
             };
             float sourceValue = @event.@event.endValue;
@@ -330,6 +332,10 @@ namespace Form.NotePropertyEdit
         {
             return value * 200f;
         }
+        private float AlphaSnapTo0_255(float value, bool isX)
+        {
+            return value * 255f;
+        }
         float Value16_9ToCenterXY(float value, bool isX)
         {
             if (isX)
@@ -348,6 +354,10 @@ namespace Form.NotePropertyEdit
         float Value16_9ToScaleXY(float value, bool isX)
         {
             return value / 200f;
+        }
+        float Value0_255ToAlpha(float value, bool isX)
+        {
+            return value / 255f;
         }
 
     }

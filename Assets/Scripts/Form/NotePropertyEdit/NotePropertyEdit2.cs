@@ -218,6 +218,8 @@ namespace Form.NotePropertyEdit
                 EventType.MoveY => value => MoveXYSnapTo16_9(value, false),
                 EventType.ScaleX => value => ScaleXYSnapTo16_9(value, true),
                 EventType.ScaleY => value => ScaleXYSnapTo16_9(value, false),
+                EventType.Alpha => value => AlphaSnapTo0_255( value, true),
+                EventType.LineAlpha => value => AlphaSnapTo0_255(value, false),
                 _ => value => value
             };
             startValue.SetTextWithoutNotify($"{func(this.@event.@event.startValue)}");

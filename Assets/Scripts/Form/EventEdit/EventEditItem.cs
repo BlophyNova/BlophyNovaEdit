@@ -44,7 +44,11 @@ namespace Form.EventEdit
 
         private void Start()
         {
-            thisButton.onClick.AddListener(() => { ThisEventEdit.selectBox.SetSingleNote(this); });
+            thisButton.onClick.AddListener(() => 
+            {
+                if (eventType == EventType.LineAlpha) return;
+                ThisEventEdit.selectBox.SetSingleNote(this); 
+            });
             ThisEventEdit.labelItem.onLabelGetFocus += LabelWindow_onLabelGetFocus;
             ThisEventEdit.labelItem.onLabelLostFocus += LabelWindow_onLabelLostFocus;
             labelWindow.onWindowSizeChanged += LabelWindow_onWindowSizeChanged;
