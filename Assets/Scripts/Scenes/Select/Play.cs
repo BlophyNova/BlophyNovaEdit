@@ -26,7 +26,12 @@ namespace Scenes.Select
             GlobalData.Instance.chartEditData = JsonConvert.DeserializeObject<ChartData>(
                 File.ReadAllText(
                     $"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/Chart.json"));
-            SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+            SceneManager.LoadSceneAsync(1, LoadSceneMode.Single).completed += Play_completed;
+        }
+
+        private void Play_completed(AsyncOperation obj)
+        {
+            GlobalData.Instance.StartEdit();
         }
     }
 }
