@@ -2,7 +2,7 @@
 
 为Blophy Nova设计的全新制谱器
 
-[**🇨🇳中文**](./README.md) **|** [**🌐官网**](blophy.net) | **[📖在线文档](https://blophy.net/start/judge/judge.html)** **|** **[❓提问](https://github.com/BlophyNova/BlophyNovaEdit/issues)**
+[**🇨🇳中文**](./README.md) **|** [**🌐官网**](https://blophy.net) | **[📖在线文档](https://blophy.net/start/judge/judge.html)** **|** **[❓提问](https://github.com/BlophyNova/BlophyNovaEdit/issues)**
 
 > [!NOTE]
 >
