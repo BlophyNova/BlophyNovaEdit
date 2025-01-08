@@ -4,6 +4,7 @@ using Data.Enumerate;
 using Data.Interface;
 using Form.EventEdit;
 using Manager;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UtilityCode.ChartTool;
@@ -209,8 +210,18 @@ namespace Form.NotePropertyEdit
                 $"{this.@event.@event.startBeats.integer}:{this.@event.@event.startBeats.molecule}/{this.@event.@event.startBeats.denominator}");
             endTime.SetTextWithoutNotify(
                 $"{this.@event.@event.endBeats.integer}:{this.@event.@event.endBeats.molecule}/{this.@event.@event.endBeats.denominator}");
-            startValue.SetTextWithoutNotify($"{this.@event.@event.startValue}");
-            endValue.SetTextWithoutNotify($"{this.@event.@event.endValue}");
+            Func<float, float> func = this.@event.eventType switch
+            {
+                EventType.CenterX =>value=> CenterXYSnapTo16_9(value,true),
+                EventType.CenterY =>value=> CenterXYSnapTo16_9(value,false),
+                EventType.MoveX => value => MoveXYSnapTo16_9(value, true),
+                EventType.MoveY => value => MoveXYSnapTo16_9(value, false),
+                EventType.ScaleX => value => ScaleXYSnapTo16_9(value, true),
+                EventType.ScaleY => value => ScaleXYSnapTo16_9(value, false),
+                _ => value => value
+            };
+            startValue.SetTextWithoutNotify($"{func(this.@event.@event.startValue)}");
+            endValue.SetTextWithoutNotify($"{func(this.@event.@event.endValue)}");
             ease.SetValueWithoutNotify(@event.@event.curveIndex);
 
             GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());

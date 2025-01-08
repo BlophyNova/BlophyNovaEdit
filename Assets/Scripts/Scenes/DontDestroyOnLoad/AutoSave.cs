@@ -9,6 +9,7 @@ public class AutoSave : MonoBehaviourSingleton<AutoSave>
 {
     private void Start()
     {
+        if (Application.platform == RuntimePlatform.WindowsEditor) return;
         GlobalData.Instance.onStartEdit += () => StartCoroutine(StartAutoSave());
     }
     private IEnumerator StartAutoSave()

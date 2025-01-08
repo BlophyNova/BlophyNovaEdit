@@ -4,6 +4,7 @@ using Data.ChartEdit;
 using Form.EventEdit;
 using Form.LabelWindow;
 using Log;
+using System;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine.UI;
@@ -199,9 +200,18 @@ namespace Form.NotePropertyEdit
         private void EndValueChanged(string value)
         {
             if (!float.TryParse(value, out float result)) return;
-
+            Func<float, float> func = @event.eventType switch
+            {
+                Data.Enumerate.EventType.CenterX => value => Value16_9ToCenterXY(value, true),
+                Data.Enumerate.EventType.CenterY => value => Value16_9ToCenterXY(value, false),
+                Data.Enumerate.EventType.MoveX => value => Value16_9ToMoveXY(value, true),
+                Data.Enumerate.EventType.MoveY => value => Value16_9ToMoveXY(value, false),
+                Data.Enumerate.EventType.ScaleX => value => Value16_9ToScaleXY(value, true),
+                Data.Enumerate.EventType.ScaleY => value => Value16_9ToScaleXY(value, false),
+                _ => value => value
+            };
             float sourceValue = @event.@event.endValue;
-            float targetValue = result;
+            float targetValue = func(result);
             Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             RefreshChartPreviewAndChartEditCanvas();
@@ -220,9 +230,18 @@ namespace Form.NotePropertyEdit
         private void StartValueChanged(string value)
         {
             if (!float.TryParse(value, out float result)) return;
-
+            Func<float, float> func = @event.eventType switch 
+            {
+                Data.Enumerate.EventType.CenterX=>value =>Value16_9ToCenterXY(value,true),
+                Data.Enumerate.EventType.CenterY=>value =>Value16_9ToCenterXY(value,false),
+                Data.Enumerate.EventType.MoveX=>value =>Value16_9ToMoveXY(value,true),
+                Data.Enumerate.EventType.MoveY=>value => Value16_9ToMoveXY(value,false),
+                Data.Enumerate.EventType.ScaleX=>value =>Value16_9ToScaleXY(value,true),
+                Data.Enumerate.EventType.ScaleY=>value =>Value16_9ToScaleXY(value,false),
+                _=>value=>value
+            };
             float sourceValue = @event.@event.startValue;
-            float targetValue = result;
+            float targetValue = func(result);
             Steps.Instance.Add(Undo, Redo, RefreshChartPreviewAndChartEditCanvas);
             Redo();
             RefreshChartPreviewAndChartEditCanvas();
@@ -291,6 +310,44 @@ namespace Form.NotePropertyEdit
             {
                 note.noteType = (NoteType)targetValue;
             }
+        }
+        private float CenterXYSnapTo16_9(float value,bool isX)
+        {
+            if (isX)
+            {
+                return 1600f * value - 800;
+            }
+            else
+            {
+                return 900f * value - 450;
+            }
+        }
+        private float MoveXYSnapTo16_9(float value, bool isX) 
+        {
+            return value * 100f;
+        }
+        private float ScaleXYSnapTo16_9(float value, bool isX) 
+        {
+            return value * 200f;
+        }
+        float Value16_9ToCenterXY(float value, bool isX)
+        {
+            if (isX)
+            {
+                return (value + 800f) / 1600f;
+            }
+            else
+            {
+                return (value + 450f) / 900f;
+            }
+        }
+        float Value16_9ToMoveXY(float value, bool isX)
+        {
+            return value / 100f;
+        }
+        float Value16_9ToScaleXY(float value, bool isX)
+        {
+            return value / 200f;
         }
 
     }
