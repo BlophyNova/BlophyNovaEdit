@@ -9,7 +9,12 @@ public class KeyValueList<Key, Value>/*:IEnumerable,IEnumerator<KeyValueList<Key
     //public KeyValueList<Key, Value> Current => throw new NotImplementedException();
 
     //object IEnumerator.Current => throw new NotImplementedException();
-
+    public KeyValueList(KeyValueList<Key, Value> keyValueList) 
+    { 
+        Keys = keyValueList.Keys;
+        Values = keyValueList.Values;
+    }
+    public KeyValueList() { }
     public Key this[int index]
     {
         get { return Keys[index]; }
@@ -36,6 +41,11 @@ public class KeyValueList<Key, Value>/*:IEnumerable,IEnumerator<KeyValueList<Key
     public Value GetValue(int index)
     {
         return Values[index];
+    }
+    public void Clear()
+    {
+        Keys.Clear(); 
+        Values.Clear();
     }
     public KeyValuePair<Key, Value> GetPair(int index)
     {

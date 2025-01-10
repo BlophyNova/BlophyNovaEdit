@@ -1,6 +1,7 @@
 using Data.ChartEdit;
 using Log;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 namespace Form.NoteEdit
 {
@@ -83,7 +84,16 @@ namespace Form.NoteEdit
             {
                 notes.Add(newHoldEdit);
                 //添加事件到对应的地方
-                AddNoteAndRefresh(newHoldEdit.thisNoteData, boxID, lineID);
+                AddNote(newHoldEdit.thisNoteData, boxID, lineID);
+            }
+        }
+        private void NoteEdit_onNoteRefreshed(List<Note> notes)
+        {
+            noteClipboard.Clear();
+            for (int i = 0; i < notes.Count; i++) 
+            {
+                if (notes[i].isSelected)
+                    noteClipboard.Add(notes[i]);
             }
         }
     }

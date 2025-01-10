@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace Form.PropertyEdit
 {
-    public class BoxID : MonoBehaviour, IRefresh
+    public class BoxID : MonoBehaviour
     {
         public int boxID;
         public TMP_Text thisText;
@@ -47,11 +47,6 @@ namespace Form.PropertyEdit
                 LogCenter.Log($"属性编辑执行-操作，框号更改为{boxID}");
             });
         }
-
-        public void Refresh()
-        {
-        }
-
         public void RefreshNote()
         {
             foreach (LabelItem item in propertyEdit.labelWindow.associateLabelWindow.labels)
@@ -59,7 +54,7 @@ namespace Form.PropertyEdit
                 if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit)
                 {
                     EventEdit.EventEdit eventEdit = (EventEdit.EventEdit)item.labelWindowContent;
-                    eventEdit.RefreshEditEvents(boxID);
+                    eventEdit.RefreshEvents(boxID);
                 }
 
                 if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)

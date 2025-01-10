@@ -149,7 +149,7 @@ namespace Form.NotePropertyEdit
                     .scaleY);
             }
 
-            eventEdit.RefreshEditEvents(-1);
+            eventEdit.RefreshEvents(-1);
             //GlobalData.Refresh<IRefreshUI>((interfaceMethod) => interfaceMethod.RefreshUI());
         }
 

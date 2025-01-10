@@ -13,10 +13,6 @@ namespace Form.NoteEdit
     //这里放用户编辑操作响应相关的事情
     public partial class NoteEdit
     {
-        public void AddNewTap()
-        {
-            AddNewNote(NoteType.Tap, NoteEffect.CommonEffect, currentBoxID, currentLineID);
-        }
 
         private void AddNewNote(NoteType noteType, NoteEffect noteEffect, int boxID, int lineID)
         {
@@ -29,23 +25,53 @@ namespace Form.NoteEdit
             note.effect = noteEffect;
             note.positionX =
                 (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
-            Scenes.Edit.NoteEdit instNewNoteEditPrefab = note.noteType switch
+            Scenes.Edit.NoteEdit instNewNoteEditPrefab = GetNoteType(noteType);
+            FullFlickSpecialHandling(noteType, note);
+
+            Scenes.Edit.NoteEdit newNoteEdit = Instantiate(instNewNoteEditPrefab, basicLine.noteCanvas).Init(note);
+            note.chartEditNote = newNoteEdit;
+            newNoteEdit.labelWindow = labelWindow;
+            newNoteEdit.transform.localPosition = new(nearVerticalLine.localPosition.x, nearBeatLine.transform.localPosition.y);
+            notes.Add(newNoteEdit);
+            AddNote(note, currentBoxID, currentLineID);
+        }
+
+        private static void FullFlickSpecialHandling(NoteType noteType, Note note)
+        {
+            if (noteType == NoteType.FullFlick)
+            {
+                note.noteType = note.positionX switch
+                {
+                    <= 0 => NoteType.FullFlickPink,
+                    > 0 => NoteType.FullFlickBlue,
+                    _ => throw new Exception("呜呜呜，怎么找不到究竟是粉色的FullFlick还是蓝色的FullFlick呢...")
+                };
+                note.effect = 0;
+                note.isClockwise = note.positionX switch
+                {
+                    <= 0 => true,
+                    > 0 => false,
+                    _ => throw new Exception("呜呜呜，怎么找不到究竟是顺时针还是逆时针呢...")
+                };
+            }
+        }
+
+        private static Scenes.Edit.NoteEdit GetNoteType(NoteType noteType)
+        {
+            return noteType switch
             {
                 NoteType.Tap => GlobalData.Instance.tapEditPrefab,
                 NoteType.Drag => GlobalData.Instance.dragEditPrefab,
                 NoteType.Flick => GlobalData.Instance.flickEditPrefab,
                 NoteType.Point => GlobalData.Instance.pointEditPrefab,
+                NoteType.FullFlick => GlobalData.Instance.fullFlickEditPrefab,
                 _ => throw new Exception("怎么回事呢···有非通用note代码进入了通用生成note的通道")
             };
-            Scenes.Edit.NoteEdit newNoteEdit = Instantiate(instNewNoteEditPrefab, basicLine.noteCanvas).Init(note);
-            newNoteEdit.labelWindow = labelWindow;
-            newNoteEdit.transform.localPosition =
-                new Vector3(nearVerticalLine.localPosition.x, nearBeatLine.transform.localPosition.y);
-            //Debug.LogError("写到这里了，下次继续写");
-            notes.Add(newNoteEdit);
+        }
 
-
-            AddNoteAndRefresh(note, boxID, lineID);
+        public void AddNewTap()
+        {
+            AddNewNote(NoteType.Tap, NoteEffect.CommonEffect, currentBoxID, currentLineID);
         }
         public void AddNewHold()
         {
@@ -65,6 +91,7 @@ namespace Form.NoteEdit
                     (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
                 Scenes.Edit.NoteEdit newHoldEdit =
                     Instantiate(GlobalData.Instance.holdEditPrefab, basicLine.noteCanvas).Init(note);
+                note.chartEditNote = newHoldEdit;
                 newHoldEdit.labelWindow = labelWindow;
                 newHoldEdit.transform.localPosition = new Vector2(nearVerticalLine.transform.localPosition.x,
                     nearBeatLine.transform.localPosition.y);
@@ -79,37 +106,7 @@ namespace Form.NoteEdit
         }
         public void AddNewFullFlick()
         {
-            FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
-            Note note = new();
-
-            note.positionX =
-                (nearVerticalLine.localPosition.x +
-                 (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) /
-                (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
-            note.noteType = note.positionX switch
-            {
-                <= 0 => NoteType.FullFlickPink,
-                > 0 => NoteType.FullFlickBlue,
-                _ => throw new Exception("呜呜呜，怎么找不到究竟是粉色的FullFlick还是蓝色的FullFlick呢...")
-            };
-            note.HitBeats = nearBeatLine.thisBPM;
-            note.holdBeats = BPM.One;
-            note.effect = 0;
-            note.isClockwise = note.positionX switch
-            {
-                <= 0 => true,
-                > 0 => false,
-                _ => throw new Exception("呜呜呜，怎么找不到究竟是顺时针还是逆时针呢...")
-            };
-            Scenes.Edit.NoteEdit newNoteEdit =
-                Instantiate(GlobalData.Instance.fullFlickEditPrefab, basicLine.noteCanvas).Init(note);
-            newNoteEdit.labelWindow = labelWindow;
-            newNoteEdit.transform.localPosition =
-                new Vector3(nearVerticalLine.localPosition.x, nearBeatLine.transform.localPosition.y);
-            //Debug.LogError("写到这里了，下次继续写");
-            notes.Add(newNoteEdit);
-
-            AddNoteAndRefresh(note, currentBoxID, currentLineID);
+            AddNewNote(NoteType.FullFlick, 0, currentBoxID, currentLineID);
         }
         public void AddNewDrag()
         {
@@ -154,118 +151,99 @@ namespace Form.NoteEdit
             AddNote2NoteClipboard();
         }
 
-        private void PasteNote()
-        {
-            Debug.Log("粘贴音符");
-            FindNearBeatLineAndVerticalLine(out BeatLine beatLine, out RectTransform verticalLine);
-            if (noteClipboard.Count > 0)
-            {
-                InstNewNotes(beatLine, noteClipboard);
-            }
-            else
-            {
-                InstNewNotes(beatLine, otherLineNoteClipboard);
-            }
-
-            if (!isCopy)
-            {
-                foreach (Scenes.Edit.NoteEdit note in otherLineNoteClipboard)
-                {
-                    List<Note> notes = GlobalData.Instance.chartEditData.boxes[lastBoxID].lines[lastLineID].onlineNotes;
-                    notes.Remove(note.thisNoteData);
-                    onNoteDeleted(note);
-                    onBoxRefreshed(currentBoxID);
-                }
-            }
-
-            LogCenter.Log($"成功{isCopy switch { true => "复制", false => "粘贴" }}{noteClipboard.Count}个音符");
-
-            RefreshNoteEditAndChartPreview();
-        }
         private void CutNote()
         {
             Debug.Log("剪切音符");
             isCopy = false;
             AddNote2NoteClipboard();
         }
+
+        private void PasteNote()
+        {
+            Debug.Log("粘贴音符");
+            FindNearBeatLineAndVerticalLine(out BeatLine beatLine, out RectTransform verticalLine);
+            List<Note> newNotes = null;
+            List<Note> deletedNotes = null;
+            if (noteClipboard.Count > 0)
+            {
+                newNotes = CopyNotes(noteClipboard, currentBoxID, currentLineID);
+                AlignNotes(newNotes, beatLine.thisBPM);
+                deletedNotes = DeleteNotes(noteClipboard, currentBoxID, currentLineID);
+            }
+            else
+            {
+                newNotes = CopyNotes(noteClipboard, currentBoxID, currentLineID);
+                AlignNotes(newNotes, beatLine.thisBPM);
+                deletedNotes = DeleteNotes(noteClipboard, lastBoxID, lastLineID);
+            }
+            RefreshAll();
+        }
         private void DeleteNoteWithUI()
         {
-            for (int i = selectBox.TransmitObjects().Count - 1; i >= 0; i--)
-            {
-                DeleteNote((Scenes.Edit.NoteEdit)selectBox.TransmitObjects()[i]);
-            }
-
-            RefreshNoteEditAndChartPreview();
-            LogCenter.Log($"成功删除{selectBox.TransmitObjects().Count}个音符");
+            List<Note> deletedEvents = DeleteNotes(noteClipboard, currentBoxID,currentLineID);
+            RefreshAll();
         }
         private void MoveUp()
         {
-            foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>())
-            {
-                noteEdit.thisNoteData.HitBeats.AddOneBeat();
-            }
+            List<Note> newNotes= null;
+            List<Note> deletedNotes = null;
+            newNotes = CopyNotes(noteClipboard, currentBoxID, currentLineID);
+            BPM bpm = new(newNotes[0].HitBeats);
+            bpm.AddOneBeat();
+            AlignNotes(newNotes, bpm);
+            deletedNotes = DeleteNotes(noteClipboard, currentBoxID, currentLineID);
 
-            RefreshNoteEditAndChartPreview();
-            LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个音符向上移动");
+            RefreshAll();
         }
 
         private void MoveDown()
         {
-            foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>())
-            {
-                noteEdit.thisNoteData.HitBeats.SubtractionOneBeat();
-            }
+            List<Note> newNotes = null;
+            List<Note> deletedNotes = null;
+            newNotes = CopyNotes(noteClipboard, currentBoxID, currentLineID);
+            BPM bpm = new(newNotes[0].HitBeats);
+            bpm.SubtractionOneBeat();
+            AlignNotes(newNotes, bpm);
+            deletedNotes = DeleteNotes(noteClipboard, currentBoxID, currentLineID);
 
-            RefreshNoteEditAndChartPreview();
-            LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个音符向下移动");
+            RefreshAll();
         }
 
         private void MoveLeft()
         {
-            foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>())
+            foreach (Note note in noteClipboard)
             {
-                //float verticalLineDelta = 2 / (float)GlobalData.Instance.chartEditData.eventVerticalSubdivision;
-                //RectTransform nearVerticalLine = FindNearVerticalLine((Vector2)transform.InverseTransformPoint(PositionConvert.UIPointToScreenPoint(noteEdit.transform.position)) + labelWindow.labelWindowRect.sizeDelta / 2);
-                //float poxitionX01 = ((nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x)) / 2) / 2 / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x);
-                //float positionX = poxitionX01 * 2 - 1;
-                float positionX = noteEdit.thisNoteData.positionX;
+                float positionX = note.positionX;
                 positionX -= verticalLineDeltaDataForChartData;
                 positionX = positionX < -1 ? -1 : positionX;
-                noteEdit.thisNoteData.positionX = positionX;
+                note.positionX = positionX;
             }
-
-            RefreshNoteEditAndChartPreview();
-            LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个音符向左移动");
+            RefreshAll();
         }
 
         private void MoveRight()
         {
-            foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>())
+            foreach (Note note in noteClipboard)
             {
-                //float verticalLineDelta = 2 / (float)GlobalData.Instance.chartEditData.eventVerticalSubdivision;
-                float positionX = noteEdit.thisNoteData.positionX;
+                float positionX = note.positionX;
                 positionX += verticalLineDeltaDataForChartData;
                 positionX = positionX > 1 ? 1 : positionX;
-                noteEdit.thisNoteData.positionX = positionX;
+                note.positionX = positionX;
             }
-
-            RefreshNoteEditAndChartPreview();
-            LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个音符向右移动");
+            RefreshAll();
         }
 
         private void MirrorNote()
         {
             Debug.Log("镜像音符");
-            List<ISelectBoxItem> selectedBoxItems = selectBox.TransmitObjects();
-            if (selectedBoxItems.Count <= 0)
+            if (noteClipboard.Count <= 0)
             {
                 return;
             }
 
-            for (int i=0;i<selectedBoxItems.Count;i++)
+            for (int i=0;i< noteClipboard.Count;i++)
             {
-                Scenes.Edit.NoteEdit selectedBoxItem = (Scenes.Edit.NoteEdit)selectedBoxItems[i];
-                Note noteData = selectedBoxItem.thisNoteData;
+                Note noteData = noteClipboard[i];
                 if (noteData.positionX == 0)
                 {
                     continue;
@@ -273,21 +251,23 @@ namespace Form.NoteEdit
 
                 Note newNote = new(noteData);
                 newNote.positionX = -newNote.positionX;
-                    newNote.isSelected = false;
-
-                AddNoteAndRefresh(newNote, currentBoxID, currentLineID);
+                newNote.isSelected = false;
+                AddNote(newNote,currentBoxID,currentLineID);
             }
-
-            RefreshNoteEditAndChartPreview();
-            LogCenter.Log($"成功镜像{selectedBoxItems.Count}个音符");
+            RefreshAll();
         }
         void MirrorFlip()
         {
-            foreach (Scenes.Edit.NoteEdit noteEdit in noteClipboard)
+            if (noteClipboard.Count <= 0)
             {
-                noteEdit.thisNoteData.positionX = -noteEdit.thisNoteData.positionX;
+                return;
             }
-            RefreshNoteEditAndChartPreview();
+            for (int i = 0; i < noteClipboard.Count; i++)
+            {
+                Note noteData = noteClipboard[i];
+                noteData.positionX = -noteData.positionX;
+            }
+            RefreshAll();
         }
     }
 }

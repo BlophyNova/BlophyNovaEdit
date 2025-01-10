@@ -2,7 +2,9 @@ using CustomSystem;
 using Data.ChartEdit;
 using Form.NoteEdit;
 using Log;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Event = Data.ChartEdit.Event;
 using EventType = Data.Enumerate.EventType;
@@ -134,7 +136,6 @@ namespace Form.EventEdit
                     eventEditItem.thisEventEditItemRect.sizeDelta.x,
                     nearBeatLine.transform.localPosition.y - eventEditItem.transform.localPosition.y);
                 eventEditItem.@event.endBeats = new BPM(nearBeatLine.thisBPM);
-                StartCoroutine(eventEditItem.DrawLineOnEEI());
                 yield return new WaitForEndOfFrame();
             }
 
@@ -152,31 +153,35 @@ namespace Form.EventEdit
                 //添加事件到对应的地方
                 LogCenter.Log(
                     $"{eventEditItem.eventType}新事件：{eventEditItem.@event.startBeats.integer}:{eventEditItem.@event.startBeats.molecule}/{eventEditItem.@event.startBeats.denominator}");
-                Steps.Instance.Add(Undo, Redo, default);
+                Steps.Instance.Add(Undo, Redo, RefreshAll);
                 eventEditItems.Add(eventEditItem);
-                AddEvent(eventEditItem);
-
+                AddEvent(eventEditItem.@event, eventEditItem.eventType, currentBoxID, false);
             }
 
             yield break;
 
             void Undo()
             {
-                //events.Remove(notePropertyEdit.@event.@event);
-                //onEventDeleted(notePropertyEdit.@event);
-                //notePropertyEdit.RefreshEvents();
-                DeleteEvent(eventEditItem, currentBoxID);
-                RefreshAll();
+                KeyValueList<Event, EventType> @event = new();
+                @event.Add(eventEditItem.@event,eventEditItem.eventType);
+                DeleteEvent(@event.GetKey(0), @event.GetValue(0),currentBoxID);
             }
             void Redo()
             {
-                Event @event = eventEditItem.@event;
-                EventType eventType = eventEditItem.eventType;
-                //eventEditItems.Add(eventEditItem);
-                AddEvent(@event, eventType);
-                RefreshEditEvents(-1);
+                KeyValueList<Event, EventType> @event = new();
+                @event.Add(eventEditItem.@event, eventEditItem.eventType);
+                AddEvent(@event.GetKey(0), @event.GetValue(0), currentBoxID,true);
             }
         }
 
+        private void EventEdit_onEventRefreshed(KeyValueList<Event, EventType> events)
+        {
+            eventClipboard.Clear();
+            for (int i = 0; i < events.Count; i++)
+            {
+                if (events[i].IsSelected)
+                    eventClipboard.Add(events.GetKey(i),events.GetValue(i));
+            }
+        }
     }
 }

@@ -1,3 +1,4 @@
+using Data.ChartEdit;
 using Data.Interface;
 using Form.LabelWindow;
 using Scenes.Edit;
@@ -35,25 +36,24 @@ namespace Form.NoteEdit
         public bool isFirstTime;
         public bool waitForPressureAgain;
 
-        public delegate void OnNoteDeleted(Scenes.Edit.NoteEdit noteEdit);
-        public event OnNoteDeleted onNoteDeleted = noteEdit => { };
+        public delegate void OnNoteDeleted(Note note);
+        public event OnNoteDeleted onNoteDeleted = note => { };
 
-        public delegate void OnNoteRefreshed(List<Scenes.Edit.NoteEdit> notes);
-        public event OnNoteRefreshed onNoteRefreshed = notes => { };
+        public delegate void OnNotesRefreshed(List<Note> notes);
+        public event OnNotesRefreshed onNotesRefreshed = notes => { };
 
-        public List<Scenes.Edit.NoteEdit> otherLineNoteClipboard = new();
-        public List<Scenes.Edit.NoteEdit> noteClipboard = new();
+
+        public List<Note> otherLineNoteClipboard = new();
+        public List<Note> noteClipboard = new();
         public bool isCopy;
 
-        public delegate void OnBoxRefreshed(object content);
-        public event OnBoxRefreshed onBoxRefreshed = content => { };
 
         private void Start()
         {
             RefreshNotes(currentBoxID, currentLineID);
             UpdateVerticalLineCount();
             UpdateNoteLocalPosition();
-            onNoteRefreshed += NoteEdit_onNoteRefreshed;
+            onNotesRefreshed += NoteEdit_onNoteRefreshed;
         }
 
         private void Update()

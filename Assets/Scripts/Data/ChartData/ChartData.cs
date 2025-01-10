@@ -141,7 +141,8 @@ namespace Data.ChartData
         Flick = 3,
         Point = 4,
         FullFlickPink = 5,
-        FullFlickBlue = 6
+        FullFlickBlue = 6,
+        FullFlick=7
     }
 
     [Flags]

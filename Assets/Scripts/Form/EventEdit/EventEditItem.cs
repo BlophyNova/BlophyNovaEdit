@@ -83,7 +83,7 @@ namespace Form.EventEdit
 
         private void LabelWindow_onWindowSizeChanged()
         {
-            StartCoroutine(DrawLineOnEEI());
+            DrawLineOnEEI();
         }
 
         private void LabelWindow_onLabelGetFocus()
@@ -156,14 +156,13 @@ namespace Form.EventEdit
                 }
             }
 
-            StartCoroutine(DrawLineOnEEI());
+            DrawLineOnEEI();
             return this;
         }
 
-        public IEnumerator DrawLineOnEEI()
+        public void DrawLineOnEEI()
         {
             easeLine.enabled = false;
-            yield return new WaitForEndOfFrame();
             List<Vector3> points = new();
             int pointCount = (int)((@event.endBeats.ThisStartBPM - @event.startBeats.ThisStartBPM) * 100);
             easeLine.positionCount = pointCount;

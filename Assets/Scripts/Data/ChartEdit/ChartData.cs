@@ -212,6 +212,7 @@ namespace Data.ChartEdit
     [Serializable]
     public class Box
     {
+        [JsonIgnore] public Data.ChartData.Box chartDataBox;
         public BoxEvents boxEvents;
         public List<Line> lines = new();
     }
@@ -254,6 +255,8 @@ namespace Data.ChartEdit
     [Serializable]
     public class Note
     {
+        [JsonIgnore] public Data.ChartData.Note chartDataNote;
+        [JsonIgnore] public Scenes.Edit.NoteEdit chartEditNote;
         public NoteType noteType;
 
         public BPM holdBeats;
@@ -460,6 +463,8 @@ namespace Data.ChartEdit
     [Serializable]
     public class Event
     {
+        [JsonIgnore] public Data.ChartData.Event chartDataEvent;
+        [JsonIgnore] public Form.EventEdit.EventEditItem chartEditEvent;
         [SerializeField] private bool isSelected;
         public BPM startBeats;
         public BPM endBeats;

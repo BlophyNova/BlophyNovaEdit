@@ -30,17 +30,6 @@ namespace Form.EventEdit
         {
             eventLineRenderer.gameObject.SetActive(true);
         }
-        private void EventEdit_onEventRefreshed(List<EventEditItem> eventEditItems)
-        {
-            eventClipboard.Clear();
-            foreach (EventEditItem item in eventEditItems)
-            {
-                if (item.@event.IsSelected)
-                {
-                    eventClipboard.Add(item);
-                }
-            }
-        }
         private void UpdateEventEditItemLineRendererRectSize()
         {
             eventLineRenderer.lineRendererTextureRect.sizeDelta = labelWindow.labelWindowRect.sizeDelta;

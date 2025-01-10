@@ -11,7 +11,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using Event = Data.ChartEdit.Event;
+using EventType = Data.Enumerate.EventType;
 namespace Form.EventEdit
 {
     //由于这个控件需要的功能太多，所以这里做个分类，此文件负责字段事件委托属性，以及Unity生命周期的方法和接口实现的方法
@@ -38,14 +39,15 @@ namespace Form.EventEdit
         public float VerticalLineDistance =>
             Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition);
 
-        public delegate void OnBoxRefreshed(object content);
-        public event OnBoxRefreshed onBoxRefreshed = content => { };
-        public delegate void OnEventDeleted(EventEditItem eventEditItem);
-        public event OnEventDeleted onEventDeleted = eventEditItem => { };
-        public delegate void OnEventRefreshed(List<EventEditItem> eventEditItems);
-        public event OnEventRefreshed onEventRefreshed = eventEditItems => { };
-        public List<EventEditItem> otherBoxEventsClipboard = new();
-        public List<EventEditItem> eventClipboard = new();
+        public delegate void OnEventDeleted(Event @event);
+        public event OnEventDeleted onEventDeleted = @event => { };
+
+        public delegate void OnEventsRefreshed(KeyValueList<Event, EventType> events);
+        public event OnEventsRefreshed onEventRefreshed = events => { };
+        //public List<EventEditItem> otherBoxEventsClipboard = new();
+        //public List<EventEditItem> eventClipboard = new(); 
+        public KeyValueList<Data.ChartEdit.Event, Data.Enumerate.EventType> otherBoxEventsClipboard = new();
+        public KeyValueList<Data.ChartEdit.Event, Data.Enumerate.EventType> eventClipboard = new();
         public bool isCopy;
         private IEnumerator Start()
         {
@@ -55,14 +57,17 @@ namespace Form.EventEdit
             labelWindow.onWindowGetFocus += LabelWindow_onWindowGetFocus;
             labelItem.onLabelGetFocus += LabelItem_onLabelGetFocus;
             labelItem.onLabelLostFocus += LabelItem_onLabelLostFocus;
-            onEventRefreshed += EventEdit_onEventRefreshed;
-            RefreshEditEvents(currentBoxID);
+
+            onEventRefreshed +=EventEdit_onEventRefreshed;
+
             UpdateVerticalLineCount();
             UpdateNoteLocalPositionAndSize();
             eventLineRenderer = Instantiate(eventLineRendererPrefab, LabelWindowsManager.Instance.lineRendererParent);
             UpdateEventEditItemLineRendererRectSize();
             LabelWindow_onWindowMoved();
+            RefreshAll();
         }
+
 
         private void Update()
         {
@@ -91,7 +96,7 @@ namespace Form.EventEdit
             Action action = callbackContext.action.name switch
             {
                 "AddEvent" => AddEvent,
-                "Delete" => DeleteEventWithUI,
+                "Delete" => DeleteEventFromUI,
                 "SelectBox" => SelectBoxUp,
                 "Undo" => UndoNote,
                 "Redo" => RedoNote,
@@ -108,7 +113,6 @@ namespace Form.EventEdit
         public void Refresh()
         {
             UpdateVerticalLineCount();
-            RefreshEditEvents(-1);
         }
 
         public List<ISelectBoxItem> TransmitObjects()

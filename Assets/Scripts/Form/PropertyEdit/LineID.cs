@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace Form.PropertyEdit
 {
-    public class LineID : MonoBehaviour, IRefresh
+    public class LineID : MonoBehaviour
     {
         public int lineID;
         public TMP_Text thisText;
@@ -49,11 +49,6 @@ namespace Form.PropertyEdit
                 LogCenter.Log($"属性编辑执行-操作，线号更改为{lineID}");
             });
         }
-
-        public void Refresh()
-        {
-        }
-
         private void RefreshNote()
         {
             foreach (LabelItem item in propertyEdit.labelWindow.associateLabelWindow.labels)

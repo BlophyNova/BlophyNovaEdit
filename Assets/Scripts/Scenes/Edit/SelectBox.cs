@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Event = Data.ChartEdit.Event;
+using EventType = Data.Enumerate.EventType;
 using Note = Data.ChartEdit.Note;
 
 namespace Scenes.Edit
@@ -54,10 +56,9 @@ namespace Scenes.Edit
 
         private void Start()
         {
-            //Debug.Log($"这里有问题，isPressing的正确性和窗口切换焦点事件被抢，导致对不上号");
-
             #region 当SelectBox的快捷键仅为鼠标左键时，需要执行以下代码
 
+            //Debug.Log($"isPressing的正确性和窗口切换焦点事件被抢，导致对不上号");
             //if (noteEdit != null)
             //{
             //    noteEdit.labelWindow.onWindowLostFocus += () => isPressing = false;
@@ -80,38 +81,35 @@ namespace Scenes.Edit
             selectBoxTexture.color = new Color(1, 1, 1, 0);
             if (noteEdit != null)
             {
-                noteEdit.onNoteDeleted += noteEdit => selectedBoxItems.Remove(noteEdit);
-                noteEdit.onNoteRefreshed += notes =>
+                noteEdit.onNoteDeleted += note => selectedBoxItems.Remove(note.chartEditNote);
+                noteEdit.onNotesRefreshed += notes =>
                 {
                     selectedBoxItems.Clear();
-                    foreach (NoteEdit note in notes)
+                    for (int i = 0; i < notes.Count; i++)
                     {
-                        if (note.thisNoteData.isSelected)
+                        if (notes[i].isSelected)
                         {
-                            note.SetSelectState(true);
-                            selectedBoxItems.Add(note);
+                            selectedBoxItems.Add(notes[i].chartEditNote);
                         }
                     }
                 };
-                NotePropertyEdit.onNoteValueChanged += TempNoteEditValueChangedCallBack;
             }
 
             if (eventEdit != null)
             {
-                eventEdit.onEventDeleted += eventEditItem => selectedBoxItems.Remove(eventEditItem);
-                eventEdit.onEventRefreshed += eventEditItems =>
+                eventEdit.onEventDeleted += @event => selectedBoxItems.Remove(@event.chartEditEvent);
+                eventEdit.onEventRefreshed += events =>
                 {
                     selectedBoxItems.Clear();
-                    foreach (EventEditItem eventEditItem in eventEditItems)
+                    for (int i = 0;i<events.Count; i++)
                     {
-                        if (eventEditItem.@event.IsSelected)
+                        if (events[i].IsSelected)
                         {
-                            eventEditItem.SetSelectState(true);
-                            selectedBoxItems.Add(eventEditItem);
+                            selectedBoxItems.Add(events[i].chartEditEvent);
                         }
                     }
                 };
-            }
+            } 
         }
 
         private void Update()

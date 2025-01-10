@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Form.PropertyEdit;
+using UnityEngine;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 
 namespace Form.NoteEdit
@@ -35,6 +36,17 @@ namespace Form.NoteEdit
             }
             //note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
             verticalLineDeltaDataForChartData = ((verticalLines[1].localPosition.x - verticalLines[0].localPosition.x) / verticalLineLeftAndRightDelta.x) * 2;
+        }
+        public void UpdateNoteLocalPosition()
+        {
+            for (int i = 0; i < notes.Count; i++)
+            {
+                notes[i].transform.localPosition = new Vector3(
+                    (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x -
+                     (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) *
+                    notes[i].thisNoteData.positionX,
+                    YScale.Instance.GetPositionYWithBeats(notes[i].thisNoteData.HitBeats.ThisStartBPM));
+            }
         }
     }
 }

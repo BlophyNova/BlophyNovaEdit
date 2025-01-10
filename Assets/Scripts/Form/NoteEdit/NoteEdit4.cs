@@ -6,90 +6,42 @@ using Log;
 using Manager;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UtilityCode.ChartTool;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 using Note = Data.ChartEdit.Note;
+using static UtilityCode.ChartTool.ChartTool;
 namespace Form.NoteEdit
 {
     //这里放所有的刷新方法
     public partial class NoteEdit
     {
-        private void AddNoteAndRefresh(Note note, int boxID, int lineID)
+        public void RefreshAll()
         {
-            LogCenter.Log(
-                $"{boxID}号框{lineID}号线新增{note.noteType}音符，打击时间为:{note.HitBeats.integer}:{note.HitBeats.molecule}/{note.HitBeats.denominator}");
-            ChartTool.AddNoteEdit2ChartData(note, boxID, lineID, GlobalData.Instance.chartEditData,
-                GlobalData.Instance.chartData);
-            GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
-            onBoxRefreshed(currentBoxID);
+            RefreshNotes(currentBoxID, currentLineID);
+            RefreshPlayer(currentBoxID, currentLineID);
         }
-        private void NoteCopy()
-        {
-            if (noteClipboard.Count > 0)
-            {
-                for (int i = 0; i < otherLineNoteClipboard.Count; i++)
-                {
-                    Destroy(otherLineNoteClipboard[i].gameObject);
-                }
-
-                otherLineNoteClipboard.Clear();
-            }
-
-            foreach (Scenes.Edit.NoteEdit item in noteClipboard)
-            {
-                Scenes.Edit.NoteEdit instNewNoteEditPrefab = item.thisNoteData.noteType switch
-                {
-                    NoteType.Tap => GlobalData.Instance.tapEditPrefab,
-                    NoteType.Drag => GlobalData.Instance.dragEditPrefab,
-                    NoteType.Flick => GlobalData.Instance.flickEditPrefab,
-                    NoteType.Point => GlobalData.Instance.pointEditPrefab,
-                    NoteType.Hold => GlobalData.Instance.holdEditPrefab,
-                    NoteType.FullFlickPink => GlobalData.Instance.fullFlickEditPrefab,
-                    NoteType.FullFlickBlue => GlobalData.Instance.fullFlickEditPrefab,
-                    _ => throw new Exception("怎么回事呢···有非通用note代码进入了通用生成note的通道")
-                };
-                Scenes.Edit.NoteEdit noteEdit = Instantiate(instNewNoteEditPrefab, basicLine.noteCanvas)
-                    .Init(item.thisNoteData);
-                noteEdit.gameObject.SetActive(false);
-                otherLineNoteClipboard.Add(noteEdit);
-                item.thisNoteData.isSelected = false;
-            }
-        }
-
-        public void RefreshNotes(int boxID, int lineID)
+        public void RefreshNotes(int boxID,int lineID)
         {
             lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
             lastLineID = boxID < 0 ? lastLineID : currentLineID;
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
-            currentLineID = lineID < 0 ? currentLineID : lineID;
-            LogCenter.Log($"成功更改框号为{currentBoxID}｜线号为{currentLineID}");
+            currentLineID = lineID < 0 ? currentLineID : lineID; 
             if (boxID >= 0 || lineID >= 0)
             {
                 NoteCopy();
             }
-
             foreach (Scenes.Edit.NoteEdit item in notes)
             {
                 Destroy(item.gameObject);
             }
 
             notes.Clear();
-            List<Note> needInstNotes =
-                GlobalData.Instance.chartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes;
+            List<Note> needInstNotes = ChartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes; 
             foreach (Note item in needInstNotes)
             {
-                Scenes.Edit.NoteEdit noteEditType = item.noteType switch
-                {
-                    NoteType.Tap => GlobalData.Instance.tapEditPrefab,
-                    NoteType.Hold => GlobalData.Instance.holdEditPrefab,
-                    NoteType.Drag => GlobalData.Instance.dragEditPrefab,
-                    NoteType.Flick => GlobalData.Instance.flickEditPrefab,
-                    NoteType.Point => GlobalData.Instance.pointEditPrefab,
-                    NoteType.FullFlickPink => GlobalData.Instance.fullFlickEditPrefab,
-                    NoteType.FullFlickBlue => GlobalData.Instance.fullFlickEditPrefab,
-                    _ => throw new Exception("滴滴~滴滴~错误~找不到音符拉~")
-                };
+                Scenes.Edit.NoteEdit noteEditType = GetNoteType(item);
 
                 float currentSecondsTime = BPMManager.Instance.GetSecondsTimeByBeats(item.HitBeats.ThisStartBPM);
                 float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
@@ -100,6 +52,7 @@ namespace Form.NoteEdit
                     (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x -
                      (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) * item.positionX,
                     positionY);
+                item.chartEditNote = newNoteEdit;
                 if (item.noteType == NoteType.Hold)
                 {
                     //float endBeatsSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(item.EndBeats.ThisStartBPM);
@@ -115,32 +68,38 @@ namespace Form.NoteEdit
                 //Debug.LogError("写到这里了，下次继续写");
                 notes.Add(newNoteEdit);
             }
+        }
 
-            onNoteRefreshed(notes);
-        }
-        private void RefreshNoteEditAndChartPreview()
+        private Scenes.Edit.NoteEdit GetNoteType(Note item)
         {
-            //ChartTool.ConvertEditLine2ChartDataLine(GlobalData.Instance.chartEditData.boxes[currentBoxID],
-            //    GlobalData.Instance.chartData.boxes[currentBoxID], currentLineID);
-            GlobalData.Instance.chartData.boxes[currentBoxID] =
-                ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[currentBoxID]);
-            onBoxRefreshed(currentBoxID);
-            //ChartTool.ConvertEditBox2ChartDataBox(GlobalData.Instance.chartEditData.boxes[currentBoxID])
-            RefreshNotes(-1, -1);
-            SpeckleManager.Instance.allLineNoteControllers.Clear();
-            GameController.Instance.RefreshChartPreview();
-            GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
-            GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI());
-        }
-        private void NoteEdit_onNoteRefreshed(List<Scenes.Edit.NoteEdit> notes)
-        {
-            noteClipboard.Clear();
-            foreach (Scenes.Edit.NoteEdit item in notes)
+            return item.noteType switch
             {
-                if (item.thisNoteData.isSelected)
-                {
-                    noteClipboard.Add(item);
-                }
+                NoteType.Tap => GlobalData.Instance.tapEditPrefab,
+                NoteType.Hold => GlobalData.Instance.holdEditPrefab,
+                NoteType.Drag => GlobalData.Instance.dragEditPrefab,
+                NoteType.Flick => GlobalData.Instance.flickEditPrefab,
+                NoteType.Point => GlobalData.Instance.pointEditPrefab,
+                NoteType.FullFlickPink => GlobalData.Instance.fullFlickEditPrefab,
+                NoteType.FullFlickBlue => GlobalData.Instance.fullFlickEditPrefab,
+                _ => throw new Exception("滴滴~滴滴~错误~找不到音符拉~")
+            };
+        }
+
+        public void RefreshPlayer(int boxID,int lineID)
+        {
+            ConvertLine(ChartEditData.boxes[boxID].lines[lineID].onlineNotes, ChartData.boxes[boxID].lines[lineID].onlineNotes);
+        }
+
+        private void NoteCopy()
+        {
+            if (noteClipboard.Count <= 0)
+            {
+                return;
+            }
+            otherLineNoteClipboard.Clear();
+            for (int i = 0; i < noteClipboard.Count; i++)
+            {
+                otherLineNoteClipboard.Add(noteClipboard[i]);
             }
         }
     }

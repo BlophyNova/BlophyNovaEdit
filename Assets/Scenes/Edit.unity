@@ -7923,7 +7923,19 @@ MonoBehaviour:
       denominator: 1
       currentBPM: 60
     boxes:
-    - boxEvents:
+    - chartDataBox:
+        boxEvents:
+          moveX: []
+          moveY: []
+          rotate: []
+          alpha: []
+          scaleX: []
+          scaleY: []
+          centerX: []
+          centerY: []
+          lineAlpha: []
+        lines: []
+      boxEvents:
         speed: []
         moveX: []
         moveY: []

@@ -6,9 +6,11 @@ using Scenes.DontDestroyOnLoad;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UtilityCode.ChartTool;
 using Event = Data.ChartEdit.Event;
 using EventType = Data.Enumerate.EventType;
-
+using static UtilityCode.ChartTool.ChartTool;
+using System;
 namespace Form.EventEdit
 {
     //这里放用户编辑操作响应相关的事情
@@ -40,24 +42,32 @@ namespace Form.EventEdit
         {
             Debug.Log("复制事件");
             isCopy = true;
-            AddEvent2EventClipboard();
+            AddEvent2Clipboard();
         }
 
+        private void CutEvent()
+        {
+            Debug.Log("剪切事件");
+            isCopy = false;
+            AddEvent2Clipboard();
+        }
         private void PasteEvent()
         {
             Debug.Log("粘贴事件");
             FindNearBeatLineAndEventVerticalLine(out BeatLine beatLine, out EventVerticalLine verticalLine);
             KeyValueList<Event, EventType> newEvents = null;
-            KeyValueList<Event, EventType> deletedEvents = new();
+            KeyValueList<Event, EventType> deletedEvents = null;
             if (eventClipboard.Count > 0)
             {
-                newEvents = InstNewEvents(eventClipboard, beatLine.thisBPM);
-                deletedEvents = DeleteSourceEvent(eventClipboard, currentBoxID);
+                newEvents = CopyEvents(eventClipboard,currentBoxID,true);
+                AlignEvents(newEvents, beatLine.thisBPM);
+                deletedEvents = DeleteEvents(eventClipboard, currentBoxID,isCopy);
             }
             else
             {
-                newEvents = InstNewEvents(otherBoxEventsClipboard, beatLine.thisBPM);
-                deletedEvents = DeleteSourceEvent(otherBoxEventsClipboard, lastBoxID);
+                newEvents = CopyEvents(otherBoxEventsClipboard, currentBoxID, true); 
+                AlignEvents(newEvents, beatLine.thisBPM);
+                deletedEvents = DeleteEvents(otherBoxEventsClipboard, lastBoxID,isCopy);
             }
 
 
@@ -71,178 +81,95 @@ namespace Form.EventEdit
             {
                 Steps.Instance.Add(PasteUndo, PasteRedo, RefreshAll);
             }
-            onEventRefreshed(eventEditItems);
             return;
             void CopyUndo()
             {
-                for (int i = 0; i < newEvents.Count; i++)
-                {
-                    DeleteEvent(newEvents.GetKey(i), newEvents.GetValue(i));
-                }
-                //if (!isCopy)
-                //{
-                //    InstNewEvents(deletedEvents,beatLine);
-                //}
+                DeleteEvents(newEvents, currentBoxID, isCopy);
             }
             void CopyRedo()
             {
-                InstNewEvents(newEvents, beatLine.thisBPM);
-                //DeleteSourceEvent();
+                AddEvents(newEvents, currentBoxID,true);
             }
             void PasteUndo()
             {
-                for (int i = 0; i < newEvents.Count; i++)
-                {
-                    DeleteEvent(newEvents.GetKey(i), newEvents.GetValue(i));
-                }
-
-                InstNewEvents(deletedEvents, deletedEvents[0].startBeats);
+                AddEvents(deletedEvents, currentBoxID, true);
+                DeleteEvents(newEvents, currentBoxID, isCopy);
             }
             void PasteRedo()
             {
-                for (int i = 0; i < deletedEvents.Count; i++)
-                {
-                    DeleteEvent(deletedEvents.GetKey(i), deletedEvents.GetValue(i));
-                }
-                InstNewEvents(newEvents, newEvents[0].startBeats);
+                AddEvents(newEvents,currentBoxID,true);
+                DeleteEvents(deletedEvents, currentBoxID, isCopy);
             }
         }
 
-        private KeyValueList<Event, EventType> DeleteSourceEvent(List<EventEditItem> eventEditItems, int boxID)
-        {
-            KeyValueList<Event, EventType> deletedEvents = new();
-            if (isCopy)
-            {
-                return deletedEvents;
-            }
+        
 
-            foreach (EventEditItem eventEditItem in eventEditItems)
-            {
-                DeleteEvent(eventEditItem, boxID);
-                deletedEvents.Add(eventEditItem.@event, eventEditItem.eventType);
-                //Debug.LogError("这里有问题");
-            }
-            return deletedEvents;
-        }
 
-        private void CutEvent()
-        {
-            Debug.Log("剪切事件");
-            isCopy = false;
-            AddEvent2EventClipboard();
-        }
+
         private void MoveUp()
         {
-            List<EventEditItem> selectedBox = selectBox.TransmitObjects().Cast<EventEditItem>().ToList();
-            foreach (EventEditItem eventEditItem in selectedBox)
-            {
-                BPM delta = new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
+            KeyValueList<Event, EventType> newEvents = null;
+            KeyValueList<Event, EventType> deletedEvents = null;
+            newEvents = CopyEvents(eventClipboard, currentBoxID, true);
+            BPM bpm = new(newEvents[0].startBeats);
+            bpm.AddOneBeat();
+            AlignEvents(newEvents, bpm);
+            deletedEvents = DeleteEvents(eventClipboard, currentBoxID,false);
 
-                if (eventEditItem.@event.startBeats.denominator != GlobalData.Instance.chartEditData.beatSubdivision)
-                {
-                    BPM nearBpm = new(FindNearBeatLine((Vector2)transform.InverseTransformPoint((Vector2)transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM);
-                    eventEditItem.@event.startBeats = nearBpm;
-                }
-                eventEditItem.@event.startBeats.AddOneBeat();
-                eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
-            }
-
-            LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向上移动一格");
             Steps.Instance.Add(Undo, Redo, RefreshAll);
             RefreshAll();
             return;
-
             void Undo()
             {
-                foreach (EventEditItem eventEditItem in selectedBox)
-                {
-                    BPM delta = new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
-                    eventEditItem.@event.startBeats.SubtractionOneBeat();
-                    eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
-                }
+                AddEvents(deletedEvents, currentBoxID, true);
+                DeleteEvents(newEvents, currentBoxID, isCopy);
             }
-
             void Redo()
             {
-                foreach (EventEditItem eventEditItem in selectedBox)
-                {
-                    BPM delta = new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
-                    eventEditItem.@event.startBeats.AddOneBeat();
-                    eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
-                }
+                AddEvents(newEvents, currentBoxID, true);
+                DeleteEvents(deletedEvents, currentBoxID, isCopy);
             }
         }
 
         private void MoveDown()
         {
-            List<EventEditItem> selectedBox = selectBox.TransmitObjects().Cast<EventEditItem>().ToList();
-            foreach (EventEditItem eventEditItem in selectedBox)
-            {
-                BPM delta = new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
-                if (eventEditItem.@event.startBeats.denominator != GlobalData.Instance.chartEditData.beatSubdivision)
-                {
-                    BPM nearBpm = new(FindNearBeatLine((Vector2)transform.InverseTransformPoint(transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM);
-                    eventEditItem.@event.startBeats = nearBpm;
-                }
-                eventEditItem.@event.startBeats.SubtractionOneBeat();
-                eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
-            }
+            KeyValueList<Event, EventType> newEvents = null;
+            KeyValueList<Event, EventType> deletedEvents = null;
+            newEvents = CopyEvents(eventClipboard, currentBoxID, true);
+            BPM bpm = new(newEvents[0].startBeats);
+            bpm.SubtractionOneBeat();
+            AlignEvents(newEvents, bpm);
+            deletedEvents = DeleteEvents(eventClipboard, currentBoxID, false);
 
-            LogCenter.Log($"成功将{selectBox.TransmitObjects().Count}个事件向下移动一格");
             Steps.Instance.Add(Undo, Redo, RefreshAll);
             RefreshAll();
             return;
-
             void Undo()
             {
-                foreach (EventEditItem eventEditItem in selectedBox)
-                {
-                    BPM delta = new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
-                    eventEditItem.@event.startBeats.AddOneBeat();
-                    eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
-                }
+                AddEvents(deletedEvents, currentBoxID, true);
+                DeleteEvents(newEvents, currentBoxID, isCopy);
             }
-
             void Redo()
             {
-                foreach (EventEditItem eventEditItem in selectedBox)
-                {
-                    BPM delta = new BPM(eventEditItem.@event.endBeats) - new BPM(eventEditItem.@event.startBeats);
-                    eventEditItem.@event.startBeats.SubtractionOneBeat();
-                    eventEditItem.@event.endBeats = new BPM(eventEditItem.@event.startBeats) + delta;
-                }
+                AddEvents(newEvents, currentBoxID, true);
+                DeleteEvents(deletedEvents, currentBoxID, isCopy);
             }
         }
 
-        private void DeleteEventWithUI()
+        private void DeleteEventFromUI()
         {
-            KeyValueList<Event, EventType> deletedEvents = new();
-            foreach (EventEditItem eventEditItem in eventClipboard)
-            {
-                List<Event> events = FindEditEventListByEventType(eventEditItem.eventType, currentBoxID);
-                if (events.Count - 1 <= 0) continue;
-                events.Remove(eventEditItem.@event);
-                deletedEvents.Add(eventEditItem.@event, eventEditItem.eventType);
-                onEventDeleted(eventEditItem);
-            }
+            KeyValueList<Event, EventType> deletedEvents = DeleteEvents(eventClipboard,currentBoxID);
             RefreshAll();
             Steps.Instance.Add(Undo, Redo, RefreshAll);
             return;
             void Undo()
             {
-                for (int i = 0; i < deletedEvents.Count; i++)
-                {
-                    AddEvent(deletedEvents[i], deletedEvents.GetValue(i));
-                }
+                AddEvents(deletedEvents,currentBoxID, true);
             }
 
             void Redo()
             {
-                for (int i = 0; i < deletedEvents.Count; i++)
-                {
-                    List<Event> events = FindEditEventListByEventType(deletedEvents.GetValue(i), currentBoxID);
-                    events.Remove(deletedEvents[i]);
-                }
+                DeleteEvents(eventClipboard, currentBoxID);
             }
         }
 
@@ -262,11 +189,10 @@ namespace Form.EventEdit
                 }
 
                 EventEditItem newEventEditItem = Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
-                WindowSizeChanged();
+                //WindowSizeChanged();
                 newEventEditItem.labelWindow = labelWindow;
-                newEventEditItem.transform.localPosition = new Vector2(nearEventVerticalLine.transform.localPosition.x,
-                    nearBeatLine.transform.localPosition.y);
-                newEventEditItem.@event.startBeats = new BPM(nearBeatLine.thisBPM);
+                newEventEditItem.transform.localPosition = new(nearEventVerticalLine.transform.localPosition.x, nearBeatLine.transform.localPosition.y);
+                newEventEditItem.@event.startBeats = new(nearBeatLine.thisBPM);
                 newEventEditItem.eventType = nearEventVerticalLine.eventType;
                 StartCoroutine(WaitForPressureAgain(newEventEditItem));
             }
