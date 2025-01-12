@@ -1,7 +1,9 @@
 using Data.ChartData;
 using Data.ChartEdit;
 using Data.Interface;
+using Form.PropertyEdit;
 using Log;
+using Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -169,68 +171,112 @@ namespace Form.NoteEdit
                 newNotes = CopyNotes(noteClipboard, currentBoxID, currentLineID);
                 AlignNotes(newNotes, beatLine.thisBPM);
                 deletedNotes = DeleteNotes(noteClipboard, currentBoxID, currentLineID);
+                BatchNotes(newNotes, note => note.isSelected = false);
+                AddNotes(newNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(newNotes));
             }
             else
             {
                 newNotes = CopyNotes(noteClipboard, currentBoxID, currentLineID);
                 AlignNotes(newNotes, beatLine.thisBPM);
                 deletedNotes = DeleteNotes(noteClipboard, lastBoxID, lastLineID);
+                BatchNotes(newNotes, note => note.isSelected = false);
+                AddNotes(newNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(newNotes));
             }
-            RefreshAll();
+
+            //这里还有很多关于撤销重做的事情
+
+            isCopy = true;
+            return;
         }
         private void DeleteNoteWithUI()
         {
-            List<Note> deletedEvents = DeleteNotes(noteClipboard, currentBoxID,currentLineID);
-            RefreshAll();
+            IEnumerable<Scenes.Edit.NoteEdit> selectesBoxes = selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>();
+            List<Note> selectedNotes = new();
+            foreach (Scenes.Edit.NoteEdit noteEdit in selectesBoxes)
+            {
+                selectedNotes.Add(noteEdit.thisNoteData);
+            }
+            List<Note> deletedEvents = DeleteNotes(selectedNotes, currentBoxID,currentLineID);
         }
         private void MoveUp()
         {
             List<Note> newNotes= null;
             List<Note> deletedNotes = null;
-            newNotes = CopyNotes(noteClipboard, currentBoxID, currentLineID);
+            List<Note> selectedNotes = GetSelectedEvents();
+            newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
             BPM bpm = new(newNotes[0].HitBeats);
-            bpm.AddOneBeat();
+            BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedNotes[0].chartEditNote.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
+            bpm = new(nearBPM);
+            if (bpm.denominator == ChartEditData.beatSubdivision && bpm.ThisStartBPM == nearBPM.ThisStartBPM)
+            {
+                bpm.AddOneBeat();
+            }
             AlignNotes(newNotes, bpm);
-            deletedNotes = DeleteNotes(noteClipboard, currentBoxID, currentLineID);
+            AddNotes(newNotes, currentBoxID, currentLineID);
+            notes.AddRange(AddNotes2UI(newNotes));
 
-            RefreshAll();
+            deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
         }
-
         private void MoveDown()
         {
             List<Note> newNotes = null;
             List<Note> deletedNotes = null;
-            newNotes = CopyNotes(noteClipboard, currentBoxID, currentLineID);
+            List<Note> selectedNotes = GetSelectedEvents();
+            newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
             BPM bpm = new(newNotes[0].HitBeats);
-            bpm.SubtractionOneBeat();
+            BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedNotes[0].chartEditNote.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
+            bpm = new(nearBPM);
+            if (bpm.denominator == ChartEditData.beatSubdivision && bpm.ThisStartBPM == nearBPM.ThisStartBPM)
+            {
+                bpm.SubtractionOneBeat();
+            }
             AlignNotes(newNotes, bpm);
-            deletedNotes = DeleteNotes(noteClipboard, currentBoxID, currentLineID);
+            AddNotes(newNotes, currentBoxID, currentLineID);
+            notes.AddRange(AddNotes2UI(newNotes));
 
-            RefreshAll();
+            deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
         }
 
         private void MoveLeft()
         {
-            foreach (Note note in noteClipboard)
-            {
-                float positionX = note.positionX;
-                positionX -= verticalLineDeltaDataForChartData;
-                positionX = positionX < -1 ? -1 : positionX;
-                note.positionX = positionX;
-            }
-            RefreshAll();
+            //List<Note> newNotes = null;
+            //List<Note> deletedNotes = null;
+            //List<Note> selectedNotes = GetSelectedEvents();
+            //newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
+            //BPM bpm = new(newNotes[0].HitBeats);
+            //BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedNotes[0].chartEditNote.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
+            //bpm = new(nearBPM);
+            //if (bpm.denominator == ChartEditData.beatSubdivision && bpm.ThisStartBPM == nearBPM.ThisStartBPM)
+            //{
+            //    bpm.AddOneBeat();
+            //}
+            //AlignNotes(newNotes, bpm);
+            //AddNotes(newNotes, currentBoxID, currentLineID);
+            //notes.AddRange(AddNotes2UI(newNotes));
+
+            //deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
         }
 
         private void MoveRight()
         {
-            foreach (Note note in noteClipboard)
-            {
-                float positionX = note.positionX;
-                positionX += verticalLineDeltaDataForChartData;
-                positionX = positionX > 1 ? 1 : positionX;
-                note.positionX = positionX;
-            }
-            RefreshAll();
+            //List<Note> newNotes = null;
+            //List<Note> deletedNotes = null;
+            //List<Note> selectedNotes = GetSelectedEvents();
+            //newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
+            //BPM bpm = new(newNotes[0].HitBeats);
+            //BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedNotes[0].chartEditNote.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
+            //bpm = new(nearBPM);
+            //if (bpm.denominator == ChartEditData.beatSubdivision && bpm.ThisStartBPM == nearBPM.ThisStartBPM)
+            //{
+            //    bpm.AddOneBeat();
+            //}
+            //AlignNotes(newNotes, bpm);
+            //AddNotes(newNotes, currentBoxID, currentLineID);
+            //notes.AddRange(AddNotes2UI(newNotes));
+
+            //deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
         }
 
         private void MirrorNote()
@@ -268,6 +314,68 @@ namespace Form.NoteEdit
                 noteData.positionX = -noteData.positionX;
             }
             RefreshAll();
+        }
+        private List<Note> GetSelectedEvents()
+        {
+            IEnumerable<Scenes.Edit.NoteEdit> selectedNoteEdits = selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>();
+            List<Note> selectedNotes = new();
+            foreach (Scenes.Edit.NoteEdit item in selectedNoteEdits)
+            {
+                selectedNotes.Add(item.thisNoteData);
+            }
+
+            return selectedNotes;
+        }
+        private List<Scenes.Edit.NoteEdit> AddNotes2UI(List<Note> needInstNotes)
+        {
+            List<Scenes.Edit.NoteEdit> notes = new();
+            foreach (Note item in needInstNotes)
+            {
+                Scenes.Edit.NoteEdit newNoteEdit = AddNote2UI(item);
+
+                //Debug.LogError("写到这里了，下次继续写");
+                notes.Add(newNoteEdit);
+            }
+            onNotesAdded2UI(notes);
+            return notes;
+        }
+
+        private Scenes.Edit.NoteEdit AddNote2UI(Note item)
+        {
+            Scenes.Edit.NoteEdit noteEditType = GetNoteType(item);
+
+            float currentSecondsTime = BPMManager.Instance.GetSecondsTimeByBeats(item.HitBeats.ThisStartBPM);
+            float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
+
+            Scenes.Edit.NoteEdit newNoteEdit = Instantiate(noteEditType, basicLine.noteCanvas).Init(item);
+            newNoteEdit.labelWindow = labelWindow;
+            newNoteEdit.transform.localPosition = new Vector3(
+                (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x -
+                 (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) * item.positionX,
+                positionY);
+            item.chartEditNote = newNoteEdit;
+            if (item.noteType == NoteType.Hold)
+            {
+                //float endBeatsSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(item.EndBeats.ThisStartBPM);
+                //float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(item.EndBeats.ThisStartBPM);
+                //float hitBeatsPositionY= YScale.Instance.GetPositionYWithSecondsTime(item.HitBeats.ThisStartBPM);
+                float holdBeatsPositionY =
+                    YScale.Instance.GetPositionYWithSecondsTime(
+                        BPMManager.Instance.GetSecondsTimeByBeats(item.holdBeats.ThisStartBPM));
+                newNoteEdit.thisNoteRect.sizeDelta =
+                    new Vector2(newNoteEdit.thisNoteRect.sizeDelta.x, holdBeatsPositionY);
+            }
+
+            return newNoteEdit;
+        }
+
+        private void DestroyNotes()
+        {
+            foreach (Scenes.Edit.NoteEdit item in notes)
+            {
+                Destroy(item.gameObject);
+            }
+            notes.Clear();
         }
     }
 }

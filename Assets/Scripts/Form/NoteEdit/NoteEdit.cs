@@ -36,8 +36,14 @@ namespace Form.NoteEdit
         public bool isFirstTime;
         public bool waitForPressureAgain;
 
-        public delegate void OnNoteDeleted(Note note);
-        public event OnNoteDeleted onNoteDeleted = note => { };
+        public delegate void OnNotesAdded(List<Note> notes);
+        public event OnNotesAdded onNotesAdded = notes => { };
+
+        public delegate void OnNotesAdded2UI(List<Scenes.Edit.NoteEdit> notes);
+        public event OnNotesAdded2UI onNotesAdded2UI = notes => { };
+
+        public delegate void OnNotesDeleted(List<Note> notes);
+        public event OnNotesDeleted onNotesDeleted = notes => { };
 
         public delegate void OnNotesRefreshed(List<Note> notes);
         public event OnNotesRefreshed onNotesRefreshed = notes => { };

@@ -81,7 +81,20 @@ namespace Scenes.Edit
             selectBoxTexture.color = new Color(1, 1, 1, 0);
             if (noteEdit != null)
             {
-                noteEdit.onNoteDeleted += note => selectedBoxItems.Remove(note.chartEditNote);
+                noteEdit.onNotesAdded2UI += notes =>
+                {
+                    for (int i = 0; i < notes.Count; i++)
+                    {
+                        selectedBoxItems.Add(notes[i]);
+                    }
+                };
+                noteEdit.onNotesDeleted += notes =>
+                {
+                    for (int i = 0; i < notes.Count; i++)
+                    {
+                        selectedBoxItems.Remove(notes[i].chartEditNote);
+                    }
+                };
                 noteEdit.onNotesRefreshed += notes =>
                 {
                     selectedBoxItems.Clear();

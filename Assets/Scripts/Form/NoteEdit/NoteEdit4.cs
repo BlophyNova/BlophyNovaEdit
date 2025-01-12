@@ -12,6 +12,7 @@ using UtilityCode.ChartTool;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 using Note = Data.ChartEdit.Note;
 using static UtilityCode.ChartTool.ChartTool;
+
 namespace Form.NoteEdit
 {
     //这里放所有的刷新方法
@@ -27,48 +28,23 @@ namespace Form.NoteEdit
             lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
             lastLineID = boxID < 0 ? lastLineID : currentLineID;
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
-            currentLineID = lineID < 0 ? currentLineID : lineID; 
+            currentLineID = lineID < 0 ? currentLineID : lineID;
             if (boxID >= 0 || lineID >= 0)
             {
                 NoteCopy();
             }
-            foreach (Scenes.Edit.NoteEdit item in notes)
+            DestroyNotes();
+            List<Scenes.Edit.NoteEdit> newNotes =AddNotes2UI(ChartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes);
+            notes.AddRange(newNotes);
+            List<Note> refreshedNotes = new();
+            foreach (Scenes.Edit.NoteEdit note in notes)
             {
-                Destroy(item.gameObject);
+                refreshedNotes.Add(note.thisNoteData);
             }
-
-            notes.Clear();
-            List<Note> needInstNotes = ChartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes; 
-            foreach (Note item in needInstNotes)
-            {
-                Scenes.Edit.NoteEdit noteEditType = GetNoteType(item);
-
-                float currentSecondsTime = BPMManager.Instance.GetSecondsTimeByBeats(item.HitBeats.ThisStartBPM);
-                float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
-
-                Scenes.Edit.NoteEdit newNoteEdit = Instantiate(noteEditType, basicLine.noteCanvas).Init(item);
-                newNoteEdit.labelWindow = labelWindow;
-                newNoteEdit.transform.localPosition = new Vector3(
-                    (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x -
-                     (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) * item.positionX,
-                    positionY);
-                item.chartEditNote = newNoteEdit;
-                if (item.noteType == NoteType.Hold)
-                {
-                    //float endBeatsSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(item.EndBeats.ThisStartBPM);
-                    //float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(item.EndBeats.ThisStartBPM);
-                    //float hitBeatsPositionY= YScale.Instance.GetPositionYWithSecondsTime(item.HitBeats.ThisStartBPM);
-                    float holdBeatsPositionY =
-                        YScale.Instance.GetPositionYWithSecondsTime(
-                            BPMManager.Instance.GetSecondsTimeByBeats(item.holdBeats.ThisStartBPM));
-                    newNoteEdit.thisNoteRect.sizeDelta =
-                        new Vector2(newNoteEdit.thisNoteRect.sizeDelta.x, holdBeatsPositionY);
-                }
-
-                //Debug.LogError("写到这里了，下次继续写");
-                notes.Add(newNoteEdit);
-            }
+            onNotesRefreshed(refreshedNotes);
         }
+
+        
 
         private Scenes.Edit.NoteEdit GetNoteType(Note item)
         {

@@ -305,21 +305,5 @@ namespace Form.EventEdit
             }
             eventEditItems = tempEventEditItems;
         }
-
-        private void AddEvents2UI(List<Event> events, EventType eventType)
-        {
-            foreach (Event @event in events)
-            {
-                foreach (EventVerticalLine eventVerticalLine in eventVerticalLines)
-                {
-                    if (eventVerticalLine.eventType == eventType)
-                    {
-                        EventEditItem newEventEditItem = AddEvent2UI(@event, eventType, eventVerticalLine.transform.localPosition.x);
-                        eventEditItems.Add(newEventEditItem);
-                        continue;
-                    }
-                }
-            }
-        }
     }
 }

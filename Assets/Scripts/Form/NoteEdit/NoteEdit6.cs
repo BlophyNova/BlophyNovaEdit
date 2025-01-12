@@ -9,9 +9,10 @@ using Note = Data.ChartEdit.Note;
 using static UtilityCode.ChartTool.ChartTool;
 using EventType = Data.Enumerate.EventType;
 using UtilityCode.Algorithm;
+using System;
 namespace Form.NoteEdit
 {
-    //这里放处理数据的方法,不负责刷新以及为ChartData加入数据
+    //这里放处理数据的方法,不负责刷新
     public partial class NoteEdit
     {
         ChartData ChartEditData => GlobalData.Instance.chartEditData;
@@ -22,11 +23,16 @@ namespace Form.NoteEdit
             List<Note> notes = ChartEditData.boxes[boxID].lines[lineID].onlineNotes;
             int index = Algorithm.BinarySearch(notes, m => m.HitBeats.ThisStartBPM < note.HitBeats.ThisStartBPM, false);
             notes.Insert(index, note);
+            AddNote2ChartData(note, boxID, lineID);
         }
         void DeleteNote(Note note, int boxID, int lineID)
         {
             List<Note> notes = ChartEditData.boxes[boxID].lines[lineID].onlineNotes;
             notes.Remove(note);
+            this.notes.Remove(note.chartEditNote);
+            Destroy(note.chartEditNote.gameObject);
+            DeleteNote2ChartData(note,boxID,lineID);
+
         }
         int FindNoteIndex(Note note, int boxID, int lineID)
         {
@@ -50,7 +56,7 @@ namespace Form.NoteEdit
             for (int i = 0; i < noteClipboard.Count; i++)
             {
                 Note note = new(noteClipboard[i]);
-                AddNote(note, boxID, lineID);
+                //AddNote(note, boxID, lineID);
                 newNotes.Add(note);
             }
             return newNotes;
@@ -64,6 +70,7 @@ namespace Form.NoteEdit
                 AddNote(note, boxID, lineID);
                 newNotes.Add(note);
             }
+            onNotesAdded(newNotes);
             return newNotes;
         }
         private List<Note> DeleteNotes(List<Note> noteClipboard, int boxID,int lineID, bool isCopy = false)
@@ -75,6 +82,7 @@ namespace Form.NoteEdit
                 DeleteNote(noteClipboard[i], boxID,lineID);
                 deletedNotes.Add(noteClipboard[i]);
             }
+            onNotesDeleted(deletedNotes);
             return deletedNotes;
         }
         private void AlignNotes(List<Note> noteClipboard, BPM bpm)
@@ -84,6 +92,13 @@ namespace Form.NoteEdit
             {
                 Note note = noteClipboard[i];
                 noteClipboard[i].HitBeats = new BPM(bpm) + (new BPM(note.HitBeats) - new BPM(firstNoteStartBeats));
+            }
+        }
+        void BatchNotes(List<Note> notes,Action<Note> action)
+        {
+            for (int i = 0; i < notes.Count; i++)
+            {
+                action(notes[i]);
             }
         }
     }
