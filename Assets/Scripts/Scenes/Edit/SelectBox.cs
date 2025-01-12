@@ -155,23 +155,17 @@ namespace Scenes.Edit
             selectedBoxItems.Add(selectBoxItem);
             selectBoxItem.SetSelectState(true);
 
-            LabelWindow labelWindow = noteEdit == null ? eventEdit.labelWindow : noteEdit.labelWindow;
-            if (labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent.labelWindowContentType ==
-                LabelWindowContentType.NotePropertyEdit)
+            NotePropertyEdit.note = null;
+            NotePropertyEdit.@event = null;
+            if (selectBoxItem.IsNoteEdit)
             {
-                NotePropertyEdit notePropertyEdit =
-                    (NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem.labelWindowContent;
-                notePropertyEdit.note = null;
-                notePropertyEdit.@event = null;
-                if (selectBoxItem.IsNoteEdit)
-                {
-                    notePropertyEdit.SelectedNote((NoteEdit)selectBoxItem);
-                }
-                else
-                {
-                    notePropertyEdit.SelectedNote((EventEditItem)selectBoxItem);
-                }
+                NotePropertyEdit.SelectedNote((NoteEdit)selectBoxItem);
             }
+            else
+            {
+                NotePropertyEdit.SelectedNote((EventEditItem)selectBoxItem);
+            }
+            
         }
 
         private void EndHandle()
@@ -180,40 +174,6 @@ namespace Scenes.Edit
             ClearSelectedBoxItems();
             NewSelectedBoxItems();
             SetValue2NotePropertyEdit();
-        }
-
-        private void TempNoteEditValueChangedCallBack()
-        {
-            if (selectedBoxItems.Count <= 1)
-            {
-                return;
-            }
-
-            ForeachAllItems(note => !note.HitBeats.Equals(originalnNoteData.HitBeats),
-                item => item.HitBeats = tempNoteEdit.HitBeats);
-            ForeachAllItems(note => !(note.noteType == originalnNoteData.noteType),
-                item => item.noteType = tempNoteEdit.noteType);
-            ForeachAllItems(note => !note.holdBeats.Equals(originalnNoteData.holdBeats),
-                item => item.holdBeats = tempNoteEdit.holdBeats);
-            ForeachAllItems(note => !(note.effect == originalnNoteData.effect),
-                item => item.effect = tempNoteEdit.effect == 0 ? 0 : tempNoteEdit.effect);
-            ForeachAllItems(note => !note.positionX.Equals(originalnNoteData.positionX),
-                item => item.positionX = tempNoteEdit.positionX);
-            ForeachAllItems(note => !(note.isClockwise == originalnNoteData.isClockwise),
-                item => item.isClockwise = tempNoteEdit.isClockwise);
-
-            void ForeachAllItems(Predicate<Note> predicate, Action<Note> action)
-            {
-                if (predicate(tempNoteEdit))
-                {
-                    foreach (NoteEdit item in selectedBoxItems.Cast<NoteEdit>())
-                    {
-                        action(item.thisNoteData);
-                    }
-
-                    action(originalnNoteData);
-                }
-            }
         }
 
         private void SetValue2NotePropertyEdit()
