@@ -64,66 +64,21 @@ namespace Form.EventEdit
                 EventCopy();
             }
 
-            List<EventEditItem> tempEventEditItems = new();
-            foreach (EventEditItem item in eventEditItems)
-            {
-                if(item.eventType == eventType)
-                {
-                    Destroy(item.gameObject);
-                }
-                else
-                {
-                    tempEventEditItems.Add(item);
-                }
-            }
-            eventEditItems=tempEventEditItems;
+            DestroyEvents(eventType);
 
             List<Event> events = FindChartEditEventList(GlobalData.Instance.chartEditData.boxes[currentBoxID], eventType);
-            RefreshEvents(events, eventType);
+            KeyValueList<Event, EventType> keyValueList = new();
+            foreach (Event @event in events) 
+            {
+                keyValueList.Add(@event, eventType);
+            }
+            AddEvents2UI(keyValueList);
             UpdateNoteLocalPositionAndSize();
-        }
-        private void RefreshEvents(List<Event> events, EventType eventType)
-        {
-            foreach (Event @event in events)
-            {
-                RefreshEvent(eventType, @event);
-            }
+
+            onEventsRefreshed(keyValueList);
         }
 
-        private void RefreshEvent(EventType eventType, Event @event)
-        {
-            foreach (EventVerticalLine eventVerticalLine in eventVerticalLines)
-            {
-                if (eventVerticalLine.eventType == eventType)
-                {
-                    EventEditItem newEventEditItem =
-                        Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
 
-
-                    float currentSecondsTime =
-                        BPMManager.Instance.GetSecondsTimeByBeats(@event.startBeats.ThisStartBPM);
-                    float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
-
-                    newEventEditItem.transform.localPosition =
-                        new Vector2(eventVerticalLine.transform.localPosition.x, positionY);
-
-                    float endBeatsSecondsTime =
-                        BPMManager.Instance.GetSecondsTimeByBeats(@event.endBeats.ThisStartBPM);
-                    float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(endBeatsSecondsTime);
-
-                    newEventEditItem.labelWindow = labelWindow;
-                    newEventEditItem.thisEventEditItemRect.sizeDelta = new Vector2(
-                        newEventEditItem.thisEventEditItemRect.sizeDelta.x, endBeatsPositionY - positionY);
-                    newEventEditItem.@event = @event;
-                    newEventEditItem.eventType = eventType;
-                    newEventEditItem.SetSelectState(@event.IsSelected);
-                    @event.chartEditEvent= newEventEditItem;
-                    eventEditItems.Add(newEventEditItem);
-                    newEventEditItem.Init();
-                    continue;
-                }
-            }
-        }
 
         /// <summary>
         /// 此方法的作用是，如果要换框，那就把当前剪切板的内容复制到其他剪切板中，实现跨框复制事件的功能

@@ -155,7 +155,6 @@ namespace Form.EventEdit
                     maxValue = item.endValue;
                 }
             }
-
             DrawLineOnEEI();
             return this;
         }

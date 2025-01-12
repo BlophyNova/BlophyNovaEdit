@@ -133,7 +133,7 @@ namespace Form.EventEdit
                 }
 
                 eventEditItem.thisEventEditItemRect.sizeDelta = new Vector2(
-                    eventEditItem.thisEventEditItemRect.sizeDelta.x,
+                    Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition),
                     nearBeatLine.transform.localPosition.y - eventEditItem.transform.localPosition.y);
                 eventEditItem.@event.endBeats = new BPM(nearBeatLine.thisBPM);
                 yield return new WaitForEndOfFrame();
@@ -154,6 +154,7 @@ namespace Form.EventEdit
                 LogCenter.Log(
                     $"{eventEditItem.eventType}新事件：{eventEditItem.@event.startBeats.integer}:{eventEditItem.@event.startBeats.molecule}/{eventEditItem.@event.startBeats.denominator}");
                 Steps.Instance.Add(Undo, Redo, RefreshAll);
+                eventEditItem.DrawLineOnEEI();
                 eventEditItems.Add(eventEditItem);
                 AddEvent(eventEditItem.@event, eventEditItem.eventType, currentBoxID, false);
             }

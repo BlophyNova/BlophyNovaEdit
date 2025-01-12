@@ -97,8 +97,14 @@ namespace Scenes.Edit
 
             if (eventEdit != null)
             {
-                eventEdit.onEventDeleted += @event => selectedBoxItems.Remove(@event.chartEditEvent);
-                eventEdit.onEventRefreshed += events =>
+                eventEdit.onEventsDeleted += events => 
+                { 
+                    for (int i = 0;i < events.Count; i++)
+                    {
+                        selectedBoxItems.Remove(events[i].chartEditEvent);
+                    }
+                };
+                eventEdit.onEventsRefreshed += events =>
                 {
                     selectedBoxItems.Clear();
                     for (int i = 0;i<events.Count; i++)

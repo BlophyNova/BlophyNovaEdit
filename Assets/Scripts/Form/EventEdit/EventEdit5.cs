@@ -55,6 +55,7 @@ namespace Form.EventEdit
                     eventEditItems[i].thisEventEditItemRect.sizeDelta = new Vector2(
                         Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition),
                         eventEditItems[i].thisEventEditItemRect.sizeDelta.y);
+                    eventEditItems[i].DrawLineOnEEI();
                 }
             }
         }

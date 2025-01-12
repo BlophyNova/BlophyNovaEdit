@@ -39,11 +39,14 @@ namespace Form.EventEdit
         public float VerticalLineDistance =>
             Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition);
 
-        public delegate void OnEventDeleted(Event @event);
-        public event OnEventDeleted onEventDeleted = @event => { };
+        public delegate void OnEventsAdded(KeyValueList<Event, EventType> events);
+        public event OnEventsAdded onEventsAdded = events => { };
+
+        public delegate void OnEventsDeleted(KeyValueList<Event, EventType> events);
+        public event OnEventsDeleted onEventsDeleted = events => { };
 
         public delegate void OnEventsRefreshed(KeyValueList<Event, EventType> events);
-        public event OnEventsRefreshed onEventRefreshed = events => { };
+        public event OnEventsRefreshed onEventsRefreshed = events => { };
         //public List<EventEditItem> otherBoxEventsClipboard = new();
         //public List<EventEditItem> eventClipboard = new(); 
         public KeyValueList<Data.ChartEdit.Event, Data.Enumerate.EventType> otherBoxEventsClipboard = new();
@@ -52,13 +55,14 @@ namespace Form.EventEdit
         private IEnumerator Start()
         {
             yield return new WaitUntil(() => GlobalData.Instance.chartData.globalData.musicLength > 1);
+            yield return new WaitUntil(() => GlobalData.Instance.chartData.boxes.Count > 0);
             labelWindow.onWindowMoved += LabelWindow_onWindowMoved;
             labelWindow.onWindowLostFocus += LabelWindow_onWindowLostFocus;
             labelWindow.onWindowGetFocus += LabelWindow_onWindowGetFocus;
             labelItem.onLabelGetFocus += LabelItem_onLabelGetFocus;
             labelItem.onLabelLostFocus += LabelItem_onLabelLostFocus;
 
-            onEventRefreshed +=EventEdit_onEventRefreshed;
+            onEventsRefreshed +=EventEdit_onEventRefreshed;
 
             UpdateVerticalLineCount();
             UpdateNoteLocalPositionAndSize();
@@ -95,7 +99,7 @@ namespace Form.EventEdit
             //事件w抬起的时候调用
             Action action = callbackContext.action.name switch
             {
-                "AddEvent" => AddEvent,
+                "AddEvent" => AddEventFromUI,
                 "Delete" => DeleteEventFromUI,
                 "SelectBox" => SelectBoxUp,
                 "Undo" => UndoNote,
