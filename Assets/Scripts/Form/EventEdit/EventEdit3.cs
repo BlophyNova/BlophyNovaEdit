@@ -66,7 +66,7 @@ namespace Form.EventEdit
                 deletedEvents = DeleteEvents(eventClipboard, currentBoxID,isCopy);
                 BatchEvents(newEvents, @event => @event.IsSelected = false);
                 AddEvents(newEvents,currentBoxID,true);
-                AddEvents2UI(newEvents);
+                eventEditItems.AddRange(AddEvents2UI(newEvents));
             }
             else
             {
@@ -75,7 +75,7 @@ namespace Form.EventEdit
                 deletedEvents = DeleteEvents(otherBoxEventsClipboard, lastBoxID,isCopy);
                 BatchEvents(newEvents, @event => @event.IsSelected = false);
                 AddEvents(newEvents, currentBoxID, true);
-                AddEvents2UI(newEvents);
+                eventEditItems.AddRange(AddEvents2UI(newEvents));
             }
 
 
@@ -130,7 +130,7 @@ namespace Form.EventEdit
             }
             AlignEvents(newEvents, bpm);
             AddEvents(newEvents, currentBoxID, true);
-            AddEvents2UI(newEvents);
+            eventEditItems.AddRange(AddEvents2UI(newEvents));
 
             deletedEvents = DeleteEvents(selectedEvents, currentBoxID, false);
             Steps.Instance.Add(Undo, Redo, RefreshAll);
@@ -174,7 +174,7 @@ namespace Form.EventEdit
             }
             AlignEvents(newEvents, bpm);
             AddEvents(newEvents, currentBoxID, true);
-            AddEvents2UI(newEvents);
+            eventEditItems.AddRange(AddEvents2UI(newEvents));
 
             deletedEvents = DeleteEvents(selectedEvents, currentBoxID, false);
             Steps.Instance.Add(Undo, Redo, RefreshAll);

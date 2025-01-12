@@ -72,7 +72,7 @@ namespace Form.EventEdit
             {
                 keyValueList.Add(@event, eventType);
             }
-            AddEvents2UI(keyValueList);
+            eventEditItems.AddRange(AddEvents2UI(keyValueList));
             UpdateNoteLocalPositionAndSize();
 
             onEventsRefreshed(keyValueList);
