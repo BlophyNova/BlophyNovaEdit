@@ -64,6 +64,7 @@ namespace Form.EventEdit
                 newEvents = CopyEvents(eventClipboard,currentBoxID,true);
                 AlignEvents(newEvents, beatLine.thisBPM);
                 deletedEvents = DeleteEvents(eventClipboard, currentBoxID,isCopy);
+                BatchEvents(newEvents, @event => @event.IsSelected = false);
                 AddEvents(newEvents,currentBoxID,true);
                 AddEvents2UI(newEvents);
             }
@@ -72,6 +73,7 @@ namespace Form.EventEdit
                 newEvents = CopyEvents(otherBoxEventsClipboard, currentBoxID, true); 
                 AlignEvents(newEvents, beatLine.thisBPM);
                 deletedEvents = DeleteEvents(otherBoxEventsClipboard, lastBoxID,isCopy);
+                BatchEvents(newEvents, @event => @event.IsSelected = false);
                 AddEvents(newEvents, currentBoxID, true);
                 AddEvents2UI(newEvents);
             }
@@ -258,6 +260,7 @@ namespace Form.EventEdit
                     }
                 }
             }
+            onEventsAdded2UI(eventEditItems);
             return eventEditItems;
         }
         private EventEditItem AddEvent2UI(Event @event, EventType eventType, float localPositionX)
@@ -280,7 +283,6 @@ namespace Form.EventEdit
             newEventEditItem.thisEventEditItemRect.sizeDelta = new Vector2(
                 Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition), endBeatsPositionY - positionY);
             newEventEditItem.@event = @event;
-            newEventEditItem.@event.IsSelected = false;
             newEventEditItem.eventType = eventType;
             newEventEditItem.SetSelectState(@event.IsSelected);
             @event.chartEditEvent = newEventEditItem;

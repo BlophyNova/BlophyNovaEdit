@@ -114,5 +114,12 @@ namespace Form.EventEdit
                 eventClipboard[i].endBeats = new BPM(bpm) + (new BPM(@event.endBeats) - new BPM(firstEventStartBeats));
             }
         }
+        private void BatchEvents(KeyValueList<Event,EventType>events,Action<Event> action)
+        {
+            for (int i = 0; i < events.Count; i++) 
+            {
+                action(events[i]);
+            }
+        }
     }
 }

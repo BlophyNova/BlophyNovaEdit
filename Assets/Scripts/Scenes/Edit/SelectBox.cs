@@ -97,6 +97,13 @@ namespace Scenes.Edit
 
             if (eventEdit != null)
             {
+                eventEdit.onEventsAdded2UI += eventEditItems => 
+                {
+                    for (int i = 0; i < eventEditItems.Count; i++)
+                    {
+                        selectedBoxItems.Add(eventEditItems[i]);
+                    }
+                };
                 eventEdit.onEventsDeleted += events => 
                 { 
                     for (int i = 0;i < events.Count; i++)

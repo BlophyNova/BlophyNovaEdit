@@ -42,6 +42,9 @@ namespace Form.EventEdit
         public delegate void OnEventsAdded(KeyValueList<Event, EventType> events);
         public event OnEventsAdded onEventsAdded = events => { };
 
+        public delegate void OnEventsAdded2UI(List<EventEditItem> eventEditItems);
+        public event OnEventsAdded2UI onEventsAdded2UI = eventEditItems => { };
+
         public delegate void OnEventsDeleted(KeyValueList<Event, EventType> events);
         public event OnEventsDeleted onEventsDeleted = events => { };
 
