@@ -192,19 +192,14 @@ namespace Form.NoteEdit
         }
         private void DeleteNoteWithUI()
         {
-            IEnumerable<Scenes.Edit.NoteEdit> selectesBoxes = selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>();
-            List<Note> selectedNotes = new();
-            foreach (Scenes.Edit.NoteEdit noteEdit in selectesBoxes)
-            {
-                selectedNotes.Add(noteEdit.thisNoteData);
-            }
+            List<Note> selectedNotes = GetSelectedNotes();
             List<Note> deletedEvents = DeleteNotes(selectedNotes, currentBoxID,currentLineID);
         }
         private void MoveUp()
         {
             List<Note> newNotes= null;
             List<Note> deletedNotes = null;
-            List<Note> selectedNotes = GetSelectedEvents();
+            List<Note> selectedNotes = GetSelectedNotes();
             newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
             BPM bpm = new(newNotes[0].HitBeats);
             BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedNotes[0].chartEditNote.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
@@ -223,7 +218,7 @@ namespace Form.NoteEdit
         {
             List<Note> newNotes = null;
             List<Note> deletedNotes = null;
-            List<Note> selectedNotes = GetSelectedEvents();
+            List<Note> selectedNotes = GetSelectedNotes();
             newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
             BPM bpm = new(newNotes[0].HitBeats);
             BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedNotes[0].chartEditNote.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
@@ -282,40 +277,27 @@ namespace Form.NoteEdit
         private void MirrorNote()
         {
             Debug.Log("¾µÏñÒô·û");
-            if (noteClipboard.Count <= 0)
-            {
-                return;
-            }
+            List<Note> newNotes = null;
+            List<Note> selectedNotes = GetSelectedNotes();
 
-            for (int i=0;i< noteClipboard.Count;i++)
-            {
-                Note noteData = noteClipboard[i];
-                if (noteData.positionX == 0)
-                {
-                    continue;
-                }
-
-                Note newNote = new(noteData);
-                newNote.positionX = -newNote.positionX;
-                newNote.isSelected = false;
-                AddNote(newNote,currentBoxID,currentLineID);
-            }
-            RefreshAll();
+            newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
+            BatchNotes(newNotes, note => { note.isSelected = false;note.positionX = -note.positionX; });
+            AddNotes(newNotes, currentBoxID, currentLineID);
+            notes.AddRange(AddNotes2UI(newNotes));
         }
         void MirrorFlip()
         {
-            if (noteClipboard.Count <= 0)
-            {
-                return;
-            }
-            for (int i = 0; i < noteClipboard.Count; i++)
-            {
-                Note noteData = noteClipboard[i];
-                noteData.positionX = -noteData.positionX;
-            }
-            RefreshAll();
+            List<Note> newNotes = null;
+            List<Note> deletedNotes = null;
+            List<Note> selectedNotes = GetSelectedNotes();
+            newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
+            deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID, false);
+            BatchNotes(newNotes, note => note.positionX=-note.positionX);
+            AddNotes(newNotes, currentBoxID, currentLineID);
+            notes.AddRange(AddNotes2UI(newNotes));
+            
         }
-        private List<Note> GetSelectedEvents()
+        private List<Note> GetSelectedNotes()
         {
             IEnumerable<Scenes.Edit.NoteEdit> selectedNoteEdits = selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>();
             List<Note> selectedNotes = new();
@@ -365,7 +347,7 @@ namespace Form.NoteEdit
                 newNoteEdit.thisNoteRect.sizeDelta =
                     new Vector2(newNoteEdit.thisNoteRect.sizeDelta.x, holdBeatsPositionY);
             }
-
+            newNoteEdit.SetSelectState(item.isSelected);
             return newNoteEdit;
         }
 

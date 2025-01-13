@@ -85,7 +85,10 @@ namespace Scenes.Edit
                 {
                     for (int i = 0; i < notes.Count; i++)
                     {
-                        selectedBoxItems.Add(notes[i]);
+                        if (notes[i].thisNoteData.isSelected)
+                        {
+                            selectedBoxItems.Add(notes[i]);
+                        }
                     }
                 };
                 noteEdit.onNotesDeleted += notes =>
@@ -114,7 +117,10 @@ namespace Scenes.Edit
                 {
                     for (int i = 0; i < eventEditItems.Count; i++)
                     {
-                        selectedBoxItems.Add(eventEditItems[i]);
+                        if (eventEditItems[i].@event.IsSelected)
+                        {
+                            selectedBoxItems.Add(eventEditItems[i]);
+                        }
                     }
                 };
                 eventEdit.onEventsDeleted += events => 

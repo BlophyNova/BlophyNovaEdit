@@ -63,7 +63,7 @@ namespace Scenes.Edit
         public virtual NoteEdit Init(Note note)
         {
             thisNoteData = note;
-            //SetSelectState(false);
+            //SetSelectState(note.isSelected);
             return this;
         }
     }
