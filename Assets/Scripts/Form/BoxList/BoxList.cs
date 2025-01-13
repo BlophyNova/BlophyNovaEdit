@@ -1,6 +1,7 @@
 using Data.Interface;
 using Form.LabelWindow;
 using Scenes.DontDestroyOnLoad;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,7 +23,6 @@ namespace Form.BoxList
         {
             UpdateAera();
         }
-
         public void Refresh()
         {
             foreach (BoxListItem item in boxListItems)
@@ -52,5 +52,6 @@ namespace Form.BoxList
             gridLayoutGroup.cellSize =
                 new Vector2(labelWindow.labelWindowRect.sizeDelta.x * .8f, gridLayoutGroup.cellSize.y);
         }
+
     }
 }

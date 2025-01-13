@@ -17,6 +17,8 @@ namespace Form.NoteEdit
             List<Data.ChartData.Note> notes= ChartData.boxes[boxID].lines[lineID].onlineNotes;
             int index = Algorithm.BinarySearch(notes, m => m.hitTime <  BPMManager.Instance.GetSecondsTimeByBeats(note.HitBeats.ThisStartBPM), false);
             Data.ChartData.Note newNote = new(note);
+
+            newNote.hitFloorPosition =(float)Math.Round(ChartData.boxes[boxID].lines[lineID].far.Evaluate(newNote.hitTime),3);
             note.chartDataNote= newNote;
             notes.Insert(index, note.chartDataNote);
         }

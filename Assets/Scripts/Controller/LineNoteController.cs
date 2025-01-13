@@ -1,6 +1,7 @@
 using Data.ChartData;
 using Data.Interface;
 using Manager;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -32,6 +33,8 @@ namespace Controller
         public int movedOnlineNotesCount;
         public int movedOfflineNotesCount;
 
+        public int decideLineOnlineNoteCount = -1;
+        //public int decideLineOfflineNoteCount = -1;
         private void Update()
         {
             if (decideLineController.ThisLine.OnlineNotesLength > 0)
@@ -45,14 +48,23 @@ namespace Controller
                 Find_Get_Update_PassHit_Return(decideLineController.ThisLine.offlineNotes, ref lastOfflineIndex,
                     ariseOfflineNotes, endTimeAriseOfflineNotes, false);
             }
+
+            if(decideLineOnlineNoteCount != decideLineController.ThisLine.onlineNotes.Count)
+            {
+                decideLineOnlineNoteCount = decideLineController.ThisLine.onlineNotes.Count;
+                ResetLineNoteState(ref lastOnlineIndex, ariseOnlineNotes, endTimeAriseOnlineNotes, decideLineController, decideLineController.thisLine.onlineNotes, true);
+            }
+            //if (decideLineOfflineNoteCount != decideLineController.ThisLine.offlineNotes.Count)
+            //{
+            //    decideLineOfflineNoteCount = decideLineController.ThisLine.offlineNotes.Count;
+            //    ResetLineNoteState(ref lastOfflineIndex, ariseOfflineNotes, endTimeAriseOfflineNotes, decideLineController, decideLineController.thisLine.offlineNotes, false);
+            //}
         }
 
         public void Refresh()
         {
-            ResetLineNoteState(ref lastOnlineIndex, ariseOnlineNotes, endTimeAriseOnlineNotes, decideLineController,
-                decideLineController.thisLine.onlineNotes, true);
-            ResetLineNoteState(ref lastOfflineIndex, ariseOfflineNotes, endTimeAriseOfflineNotes, decideLineController,
-                decideLineController.thisLine.offlineNotes, false);
+            ResetLineNoteState(ref lastOnlineIndex, ariseOnlineNotes, endTimeAriseOnlineNotes, decideLineController, decideLineController.thisLine.onlineNotes, true);
+            ResetLineNoteState(ref lastOfflineIndex, ariseOfflineNotes, endTimeAriseOfflineNotes, decideLineController, decideLineController.thisLine.offlineNotes, false);
         }
 
         private void Find_Get_Update_PassHit_Return(List<Note> lineNotes, ref int lastIndex,
