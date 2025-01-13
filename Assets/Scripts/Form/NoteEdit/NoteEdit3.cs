@@ -170,7 +170,7 @@ namespace Form.NoteEdit
             {
                 newNotes = CopyNotes(noteClipboard, currentBoxID, currentLineID);
                 AlignNotes(newNotes, beatLine.thisBPM);
-                deletedNotes = DeleteNotes(noteClipboard, currentBoxID, currentLineID);
+                deletedNotes = DeleteNotes(noteClipboard, currentBoxID, currentLineID,isCopy);
                 BatchNotes(newNotes, note => note.isSelected = false);
                 AddNotes(newNotes, currentBoxID, currentLineID);
                 notes.AddRange(AddNotes2UI(newNotes));
@@ -179,7 +179,7 @@ namespace Form.NoteEdit
             {
                 newNotes = CopyNotes(noteClipboard, currentBoxID, currentLineID);
                 AlignNotes(newNotes, beatLine.thisBPM);
-                deletedNotes = DeleteNotes(noteClipboard, lastBoxID, lastLineID);
+                deletedNotes = DeleteNotes(noteClipboard, lastBoxID, lastLineID, isCopy);
                 BatchNotes(newNotes, note => note.isSelected = false);
                 AddNotes(newNotes, currentBoxID, currentLineID);
                 notes.AddRange(AddNotes2UI(newNotes));

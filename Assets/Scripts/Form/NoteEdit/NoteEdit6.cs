@@ -52,7 +52,7 @@ namespace Form.NoteEdit
         }
         private List<Note> CopyNotes(List<Note> noteClipboard, int boxID,int lineID)
         {
-            List<Note> newNotes = null;
+            List<Note> newNotes = new();
             for (int i = 0; i < noteClipboard.Count; i++)
             {
                 Note note = new(noteClipboard[i]);
@@ -63,7 +63,7 @@ namespace Form.NoteEdit
         }
         private List<Note> AddNotes(List<Note> noteClipboard, int boxID, int lineID)
         {
-            List<Note> newNotes = null;
+            List<Note> newNotes = new();
             for (int i = 0; i < noteClipboard.Count; i++)
             {
                 Note note = noteClipboard[i];
