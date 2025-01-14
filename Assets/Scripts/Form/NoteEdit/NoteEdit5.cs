@@ -34,9 +34,14 @@ namespace Form.NoteEdit
                 newVerticalLine.SetSiblingIndex(4);
                 verticalLines.Add(newVerticalLine);
             }
-            //note.positionX = (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
-            verticalLineDeltaDataForChartData = ((verticalLines[1].localPosition.x - verticalLines[0].localPosition.x) / verticalLineLeftAndRightDelta.x) * 2;
+            verticalLineDeltaDataForChartData=CalculatePositionXDelta(verticalLineLeftAndRightDelta);
         }
+
+        private float CalculatePositionXDelta(Vector3 verticalLineLeftAndRightDelta)
+        {
+             return ((verticalLines[1].localPosition.x - verticalLines[0].localPosition.x) / verticalLineLeftAndRightDelta.x) * 2;
+        }
+
         public void UpdateNoteLocalPosition()
         {
             for (int i = 0; i < notes.Count; i++)

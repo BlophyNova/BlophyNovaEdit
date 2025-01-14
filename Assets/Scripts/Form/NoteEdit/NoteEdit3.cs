@@ -25,8 +25,7 @@ namespace Form.NoteEdit
             note.HitBeats = new BPM(nearBeatLine.thisBPM);
             note.holdBeats = BPM.One;
             note.effect = noteEffect;
-            note.positionX =
-                (nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
+            note.positionX= CalculatePositionX(nearVerticalLine);
             Scenes.Edit.NoteEdit instNewNoteEditPrefab = GetNoteType(noteType);
             FullFlickSpecialHandling(noteType, note);
 
@@ -36,6 +35,11 @@ namespace Form.NoteEdit
             newNoteEdit.transform.localPosition = new(nearVerticalLine.localPosition.x, nearBeatLine.transform.localPosition.y);
             notes.Add(newNoteEdit);
             AddNote(note, currentBoxID, currentLineID);
+        }
+
+        private float CalculatePositionX(RectTransform nearVerticalLine)
+        {
+                return(nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
         }
 
         private static void FullFlickSpecialHandling(NoteType noteType, Note note)
@@ -236,42 +240,36 @@ namespace Form.NoteEdit
 
         private void MoveLeft()
         {
-            //List<Note> newNotes = null;
-            //List<Note> deletedNotes = null;
-            //List<Note> selectedNotes = GetSelectedNotes();
-            //newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
-            //BPM bpm = new(newNotes[0].HitBeats);
-            //BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedNotes[0].chartEditNote.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
-            //bpm = new(nearBPM);
-            //if (bpm.denominator == ChartEditData.beatSubdivision && bpm.ThisStartBPM == nearBPM.ThisStartBPM)
-            //{
-            //    bpm.AddOneBeat();
-            //}
-            //AlignNotes(newNotes, bpm);
-            //AddNotes(newNotes, currentBoxID, currentLineID);
-            //notes.AddRange(AddNotes2UI(newNotes));
+            List<Note> newNotes = null;
+            List<Note> deletedNotes = null;
+            List<Note> selectedNotes = GetSelectedNotes();
+            newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
+            foreach (Note note in newNotes)
+            {
+                if (note.positionX - verticalLineDeltaDataForChartData < -1.0001f) return;
+            }
+            BatchNotes(newNotes, note => note.positionX -=verticalLineDeltaDataForChartData);
+            AddNotes(newNotes, currentBoxID, currentLineID);
+            notes.AddRange(AddNotes2UI(newNotes));
 
-            //deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
+            deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
         }
 
         private void MoveRight()
         {
-            //List<Note> newNotes = null;
-            //List<Note> deletedNotes = null;
-            //List<Note> selectedNotes = GetSelectedEvents();
-            //newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
-            //BPM bpm = new(newNotes[0].HitBeats);
-            //BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedNotes[0].chartEditNote.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
-            //bpm = new(nearBPM);
-            //if (bpm.denominator == ChartEditData.beatSubdivision && bpm.ThisStartBPM == nearBPM.ThisStartBPM)
-            //{
-            //    bpm.AddOneBeat();
-            //}
-            //AlignNotes(newNotes, bpm);
-            //AddNotes(newNotes, currentBoxID, currentLineID);
-            //notes.AddRange(AddNotes2UI(newNotes));
+            List<Note> newNotes = null;
+            List<Note> deletedNotes = null;
+            List<Note> selectedNotes = GetSelectedNotes();
+            newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
+            foreach (Note note in newNotes)
+            {
+                if (note.positionX + verticalLineDeltaDataForChartData > 1.0001f) return;
+            }
+            BatchNotes(newNotes, note => note.positionX+=verticalLineDeltaDataForChartData);
+            AddNotes(newNotes, currentBoxID, currentLineID);
+            notes.AddRange(AddNotes2UI(newNotes));
 
-            //deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
+            deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
         }
 
         private void MirrorNote()
