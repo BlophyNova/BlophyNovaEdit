@@ -1,3 +1,4 @@
+using CustomSystem;
 using Data.ChartEdit;
 using Log;
 using System.Collections;
@@ -85,6 +86,17 @@ namespace Form.NoteEdit
                 notes.Add(newHoldEdit);
                 //添加事件到对应的地方
                 AddNote(newHoldEdit.thisNoteData, boxID, lineID);
+            }
+            Steps.Instance.Add(Undo, Redo, default);
+            yield break;
+            void Undo()
+            {
+                DeleteNote(newHoldEdit.thisNoteData, currentBoxID, currentLineID);
+            }
+            void Redo()
+            {
+                AddNotes(new() { newHoldEdit.thisNoteData }, currentBoxID, currentLineID);
+                AddNotes2UI(new() { newHoldEdit.thisNoteData });
             }
         }
         private void NoteEdit_onNoteRefreshed(List<Note> notes)

@@ -1,3 +1,4 @@
+using CustomSystem;
 using Data.ChartData;
 using Data.ChartEdit;
 using Data.Interface;
@@ -16,7 +17,7 @@ namespace Form.NoteEdit
     public partial class NoteEdit
     {
 
-        private void AddNewNote(NoteType noteType, NoteEffect noteEffect, int boxID, int lineID)
+        private Note AddNewNote(NoteType noteType, NoteEffect noteEffect, int boxID, int lineID)
         {
             FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
             Note note = new();
@@ -34,7 +35,8 @@ namespace Form.NoteEdit
             newNoteEdit.labelWindow = labelWindow;
             newNoteEdit.transform.localPosition = new(nearVerticalLine.localPosition.x, nearBeatLine.transform.localPosition.y);
             notes.Add(newNoteEdit);
-            AddNote(note, currentBoxID, currentLineID);
+            AddNote(note, boxID, lineID);
+            return note;
         }
 
         private float CalculatePositionX(RectTransform nearVerticalLine)
@@ -77,7 +79,18 @@ namespace Form.NoteEdit
 
         public void AddNewTap()
         {
-            AddNewNote(NoteType.Tap, NoteEffect.CommonEffect, currentBoxID, currentLineID);
+            Note newNote = AddNewNote(NoteType.Tap, NoteEffect.CommonEffect, currentBoxID, currentLineID);
+            Steps.Instance.Add(Undo, Redo, default);
+            return;
+            void Undo()
+            {
+                DeleteNote(newNote, currentBoxID, currentLineID);
+            }
+            void Redo()
+            {
+                AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                AddNotes2UI(new() { newNote });
+            }
         }
         public void AddNewHold()
         {
@@ -112,21 +125,65 @@ namespace Form.NoteEdit
         }
         public void AddNewFullFlick()
         {
-            AddNewNote(NoteType.FullFlick, 0, currentBoxID, currentLineID);
+            Note newNote =AddNewNote(NoteType.FullFlick, 0, currentBoxID, currentLineID); 
+            Steps.Instance.Add(Undo, Redo, default);
+            return;
+            void Undo()
+            {
+                DeleteNote(newNote, currentBoxID, currentLineID);
+            }
+            void Redo()
+            {
+                AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                AddNotes2UI(new() { newNote });
+            }
         }
         public void AddNewDrag()
         {
-            AddNewNote(NoteType.Drag, NoteEffect.CommonEffect, currentBoxID, currentLineID);
+            Note newNote = AddNewNote(NoteType.Drag, NoteEffect.CommonEffect, currentBoxID, currentLineID);
+            Steps.Instance.Add(Undo, Redo, default);
+            return;
+            void Undo()
+            {
+                DeleteNote(newNote, currentBoxID, currentLineID);
+            }
+            void Redo()
+            {
+                AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                AddNotes2UI(new() { newNote });
+            }
         }
 
         public void AddNewFlick()
         {
-            AddNewNote(NoteType.Flick, NoteEffect.CommonEffect, currentBoxID, currentLineID);
+            Note newNote = AddNewNote(NoteType.Flick, NoteEffect.CommonEffect, currentBoxID, currentLineID);
+            Steps.Instance.Add(Undo, Redo, default);
+            return;
+            void Undo()
+            {
+                DeleteNote(newNote, currentBoxID, currentLineID);
+            }
+            void Redo()
+            {
+                AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                AddNotes2UI(new() { newNote });
+            }
         }
 
         public void AddNewPoint()
         {
-            AddNewNote(NoteType.Point, NoteEffect.Ripple, currentBoxID, currentLineID);
+            Note newNote = AddNewNote(NoteType.Point, NoteEffect.Ripple, currentBoxID, currentLineID);
+            Steps.Instance.Add(Undo, Redo, default);
+            return;
+            void Undo()
+            {
+                DeleteNote(newNote, currentBoxID, currentLineID);
+            }
+            void Redo()
+            {
+                AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                AddNotes2UI(new() { newNote });
+            }
         }
         private void SelectBoxDown()
         {
