@@ -268,6 +268,12 @@ namespace Controller
                 spriteRenderers[1].color =
                     spriteRenderers[2].color =
                         spriteRenderers[3].color = alpha; //1234根线赋值，这里的0，0，0就是黑色的线
+
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    spriteRenderers[i].color = new(spriteRenderers[i].color.r, spriteRenderers[i].color.g, spriteRenderers[i].color.b, currentAlpha);
+            //}
+            
         }
 
         private void UpdateLineAlpha()
