@@ -47,12 +47,35 @@ namespace UtilityCode.AssemblySystem
             return interfaces;
         }
 
-        public static void Exe<T>(List<T> values, Action<T> action)
+        public static void Exe<T>(List<T> values, Action<T> action,List<Type> types)
         {
             foreach (T item in values)
             {
-                action?.Invoke(item);
+                if(ExeAllMethod(action, types, item)) continue;
+                ExeSpecificMethod(action, types, item);
             }
+        }
+
+        private static void ExeSpecificMethod<T>(Action<T> action, List<Type> types, T item)
+        {
+            foreach (Type type in types)
+            {
+                if (item.GetType()==type)
+                {
+                    action?.Invoke(item);
+                    break;
+                }
+            }
+        }
+
+        private static bool ExeAllMethod<T>(Action<T> action, List<Type> types, T item)
+        {
+            if (types == null)
+            {
+                action?.Invoke(item);
+                return true;
+            }
+            return false;
         }
     }
 }

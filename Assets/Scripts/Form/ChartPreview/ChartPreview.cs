@@ -1,6 +1,8 @@
 using Data.Interface;
 using Form.LabelWindow;
 using Manager;
+using System;
+using System.Collections.Generic;
 
 namespace Form.ChartPreview
 {

@@ -112,10 +112,10 @@ namespace Scenes.DontDestroyOnLoad
             Destroy(gameObject);
         }
 
-        public static void Refresh<T>(Action<T> action)
+        public static void Refresh<T>(Action<T> action,List<Type> types=null)
         {
-            AssemblySystem.Exe(AssemblySystem.FindAllInterfaceByTypes<T>(),
-                interfaceMethod => action?.Invoke(interfaceMethod));
+            List<T> foundTypes = AssemblySystem.FindAllInterfaceByTypes<T>();
+            AssemblySystem.Exe(foundTypes, interfaceMethod => action?.Invoke(interfaceMethod), types);
         }
 
         protected override void OnAwake()

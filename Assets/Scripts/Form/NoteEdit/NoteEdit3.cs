@@ -167,7 +167,7 @@ namespace Form.NoteEdit
             List<Note> newNotes = null;
             List<Note> deletedNotes = null;
             if (noteClipboard.Count > 0)
-            {
+            {               
                 newNotes = CopyNotes(noteClipboard, currentBoxID, currentLineID);
                 AlignNotes(newNotes, beatLine.thisBPM);
                 deletedNotes = DeleteNotes(noteClipboard, currentBoxID, currentLineID,isCopy);
@@ -238,7 +238,7 @@ namespace Form.NoteEdit
         {
             //List<Note> newNotes = null;
             //List<Note> deletedNotes = null;
-            //List<Note> selectedNotes = GetSelectedEvents();
+            //List<Note> selectedNotes = GetSelectedNotes();
             //newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
             //BPM bpm = new(newNotes[0].HitBeats);
             //BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedNotes[0].chartEditNote.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;

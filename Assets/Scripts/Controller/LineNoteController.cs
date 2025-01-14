@@ -33,7 +33,7 @@ namespace Controller
         public int movedOnlineNotesCount;
         public int movedOfflineNotesCount;
 
-        public int decideLineOnlineNoteCount = -1;
+        //public int decideLineOnlineNoteCount = -1;
         //public int decideLineOfflineNoteCount = -1;
         private void Update()
         {
@@ -49,11 +49,11 @@ namespace Controller
                     ariseOfflineNotes, endTimeAriseOfflineNotes, false);
             }
 
-            if(decideLineOnlineNoteCount != decideLineController.ThisLine.onlineNotes.Count)
-            {
-                decideLineOnlineNoteCount = decideLineController.ThisLine.onlineNotes.Count;
-                ResetLineNoteState(ref lastOnlineIndex, ariseOnlineNotes, endTimeAriseOnlineNotes, decideLineController, decideLineController.thisLine.onlineNotes, true);
-            }
+            //if(decideLineOnlineNoteCount != decideLineController.ThisLine.onlineNotes.Count)
+            //{
+            //    decideLineOnlineNoteCount = decideLineController.ThisLine.onlineNotes.Count;
+            //    ResetLineNoteState(ref lastOnlineIndex, ariseOnlineNotes, endTimeAriseOnlineNotes, decideLineController, decideLineController.thisLine.onlineNotes, true);
+            //}
             //if (decideLineOfflineNoteCount != decideLineController.ThisLine.offlineNotes.Count)
             //{
             //    decideLineOfflineNoteCount = decideLineController.ThisLine.offlineNotes.Count;
