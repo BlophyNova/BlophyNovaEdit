@@ -1,0 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using static UnityEngine.Camera;
+public class ShowPointInGameView : MonoBehaviour
+{
+    public TextMeshPro textMeshPro;
+    public string lineID;
+    private void Update()
+    {
+        Vector2 centerXY = (Vector2)main.WorldToViewportPoint(transform.position);
+        int centerX = (int)(1600f * centerXY.x - 800f);
+        int centerY = (int)(900f * centerXY.y - 450f);
+        int moveX = (int)(transform.localPosition.x * 100f);
+        int moveY = (int)(transform.localPosition.y * 100f);
+        textMeshPro.text = $"({centerX},{centerY})\n{lineID}\n({moveX},{moveY})";
+    }
+}
