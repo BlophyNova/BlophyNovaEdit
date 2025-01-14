@@ -1,4 +1,5 @@
 using Data.ChartData;
+using JetBrains.Annotations;
 using Manager;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,10 +21,12 @@ namespace Controller
         public TMP_Text boxIDText;
         public DecideLineController[] decideLineControllers; //所有的判定线控制器
         public SpriteRenderer[] spriteRenderers; //所有的渲染组件
+        public ShowPointInGameView[] showPointInGameView;
         public ObjectPoolQueue<RippleController> ripples;
 
         public Box box; //谱面，单独这个box的谱面
 
+        public int currentBoxID;
         public int sortSeed; //层级顺序种子
         public SpriteMask spriteMask; //遮罩
 
@@ -110,7 +113,15 @@ namespace Controller
         {
             UpdateEvents();
         }
-
+        public void SetShowXYPoint(int currentBoxID)
+        {
+            bool isShowText = false;
+            if (currentBoxID == this.currentBoxID) isShowText = true;
+            foreach (var item in showPointInGameView)
+            {
+                item.isShowText = isShowText;
+            }
+        }
         /// <summary>
         ///     设置遮罩种子
         /// </summary>
@@ -129,7 +140,6 @@ namespace Controller
 
             return this; //返回自己
         }
-
         /// <summary>
         ///     初始化
         /// </summary>
@@ -152,6 +162,7 @@ namespace Controller
 
         public BoxController SetBoxID(int boxID)
         {
+            currentBoxID = boxID;
             boxIDText.text = $"{boxID}";
             return this;
         }

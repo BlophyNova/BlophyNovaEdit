@@ -238,8 +238,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 7245291926280646703}
-  squareBox: {fileID: 3502580628930249742}
   lineID: 2
+  isShowText: 0
 --- !u!1 &1100469717538509265
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,8 +799,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 5087155561531773594}
-  squareBox: {fileID: 3502580628930249742}
   lineID: 3
+  isShowText: 0
 --- !u!1 &3195383938167310062
 GameObject:
   m_ObjectHideFlags: 0
@@ -1374,8 +1374,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 2930884473881185247}
-  squareBox: {fileID: 3502580628930249742}
   lineID: 0
+  isShowText: 0
 --- !u!1 &5002396007187557347
 GameObject:
   m_ObjectHideFlags: 0
@@ -1812,8 +1812,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 2065962628364073336}
-  squareBox: {fileID: 3502580628930249742}
   lineID: 
+  isShowText: 0
 --- !u!1 &5950305730684632360
 GameObject:
   m_ObjectHideFlags: 0
@@ -2214,8 +2214,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 8818530709084114847}
-  squareBox: {fileID: 3502580628930249742}
   lineID: 
+  isShowText: 0
 --- !u!1 &6750196196168377247
 GameObject:
   m_ObjectHideFlags: 0
@@ -2454,8 +2454,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 6829691649042136146}
-  squareBox: {fileID: 3502580628930249742}
   lineID: 
+  isShowText: 0
 --- !u!1 &7433081245412314594
 GameObject:
   m_ObjectHideFlags: 0
@@ -2883,8 +2883,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 1612103035077327325}
-  squareBox: {fileID: 3502580628930249742}
   lineID: 1
+  isShowText: 0
 --- !u!1 &8050038196457433697
 GameObject:
   m_ObjectHideFlags: 0
@@ -2954,6 +2954,15 @@ MonoBehaviour:
   - {fileID: 3746573344842827060}
   - {fileID: 6928414127062336489}
   - {fileID: 7860544464297355684}
+  showPointInGameView:
+  - {fileID: 1374572870564220035}
+  - {fileID: 619397789338296924}
+  - {fileID: 9078975783803499202}
+  - {fileID: 4140919118249935759}
+  - {fileID: 1986463424477927783}
+  - {fileID: 3844386287964113130}
+  - {fileID: 8130149397745410961}
+  - {fileID: 2504104899881725449}
   box:
     boxEvents:
       moveX: []
@@ -2966,6 +2975,7 @@ MonoBehaviour:
       centerY: []
       lineAlpha: []
     lines: []
+  currentBoxID: 0
   sortSeed: 0
   spriteMask: {fileID: 3551648482430810191}
   currentScaleX: 2.25
@@ -3213,8 +3223,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 7960958124573117927}
-  squareBox: {fileID: 3502580628930249742}
   lineID: 
+  isShowText: 0
 --- !u!1 &8592862652095322561
 GameObject:
   m_ObjectHideFlags: 0

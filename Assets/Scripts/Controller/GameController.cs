@@ -11,6 +11,7 @@ namespace Controller
     {
         public bool isLoading;
         public List<BoxController> boxes;
+        public int currentBoxID;
 
         private IEnumerator Start()
         {
@@ -52,11 +53,20 @@ namespace Controller
                     .Init(AssetManager.Instance.chartData.boxes[i]);
                 boxes.Add(newItem);
             }
+            boxes[currentBoxID].SetShowXYPoint(currentBoxID);
         }
 
         public void RefreshChartPreview()
         {
             InstNewBox();
+        }
+        public void ChangeShowXYPoint(int currentBoxID)
+        {
+            this.currentBoxID = currentBoxID;
+            foreach (var item in boxes)
+            {
+                item.SetShowXYPoint(currentBoxID);
+            }
         }
     }
 }

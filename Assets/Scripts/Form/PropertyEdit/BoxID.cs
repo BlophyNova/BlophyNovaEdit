@@ -1,3 +1,4 @@
+using Controller;
 using Data.Enumerate;
 using Data.Interface;
 using Form.LabelWindow;
@@ -63,6 +64,7 @@ namespace Form.PropertyEdit
                     noteEdit.RefreshNotes(boxID, -1);
                 }
             }
+            GameController.Instance.ChangeShowXYPoint(boxID);
         }
     }
 }

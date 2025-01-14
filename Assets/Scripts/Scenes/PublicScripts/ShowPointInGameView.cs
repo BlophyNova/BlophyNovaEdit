@@ -7,13 +7,21 @@ public class ShowPointInGameView : MonoBehaviour
 {
     public TextMeshPro textMeshPro;
     public string lineID;
+    public bool isShowText;
     private void Update()
     {
-        Vector2 centerXY = (Vector2)main.WorldToViewportPoint(transform.position);
-        int centerX = (int)(1600f * centerXY.x - 800f);
-        int centerY = (int)(900f * centerXY.y - 450f);
-        int moveX = (int)(transform.localPosition.x * 100f);
-        int moveY = (int)(transform.localPosition.y * 100f);
-        textMeshPro.text = $"({centerX},{centerY})\n{lineID}\n({moveX},{moveY})";
+        if (isShowText)
+        {
+            Vector2 centerXY = (Vector2)main.WorldToViewportPoint(transform.position);
+            int centerX = (int)(1600f * centerXY.x - 800f);
+            int centerY = (int)(900f * centerXY.y - 450f);
+            int moveX = (int)(transform.localPosition.x * 100f);
+            int moveY = (int)(transform.localPosition.y * 100f);
+            textMeshPro.text = $"({centerX},{centerY})\n{lineID}\n({moveX},{moveY})";
+        }
+        else
+        {
+            textMeshPro.text = $"{lineID}";
+        }
     }
 }

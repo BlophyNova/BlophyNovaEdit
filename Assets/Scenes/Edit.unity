@@ -7100,6 +7100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLoading: 0
   boxes: []
+  currentBoxID: 0
 --- !u!1 &1679475467
 GameObject:
   m_ObjectHideFlags: 0
