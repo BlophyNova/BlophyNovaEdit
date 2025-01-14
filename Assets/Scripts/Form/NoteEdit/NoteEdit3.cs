@@ -295,67 +295,7 @@ namespace Form.NoteEdit
             notes.AddRange(AddNotes2UI(newNotes));
             
         }
-        private List<Note> GetSelectedNotes()
-        {
-            IEnumerable<Scenes.Edit.NoteEdit> selectedNoteEdits = selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>();
-            List<Note> selectedNotes = new();
-            foreach (Scenes.Edit.NoteEdit item in selectedNoteEdits)
-            {
-                selectedNotes.Add(item.thisNoteData);
-            }
 
-            return selectedNotes;
-        }
-        private List<Scenes.Edit.NoteEdit> AddNotes2UI(List<Note> needInstNotes)
-        {
-            List<Scenes.Edit.NoteEdit> notes = new();
-            foreach (Note item in needInstNotes)
-            {
-                Scenes.Edit.NoteEdit newNoteEdit = AddNote2UI(item);
 
-                //Debug.LogError("写到这里了，下次继续写");
-                notes.Add(newNoteEdit);
-            }
-            onNotesAdded2UI(notes);
-            return notes;
-        }
-
-        private Scenes.Edit.NoteEdit AddNote2UI(Note item)
-        {
-            Scenes.Edit.NoteEdit noteEditType = GetNoteType(item);
-
-            float currentSecondsTime = BPMManager.Instance.GetSecondsTimeByBeats(item.HitBeats.ThisStartBPM);
-            float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
-
-            Scenes.Edit.NoteEdit newNoteEdit = Instantiate(noteEditType, basicLine.noteCanvas).Init(item);
-            newNoteEdit.labelWindow = labelWindow;
-            newNoteEdit.transform.localPosition = new Vector3(
-                (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x -
-                 (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) * item.positionX,
-                positionY);
-            item.chartEditNote = newNoteEdit;
-            if (item.noteType == NoteType.Hold)
-            {
-                //float endBeatsSecondsTime = BPMManager.Instance.GetSecondsTimeWithBeats(item.EndBeats.ThisStartBPM);
-                //float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(item.EndBeats.ThisStartBPM);
-                //float hitBeatsPositionY= YScale.Instance.GetPositionYWithSecondsTime(item.HitBeats.ThisStartBPM);
-                float holdBeatsPositionY =
-                    YScale.Instance.GetPositionYWithSecondsTime(
-                        BPMManager.Instance.GetSecondsTimeByBeats(item.holdBeats.ThisStartBPM));
-                newNoteEdit.thisNoteRect.sizeDelta =
-                    new Vector2(newNoteEdit.thisNoteRect.sizeDelta.x, holdBeatsPositionY);
-            }
-            newNoteEdit.SetSelectState(item.isSelected);
-            return newNoteEdit;
-        }
-
-        private void DestroyNotes()
-        {
-            foreach (Scenes.Edit.NoteEdit item in notes)
-            {
-                Destroy(item.gameObject);
-            }
-            notes.Clear();
-        }
     }
 }

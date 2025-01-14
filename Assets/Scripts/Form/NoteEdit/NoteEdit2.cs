@@ -96,5 +96,13 @@ namespace Form.NoteEdit
                     noteClipboard.Add(notes[i]);
             }
         }
+        private void DestroyNotes()
+        {
+            foreach (Scenes.Edit.NoteEdit item in notes)
+            {
+                Destroy(item.gameObject);
+            }
+            notes.Clear();
+        }
     }
 }
