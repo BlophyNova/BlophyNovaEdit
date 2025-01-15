@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UtilityCode.Extension
@@ -47,6 +48,18 @@ namespace UtilityCode.Extension
             int result = Math.Sign(number); //取正负
             result = result switch { 0 => 1, _ => result }; //如果是0按照正来算，其余结果直接返回
             return result; //返回
+        }
+    }
+    public static class ListExtension
+    {
+        public static List<T> RemoveOfEnd<T>(this List<T> values,int index)
+        {
+            List<T> result = new();
+            for (int i = 0; i < index; i++) 
+            {
+                result.Add(values[i]);
+            }
+            return result;
         }
     }
 }

@@ -57,6 +57,7 @@ namespace Form.NoteEdit
 
         public IEnumerator WaitForPressureAgain(Scenes.Edit.NoteEdit newHoldEdit, int boxID, int lineID)
         {
+            Note newNote = newHoldEdit.thisNoteData;
             while (true)
             {
                 if (waitForPressureAgain)
@@ -65,11 +66,14 @@ namespace Form.NoteEdit
                 }
 
                 FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
-
-                newHoldEdit.thisNoteRect.sizeDelta = new Vector2(newHoldEdit.thisNoteRect.sizeDelta.x,
-                    nearBeatLine.transform.localPosition.y - newHoldEdit.transform.localPosition.y);
-                newHoldEdit.thisNoteData.holdBeats =
-                    new BPM(new BPM(nearBeatLine.thisBPM) - new BPM(newHoldEdit.thisNoteData.HitBeats));
+                try
+                {
+                    newHoldEdit.thisNoteRect.sizeDelta = new Vector2(newHoldEdit.thisNoteRect.sizeDelta.x,
+                        nearBeatLine.transform.localPosition.y - newHoldEdit.transform.localPosition.y);
+                    newHoldEdit.thisNoteData.holdBeats =
+                        new BPM(new BPM(nearBeatLine.thisBPM) - new BPM(newHoldEdit.thisNoteData.HitBeats));
+                }
+                catch { }
                 yield return new WaitForEndOfFrame();
             }
 
@@ -91,12 +95,13 @@ namespace Form.NoteEdit
             yield break;
             void Undo()
             {
-                DeleteNote(newHoldEdit.thisNoteData, currentBoxID, currentLineID);
+                DeleteNote(newNote, currentBoxID, currentLineID);
             }
             void Redo()
             {
-                AddNotes(new() { newHoldEdit.thisNoteData }, currentBoxID, currentLineID);
-                AddNotes2UI(new() { newHoldEdit.thisNoteData });
+                List<Note> instNewNotes = AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                BatchNotes(instNewNotes, note => note.isSelected = false);
+                notes.AddRange(AddNotes2UI(instNewNotes));
             }
         }
         private void NoteEdit_onNoteRefreshed(List<Note> notes)

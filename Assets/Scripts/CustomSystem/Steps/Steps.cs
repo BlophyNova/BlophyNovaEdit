@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UtilityCode.Extension;
 using UtilityCode.Singleton;
 
 namespace CustomSystem
@@ -12,27 +13,49 @@ namespace CustomSystem
 
         public void Add(Action undo, Action redo, Action @finally)
         {
-            steps.Add(new Step { Undo = undo, Redo = redo, Finally = @finally });
-            currentStepsIndex++;
+            @finally ??= () => { };
+            if (currentStepsIndex == steps.Count - 1)
+            {
+                steps.Add(new Step { Undo = undo, Redo = redo, Finally = @finally });
+                currentStepsIndex++;
+            }
+            else
+            {
+                steps = steps.RemoveOfEnd(currentStepsIndex++);
+                steps.Add(new Step { Undo = undo, Redo = redo, Finally = @finally });
+                //currentStepsIndex++;
+            }
             CheckMaxLength();
         }
 
         public void Undo()
         {
-            if (currentStepsIndex - 1 < 0)
+            if (currentStepsIndex< 0)
             {
                 return;
             }
+            else if(currentStepsIndex >= steps.Count)
+            {
+                currentStepsIndex = steps.Count - 1;
+            }
 
-            steps[currentStepsIndex - 1].Undo();
-            steps[currentStepsIndex-- - 1].Finally();
+            steps[currentStepsIndex].Undo();
+            steps[currentStepsIndex--].Finally();
             CheckMaxLength();
         }
 
         public void Redo()
         {
-            steps[currentStepsIndex].Redo();
-            steps[currentStepsIndex++].Finally();
+            if (currentStepsIndex>=steps.Count-1)
+            {
+                return;
+            }
+            else if (currentStepsIndex < 0)
+            {
+                currentStepsIndex = -1;
+            }
+            steps[++currentStepsIndex].Redo();
+            steps[currentStepsIndex].Finally();
             CheckMaxLength();
         }
 

@@ -112,30 +112,22 @@ namespace Form.EventEdit
 
         public IEnumerator WaitForPressureAgain(EventEditItem eventEditItem)
         {
+            KeyValueList<Event, EventType> @event = new();
             while (true)
             {
                 if (waitForPressureAgain)
                 {
                     break;
                 }
-
-                BeatLine nearBeatLine = null;
-                float nearBeatLineDis = float.MaxValue;
-                foreach (BeatLine item in basicLine.beatLines)
+                BeatLine beatLine = FindNearBeatLine(MousePositionInThisRectTransform);
+                try
                 {
-                    float dis = Vector2.Distance(MousePositionInThisRectTransform,
-                        (Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) +
-                        labelWindow.labelWindowRect.sizeDelta / 2);
-                    if (!(dis < nearBeatLineDis)) continue;
-
-                    nearBeatLineDis = dis;
-                    nearBeatLine = item;
+                    eventEditItem.thisEventEditItemRect.sizeDelta = new Vector2(
+                        Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition),
+                        beatLine.transform.localPosition.y - eventEditItem.transform.localPosition.y);
+                    eventEditItem.@event.endBeats = new(beatLine.thisBPM);
                 }
-
-                eventEditItem.thisEventEditItemRect.sizeDelta = new Vector2(
-                    Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition),
-                    nearBeatLine.transform.localPosition.y - eventEditItem.transform.localPosition.y);
-                eventEditItem.@event.endBeats = new BPM(nearBeatLine.thisBPM);
+                catch { }
                 yield return new WaitForEndOfFrame();
             }
 
@@ -153,7 +145,8 @@ namespace Form.EventEdit
                 //添加事件到对应的地方
                 LogCenter.Log(
                     $"{eventEditItem.eventType}新事件：{eventEditItem.@event.startBeats.integer}:{eventEditItem.@event.startBeats.molecule}/{eventEditItem.@event.startBeats.denominator}");
-                Steps.Instance.Add(Undo, Redo, RefreshAll);
+                @event.Add(eventEditItem.@event,eventEditItem.eventType);
+                Steps.Instance.Add(Undo, Redo, default);
                 eventEditItem.DrawLineOnEEI();
                 eventEditItems.Add(eventEditItem);
                 AddEvent(eventEditItem.@event, eventEditItem.eventType, currentBoxID, false);
@@ -163,15 +156,13 @@ namespace Form.EventEdit
 
             void Undo()
             {
-                KeyValueList<Event, EventType> @event = new();
-                @event.Add(eventEditItem.@event,eventEditItem.eventType);
-                DeleteEvent(@event.GetKey(0), @event.GetValue(0),currentBoxID);
+                DeleteEvents(@event, currentBoxID);
             }
             void Redo()
             {
-                KeyValueList<Event, EventType> @event = new();
-                @event.Add(eventEditItem.@event, eventEditItem.eventType);
-                AddEvent(@event.GetKey(0), @event.GetValue(0), currentBoxID,true);
+                KeyValueList<Event, EventType> newEvents = AddEvents(@event, currentBoxID,true);
+                BatchEvents(newEvents, @event => @event.IsSelected = false);
+                eventEditItems.AddRange(AddEvents2UI(newEvents));
             }
         }
 

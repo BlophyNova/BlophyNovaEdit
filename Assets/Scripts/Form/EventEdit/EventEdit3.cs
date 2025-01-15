@@ -83,31 +83,34 @@ namespace Form.EventEdit
             //RefreshAll();
             if (isCopy)
             {
-                Steps.Instance.Add(CopyUndo, CopyRedo, RefreshAll);
+                Steps.Instance.Add(CopyUndo, CopyRedo, default);
             }
             else
             {
-                Steps.Instance.Add(PasteUndo, PasteRedo, RefreshAll);
+                Steps.Instance.Add(CutUndo, CutRedo, default);
             }
             isCopy = true;
             return;
             void CopyUndo()
             {
-                DeleteEvents(newEvents, currentBoxID, isCopy);
+                DeleteEvents(newEvents, currentBoxID, false);
             }
             void CopyRedo()
             {
-                AddEvents(newEvents, currentBoxID,true);
+                KeyValueList<Event, EventType> instNewEvents = AddEvents(newEvents, currentBoxID,true);
+                eventEditItems.AddRange(AddEvents2UI(instNewEvents));
             }
-            void PasteUndo()
+            void CutUndo()
             {
-                AddEvents(deletedEvents, currentBoxID, true);
-                DeleteEvents(newEvents, currentBoxID, isCopy);
+                KeyValueList<Event, EventType> instNewEvents = AddEvents(deletedEvents, currentBoxID, true);
+                eventEditItems.AddRange(AddEvents2UI(instNewEvents));
+                DeleteEvents(newEvents, currentBoxID, false);
             }
-            void PasteRedo()
+            void CutRedo()
             {
-                AddEvents(newEvents,currentBoxID,true);
-                DeleteEvents(deletedEvents, currentBoxID, isCopy);
+                KeyValueList<Event, EventType> instNewEvents = AddEvents(newEvents,currentBoxID,true);
+                eventEditItems.AddRange(AddEvents2UI(instNewEvents));
+                DeleteEvents(deletedEvents, currentBoxID, false);
             }
         }
 
@@ -133,16 +136,18 @@ namespace Form.EventEdit
             eventEditItems.AddRange(AddEvents2UI(newEvents));
 
             deletedEvents = DeleteEvents(selectedEvents, currentBoxID, false);
-            Steps.Instance.Add(Undo, Redo, RefreshAll);
+            Steps.Instance.Add(Undo, Redo, default);
             return;
             void Undo()
             {
-                AddEvents(deletedEvents, currentBoxID, true);
+                KeyValueList<Event, EventType> instNewEvents = AddEvents(deletedEvents, currentBoxID, true);
+                eventEditItems.AddRange(AddEvents2UI(instNewEvents));
                 DeleteEvents(newEvents, currentBoxID, isCopy);
             }
             void Redo()
             {
-                AddEvents(newEvents, currentBoxID, true);
+                KeyValueList<Event, EventType> instNewEvents = AddEvents(newEvents, currentBoxID, true);
+                eventEditItems.AddRange(AddEvents2UI(instNewEvents));
                 DeleteEvents(deletedEvents, currentBoxID, isCopy);
             }
         }
@@ -177,16 +182,18 @@ namespace Form.EventEdit
             eventEditItems.AddRange(AddEvents2UI(newEvents));
 
             deletedEvents = DeleteEvents(selectedEvents, currentBoxID, false);
-            Steps.Instance.Add(Undo, Redo, RefreshAll);
+            Steps.Instance.Add(Undo, Redo, default);
             return;
             void Undo()
             {
-                AddEvents(deletedEvents, currentBoxID, true);
+                KeyValueList<Event, EventType> instNewEvents = AddEvents(deletedEvents, currentBoxID, true);
+                eventEditItems.AddRange(AddEvents2UI(instNewEvents));
                 DeleteEvents(newEvents, currentBoxID, isCopy);
             }
             void Redo()
             {
-                AddEvents(newEvents, currentBoxID, true);
+                KeyValueList<Event, EventType> instNewEvents = AddEvents(newEvents, currentBoxID, true);
+                eventEditItems.AddRange(AddEvents2UI(instNewEvents));
                 DeleteEvents(deletedEvents, currentBoxID, isCopy);
             }
         }
@@ -205,12 +212,14 @@ namespace Form.EventEdit
             return;
             void Undo()
             {
-                AddEvents(deletedEvents,currentBoxID, true);
+                KeyValueList<Event, EventType> newEvents = AddEvents(deletedEvents,currentBoxID, true);
+                BatchEvents(newEvents, @event => @event.IsSelected = false);
+                eventEditItems.AddRange(AddEvents2UI(newEvents));
             }
 
             void Redo()
             {
-                DeleteEvents(eventClipboard, currentBoxID);
+                DeleteEvents(deletedEvents, currentBoxID);
             }
         }
 

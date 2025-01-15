@@ -88,8 +88,9 @@ namespace Form.NoteEdit
             }
             void Redo()
             {
-                AddNotes(new() { newNote }, currentBoxID, currentLineID);
-                AddNotes2UI(new() { newNote });
+                List<Note> instNewNotes = AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                BatchNotes(instNewNotes, note => note.isSelected = false);
+                notes.AddRange(AddNotes2UI(instNewNotes));
             }
         }
         public void AddNewHold()
@@ -134,8 +135,9 @@ namespace Form.NoteEdit
             }
             void Redo()
             {
-                AddNotes(new() { newNote }, currentBoxID, currentLineID);
-                AddNotes2UI(new() { newNote });
+                List<Note> instNewNotes = AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                BatchNotes(instNewNotes, note => note.isSelected = false);
+                notes.AddRange(AddNotes2UI(instNewNotes));
             }
         }
         public void AddNewDrag()
@@ -149,8 +151,9 @@ namespace Form.NoteEdit
             }
             void Redo()
             {
-                AddNotes(new() { newNote }, currentBoxID, currentLineID);
-                AddNotes2UI(new() { newNote });
+                List<Note> instNewNotes = AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                BatchNotes(instNewNotes, note => note.isSelected = false);
+                notes.AddRange(AddNotes2UI(instNewNotes));
             }
         }
 
@@ -165,8 +168,9 @@ namespace Form.NoteEdit
             }
             void Redo()
             {
-                AddNotes(new() { newNote }, currentBoxID, currentLineID);
-                AddNotes2UI(new() { newNote });
+                List<Note> instNewNotes = AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                BatchNotes(instNewNotes, note => note.isSelected = false);
+                notes.AddRange(AddNotes2UI(instNewNotes));
             }
         }
 
@@ -181,8 +185,9 @@ namespace Form.NoteEdit
             }
             void Redo()
             {
-                AddNotes(new() { newNote }, currentBoxID, currentLineID);
-                AddNotes2UI(new() { newNote });
+                List<Note> instNewNotes = AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                BatchNotes(instNewNotes, note => note.isSelected = false);
+                notes.AddRange(AddNotes2UI(instNewNotes));
             }
         }
         private void SelectBoxDown()
@@ -247,14 +252,54 @@ namespace Form.NoteEdit
             }
 
             //这里还有很多关于撤销重做的事情
-
+            if (isCopy)
+            {
+                Steps.Instance.Add(CopyUndo, CopyRedo, default);
+            }
+            else
+            {
+                Steps.Instance.Add(CutUndo, CutRedo, default);
+            }
             isCopy = true;
             return;
+            void CopyUndo()
+            {
+                DeleteNotes(newNotes, currentBoxID, currentLineID, false);
+            }
+            void CopyRedo()
+            {
+                List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+            }
+            void CutUndo()
+            {
+                List<Note> instNewNotes=AddNotes(deletedNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+                DeleteNotes(newNotes, currentBoxID, currentLineID,false);
+            }
+            void CutRedo()
+            {
+                List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+                DeleteNotes(deletedNotes,currentBoxID, currentLineID,false);
+            }
         }
         private void DeleteNoteWithUI()
         {
             List<Note> selectedNotes = GetSelectedNotes();
             List<Note> deletedEvents = DeleteNotes(selectedNotes, currentBoxID,currentLineID);
+            Steps.Instance.Add(Undo, Redo, default);
+            return;
+            void Undo()
+            {
+                List<Note> instNewNotes = AddNotes(deletedEvents, currentBoxID, currentLineID);
+                BatchNotes(instNewNotes, note => note.isSelected=false);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+            }
+            void Redo()
+            {
+                DeleteNotes(deletedEvents, currentBoxID, currentLineID);
+            }
         }
         private void MoveUp()
         {
@@ -274,6 +319,20 @@ namespace Form.NoteEdit
             notes.AddRange(AddNotes2UI(newNotes));
 
             deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
+            Steps.Instance.Add(Undo, Redo, default);
+            return;
+            void Undo()
+            {
+                List<Note> instNewNotes = AddNotes(deletedNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+                DeleteNotes(newNotes, currentBoxID, currentLineID, false);
+            }
+            void Redo()
+            {
+                List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+                DeleteNotes(deletedNotes, currentBoxID, currentLineID, false);
+            }
         }
         private void MoveDown()
         {
@@ -292,7 +351,21 @@ namespace Form.NoteEdit
             AddNotes(newNotes, currentBoxID, currentLineID);
             notes.AddRange(AddNotes2UI(newNotes));
 
-            deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
+            deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID); 
+            Steps.Instance.Add(Undo, Redo, default);
+            return;
+            void Undo()
+            {
+                List<Note> instNewNotes = AddNotes(deletedNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+                DeleteNotes(newNotes, currentBoxID, currentLineID, false);
+            }
+            void Redo()
+            {
+                List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+                DeleteNotes(deletedNotes, currentBoxID, currentLineID, false);
+            }
         }
 
         private void MoveLeft()
@@ -310,6 +383,20 @@ namespace Form.NoteEdit
             notes.AddRange(AddNotes2UI(newNotes));
 
             deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
+            Steps.Instance.Add(Undo, Redo, default);
+            return;
+            void Undo()
+            {
+                List<Note> instNewNotes = AddNotes(deletedNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+                DeleteNotes(newNotes, currentBoxID, currentLineID, false);
+            }
+            void Redo()
+            {
+                List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+                DeleteNotes(deletedNotes, currentBoxID, currentLineID, false);
+            }
         }
 
         private void MoveRight()
@@ -327,6 +414,20 @@ namespace Form.NoteEdit
             notes.AddRange(AddNotes2UI(newNotes));
 
             deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
+            Steps.Instance.Add(Undo, Redo, default);
+            return;
+            void Undo()
+            {
+                List<Note> instNewNotes = AddNotes(deletedNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+                DeleteNotes(newNotes, currentBoxID, currentLineID, false);
+            }
+            void Redo()
+            {
+                List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+                DeleteNotes(deletedNotes, currentBoxID, currentLineID, false);
+            }
         }
 
         private void MirrorNote()
@@ -339,6 +440,17 @@ namespace Form.NoteEdit
             BatchNotes(newNotes, note => { note.isSelected = false;note.positionX = -note.positionX; });
             AddNotes(newNotes, currentBoxID, currentLineID);
             notes.AddRange(AddNotes2UI(newNotes));
+            Steps.Instance.Add(Undo, Redo, default);
+            return;
+            void Undo()
+            {
+                DeleteNotes(newNotes, currentBoxID, currentLineID, false);
+            }
+            void Redo()
+            {
+                List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+            }
         }
         void MirrorFlip()
         {
@@ -350,7 +462,21 @@ namespace Form.NoteEdit
             BatchNotes(newNotes, note => note.positionX=-note.positionX);
             AddNotes(newNotes, currentBoxID, currentLineID);
             notes.AddRange(AddNotes2UI(newNotes));
-            
+
+            Steps.Instance.Add(Undo, Redo, default);
+            return;
+            void Undo()
+            {
+                List<Note> instNewNotes = AddNotes(deletedNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+                DeleteNotes(newNotes, currentBoxID, currentLineID, false);
+            }
+            void Redo()
+            {
+                List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
+                notes.AddRange(AddNotes2UI(instNewNotes));
+                DeleteNotes(deletedNotes, currentBoxID, currentLineID, false);
+            }
         }
 
 
