@@ -21,7 +21,7 @@ namespace CustomSystem
             }
             else
             {
-                steps = steps.RemoveOfEnd(currentStepsIndex++);
+                steps = steps.RemoveOfEnd(++currentStepsIndex);
                 steps.Add(new Step { Undo = undo, Redo = redo, Finally = @finally });
                 //currentStepsIndex++;
             }
