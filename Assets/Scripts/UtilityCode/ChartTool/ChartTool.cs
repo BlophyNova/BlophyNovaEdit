@@ -204,19 +204,19 @@ namespace UtilityCode.ChartTool
                 _ => null
             };
         }
-        private static void ForeachSpeedEvents(Data.ChartEdit.Box box, Box chartDataBox)
+        public static void ForeachSpeedEvents(Data.ChartEdit.Box box, Box chartDataBox)
         {
             List<Data.ChartEdit.Event> filledVoid = GU.FillVoid(box.boxEvents.speed);
             for (int i = 0; i < chartDataBox.lines.Count; i++)
             {
                 chartDataBox.lines[i].speed = new();
                 ForeachBoxEvents(filledVoid, chartDataBox.lines[i].speed);
-                chartDataBox.lines[i].career = new()
-                {
-                    postWrapMode = WrapMode.ClampForever,
-                    preWrapMode = WrapMode.ClampForever,
-                    keys = GU.CalculatedSpeedCurve(chartDataBox.lines[i].speed.ToArray()).ToArray()
-                };
+                //chartDataBox.lines[i].career = new()
+                //{
+                //    postWrapMode = WrapMode.ClampForever,
+                //    preWrapMode = WrapMode.ClampForever,
+                //    keys = GU.CalculatedSpeedCurve(chartDataBox.lines[i].speed.ToArray()).ToArray()
+                //};
                 chartDataBox.lines[i].far = new()
                 {
                     postWrapMode = WrapMode.ClampForever,

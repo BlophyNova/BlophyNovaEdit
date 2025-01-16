@@ -16,6 +16,11 @@ namespace Form.EventEdit
         public void AddEvent2ChartData(Event @event, EventType eventType, int boxID)
         {
             List<Data.ChartData.Event> events = FindChartDataEventList(ChartData.boxes[boxID], eventType);
+            if (events == null) 
+            { 
+                AddSpeedEvent2ChartData(@event, eventType, boxID); 
+                return; 
+            }
             int index = Algorithm.BinarySearch(events, m => m.startTime <BPMManager.Instance.GetSecondsTimeByBeats(@event.startBeats.ThisStartBPM), false);
             Data.ChartData.Event newEvent = new(@event);
             @event.chartDataEvent = newEvent;
@@ -24,7 +29,20 @@ namespace Form.EventEdit
         public void DeleteEvent2ChartData(Event @event, EventType eventType, int boxID)
         {
             List<Data.ChartData.Event> events = FindChartDataEventList(ChartData.boxes[boxID], eventType);
+            if (events == null) 
+            { 
+                DeleteSpeedEvent2ChartData(@event, eventType, boxID); 
+                return;
+            }
             events.Remove(@event.chartDataEvent);
+        }
+        void AddSpeedEvent2ChartData(Event @event, EventType eventType, int boxID)
+        {
+            ForeachSpeedEvents(ChartEditData.boxes[boxID], ChartData.boxes[boxID]);
+        }
+        void DeleteSpeedEvent2ChartData(Event @event, EventType eventType, int boxID)
+        {
+            ForeachSpeedEvents(ChartEditData.boxes[boxID], ChartData.boxes[boxID]);
         }
     }
 }

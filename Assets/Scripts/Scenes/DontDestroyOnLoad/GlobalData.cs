@@ -52,7 +52,6 @@ namespace Scenes.DontDestroyOnLoad
         public VectrosityLineMask vectrosityLineMask;
 
         public List<EaseData> easeDatas;
-        public List<EaseData> simpleEaseDatas;
         public bool isNewEditData;
         public List<Action> loopCallBacks = new();
         public int ScreenWidth => Camera.main.pixelWidth;
@@ -67,26 +66,13 @@ namespace Scenes.DontDestroyOnLoad
             Application.targetFrameRate = 9999;
             easeDatas = JsonConvert.DeserializeObject<List<EaseData>>(
                 File.ReadAllText($"{Application.streamingAssetsPath}/Config/EaseDatas.json"));
-            simpleEaseDatas =
-                JsonConvert.DeserializeObject<List<EaseData>>(
-                    File.ReadAllText($"{Application.streamingAssetsPath}/Config/SimpleEaseDatas.json"));
             if (isNewEditData)
             {
                 ChartTool.CreateNewChart(chartEditData, easeDatas);
                 //chartData.boxes = ChartTool.ConvertChartEdit2ChartData(chartEditData.boxes);
             }
 
-            if (File.Exists($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"))
-            {
-                if (bool.TryParse(File.ReadAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"), out bool result) && !result)
-                {
-                    ShowDisclaimer();
-                }
-            }
-            else
-            {
-                ShowDisclaimer();
-            }
+            Disclaimer();
             while (true)
             {
                 yield return new WaitForSeconds(.1f);
@@ -98,6 +84,22 @@ namespace Scenes.DontDestroyOnLoad
                 Action action = loopCallBacks[0];
                 loopCallBacks.RemoveAt(0);
                 action();
+            }
+        }
+
+        private static void Disclaimer()
+        {
+            if (Application.platform == RuntimePlatform.WindowsEditor) return;
+            if (File.Exists($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"))
+            {
+                if (bool.TryParse(File.ReadAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"), out bool result) && !result)
+                {
+                    ShowDisclaimer();
+                }
+            }
+            else
+            {
+                ShowDisclaimer();
             }
         }
 
