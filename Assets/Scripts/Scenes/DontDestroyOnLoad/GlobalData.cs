@@ -58,7 +58,7 @@ namespace Scenes.DontDestroyOnLoad
         public int ScreenHeight => Camera.main.pixelHeight;
 
         public delegate void OnStartEdit();
-        public event OnStartEdit onStartEdit;
+        public event OnStartEdit onStartEdit=()=> { };
         public void StartEdit() => onStartEdit();
 
         private IEnumerator Start()

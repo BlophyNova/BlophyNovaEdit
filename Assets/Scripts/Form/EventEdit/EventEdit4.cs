@@ -10,6 +10,7 @@ using UtilityCode.ChartTool;
 using Event = Data.ChartEdit.Event;
 using EventType = Data.Enumerate.EventType;
 using static UtilityCode.ChartTool.ChartTool;
+using System.Linq;
 namespace Form.EventEdit
 {
     //这里放所有的刷新方法
@@ -23,6 +24,7 @@ namespace Form.EventEdit
         }
         public void RefreshEvents(int boxID) 
         {
+            
             RefreshEvents(EventType.Speed,boxID);
             RefreshEvents(EventType.CenterX,boxID);
             RefreshEvents(EventType.CenterY,boxID);
@@ -59,6 +61,20 @@ namespace Form.EventEdit
             lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
             LogCenter.Log($"成功更改框号为{currentBoxID}");
+
+            if (Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                Debug.LogError($"这里！！！赶紧重构完音符属性编辑控件后，把这里删了！！");
+            }
+            List<Event> setSelect2False = FindChartEditEventList(GlobalData.Instance.chartEditData.boxes[lastBoxID], eventType);
+            foreach (Event item in setSelect2False)
+            {
+                item.IsSelected = false;
+            }
+
+
+
+
             if (boxID >= 0)
             {
                 EventCopy();
