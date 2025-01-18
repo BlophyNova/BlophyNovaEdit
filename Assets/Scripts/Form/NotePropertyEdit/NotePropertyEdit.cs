@@ -240,7 +240,9 @@ namespace Form.NotePropertyEdit
                 Data.Enumerate.EventType.MoveY=>value => Value16_9ToMoveXY(value,false),
                 Data.Enumerate.EventType.ScaleX=>value =>Value16_9ToScaleXY(value,true),
                 Data.Enumerate.EventType.ScaleY=>value =>Value16_9ToScaleXY(value,false),
-                _=>value=>value
+                Data.Enumerate.EventType.Alpha => value => Value0_255ToAlpha(value, true),
+                Data.Enumerate.EventType.LineAlpha => value => Value0_255ToAlpha(value, true),
+                _ =>value=>value
             };
             float sourceValue = @event.@event.startValue;
             float targetValue = func(result);

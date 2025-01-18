@@ -24,7 +24,9 @@ namespace Form.EventEdit
         }
         public void RefreshEvents(int boxID) 
         {
-            
+
+            lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
+            currentBoxID = boxID < 0 ? currentBoxID : boxID;
             RefreshEvents(EventType.Speed,boxID);
             RefreshEvents(EventType.CenterX,boxID);
             RefreshEvents(EventType.CenterY,boxID);
@@ -58,8 +60,6 @@ namespace Form.EventEdit
         /// <param name="boxID">方框ID</param>
         public void RefreshEvents(EventType eventType, int boxID)
         {
-            lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
-            currentBoxID = boxID < 0 ? currentBoxID : boxID;
             LogCenter.Log($"成功更改框号为{currentBoxID}");
 
             if (Application.platform == RuntimePlatform.WindowsEditor)

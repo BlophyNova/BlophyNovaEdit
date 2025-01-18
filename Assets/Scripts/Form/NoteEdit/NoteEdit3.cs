@@ -243,9 +243,9 @@ namespace Form.NoteEdit
             }
             else
             {
-                newNotes = CopyNotes(noteClipboard, currentBoxID, currentLineID);
+                newNotes = CopyNotes(otherLineNoteClipboard, currentBoxID, currentLineID);
                 AlignNotes(newNotes, beatLine.thisBPM);
-                deletedNotes = DeleteNotes(noteClipboard, lastBoxID, lastLineID, isCopy);
+                deletedNotes = DeleteNotes(otherLineNoteClipboard, lastBoxID, lastLineID, isCopy);
                 BatchNotes(newNotes, note => note.isSelected = false);
                 AddNotes(newNotes, currentBoxID, currentLineID);
                 notes.AddRange(AddNotes2UI(newNotes));

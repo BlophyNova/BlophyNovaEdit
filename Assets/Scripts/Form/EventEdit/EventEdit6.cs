@@ -37,6 +37,7 @@ namespace Form.EventEdit
             List<Event> events = FindChartEditEventList(ChartEditData.boxes[boxID], eventType);
             events.Remove(@event);
             eventEditItems.Remove(@event.chartEditEvent);
+            if(@event.chartEditEvent != null) 
             Destroy(@event.chartEditEvent.gameObject);
             DeleteEvent2ChartData(@event, eventType, boxID);
         }
