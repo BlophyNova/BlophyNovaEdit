@@ -11,6 +11,7 @@ using Event = Data.ChartEdit.Event;
 using EventType = Data.Enumerate.EventType;
 using static UtilityCode.ChartTool.ChartTool;
 using System;
+using Scenes.PublicScripts;
 namespace Form.EventEdit
 {
     //这里放处理数据的方法,不负责刷新
@@ -35,6 +36,11 @@ namespace Form.EventEdit
         void DeleteEvent(Event @event, EventType eventType,int boxID)
         {
             List<Event> events = FindChartEditEventList(ChartEditData.boxes[boxID], eventType);
+            if (events.Count <= 1||@event.disallowDelete)
+            {
+                Alert.EnableAlert("这个事件不允许删除了啦（小声嘀咕");
+                return;
+            }
             events.Remove(@event);
             eventEditItems.Remove(@event.chartEditEvent);
             if(@event.chartEditEvent != null) 

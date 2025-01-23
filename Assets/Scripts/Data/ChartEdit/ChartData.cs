@@ -469,6 +469,9 @@ namespace Data.ChartEdit
         public float startValue;
         public float endValue;
         public int curveIndex;
+        public bool disallowDelete;
+        public bool disallowMove;
+
 
         public Event()
         {
