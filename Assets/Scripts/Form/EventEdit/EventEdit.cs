@@ -120,6 +120,7 @@ namespace Form.EventEdit
         public void Refresh()
         {
             UpdateVerticalLineCount();
+            RefreshEvents(-1);
         }
 
         public List<ISelectBoxItem> TransmitObjects()
