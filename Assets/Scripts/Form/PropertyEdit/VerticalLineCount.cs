@@ -31,6 +31,7 @@ namespace Form.PropertyEdit
                 GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
                 LogCenter.Log($"属性编辑执行-操作，垂直份数更改为{GlobalData.Instance.chartEditData.verticalSubdivision}");
             });
+            thisText.text = $"垂直线：{GlobalData.Instance.chartEditData.verticalSubdivision}";
         }
     }
 }
