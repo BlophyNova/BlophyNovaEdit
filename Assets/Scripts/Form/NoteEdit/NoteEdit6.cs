@@ -31,6 +31,7 @@ namespace Form.NoteEdit
         {
             List<Note> notes = ChartEditData.boxes[boxID].lines[lineID].onlineNotes;
             notes.Remove(note);
+            if(this.notes.Count > 0)
             this.notes.Remove(note.chartEditNote);
             if(note.chartEditNote != null) 
             Destroy(note.chartEditNote.gameObject);
