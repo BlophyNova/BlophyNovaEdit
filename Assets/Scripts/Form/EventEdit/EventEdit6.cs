@@ -23,14 +23,18 @@ namespace Form.EventEdit
         void AddEvent(Event @event,EventType eventType,int boxID, bool isPaste = false)
         {
             List<Event> events = FindChartEditEventList(ChartEditData.boxes[boxID], eventType); 
+            
+            int index = Algorithm.BinarySearch(events, m => m.startBeats.ThisStartBPM < @event.startBeats.ThisStartBPM, false); 
+            
+            events.Insert(index, @event);
+
             if (!isPaste)
             {
-                @event.startValue = @event.endValue = events[^1].endValue;
+                @event.startValue = @event.endValue = events[index - 1].endValue;
                 //@event.Curve = GlobalData.Instance.easeData[0];
                 @event.curveIndex = 0;
             }
-            int index = Algorithm.BinarySearch(events, m => m.startBeats.ThisStartBPM < @event.startBeats.ThisStartBPM, false);
-            events.Insert(index, @event);
+
             AddEvent2ChartData(@event, eventType, boxID);
         }
         void DeleteEvent(Event @event, EventType eventType,int boxID)
