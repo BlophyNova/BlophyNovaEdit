@@ -129,12 +129,24 @@ namespace Scenes.DontDestroyOnLoad
         public IEnumerator ReadResource()
         {
             yield return new WaitForEndOfFrame();
-            UnityWebRequest unityWebRequest = UnityWebRequestMultimedia.GetAudioClip(
-                $"file://{Application.streamingAssetsPath}/{currentChartIndex}/Music/Music.mp3", AudioType.MPEG);
+            string musicPath = $"{Application.streamingAssetsPath}/{currentChartIndex}/Music";
+            musicPath = Directory.GetFiles(musicPath)[0];
+            AudioType audioType = Path.GetExtension(musicPath).ToLower() switch
+            {
+                ".mp3" => AudioType.MPEG,
+                ".ogg" => AudioType.OGGVORBIS,
+                ".wav" => AudioType.WAV,
+                _ => throw new Exception("呜呜呜，瓦没见过这个音频格式喵···")
+            };
+            
+            UnityWebRequest unityWebRequest = UnityWebRequestMultimedia.GetAudioClip($"file://{musicPath}", audioType);
             yield return unityWebRequest.SendWebRequest();
             clip = DownloadHandlerAudioClip.GetContent(unityWebRequest);
-            unityWebRequest = UnityWebRequestTexture.GetTexture(
-                $"file://{Application.streamingAssetsPath}/{currentChartIndex}/Illustration/Background.png");
+
+
+            string illustrationPath = $"{Application.streamingAssetsPath}/{currentChartIndex}/Illustration";
+            illustrationPath=Directory.GetFiles(illustrationPath)[0];
+            unityWebRequest = UnityWebRequestTexture.GetTexture($"file://{illustrationPath}");
             yield return unityWebRequest.SendWebRequest();
             Texture2D cph = DownloadHandlerTexture.GetContent(unityWebRequest);
             currentCph = Sprite.Create(cph, new Rect(0, 0, cph.width, cph.height), new Vector2(0.5f, 0.5f));

@@ -60,8 +60,8 @@ namespace Scenes.Select
 
         private void CreatChart()
         {
-            File.Copy(musicPathText.text, $"{MusicFilePath}/Music.mp3");
-            File.Copy(illustrationPathText.text, $"{IllustrationFilePath}/Background.png");
+            File.Copy(musicPathText.text, $"{MusicFilePath}/Music{Path.GetExtension(musicPathText.text)}");
+            File.Copy(illustrationPathText.text, $"{IllustrationFilePath}/Background{Path.GetExtension(illustrationPathText.text)}");
             ChartData chartData = new();
             ChartTool.CreateNewChart(chartData, GlobalData.Instance.easeDatas);
             chartData.yScale = 6;

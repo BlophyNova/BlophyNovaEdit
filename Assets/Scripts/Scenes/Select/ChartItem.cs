@@ -2,6 +2,7 @@ using Data;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
 using System.Collections;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -21,8 +22,9 @@ namespace Scenes.Select
             thisButton.onClick.AddListener(() =>
             {
                 GlobalData.Instance.currentChartIndex = thisChartFileIndex.index;
-                StartCoroutine(GetIllustration(
-                    $"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/Illustration/Background.png"));
+                string illustrationPath = $"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/Illustration";
+                illustrationPath = $"{Directory.GetFiles(illustrationPath)[0]}";
+                StartCoroutine(GetIllustration(illustrationPath));
                 illustrationPreview.color = Color.white;
                 illustrationPreview.type = Image.Type.Simple;
                 illustrationPreview.preserveAspect = true;
