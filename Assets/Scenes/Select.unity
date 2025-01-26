@@ -3097,7 +3097,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u8BF7\u8F93\u5165\u66F2\u7ED8\u7EDD\u5BF9\u8DEF\u5F84\uFF08\u8BF7\u4F7F\u7528png\u683C\u5F0F\uFF09"
+  m_text: "\u66F2\u7ED8\u7EDD\u5BF9\u8DEF\u5F84"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
   m_sharedMaterial: {fileID: 4737349496631823484, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
@@ -6420,7 +6420,6 @@ MonoBehaviour:
   fullFlickEditPrefab: {fileID: 5270068025075690679, guid: d4f87f4e3216c7d42a7de9f174d32af6, type: 3}
   vectrosityLineMask: {fileID: 2844732879230495711, guid: f31fdcb35cdf2874ea13d2f46bd7c44d, type: 3}
   easeDatas: []
-  simpleEaseDatas: []
   isNewEditData: 0
 --- !u!4 &829883600
 Transform:
@@ -7234,7 +7233,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u8BF7\u8F93\u5165\u97F3\u4E50\u7EDD\u5BF9\u8DEF\u5F84\uFF08\u8BF7\u4F7F\u7528mp3\u683C\u5F0F\uFF09"
+  m_text: "\u97F3\u4E50\u7EDD\u5BF9\u8DEF\u5F84,\u652F\u6301\".ogg\",\".mp3\",\".wav\""
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
   m_sharedMaterial: {fileID: 4737349496631823484, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
@@ -8710,7 +8709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -38.399994}
+  m_AnchoredPosition: {x: 0, y: -38.400024}
   m_SizeDelta: {x: 213.28, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1251941801
