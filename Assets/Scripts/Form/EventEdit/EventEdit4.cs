@@ -64,7 +64,7 @@ namespace Form.EventEdit
 
             if (Application.platform == RuntimePlatform.WindowsEditor)
             {
-                Debug.LogError($"这里！！！赶紧重构完音符属性编辑控件后，把这里删了！！");
+                Debug.Log($"这里！！！赶紧重构完音符属性编辑控件后，把这里删了！！");
             }
             List<Event> setSelect2False = FindChartEditEventList(GlobalData.Instance.chartEditData.boxes[lastBoxID], eventType);
             foreach (Event item in setSelect2False)

@@ -127,7 +127,7 @@ namespace Form.EventEdit
             BPM bpm = new(newEvents[0].startBeats);
             BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedEvents[0].chartEditEvent.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
             bpm = new(nearBPM);
-            if (bpm.denominator == ChartEditData.beatSubdivision && bpm.ThisStartBPM == nearBPM.ThisStartBPM)
+            if ((bpm.denominator == ChartEditData.beatSubdivision && bpm.ThisStartBPM == nearBPM.ThisStartBPM)||(bpm.ThisStartBPM>basicLine.nextBPMWithAriseLine.ThisStartBPM))
             {
                 bpm.AddOneBeat();
             }
@@ -173,7 +173,7 @@ namespace Form.EventEdit
             BPM bpm = new(newEvents[0].startBeats);
             BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedEvents[0].chartEditEvent.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
             bpm = new(nearBPM);
-            if (bpm.denominator == ChartEditData.beatSubdivision && bpm.ThisStartBPM == nearBPM.ThisStartBPM)
+            if ((bpm.denominator == ChartEditData.beatSubdivision && bpm.ThisStartBPM == nearBPM.ThisStartBPM)||(bpm.ThisStartBPM < BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime)))
             {
                 bpm.SubtractionOneBeat();
             }

@@ -9112,6 +9112,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1921315106}
     m_Modifications:
+    - target: {fileID: 44304559789707233, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 189701463477651902, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -9120,6 +9124,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 212821843047502508, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 643490140209336107, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -9127,6 +9135,10 @@ PrefabInstance:
     - target: {fileID: 643490140209336107, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
       propertyPath: m_fontSize
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 686451969481304981, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1348872103015621149, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -9148,6 +9160,18 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 2378061141735106502, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 5.4999924
+      objectReference: {fileID: 0}
+    - target: {fileID: 2405297937170951463, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2435586001637918759, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3197508231349466373, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -9155,6 +9179,18 @@ PrefabInstance:
     - target: {fileID: 3197508231349466373, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
       propertyPath: m_fontSize
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4515090797061077923, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000015258789
+      objectReference: {fileID: 0}
+    - target: {fileID: 4560024108577738735, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4997072341091928762, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5394735504872727118, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -9260,6 +9296,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8573877422406459585, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8605462318396424784, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
       propertyPath: labelItem
       value: 
@@ -9268,6 +9308,14 @@ PrefabInstance:
       propertyPath: labelWindow
       value: 
       objectReference: {fileID: 530782856}
+    - target: {fileID: 8983383692102154726, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115443299888262901, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
+      propertyPath: m_text
+      value: Out
+      objectReference: {fileID: 0}
     - target: {fileID: 9137337515181200609, guid: 40711a475ebfcc0409e01d3184a48f65, type: 3}
       propertyPath: m_Name
       value: NotePropertyEdit
