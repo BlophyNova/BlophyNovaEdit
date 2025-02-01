@@ -266,7 +266,7 @@ namespace Data.ChartEdit
         public float positionX;
         public bool isClockwise; //是逆时针
         public bool hasOther; //还有别的Note和他在统一时间被打击，简称多押标识（（
-        public bool isSelected;
+        [JsonIgnore]public bool isSelected;
         private BPM hitBeats; //打击时间
 
         public Note()
@@ -463,7 +463,7 @@ namespace Data.ChartEdit
     {
         [JsonIgnore] public Data.ChartData.Event chartDataEvent;
         [JsonIgnore] public Form.EventEdit.EventEditItem chartEditEvent;
-        [SerializeField] private bool isSelected;
+        [SerializeField][JsonIgnore] private bool isSelected;
         public BPM startBeats;
         public BPM endBeats;
         public float startValue;
@@ -488,7 +488,7 @@ namespace Data.ChartEdit
             IsSelected = @event.IsSelected;
         }
 
-        public bool IsSelected
+        [JsonIgnore]public bool IsSelected
         {
             get => isSelected;
             set => isSelected = value;

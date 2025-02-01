@@ -877,6 +877,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2405297937170951463}
+  - component: {fileID: 8910380208668346935}
   m_Layer: 5
   m_Name: EventPropertyEdit
   m_TagString: Untagged
@@ -920,6 +921,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8910380208668346935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629332423033019379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 442dea5b21f7e084babcefaea40e2388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTime: {fileID: 3458550574015801599}
+  endTime: {fileID: 6345861227431648104}
+  startValue: {fileID: 4293473404630501973}
+  endValue: {fileID: 6775782202153340458}
+  syncEvent: {fileID: 867879520762405058}
+  easeIndex: {fileID: 2737596723536367979}
+  easeIO: {fileID: 639722481262908000}
+  ease: {fileID: 8177694540173886431}
 --- !u!1 &712625248572662847
 GameObject:
   m_ObjectHideFlags: 0
@@ -19018,6 +19039,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 212821843047502508}
+  - component: {fileID: 5091023662198779027}
   m_Layer: 5
   m_Name: NotePropertyEdit
   m_TagString: Untagged
@@ -19063,6 +19085,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5091023662198779027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8473411060953549470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 100e638e8f7ff3846a4392c7d1fa0721, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteType: {fileID: 5845769428770173073}
+  hitEffect: {fileID: 4990396386421126933}
+  hitRipple: {fileID: 3850686111961115680}
+  startTime: {fileID: 3136769878237716298}
+  holdTime: {fileID: 7593904321897233473}
+  postionX: {fileID: 6114335729481109897}
+  isClockwise: {fileID: 575440291037009336}
+  speed: {fileID: 6684770965894868245}
+  isFakeNote: {fileID: 3281193409149516394}
 --- !u!1 &8601981308119731603
 GameObject:
   m_ObjectHideFlags: 0
