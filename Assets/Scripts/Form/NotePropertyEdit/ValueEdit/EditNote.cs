@@ -15,7 +15,7 @@ namespace Form.NotePropertyEdit.ValueEdit
         public Data.ChartEdit.Note originNote;
         public Data.ChartEdit.Note note;
 
-        private readonly List<ISelectBoxItem> selectedBoxItems = new();
+        private List<ISelectBoxItem> selectedBoxItems = new();
 
         public TextMeshProUGUI noteEditText;
         public TMP_Dropdown noteType;
@@ -33,16 +33,17 @@ namespace Form.NotePropertyEdit.ValueEdit
         /// <param name="selectedBoxItems"></param>
         public void Set(List<ISelectBoxItem> selectedBoxItems)
         {
+            if (selectedBoxItems.Count <= 0) return;
             noteEditText.text = $"音符编辑 {selectedBoxItems.Count}";
-
+            this.selectedBoxItems =new(selectedBoxItems);
+            Set((Scenes.Edit.NoteEdit)this.selectedBoxItems[0]);
         }
-        public void Set(Scenes.Edit.NoteEdit note)
+        void Set(Scenes.Edit.NoteEdit note)
         {
             Set(note.thisNoteData);
         }
-        public void Set(Data.ChartEdit.Note note)
+        void Set(Data.ChartEdit.Note note)
         {
-            noteEditText.text = "音符编辑 1";
             originNote = new(note);
             this.note = note;
             SetNoteValue2Form();

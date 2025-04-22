@@ -18,7 +18,7 @@ namespace Form.NotePropertyEdit.ValueEdit
         public Event originEvent;
         public Event @event;
 
-        private readonly List<ISelectBoxItem> selectedBoxItems = new();
+        private List<ISelectBoxItem> selectedBoxItems = new();
 
         public TextMeshProUGUI eventEditText;
         public TMP_InputField startTime;
@@ -35,15 +35,17 @@ namespace Form.NotePropertyEdit.ValueEdit
         /// <param name="selectedBoxItems"></param>
         public void Set(List<ISelectBoxItem> selectedBoxItems)
         {
-            eventEditText.text = $"事件编辑 {selectedBoxItems.Count}";
+            if (selectedBoxItems.Count <= 0) return;
+            eventEditText.text = $"事件编辑 {selectedBoxItems.Count}"; 
+            this.selectedBoxItems = new(selectedBoxItems);
+            Set((EventEditItem)selectedBoxItems[0]);
         }
-        public void Set(EventEditItem eventEditItem)
+        void Set(EventEditItem eventEditItem)
         {
             Set(eventEditItem.@event);
         }
-        public void Set(Data.ChartEdit.Event @event)
+        void Set(Data.ChartEdit.Event @event)
         {
-            eventEditText.text = "事件编辑 1";
             originEvent = new(@event);
             this.@event = @event;
             SetNoteValue2Form();

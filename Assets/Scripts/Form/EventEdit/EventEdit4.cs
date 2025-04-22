@@ -79,7 +79,6 @@ namespace Form.EventEdit
             {
                 EventCopy();
             }
-
             DestroyEvents(eventType);
 
             List<Event> events = FindChartEditEventList(GlobalData.Instance.chartEditData.boxes[currentBoxID], eventType);

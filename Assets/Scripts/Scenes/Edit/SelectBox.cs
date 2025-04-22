@@ -174,11 +174,11 @@ namespace Scenes.Edit
 
             if (selectBoxItem.IsNoteEdit)
             {
-                NotePropertyEdit.editNote.Set((NoteEdit)selectBoxItem);
+                NotePropertyEdit.editNote.Set(new List<ISelectBoxItem>() { selectBoxItem });
             }
             else
             {
-                NotePropertyEdit.editEvent.Set((EventEditItem)selectBoxItem);
+                NotePropertyEdit.editEvent.Set(new List<ISelectBoxItem>() { selectBoxItem });
             }
             
         }
