@@ -62,8 +62,15 @@ namespace Form.NotePropertyEdit.ValueEdit
                 $"{this.note.HitBeats.integer}:{this.note.HitBeats.molecule}/{this.note.HitBeats.denominator}");
             if (this.note.noteType == NoteType.Hold)
             {
+                holdTime.interactable = true;
                 holdTime.SetTextWithoutNotify(
                     $"{this.note.EndBeats.integer}:{this.note.EndBeats.molecule}/{this.note.EndBeats.denominator}");
+            }
+            else
+            {
+
+                holdTime.interactable = false;
+                holdTime.SetTextWithoutNotify($"仅Hold音符可用");
             }
 
             postionX.SetTextWithoutNotify($"{this.note.positionX}");
