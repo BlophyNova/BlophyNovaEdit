@@ -86,6 +86,7 @@ namespace Form.EventEdit
             List<Event> keyValueList = new();
             foreach (Event @event in events) 
             {
+                @event.eventType = eventType;
                 keyValueList.Add(@event);
             }
             eventEditItems.AddRange(AddEvents2UI(keyValueList));

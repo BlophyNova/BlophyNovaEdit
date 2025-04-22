@@ -47,7 +47,7 @@ namespace Form.NotePropertyEdit.ValueEdit
             originEvent = new(@event);
             this.@event = @event;
             SetNoteValue2Form();
-            notePropertyEdit.editEvent.gameObject.SetActive(false);
+            notePropertyEdit.editNote.gameObject.SetActive(false);
             gameObject.SetActive(true);
 
         }
