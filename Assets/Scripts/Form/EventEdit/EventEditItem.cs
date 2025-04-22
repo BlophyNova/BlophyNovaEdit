@@ -20,7 +20,6 @@ namespace Form.EventEdit
         public RectTransform easeLineRect;
         public LineRenderer easeLine;
         public Event @event;
-        public EventType eventType;
         private EventEdit thisEventEdit;
 
         public EventEdit ThisEventEdit
@@ -46,7 +45,7 @@ namespace Form.EventEdit
         {
             thisButton.onClick.AddListener(() => 
             {
-                if (eventType == EventType.LineAlpha) return;
+                if (@event.eventType == EventType.LineAlpha) return;
                 ThisEventEdit.selectBox.SetSingleNote(this); 
             });
             ThisEventEdit.labelItem.onLabelGetFocus += LabelWindow_onLabelGetFocus;
@@ -113,7 +112,7 @@ namespace Form.EventEdit
             //在eei上画线
             float minValue = float.MaxValue;
             float maxValue = float.MinValue;
-            List<Event> events = eventType switch
+            List<Event> events = @event.eventType switch
             {
                 EventType.MoveX => GlobalData.Instance.chartEditData.boxes[ThisEventEdit.currentBoxID].boxEvents.moveX,
                 EventType.MoveY => GlobalData.Instance.chartEditData.boxes[ThisEventEdit.currentBoxID].boxEvents.moveY,

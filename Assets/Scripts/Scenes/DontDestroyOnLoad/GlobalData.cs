@@ -61,6 +61,8 @@ namespace Scenes.DontDestroyOnLoad
         public event OnStartEdit onStartEdit=()=> { };
         public void StartEdit() => onStartEdit();
 
+        public bool saveChartData;
+
         private IEnumerator Start()
         {
             Application.targetFrameRate = 9999;
@@ -86,7 +88,15 @@ namespace Scenes.DontDestroyOnLoad
                 action();
             }
         }
-
+        private void Update()
+        {
+            if (saveChartData)
+            {
+                saveChartData = false;
+                string chartDataContent= JsonConvert.SerializeObject(chartData);
+                File.WriteAllText($"{Application.streamingAssetsPath}/Chart.json",chartDataContent);
+            }
+        }
         private static void Disclaimer()
         {
             if (Application.platform == RuntimePlatform.WindowsEditor) return;

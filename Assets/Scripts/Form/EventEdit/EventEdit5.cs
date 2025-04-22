@@ -48,7 +48,7 @@ namespace Form.EventEdit
             {
                 foreach (EventVerticalLine item in eventVerticalLines)
                 {
-                    if (item.eventType != eventEditItems[i].eventType) continue;
+                    if (item.eventType != eventEditItems[i].@event.eventType) continue;
                     float positionX = item.transform.localPosition.x;
                     eventEditItems[i].transform.localPosition = new Vector3(positionX,
                         YScale.Instance.GetPositionYWithBeats(eventEditItems[i].@event.startBeats.ThisStartBPM));

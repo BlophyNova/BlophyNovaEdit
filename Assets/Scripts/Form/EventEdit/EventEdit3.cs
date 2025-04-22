@@ -57,8 +57,8 @@ namespace Form.EventEdit
         {
             Debug.Log("粘贴事件");
             FindNearBeatLineAndEventVerticalLine(out BeatLine beatLine, out EventVerticalLine verticalLine);
-            KeyValueList<Event, EventType> newEvents = null;
-            KeyValueList<Event, EventType> deletedEvents = null;
+            List<Event> newEvents = null;
+            List<Event> deletedEvents = null;
             if (eventClipboard.Count > 0)
             {
                 newEvents = CopyEvents(eventClipboard,currentBoxID,true);
@@ -97,18 +97,18 @@ namespace Form.EventEdit
             }
             void CopyRedo()
             {
-                KeyValueList<Event, EventType> instNewEvents = AddEvents(newEvents, currentBoxID,true);
+                List<Event> instNewEvents = AddEvents(newEvents, currentBoxID,true);
                 eventEditItems.AddRange(AddEvents2UI(instNewEvents));
             }
             void CutUndo()
             {
-                KeyValueList<Event, EventType> instNewEvents = AddEvents(deletedEvents, currentBoxID, true);
+                List<Event> instNewEvents = AddEvents(deletedEvents, currentBoxID, true);
                 eventEditItems.AddRange(AddEvents2UI(instNewEvents));
                 DeleteEvents(newEvents, currentBoxID, false);
             }
             void CutRedo()
             {
-                KeyValueList<Event, EventType> instNewEvents = AddEvents(newEvents,currentBoxID,true);
+                List<Event> instNewEvents = AddEvents(newEvents,currentBoxID,true);
                 eventEditItems.AddRange(AddEvents2UI(instNewEvents));
                 DeleteEvents(deletedEvents, currentBoxID, false);
             }
@@ -120,9 +120,9 @@ namespace Form.EventEdit
 
         private void MoveUp()
         {
-            KeyValueList<Event, EventType> newEvents = null;
-            KeyValueList<Event, EventType> deletedEvents = null;
-            KeyValueList<Event, EventType> selectedEvents = GetSelectedEvents();
+            List<Event> newEvents = null;
+            List<Event> deletedEvents = null;
+            List<Event> selectedEvents = GetSelectedEvents();
             newEvents = CopyEvents(selectedEvents, currentBoxID, true);
             BPM bpm = new(newEvents[0].startBeats);
             BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedEvents[0].chartEditEvent.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
@@ -140,25 +140,25 @@ namespace Form.EventEdit
             return;
             void Undo()
             {
-                KeyValueList<Event, EventType> instNewEvents = AddEvents(deletedEvents, currentBoxID, true);
+                List<Event> instNewEvents = AddEvents(deletedEvents, currentBoxID, true);
                 eventEditItems.AddRange(AddEvents2UI(instNewEvents));
                 DeleteEvents(newEvents, currentBoxID, isCopy);
             }
             void Redo()
             {
-                KeyValueList<Event, EventType> instNewEvents = AddEvents(newEvents, currentBoxID, true);
+                List<Event> instNewEvents = AddEvents(newEvents, currentBoxID, true);
                 eventEditItems.AddRange(AddEvents2UI(instNewEvents));
                 DeleteEvents(deletedEvents, currentBoxID, isCopy);
             }
         }
 
-        private KeyValueList<Event, EventType> GetSelectedEvents()
+        private List<Event> GetSelectedEvents()
         {
             IEnumerable<EventEditItem> selectedEventEditItems = selectBox.TransmitObjects().Cast<EventEditItem>();
-            KeyValueList<Event, EventType> selectedEvents = new();
+            List<Event> selectedEvents = new();
             foreach (EventEditItem item in selectedEventEditItems)
             {
-                selectedEvents.Add(item.@event, item.eventType);
+                selectedEvents.Add(item.@event);
             }
 
             return selectedEvents;
@@ -166,9 +166,9 @@ namespace Form.EventEdit
 
         private void MoveDown()
         {
-            KeyValueList<Event, EventType> newEvents = null;
-            KeyValueList<Event, EventType> deletedEvents = null;
-            KeyValueList<Event, EventType> selectedEvents = GetSelectedEvents();
+            List<Event> newEvents = null;
+            List<Event> deletedEvents = null;
+            List<Event> selectedEvents = GetSelectedEvents();
             newEvents = CopyEvents(selectedEvents, currentBoxID, true);
             BPM bpm = new(newEvents[0].startBeats);
             BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedEvents[0].chartEditEvent.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
@@ -186,13 +186,13 @@ namespace Form.EventEdit
             return;
             void Undo()
             {
-                KeyValueList<Event, EventType> instNewEvents = AddEvents(deletedEvents, currentBoxID, true);
+                List<Event> instNewEvents = AddEvents(deletedEvents, currentBoxID, true);
                 eventEditItems.AddRange(AddEvents2UI(instNewEvents));
                 DeleteEvents(newEvents, currentBoxID, isCopy);
             }
             void Redo()
             {
-                KeyValueList<Event, EventType> instNewEvents = AddEvents(newEvents, currentBoxID, true);
+                List<Event> instNewEvents = AddEvents(newEvents, currentBoxID, true);
                 eventEditItems.AddRange(AddEvents2UI(instNewEvents));
                 DeleteEvents(deletedEvents, currentBoxID, isCopy);
             }
@@ -201,18 +201,18 @@ namespace Form.EventEdit
         private void DeleteEventFromUI()
         {
             IEnumerable<EventEditItem> selectesBoxes = selectBox.TransmitObjects().Cast<EventEditItem>();
-            KeyValueList<Event, EventType> selectedEvents = new();
+            List<Event> selectedEvents = new();
             foreach (EventEditItem eventEditItem in selectesBoxes)
             {
-                selectedEvents.Add(eventEditItem.@event,eventEditItem.eventType);
+                selectedEvents.Add(eventEditItem.@event);
             }
-            KeyValueList<Event, EventType> deletedEvents = DeleteEvents(selectedEvents, currentBoxID);
+            List<Event> deletedEvents = DeleteEvents(selectedEvents, currentBoxID);
             //RefreshAll();
             Steps.Instance.Add(Undo, Redo, default);
             return;
             void Undo()
             {
-                KeyValueList<Event, EventType> newEvents = AddEvents(deletedEvents,currentBoxID, true);
+                List<Event> newEvents = AddEvents(deletedEvents,currentBoxID, true);
                 BatchEvents(newEvents, @event => @event.IsSelected = false);
                 eventEditItems.AddRange(AddEvents2UI(newEvents));
             }
@@ -245,7 +245,7 @@ namespace Form.EventEdit
                 newEventEditItem.easeLine.enabled = false;
                 newEventEditItem.@event.chartEditEvent = newEventEditItem;
                 newEventEditItem.@event.startBeats = new(nearBeatLine.thisBPM);
-                newEventEditItem.eventType = nearEventVerticalLine.eventType;
+                newEventEditItem.@event.eventType = nearEventVerticalLine.eventType;
                 StartCoroutine(WaitForPressureAgain(newEventEditItem));
             }
             else if (isFirstTime)
@@ -255,16 +255,16 @@ namespace Form.EventEdit
                 waitForPressureAgain = true;
             } /*报错*/
         }
-        private List<EventEditItem> AddEvents2UI(KeyValueList<Event,EventType> keyValueList)
+        private List<EventEditItem> AddEvents2UI(List<Event> keyValueList)
         {
             List<EventEditItem> eventEditItems = new();
             for (int i = 0; i < keyValueList.Count; i++)
             {
                 foreach (EventVerticalLine eventVerticalLine in eventVerticalLines)
                 {
-                    if (eventVerticalLine.eventType == keyValueList.GetValue(i))
+                    if (eventVerticalLine.eventType == keyValueList[i].eventType)
                     {
-                        EventEditItem newEventEditItem = AddEvent2UI(keyValueList[i], keyValueList.GetValue(i), eventVerticalLine.transform.localPosition.x);
+                        EventEditItem newEventEditItem = AddEvent2UI(keyValueList[i], keyValueList[i].eventType, eventVerticalLine.transform.localPosition.x);
                         eventEditItems.Add(newEventEditItem);
                     }
                 }
@@ -292,7 +292,7 @@ namespace Form.EventEdit
             newEventEditItem.thisEventEditItemRect.sizeDelta = new Vector2(
                 Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition), endBeatsPositionY - positionY);
             newEventEditItem.@event = @event;
-            newEventEditItem.eventType = eventType;
+            newEventEditItem.@event.eventType = eventType;
             newEventEditItem.SetSelectState(@event.IsSelected);
             @event.chartEditEvent = newEventEditItem;
             newEventEditItem.Init();
@@ -303,7 +303,7 @@ namespace Form.EventEdit
             List<EventEditItem> tempEventEditItems = new();
             foreach (EventEditItem item in eventEditItems)
             {
-                if (item.eventType == eventType)
+                if (item.@event.eventType == eventType)
                 {
                     Destroy(item.gameObject);
                 }

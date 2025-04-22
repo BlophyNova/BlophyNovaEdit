@@ -28,9 +28,7 @@ namespace Scenes.Edit
         public Vector2 firstFramePositionInLabelWindow = Vector2.zero;
         public bool isPressing;
         private NotePropertyEdit notePropertyEdit;
-        private Note originalnNoteData = new();
         private readonly List<ISelectBoxItem> selectedBoxItems = new();
-        private Note tempNoteEdit = new();
         public ISelectBox selectBoxObjects => noteEdit == null ? eventEdit : noteEdit;
         public LabelWindowContent labelWindowContent => noteEdit == null ? eventEdit : noteEdit;
         private bool isNoteEdit => noteEdit == null ? false : true;
@@ -174,15 +172,13 @@ namespace Scenes.Edit
             selectedBoxItems.Add(selectBoxItem);
             selectBoxItem.SetSelectState(true);
 
-            NotePropertyEdit.note = null;
-            NotePropertyEdit.@event = null;
             if (selectBoxItem.IsNoteEdit)
             {
-                NotePropertyEdit.SelectedNote((NoteEdit)selectBoxItem);
+                NotePropertyEdit.editNote.Set((NoteEdit)selectBoxItem);
             }
             else
             {
-                NotePropertyEdit.SelectedNote((EventEditItem)selectBoxItem);
+                NotePropertyEdit.editEvent.Set((EventEditItem)selectBoxItem);
             }
             
         }
@@ -199,17 +195,11 @@ namespace Scenes.Edit
         {
             if (isNoteEdit)
             {
-                originalnNoteData = new Note
-                {
-                    HitBeats = new BPM(-1, 0, -1),
-                    noteType = NoteType.Tap,
-                    holdBeats = new BPM(-1, 0, -1),
-                    effect = 0,
-                    positionX = float.NaN,
-                    isClockwise = false
-                };
-                tempNoteEdit = new Note(originalnNoteData);
-                NotePropertyEdit.SelectedNote(tempNoteEdit);
+                NotePropertyEdit.editNote.Set(selectedBoxItems);
+            }
+            else
+            {
+                NotePropertyEdit.editEvent.Set(selectedBoxItems);
             }
         }
 

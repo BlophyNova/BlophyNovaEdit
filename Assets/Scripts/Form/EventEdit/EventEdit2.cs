@@ -112,7 +112,7 @@ namespace Form.EventEdit
 
         public IEnumerator WaitForPressureAgain(EventEditItem eventEditItem)
         {
-            KeyValueList<Event, EventType> @event = new();
+            List<Event> events = new();
             while (true)
             {
                 if (waitForPressureAgain)
@@ -144,35 +144,35 @@ namespace Form.EventEdit
             {
                 //添加事件到对应的地方
                 LogCenter.Log(
-                    $"{eventEditItem.eventType}新事件：{eventEditItem.@event.startBeats.integer}:{eventEditItem.@event.startBeats.molecule}/{eventEditItem.@event.startBeats.denominator}");
-                @event.Add(eventEditItem.@event,eventEditItem.eventType);
+                    $"{eventEditItem.@event.eventType}新事件：{eventEditItem.@event.startBeats.integer}:{eventEditItem.@event.startBeats.molecule}/{eventEditItem.@event.startBeats.denominator}");
+                events.Add(eventEditItem.@event);
                 Steps.Instance.Add(Undo, Redo, default);
                 eventEditItem.DrawLineOnEEI();
                 eventEditItems.Add(eventEditItem);
-                AddEvent(eventEditItem.@event, eventEditItem.eventType, currentBoxID, false);
+                AddEvent(eventEditItem.@event,  currentBoxID, false);
             }
 
             yield break;
 
             void Undo()
             {
-                DeleteEvents(@event, currentBoxID);
+                DeleteEvents(events, currentBoxID);
             }
             void Redo()
             {
-                KeyValueList<Event, EventType> newEvents = AddEvents(@event, currentBoxID,true);
+                List<Event> newEvents = AddEvents(events, currentBoxID,true);
                 BatchEvents(newEvents, @event => @event.IsSelected = false);
                 eventEditItems.AddRange(AddEvents2UI(newEvents));
             }
         }
 
-        private void EventEdit_onEventRefreshed(KeyValueList<Event, EventType> events)
+        private void EventEdit_onEventRefreshed(List<Event> events)
         {
             eventClipboard.Clear();
             for (int i = 0; i < events.Count; i++)
             {
                 if (events[i].IsSelected)
-                    eventClipboard.Add(events.GetKey(i),events.GetValue(i));
+                    eventClipboard.Add(events[i]);
             }
         }
     }

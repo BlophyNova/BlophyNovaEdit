@@ -464,6 +464,7 @@ namespace Data.ChartEdit
         [JsonIgnore] public Data.ChartData.Event chartDataEvent;
         [JsonIgnore] public Form.EventEdit.EventEditItem chartEditEvent;
         [SerializeField][JsonIgnore] private bool isSelected;
+        public Data.Enumerate.EventType eventType;
         public BPM startBeats;
         public BPM endBeats;
         public float startValue;
@@ -486,6 +487,7 @@ namespace Data.ChartEdit
             startBeats = new BPM(@event.startBeats);
             endBeats = new BPM(@event.endBeats);
             IsSelected = @event.IsSelected;
+            eventType = @event.eventType;
         }
 
         [JsonIgnore]public bool IsSelected

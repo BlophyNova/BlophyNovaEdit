@@ -39,21 +39,21 @@ namespace Form.EventEdit
         public float VerticalLineDistance =>
             Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition);
 
-        public delegate void OnEventsAdded(KeyValueList<Event, EventType> events);
+        public delegate void OnEventsAdded(List<Event> events);
         public event OnEventsAdded onEventsAdded = events => { };
 
         public delegate void OnEventsAdded2UI(List<EventEditItem> eventEditItems);
         public event OnEventsAdded2UI onEventsAdded2UI = eventEditItems => { };
 
-        public delegate void OnEventsDeleted(KeyValueList<Event, EventType> events);
+        public delegate void OnEventsDeleted(List<Event> events);
         public event OnEventsDeleted onEventsDeleted = events => { };
 
-        public delegate void OnEventsRefreshed(KeyValueList<Event, EventType> events);
+        public delegate void OnEventsRefreshed(List<Event> events);
         public event OnEventsRefreshed onEventsRefreshed = events => { };
         //public List<EventEditItem> otherBoxEventsClipboard = new();
         //public List<EventEditItem> eventClipboard = new(); 
-        public KeyValueList<Data.ChartEdit.Event, Data.Enumerate.EventType> otherBoxEventsClipboard = new();
-        public KeyValueList<Data.ChartEdit.Event, Data.Enumerate.EventType> eventClipboard = new();
+        public List<Data.ChartEdit.Event> otherBoxEventsClipboard = new();
+        public List<Data.ChartEdit.Event> eventClipboard = new();
         public bool isCopy;
         private IEnumerator Start()
         {

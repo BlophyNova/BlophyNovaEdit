@@ -6421,6 +6421,7 @@ MonoBehaviour:
   vectrosityLineMask: {fileID: 2844732879230495711, guid: f31fdcb35cdf2874ea13d2f46bd7c44d, type: 3}
   easeDatas: []
   isNewEditData: 0
+  saveChartData: 0
 --- !u!4 &829883600
 Transform:
   m_ObjectHideFlags: 0

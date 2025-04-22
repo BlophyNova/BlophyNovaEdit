@@ -13,12 +13,12 @@ namespace Form.EventEdit
     //这里放为ChartData加入数据的方法,不负责刷新
     public partial class EventEdit
     {
-        public void AddEvent2ChartData(Event @event, EventType eventType, int boxID)
+        public void AddEvent2ChartData(Event @event, int boxID)
         {
-            List<Data.ChartData.Event> events = FindChartDataEventList(ChartData.boxes[boxID], eventType);
+            List<Data.ChartData.Event> events = FindChartDataEventList(ChartData.boxes[boxID], @event.eventType);
             if (events == null) 
             { 
-                AddSpeedEvent2ChartData(@event, eventType, boxID); 
+                AddSpeedEvent2ChartData(@event, boxID); 
                 return; 
             }
             int index = Algorithm.BinarySearch(events, m => m.startTime <BPMManager.Instance.GetSecondsTimeByBeats(@event.startBeats.ThisStartBPM), false);
@@ -26,21 +26,21 @@ namespace Form.EventEdit
             @event.chartDataEvent = newEvent;
             events.Insert(index, @event.chartDataEvent);
         }
-        public void DeleteEvent2ChartData(Event @event, EventType eventType, int boxID)
+        public void DeleteEvent2ChartData(Event @event, int boxID)
         {
-            List<Data.ChartData.Event> events = FindChartDataEventList(ChartData.boxes[boxID], eventType);
+            List<Data.ChartData.Event> events = FindChartDataEventList(ChartData.boxes[boxID], @event.eventType);
             if (events == null) 
             { 
-                DeleteSpeedEvent2ChartData(@event, eventType, boxID); 
+                DeleteSpeedEvent2ChartData(@event, boxID); 
                 return;
             }
             events.Remove(@event.chartDataEvent);
         }
-        void AddSpeedEvent2ChartData(Event @event, EventType eventType, int boxID)
+        void AddSpeedEvent2ChartData(Event @event, int boxID)
         {
             ForeachSpeedEvents(ChartEditData.boxes[boxID], ChartData.boxes[boxID]);
         }
-        void DeleteSpeedEvent2ChartData(Event @event, EventType eventType, int boxID)
+        void DeleteSpeedEvent2ChartData(Event @event, int boxID)
         {
             ForeachSpeedEvents(ChartEditData.boxes[boxID], ChartData.boxes[boxID]);
         }

@@ -83,10 +83,10 @@ namespace Form.EventEdit
             DestroyEvents(eventType);
 
             List<Event> events = FindChartEditEventList(GlobalData.Instance.chartEditData.boxes[currentBoxID], eventType);
-            KeyValueList<Event, EventType> keyValueList = new();
+            List<Event> keyValueList = new();
             foreach (Event @event in events) 
             {
-                keyValueList.Add(@event, eventType);
+                keyValueList.Add(@event);
             }
             eventEditItems.AddRange(AddEvents2UI(keyValueList));
             UpdateNoteLocalPositionAndSize();
@@ -108,7 +108,7 @@ namespace Form.EventEdit
             otherBoxEventsClipboard.Clear();
             for (int i = 0; i < eventClipboard.Count; i++)
             {
-                otherBoxEventsClipboard.Add(eventClipboard.GetKey(i), eventClipboard.GetValue(i));
+                otherBoxEventsClipboard.Add(eventClipboard[i]);
             }
         }
     }
