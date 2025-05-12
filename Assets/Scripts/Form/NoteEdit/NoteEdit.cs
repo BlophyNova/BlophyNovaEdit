@@ -49,8 +49,6 @@ namespace Form.NoteEdit
         public event OnNotesRefreshed onNotesRefreshed = notes => { };
 
 
-        public List<Note> otherLineNoteClipboard = new();
-        public List<Note> noteClipboard = new();
         public bool isCopy;
 
 

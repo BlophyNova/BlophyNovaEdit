@@ -5,6 +5,7 @@ using Data.Interface;
 using Form.PropertyEdit;
 using Log;
 using Manager;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 using Note = Data.ChartEdit.Note;
 namespace Form.NoteEdit
 {
-    //ÕâÀï·ÅÓÃ»§±à¼­²Ù×÷ÏìÓ¦Ïà¹ØµÄÊÂÇé
+    //è¿™é‡Œæ”¾ç”¨æˆ·ç¼–è¾‘æ“ä½œå“åº”ç›¸å…³çš„äº‹æƒ…
     public partial class NoteEdit
     {
 
@@ -52,14 +53,14 @@ namespace Form.NoteEdit
                 {
                     <= 0 => NoteType.FullFlickPink,
                     > 0 => NoteType.FullFlickBlue,
-                    _ => throw new Exception("ÎØÎØÎØ£¬ÔõÃ´ÕÒ²»µ½¾¿¾¹ÊÇ·ÛÉ«µÄFullFlick»¹ÊÇÀ¶É«µÄFullFlickÄØ...")
+                    _ => throw new Exception("å‘œå‘œå‘œï¼Œæ€ä¹ˆæ‰¾ä¸åˆ°ç©¶ç«Ÿæ˜¯ç²‰è‰²çš„FullFlickè¿˜æ˜¯è“è‰²çš„FullFlickå‘¢...")
                 };
                 note.effect = 0;
                 note.isClockwise = note.positionX switch
                 {
                     <= 0 => true,
                     > 0 => false,
-                    _ => throw new Exception("ÎØÎØÎØ£¬ÔõÃ´ÕÒ²»µ½¾¿¾¹ÊÇË³Ê±Õë»¹ÊÇÄæÊ±ÕëÄØ...")
+                    _ => throw new Exception("å‘œå‘œå‘œï¼Œæ€ä¹ˆæ‰¾ä¸åˆ°ç©¶ç«Ÿæ˜¯é¡ºæ—¶é’ˆè¿˜æ˜¯é€†æ—¶é’ˆå‘¢...")
                 };
             }
         }
@@ -73,7 +74,7 @@ namespace Form.NoteEdit
                 NoteType.Flick => GlobalData.Instance.flickEditPrefab,
                 NoteType.Point => GlobalData.Instance.pointEditPrefab,
                 NoteType.FullFlick => GlobalData.Instance.fullFlickEditPrefab,
-                _ => throw new Exception("ÔõÃ´»ØÊÂÄØ¡¤¡¤¡¤ÓĞ·ÇÍ¨ÓÃnote´úÂë½øÈëÁËÍ¨ÓÃÉú³ÉnoteµÄÍ¨µÀ")
+                _ => throw new Exception("æ€ä¹ˆå›äº‹å‘¢Â·Â·Â·æœ‰éé€šç”¨noteä»£ç è¿›å…¥äº†é€šç”¨ç”Ÿæˆnoteçš„é€šé“")
             };
         }
 
@@ -119,10 +120,10 @@ namespace Form.NoteEdit
             }
             else if (isFirstTime)
             {
-                //µÚ¶ş´Î
+                //ç¬¬äºŒæ¬¡
                 isFirstTime = false;
                 waitForPressureAgain = true;
-            } /*±¨´í*/
+            } /*æŠ¥é”™*/
         }
         public void AddNewFullFlick()
         {
@@ -214,75 +215,44 @@ namespace Form.NoteEdit
 
         private void CopyNote()
         {
-            Debug.Log("¸´ÖÆÒô·û");
+            Debug.Log("å¤åˆ¶éŸ³ç¬¦");
             isCopy = true;
             AddNote2NoteClipboard();
         }
 
         private void CutNote()
         {
-            Debug.Log("¼ôÇĞÒô·û");
+            Debug.Log("å‰ªåˆ‡éŸ³ç¬¦");
             isCopy = false;
             AddNote2NoteClipboard();
+            DeleteNoteWithUI();
         }
 
         private void PasteNote()
         {
-            Debug.Log("Õ³ÌùÒô·û");
+            Debug.Log("ç²˜è´´éŸ³ç¬¦");
             FindNearBeatLineAndVerticalLine(out BeatLine beatLine, out RectTransform verticalLine);
-            List<Note> newNotes = null;
-            List<Note> deletedNotes = null;
-            if (noteClipboard.Count > 0)
-            {               
-                newNotes = CopyNotes(noteClipboard, currentBoxID, currentLineID);
-                AlignNotes(newNotes, beatLine.thisBPM);
-                deletedNotes = DeleteNotes(noteClipboard, currentBoxID, currentLineID,isCopy);
-                BatchNotes(newNotes, note => note.isSelected = false);
-                AddNotes(newNotes, currentBoxID, currentLineID);
-                notes.AddRange(AddNotes2UI(newNotes));
-            }
-            else
+            string rawData = GUIUtility.systemCopyBuffer;
+            try
             {
-                newNotes = CopyNotes(otherLineNoteClipboard, currentBoxID, currentLineID);
-                AlignNotes(newNotes, beatLine.thisBPM);
-                deletedNotes = DeleteNotes(otherLineNoteClipboard, lastBoxID, lastLineID, isCopy);
-                BatchNotes(newNotes, note => note.isSelected = false);
-                AddNotes(newNotes, currentBoxID, currentLineID);
-                notes.AddRange(AddNotes2UI(newNotes));
+                List<Note> newNotes = JsonConvert.DeserializeObject<List<Note>>(rawData);
+                Steps.Instance.Add(PasteUndo, PasteRedo, default);
+                PasteRedo();
+                isCopy = true;
+                return;
+                void PasteUndo()
+                {
+                    DeleteNotes(newNotes, currentBoxID,currentLineID, false);
+                }
+                void PasteRedo()
+                {
+                    AlignNotes(newNotes, beatLine.thisBPM);
+                    BatchNotes(newNotes, note => note.isSelected = false);
+                    List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
+                    notes.AddRange(AddNotes2UI(instNewNotes));
+                }
             }
-
-            //ÕâÀï»¹ÓĞºÜ¶à¹ØÓÚ³·ÏúÖØ×öµÄÊÂÇé
-            if (isCopy)
-            {
-                Steps.Instance.Add(CopyUndo, CopyRedo, default);
-            }
-            else
-            {
-                Steps.Instance.Add(CutUndo, CutRedo, default);
-            }
-            isCopy = true;
-            return;
-            void CopyUndo()
-            {
-                DeleteNotes(newNotes, currentBoxID, currentLineID, false);
-            }
-            void CopyRedo()
-            {
-                List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
-                notes.AddRange(AddNotes2UI(instNewNotes));
-            }
-            void CutUndo()
-            {
-                List<Note> instNewNotes=AddNotes(deletedNotes, currentBoxID, currentLineID);
-                notes.AddRange(AddNotes2UI(instNewNotes));
-                DeleteNotes(newNotes, currentBoxID, currentLineID,false);
-            }
-            void CutRedo()
-            {
-                List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
-                notes.AddRange(AddNotes2UI(instNewNotes));
-                DeleteNotes(deletedNotes,currentBoxID, currentLineID,false);
-            }
+            catch (JsonException je) { }
         }
         private void DeleteNoteWithUI()
         {
@@ -432,7 +402,7 @@ namespace Form.NoteEdit
 
         private void MirrorNote()
         {
-            Debug.Log("¾µÏñÒô·û");
+            Debug.Log("é•œåƒéŸ³ç¬¦");
             List<Note> newNotes = null;
             List<Note> selectedNotes = GetSelectedNotes();
 

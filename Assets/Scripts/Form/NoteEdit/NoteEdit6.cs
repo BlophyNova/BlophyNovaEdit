@@ -12,6 +12,7 @@ using UtilityCode.Algorithm;
 using System;
 using Manager;
 using Data.ChartData;
+using Newtonsoft.Json;
 namespace Form.NoteEdit
 {
     //这里放处理数据的方法,不负责刷新
@@ -46,13 +47,12 @@ namespace Form.NoteEdit
         }
         private void AddNote2NoteClipboard()
         {
-            noteClipboard.Clear();
+            List<Note> notes = new();
             foreach (Scenes.Edit.NoteEdit selectedNote in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>())
             {
-                noteClipboard.Add(selectedNote.thisNoteData);
+                notes.Add(selectedNote.thisNoteData);
             }
-
-            LogCenter.Log($@"已将{noteClipboard.Count}个音符发送至剪切板！");
+            GUIUtility.systemCopyBuffer=JsonConvert.SerializeObject(notes);
         }
         private List<Note> CopyNotes(List<Note> noteClipboard, int boxID,int lineID)
         {

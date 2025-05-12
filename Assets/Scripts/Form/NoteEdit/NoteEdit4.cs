@@ -29,10 +29,6 @@ namespace Form.NoteEdit
             lastLineID = boxID < 0 ? lastLineID : currentLineID;
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
             currentLineID = lineID < 0 ? currentLineID : lineID;
-            if (boxID >= 0 || lineID >= 0)
-            {
-                NoteCopy();
-            }
             DestroyNotes();
             List<Scenes.Edit.NoteEdit> newNotes =AddNotes2UI(ChartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes);
             notes.AddRange(newNotes);
@@ -66,17 +62,5 @@ namespace Form.NoteEdit
             ConvertLine(ChartEditData.boxes[boxID].lines[lineID].onlineNotes, ChartData.boxes[boxID].lines[lineID].onlineNotes);
         }
 
-        private void NoteCopy()
-        {
-            if (noteClipboard.Count <= 0)
-            {
-                return;
-            }
-            otherLineNoteClipboard.Clear();
-            for (int i = 0; i < noteClipboard.Count; i++)
-            {
-                otherLineNoteClipboard.Add(noteClipboard[i]);
-            }
-        }
     }
 }

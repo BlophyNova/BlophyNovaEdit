@@ -74,9 +74,9 @@ namespace Form.EventEdit
                 }
                 void PasteRedo()
                 {
-                    List<Event> instNewEvents = AddEvents(newEvents, currentBoxID, true);
                     AlignEvents(newEvents, beatLine.thisBPM);
                     BatchEvents(newEvents, @event => @event.IsSelected = false);
+                    List<Event> instNewEvents = AddEvents(newEvents, currentBoxID, true);
                     eventEditItems.AddRange(AddEvents2UI(instNewEvents));
                 }
             }

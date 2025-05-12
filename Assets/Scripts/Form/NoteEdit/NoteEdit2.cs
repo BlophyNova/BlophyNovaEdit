@@ -106,12 +106,6 @@ namespace Form.NoteEdit
         }
         private void NoteEdit_onNoteRefreshed(List<Note> notes)
         {
-            noteClipboard.Clear();
-            for (int i = 0; i < notes.Count; i++) 
-            {
-                if (notes[i].isSelected)
-                    noteClipboard.Add(notes[i]);
-            }
         }
         private void DestroyNotes()
         {
