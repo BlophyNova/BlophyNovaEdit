@@ -202,12 +202,12 @@ namespace UtilityCode.GameUtility
             }
 
             if (BPMManager.Instance.GetSecondsTimeByBeats(speedEventVoidFill[^1].endBeats.ThisStartBPM) <
-                GlobalData.Instance.chartData.globalData.musicLength)
+                GlobalData.Instance.chartData.metaData.musicLength)
             {
                 Data.ChartEdit.Event speedEvent = new();
                 speedEvent.startBeats = initStartBeats;
                 speedEvent.endBeats =
-                    new BPM(BPMManager.Instance.GetBeatsBySeconds(GlobalData.Instance.chartData.globalData
+                    new BPM(BPMManager.Instance.GetBeatsBySeconds(GlobalData.Instance.chartData.metaData
                         .musicLength));
                 speedEvent.startValue = initValue;
                 speedEvent.endValue = initValue;

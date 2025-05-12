@@ -16,7 +16,7 @@ namespace Controller
         private IEnumerator Start()
         {
             yield return new WaitUntil(() =>
-                GlobalData.Instance.chartData.globalData.musicLength > 1 &&
+                GlobalData.Instance.chartData.metaData.musicLength > 1 &&
                 GlobalData.Instance.chartData.boxes.Count > 0);
             isLoading = false;
             InstNewBox();
@@ -27,7 +27,7 @@ namespace Controller
 
         private void Update()
         {
-            if (!(GlobalData.Instance.chartData.globalData.musicLength - ProgressManager.Instance.CurrentTime <= .1f) ||
+            if (!(GlobalData.Instance.chartData.metaData.musicLength - ProgressManager.Instance.CurrentTime <= .1f) ||
                 isLoading)
             {
                 return;

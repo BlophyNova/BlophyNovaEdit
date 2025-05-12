@@ -13,7 +13,6 @@ namespace Data.ChartData
     {
         public MetaData metaData;
         public List<Box> boxes;
-        public GlobalData globalData;
         public List<Text> texts;
     }
 
@@ -22,29 +21,61 @@ namespace Data.ChartData
     {
         public string musicName = "";
         public string musicWriter = "";
-
-        [FormerlySerializedAs("musicBPMText")] public string musicBpmText = "";
-
-        public string chartWriter = "";
+        public string musicBpmText = "";
         public string artWriter = "";
-        public Hard chartHard;
-        public string chartLevel = "";
         public string description = "";
-    }
-
-    [Serializable]
-    public class GlobalData
-    {
+        public string chartWriter = "";
+        public string chartLevel = "";
+        public Hard hard;
         public float offset;
         public float musicLength;
-        public int tapCount;
-        public int holdCount;
-        public int dragCount;
-        public int flickCount;
-        public int fullFlickCount;
-        public int pointCount;
+        public int noteCount;
+        public int trueNoteCount;
+        public int trueTapCount;
+        public int trueHoldCount;
+        public int trueDragCount;
+        public int trueFlickCount;
+        public int trueFullFlickCount;
+        public int truePointCount;
+        public int fakeNoteCount;
+        public int fakeTapCount;
+        public int fakeHoldCount;
+        public int fakeDragCount;
+        public int fakeFlickCount;
+        public int fakeFullFlickCount;
+        public int fakePointCount;
+        public int chartVersion;
+        public MetaData(MetaData metaData)
+        {
+            this.musicName = metaData.musicName;
+            this.musicWriter = metaData.musicWriter;
+            this.musicBpmText = metaData.musicBpmText;
+            this.artWriter = metaData.artWriter;
+            this.description = metaData.description;
+            this.chartWriter = metaData.chartWriter;
+            this.chartLevel = metaData.chartLevel;
+            this.hard = metaData.hard;
+            this.offset = metaData.offset;
+            this.musicLength = metaData.musicLength;
+            this.noteCount = metaData.noteCount;
+            this.trueNoteCount = metaData.trueNoteCount;
+            this.trueTapCount = metaData.trueTapCount;
+            this.trueHoldCount = metaData.trueHoldCount;
+            this.trueDragCount = metaData.trueDragCount;
+            this.trueFlickCount = metaData.trueFlickCount;
+            this.trueFullFlickCount = metaData.trueFullFlickCount;
+            this.truePointCount = metaData.truePointCount;
+            this.fakeNoteCount = metaData.fakeNoteCount;
+            this.fakeTapCount = metaData.fakeTapCount;
+            this.fakeHoldCount = metaData.fakeHoldCount;
+            this.fakeDragCount = metaData.fakeDragCount;
+            this.fakeFlickCount = metaData.fakeFlickCount;
+            this.fakeFullFlickCount = metaData.fakeFullFlickCount;
+            this.fakePointCount = metaData.fakePointCount;
+            this.chartVersion = metaData.chartVersion;
+        }
+        public MetaData() { }
     }
-
     [Serializable]
     public class Text
     {

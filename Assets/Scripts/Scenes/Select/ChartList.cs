@@ -1,5 +1,7 @@
 using Data;
+using Data.ChartData;
 using Newtonsoft.Json;
+using Scenes.DontDestroyOnLoad;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
@@ -23,27 +25,29 @@ namespace Scenes.Select
 
         public void RefreshList()
         {
-            string indexJSONPath = $"{Application.streamingAssetsPath}/index.json";
-            if (File.Exists(indexJSONPath))
+            foreach (ChartItem item in chartItems)
             {
-                foreach (ChartItem item in chartItems)
-                {
-                    Destroy(item.gameObject);
-                }
+                Destroy(item.gameObject);
+            }
+            chartItems.Clear();
+            string[] chartPaths= Directory.GetDirectories($"{Application.streamingAssetsPath}");
+            foreach (string chartPath in chartPaths)
+            {
+                
+                string chartJsonPath = $"{chartPath}/ChartFile/{GlobalData.Instance.currentHard}/MetaData.json";
+                if (!File.Exists(chartJsonPath)) continue;
 
-                chartItems.Clear();
 
-                string rawData = File.ReadAllText(indexJSONPath);
-                List<ChartFileIndex> chartFileIndices = JsonConvert.DeserializeObject<List<ChartFileIndex>>(rawData);
-                foreach (ChartFileIndex item in chartFileIndices)
-                {
-                    ChartItem newChartItem = Instantiate(chartItemPrefab, transform);
-                    newChartItem.musicName.text = item.musicName;
-                    newChartItem.thisChartFileIndex = item;
-                    newChartItem.illustrationPreview = illustrationPreview;
-                    newChartItem.chartInfomation = chartInfomation;
-                    chartItems.Add(newChartItem);
-                }
+                string rawData = File.ReadAllText(chartJsonPath);
+                ChartItem newChartItem = Instantiate(chartItemPrefab, transform);
+                newChartItem.metaData=JsonConvert.DeserializeObject<MetaData>(rawData);
+                newChartItem.musicName.text = newChartItem.metaData.musicName;
+                newChartItem.currentChartIndex = Path.GetFileName(chartPath);
+                newChartItem.illustrationPreview = illustrationPreview;
+                newChartItem.chartInfomation = chartInfomation;
+                chartItems.Add(newChartItem);
+
+
             }
         }
     }

@@ -11,6 +11,7 @@ namespace Data.ChartEdit
     [Serializable]
     public class ChartData
     {
+        public int chartVersion;
         public float yScale;
         public int beatSubdivision; //节拍线细分(单位：份)
         public int verticalSubdivision; //垂直线细分(单位：份)

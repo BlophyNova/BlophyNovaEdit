@@ -31,7 +31,7 @@ namespace Scenes.DontDestroyOnLoad
         [FormerlySerializedAs("currentCPH")] public Sprite currentCph;
 
         public bool isAutoplay = true;
-        public int currentChartIndex = -1;
+        public string currentChartIndex = string.Empty;
 
         public Alert alert;
 

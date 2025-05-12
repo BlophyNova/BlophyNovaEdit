@@ -36,7 +36,7 @@ namespace Manager
         }
 
         private IEnumerator Start()
-        {
+        { 
             //ChartData = JsonConvert.DeserializeObject<ChartData>(new StreamReader(new FileStream($"{Application.streamingAssetsPath}/-1/ChartFile/Red/Chart.json", FileMode.Open)).ReadToEnd());
 
             ChartData = GlobalData.Instance.chartData;
@@ -54,7 +54,7 @@ namespace Manager
 
         public void LoadChartData()
         {
-            ChartData.globalData.musicLength = GlobalData.Instance.chartEditData.musicLength <= 1
+            ChartData.metaData.musicLength = GlobalData.Instance.chartEditData.musicLength <= 1
                 ? MusicClip.length + GlobalData.Instance.chartEditData.offset
                 : GlobalData.Instance.chartEditData.musicLength;
             GlobalData.Instance.chartData.boxes =

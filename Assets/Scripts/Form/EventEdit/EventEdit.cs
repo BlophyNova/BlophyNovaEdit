@@ -57,7 +57,7 @@ namespace Form.EventEdit
         public bool isCopy;
         private IEnumerator Start()
         {
-            yield return new WaitUntil(() => GlobalData.Instance.chartData.globalData.musicLength > 1);
+            yield return new WaitUntil(() => GlobalData.Instance.chartData.metaData.musicLength > 1);
             yield return new WaitUntil(() => GlobalData.Instance.chartData.boxes.Count > 0);
             labelWindow.onWindowMoved += LabelWindow_onWindowMoved;
             labelWindow.onWindowLostFocus += LabelWindow_onWindowLostFocus;

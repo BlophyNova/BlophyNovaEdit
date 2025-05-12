@@ -21,10 +21,7 @@ namespace ShortcutKey.Events
                 LabelWindowContentType.ChartPreview |
                 LabelWindowContentType.NoteEdit |
                 LabelWindowContentType.EventEdit |
-                LabelWindowContentType.ProgressBar |
-                LabelWindowContentType.ATimeLine |
-                LabelWindowContentType.DebugText |
-                LabelWindowContentType.Kawaii;
+                LabelWindowContentType.ProgressBar;
 
             if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem
                     .labelWindowContent.labelWindowContentType))

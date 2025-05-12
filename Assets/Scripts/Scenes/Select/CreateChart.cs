@@ -3,6 +3,7 @@ using Data.ChartData;
 using Data.ChartEdit;
 using Newtonsoft.Json;
 using Scenes.PublicScripts;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
@@ -31,7 +32,7 @@ namespace Scenes.Select
         public Color illustrationPreviewNone;
 
 
-        public int currentChartFileIndex = -1;
+        public string currentChartFileIndex = string.Empty;
         private string ChartFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/ChartFile";
         private string MusicFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Music";
 
@@ -58,7 +59,7 @@ namespace Scenes.Select
             thisButton.interactable = true;
         }
 
-        private void CreatChart()
+        private void CreatCharts()
         {
             File.Copy(musicPathText.text, $"{MusicFilePath}/Music{Path.GetExtension(musicPathText.text)}");
             File.Copy(illustrationPathText.text, $"{IllustrationFilePath}/Background{Path.GetExtension(illustrationPathText.text)}");
@@ -72,20 +73,35 @@ namespace Scenes.Select
             chartData.offset = 0;
             chartData.loopPlayBack = true;
             chartData.musicLength = -1;
-            chartData.bpmList = new List<BPM>();
-            chartData.bpmList.Add(new BPM { integer = 0, molecule = 0, denominator = 1, currentBPM = 60 });
-            File.WriteAllText($"{ChartFilePath}/{Data.Enumerate.Hard.Easy}/Chart.json",
-                JsonConvert.SerializeObject(chartData));
-            File.WriteAllText($"{ChartFilePath}/{Data.Enumerate.Hard.Normal}/Chart.json",
-                JsonConvert.SerializeObject(chartData));
-            File.WriteAllText($"{ChartFilePath}/{Data.Enumerate.Hard.Hard}/Chart.json",
-                JsonConvert.SerializeObject(chartData));
-            File.WriteAllText($"{ChartFilePath}/{Data.Enumerate.Hard.Ultra}/Chart.json",
-                JsonConvert.SerializeObject(chartData));
-            File.WriteAllText($"{ChartFilePath}/{Data.Enumerate.Hard.Special}/Chart.json",
-                JsonConvert.SerializeObject(chartData));
-        }
+            chartData.bpmList = new List<BPM>
+            {
+                new() { integer = 0, molecule = 0, denominator = 1, currentBPM = 60 }
+            };
 
+            CreatChart(Data.Enumerate.Hard.Easy, chartData);
+            CreatChart(Data.Enumerate.Hard.Normal, chartData);
+            CreatChart(Data.Enumerate.Hard.Hard, chartData);
+            CreatChart(Data.Enumerate.Hard.Ultra, chartData);
+            CreatChart(Data.Enumerate.Hard.Special, chartData);
+        }
+        private void CreatChart(Data.Enumerate.Hard hard, ChartData chartData)
+        {
+            File.WriteAllText($"{ChartFilePath}/{hard}/Chart.json",
+                JsonConvert.SerializeObject(chartData));
+            MetaData metaData = new()
+            {
+                musicName = musicNameText.text,
+                hard = hard,
+                musicWriter = musicWriterText.text,
+                artWriter = illustrationWriterText.text,
+                chartWriter = chartWriterText.text,
+                chartLevel = chartLevelText.text,
+                description = descriptionText.text,
+                chartVersion = 0
+            };
+            File.WriteAllText($"{ChartFilePath}/{hard}/MetaData.json",
+                JsonConvert.SerializeObject(metaData));
+        }
         private bool VerifyLocalMusicExistence()
         {
             if (File.Exists(musicPathText.text))
@@ -114,50 +130,17 @@ namespace Scenes.Select
             if (VerifyLocalMusicExistence() &
                 VerifyLocalIllustrationExistence())
             {
-                string indexJSONPath = $"{Application.streamingAssetsPath}/index.json";
-                if (!File.Exists(indexJSONPath))
-                {
-                    List<ChartFileIndex> chartFileIndices = new();
-                    CreateNewChartIndex(indexJSONPath, chartFileIndices);
-                }
-                else
-                {
-                    string rawData = File.ReadAllText(indexJSONPath);
-                    List<ChartFileIndex> chartFileIndices =
-                        JsonConvert.DeserializeObject<List<ChartFileIndex>>(rawData);
-                    CreateNewChartIndex(indexJSONPath, chartFileIndices);
-                }
 
-                CreatChart();
+                currentChartFileIndex = $"{DateTime.Now.Year}{DateTime.Now.Month:D2}{DateTime.Now.Day:D2}{DateTime.Now.Hour:D2}{DateTime.Now.Minute:D2}{DateTime.Now.Second:D2}";
+
+                CreateDirectory();
+                CreatCharts();
 
                 parentObject.gameObject.SetActive(false);
                 ChartList.Instance.RefreshList();
                 return;
             }
             thisButton.interactable = true;
-        }
-
-        private void CreateNewChartIndex(string indexJSONPath, List<ChartFileIndex> chartFileIndices)
-        {
-            ChartFileIndex chartFileIndex = new();
-            currentChartFileIndex = chartFileIndex.index = chartFileIndices.Count;
-            chartFileIndices.Add(chartFileIndex);
-            chartFileIndices[currentChartFileIndex].musicName = musicNameText.text;
-            chartFileIndices[currentChartFileIndex].musicPath = musicPathText.text;
-            chartFileIndices[currentChartFileIndex].IllustrationPath = illustrationPathText.text;
-            MetaData metaData = new()
-            {
-                musicName = musicNameText.text,
-                musicWriter = musicWriterText.text,
-                artWriter = illustrationWriterText.text,
-                chartWriter = chartWriterText.text,
-                chartLevel = chartLevelText.text,
-                description = descriptionText.text,
-                chartHard = GlobalData.Instance.currentHard
-            };
-            chartFileIndices[currentChartFileIndex].metaData = metaData;
-            File.WriteAllText(indexJSONPath, JsonConvert.SerializeObject(chartFileIndices, Formatting.Indented));
-            CreateDirectory();
         }
 
         private void CreateDirectory()

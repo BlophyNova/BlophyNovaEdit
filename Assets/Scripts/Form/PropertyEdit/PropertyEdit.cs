@@ -16,11 +16,11 @@ namespace Form.PropertyEdit
         public YScale yScale;
         public LoopPlayback loopPlayback;
 
-        public override void WindowSizeChanged()
-        {
-            base.WindowSizeChanged();
-            Debug.Log(new Vector2(labelWindow.labelWindowRect.sizeDelta.x, gridLayoutGroup.cellSize.y));
-            gridLayoutGroup.cellSize = new Vector2(labelWindow.labelWindowRect.sizeDelta.x, gridLayoutGroup.cellSize.y);
-        }
+        //public override void WindowSizeChanged()
+        //{
+        //    base.WindowSizeChanged();
+        //    Debug.Log(new Vector2(labelWindow.labelWindowRect.sizeDelta.x, gridLayoutGroup.cellSize.y));
+        //    gridLayoutGroup.cellSize = new Vector2(labelWindow.labelWindowRect.sizeDelta.x, gridLayoutGroup.cellSize.y);
+        //}
     }
 }
