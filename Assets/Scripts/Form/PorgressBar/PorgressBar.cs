@@ -33,6 +33,7 @@ namespace Form.PorgressBar
 
         private void Update()
         {
+            if (GlobalData.Instance.chartData.metaData.musicLength <= 1) return;
             float currentProgress = (float)ProgressManager.Instance.CurrentTime /
                                     GlobalData.Instance.chartData.metaData.musicLength;
             progressBar.SetValueWithoutNotify(currentProgress);
