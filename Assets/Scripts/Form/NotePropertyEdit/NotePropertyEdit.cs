@@ -8,6 +8,7 @@ using Log;
 using System;
 using System.Text.RegularExpressions;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 using Event = Data.ChartEdit.Event;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
@@ -21,8 +22,17 @@ namespace Form.NotePropertyEdit
 
         public delegate void OnNoteValueChanged();
 
-        public EditNote editNote;
-        public EditEvent editEvent;
+        [SerializeField] EditNote editNote;
+        [SerializeField] EditEvent editEvent;
+
+        public EditNote EditNote 
+        {
+            get => editNote; set => editNote = value;
+        }
+        public EditEvent EditEvent
+        {
+            get => editEvent; set => editEvent = value;
+        }
 
         public event OnNoteValueChanged onNoteValueChanged = () => { };
         public event OnEventValueChanged onEventValueChanged = () => { };

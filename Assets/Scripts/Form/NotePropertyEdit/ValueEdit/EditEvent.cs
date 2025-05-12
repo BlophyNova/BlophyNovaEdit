@@ -49,7 +49,7 @@ namespace Form.NotePropertyEdit.ValueEdit
             originEvent = new(@event);
             this.@event = @event;
             SetNoteValue2Form();
-            notePropertyEdit.editNote.gameObject.SetActive(false);
+            notePropertyEdit.EditNote.gameObject.SetActive(false);
             gameObject.SetActive(true);
 
         }

@@ -2918,10 +2918,10 @@ PrefabInstance:
       addedObject: {fileID: 1868280091}
     - targetCorrespondingSourceObject: {fileID: 8753526251135438171, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1545110802301385196}
+      addedObject: {fileID: 1424548472}
     - targetCorrespondingSourceObject: {fileID: 8753526251135438171, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1424548472}
+      addedObject: {fileID: 1545110802301385196}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
 --- !u!224 &530782855 stripped
@@ -9074,11 +9074,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8753526250073229151, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2043
+      value: 2127
       objectReference: {fileID: 0}
     - target: {fileID: 8753526250073229151, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1020
+      value: -1171
       objectReference: {fileID: 0}
     - target: {fileID: 8753526250073229151, guid: 1d698afec05f4d444a895699aa1b8ac4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -52,8 +52,6 @@ namespace Form.EventEdit
         public event OnEventsRefreshed onEventsRefreshed = events => { };
         //public List<EventEditItem> otherBoxEventsClipboard = new();
         //public List<EventEditItem> eventClipboard = new(); 
-        public List<Data.ChartEdit.Event> otherBoxEventsClipboard = new();
-        public List<Data.ChartEdit.Event> eventClipboard = new();
         public bool isCopy;
         private IEnumerator Start()
         {
@@ -65,7 +63,6 @@ namespace Form.EventEdit
             labelItem.onLabelGetFocus += LabelItem_onLabelGetFocus;
             labelItem.onLabelLostFocus += LabelItem_onLabelLostFocus;
 
-            onEventsRefreshed +=EventEdit_onEventRefreshed;
 
             UpdateVerticalLineCount();
             UpdateNoteLocalPositionAndSize();

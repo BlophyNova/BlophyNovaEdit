@@ -75,10 +75,6 @@ namespace Form.EventEdit
 
 
 
-            if (boxID >= 0)
-            {
-                EventCopy();
-            }
             DestroyEvents(eventType);
 
             List<Event> events = FindChartEditEventList(GlobalData.Instance.chartEditData.boxes[currentBoxID], eventType);
@@ -94,22 +90,5 @@ namespace Form.EventEdit
             onEventsRefreshed(keyValueList);
         }
 
-
-
-        /// <summary>
-        /// 此方法的作用是，如果要换框，那就把当前剪切板的内容复制到其他剪切板中，实现跨框复制事件的功能
-        /// </summary>
-        public void EventCopy()
-        {
-            if (eventClipboard.Count <= 0)
-            {
-                return;
-            }
-            otherBoxEventsClipboard.Clear();
-            for (int i = 0; i < eventClipboard.Count; i++)
-            {
-                otherBoxEventsClipboard.Add(eventClipboard[i]);
-            }
-        }
     }
 }

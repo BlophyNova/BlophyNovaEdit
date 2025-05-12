@@ -28,7 +28,7 @@ namespace Scenes.Edit
         public Vector2 firstFramePositionInLabelWindow = Vector2.zero;
         public bool isPressing;
         private NotePropertyEdit notePropertyEdit;
-        private readonly List<ISelectBoxItem> selectedBoxItems = new();
+        public readonly List<ISelectBoxItem> selectedBoxItems = new();
         public ISelectBox selectBoxObjects => noteEdit == null ? eventEdit : noteEdit;
         public LabelWindowContent labelWindowContent => noteEdit == null ? eventEdit : noteEdit;
         private bool isNoteEdit => noteEdit == null ? false : true;
@@ -174,11 +174,11 @@ namespace Scenes.Edit
 
             if (selectBoxItem.IsNoteEdit)
             {
-                NotePropertyEdit.editNote.Set(new List<ISelectBoxItem>() { selectBoxItem });
+                NotePropertyEdit.EditNote.Set(new List<ISelectBoxItem>() { selectBoxItem });
             }
             else
             {
-                NotePropertyEdit.editEvent.Set(new List<ISelectBoxItem>() { selectBoxItem });
+                NotePropertyEdit.EditEvent.Set(new List<ISelectBoxItem>() { selectBoxItem });
             }
             
         }
@@ -195,11 +195,11 @@ namespace Scenes.Edit
         {
             if (isNoteEdit)
             {
-                NotePropertyEdit.editNote.Set(selectedBoxItems);
+                NotePropertyEdit.EditNote.Set(selectedBoxItems);
             }
             else
             {
-                NotePropertyEdit.editEvent.Set(selectedBoxItems);
+                NotePropertyEdit.EditEvent.Set(selectedBoxItems);
             }
         }
 

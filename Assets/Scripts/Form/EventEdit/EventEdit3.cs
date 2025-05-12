@@ -13,6 +13,7 @@ using static UtilityCode.ChartTool.ChartTool;
 using System;
 using Manager;
 using Form.PropertyEdit;
+using Newtonsoft.Json;
 namespace Form.EventEdit
 {
     //这里放用户编辑操作响应相关的事情
@@ -52,69 +53,37 @@ namespace Form.EventEdit
             Debug.Log("剪切事件");
             isCopy = false;
             AddEvent2Clipboard();
+            DeleteEventFromUI();
         }
         private void PasteEvent()
         {
             Debug.Log("粘贴事件");
+
             FindNearBeatLineAndEventVerticalLine(out BeatLine beatLine, out EventVerticalLine verticalLine);
-            List<Event> newEvents = null;
-            List<Event> deletedEvents = null;
-            if (eventClipboard.Count > 0)
+            string rawData = GUIUtility.systemCopyBuffer;
+            try
             {
-                newEvents = CopyEvents(eventClipboard,currentBoxID,true);
-                AlignEvents(newEvents, beatLine.thisBPM);
-                deletedEvents = DeleteEvents(eventClipboard, currentBoxID,isCopy);
-                BatchEvents(newEvents, @event => @event.IsSelected = false);
-                AddEvents(newEvents,currentBoxID,true);
-                eventEditItems.AddRange(AddEvents2UI(newEvents));
+                List<Event> newEvents = JsonConvert.DeserializeObject<List<Event>>(rawData);
+                Steps.Instance.Add(PasteUndo, PasteRedo, default);
+                PasteRedo();
+                isCopy = true;
+                return;
+                void PasteUndo()
+                {
+                    DeleteEvents(newEvents, currentBoxID, false);
+                }
+                void PasteRedo()
+                {
+                    List<Event> instNewEvents = AddEvents(newEvents, currentBoxID, true);
+                    AlignEvents(newEvents, beatLine.thisBPM);
+                    BatchEvents(newEvents, @event => @event.IsSelected = false);
+                    eventEditItems.AddRange(AddEvents2UI(instNewEvents));
+                }
             }
-            else
-            {
-                newEvents = CopyEvents(otherBoxEventsClipboard, currentBoxID, true); 
-                AlignEvents(newEvents, beatLine.thisBPM);
-                deletedEvents = DeleteEvents(otherBoxEventsClipboard, lastBoxID,isCopy);
-                BatchEvents(newEvents, @event => @event.IsSelected = false);
-                AddEvents(newEvents, currentBoxID, true);
-                eventEditItems.AddRange(AddEvents2UI(newEvents));
-            }
-
-
-            LogCenter.Log($"成功{isCopy switch { true => "复制", false => "粘贴" }}{eventClipboard.Count}个音符");
-            //RefreshAll();
-            if (isCopy)
-            {
-                Steps.Instance.Add(CopyUndo, CopyRedo, default);
-            }
-            else
-            {
-                Steps.Instance.Add(CutUndo, CutRedo, default);
-            }
-            isCopy = true;
-            return;
-            void CopyUndo()
-            {
-                DeleteEvents(newEvents, currentBoxID, false);
-            }
-            void CopyRedo()
-            {
-                List<Event> instNewEvents = AddEvents(newEvents, currentBoxID,true);
-                eventEditItems.AddRange(AddEvents2UI(instNewEvents));
-            }
-            void CutUndo()
-            {
-                List<Event> instNewEvents = AddEvents(deletedEvents, currentBoxID, true);
-                eventEditItems.AddRange(AddEvents2UI(instNewEvents));
-                DeleteEvents(newEvents, currentBoxID, false);
-            }
-            void CutRedo()
-            {
-                List<Event> instNewEvents = AddEvents(newEvents,currentBoxID,true);
-                eventEditItems.AddRange(AddEvents2UI(instNewEvents));
-                DeleteEvents(deletedEvents, currentBoxID, false);
-            }
+            catch (JsonException je) { }
         }
 
-        
+
 
 
 

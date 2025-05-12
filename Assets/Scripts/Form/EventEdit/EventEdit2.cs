@@ -165,15 +165,5 @@ namespace Form.EventEdit
                 eventEditItems.AddRange(AddEvents2UI(newEvents));
             }
         }
-
-        private void EventEdit_onEventRefreshed(List<Event> events)
-        {
-            eventClipboard.Clear();
-            for (int i = 0; i < events.Count; i++)
-            {
-                if (events[i].IsSelected)
-                    eventClipboard.Add(events[i]);
-            }
-        }
     }
 }

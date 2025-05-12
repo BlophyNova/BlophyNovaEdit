@@ -12,6 +12,7 @@ using EventType = Data.Enumerate.EventType;
 using static UtilityCode.ChartTool.ChartTool;
 using System;
 using Scenes.PublicScripts;
+using Newtonsoft.Json;
 namespace Form.EventEdit
 {
     //这里放处理数据的方法,不负责刷新
@@ -58,13 +59,15 @@ namespace Form.EventEdit
             return findIndex;
         }
         void AddEvent2Clipboard()
-        {
-            eventClipboard.Clear();
+        { 
+            List<Event> events = new();
             foreach (EventEditItem selectedEventEditItem in selectBox.TransmitObjects().Cast<EventEditItem>())
             {
-                eventClipboard.Add(selectedEventEditItem.@event);
+                selectedEventEditItem.@event.disallowDelete = false;
+                selectedEventEditItem.@event.disallowMove = false;
+                events.Add(selectedEventEditItem.@event);
             }
-            LogCenter.Log($@"已将{eventClipboard.Count}个事件发送至剪切板！");
+            GUIUtility.systemCopyBuffer=JsonConvert.SerializeObject(events);
         }
         private void SyncScaleY(Event @event, EventType eventType,int boxID, bool isPaste)
         {

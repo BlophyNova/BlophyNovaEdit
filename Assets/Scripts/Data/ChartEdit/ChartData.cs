@@ -68,7 +68,7 @@ namespace Data.ChartEdit
         /// <summary>
         ///     当前BPM的开始或者说上一个BPM的结束拍
         /// </summary>
-        public float ThisStartBPM => integer + molecule / (float)denominator;
+        [JsonIgnore]public float ThisStartBPM => integer + molecule / (float)denominator;
 
         public static BPM Zero => new();
         public static BPM One => new(1, 0, 1);
