@@ -17,39 +17,34 @@ namespace Form.EventEdit
     public partial class EventEdit
     {
         #region 一键刷新当前框的所有事件
-        private void RefreshAll()
-        {
-            RefreshEvents(-1);
-            RefreshPlayer(currentBoxID);
-        }
-        public void RefreshEvents(int boxID) 
+        void RefreshEvents(int boxID)
         {
 
             lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
-            RefreshEvents(EventType.Speed,boxID);
-            RefreshEvents(EventType.CenterX,boxID);
-            RefreshEvents(EventType.CenterY,boxID);
-            RefreshEvents(EventType.MoveX,boxID);
-            RefreshEvents(EventType.MoveY,boxID);
-            RefreshEvents(EventType.ScaleX,boxID);
-            RefreshEvents(EventType.ScaleY,boxID);
-            RefreshEvents(EventType.Rotate,boxID);
-            RefreshEvents(EventType.Alpha,boxID);
-            RefreshEvents(EventType.LineAlpha,boxID);
+            RefreshEvents(EventType.Speed, boxID);
+            RefreshEvents(EventType.CenterX, boxID);
+            RefreshEvents(EventType.CenterY, boxID);
+            RefreshEvents(EventType.MoveX, boxID);
+            RefreshEvents(EventType.MoveY, boxID);
+            RefreshEvents(EventType.ScaleX, boxID);
+            RefreshEvents(EventType.ScaleY, boxID);
+            RefreshEvents(EventType.Rotate, boxID);
+            RefreshEvents(EventType.Alpha, boxID);
+            RefreshEvents(EventType.LineAlpha, boxID);
         }
-        private void RefreshPlayer(int boxID)
+        void RefreshPlayer(int boxID)
         {
             ConvertAllEvents(GlobalData.Instance.chartEditData.boxes[boxID], GlobalData.Instance.chartData.boxes[boxID]);
         }
         #endregion
         #region 一键刷新当前框某一个特定事件的所有事件
-        private void RefreshAll(EventType eventType, int boxID)
+        void RefreshAll(EventType eventType, int boxID)
         {
             RefreshEvents(eventType, boxID);
             RefreshPlayer(eventType,boxID);
         }
-        private void RefreshPlayer(EventType eventType,int boxID)
+        void RefreshPlayer(EventType eventType,int boxID)
         {
             ConvertEvents(GlobalData.Instance.chartEditData.boxes[boxID], GlobalData.Instance.chartData.boxes[boxID],eventType, boxID);
         }
@@ -58,7 +53,7 @@ namespace Form.EventEdit
         /// 刷新某一个方框的所有事件
         /// </summary>
         /// <param name="boxID">方框ID</param>
-        public void RefreshEvents(EventType eventType, int boxID)
+        void RefreshEvents(EventType eventType, int boxID)
         {
             LogCenter.Log($"成功更改框号为{currentBoxID}");
 

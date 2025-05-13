@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Form.NotePropertyEdit.ValueEdit
 {
-    public class EditNote : MonoBehaviour
+    public partial class EditNote : MonoBehaviour
     {
         public NotePropertyEdit notePropertyEdit;
 

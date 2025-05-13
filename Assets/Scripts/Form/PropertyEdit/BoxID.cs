@@ -55,13 +55,13 @@ namespace Form.PropertyEdit
                 if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit)
                 {
                     EventEdit.EventEdit eventEdit = (EventEdit.EventEdit)item.labelWindowContent;
-                    eventEdit.RefreshEvents(boxID);
+                    eventEdit.RefreshEdit(-1,boxID);
                 }
 
                 if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
                 {
                     NoteEdit.NoteEdit noteEdit = (NoteEdit.NoteEdit)item.labelWindowContent;
-                    noteEdit.RefreshNotes(boxID, -1);
+                    noteEdit.RefreshEdit(-1, boxID);
                 }
             }
             GameController.Instance.ChangeShowXYPoint(boxID);

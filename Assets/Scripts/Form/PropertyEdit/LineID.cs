@@ -56,7 +56,7 @@ namespace Form.PropertyEdit
                 if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
                 {
                     NoteEdit.NoteEdit noteEdit = (NoteEdit.NoteEdit)item.labelWindowContent;
-                    noteEdit.RefreshNotes(-1, lineID);
+                    noteEdit.RefreshEdit(-1, lineID);
                 }
             }
         }

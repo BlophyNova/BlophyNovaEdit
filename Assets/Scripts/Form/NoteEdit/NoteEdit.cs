@@ -8,11 +8,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using static UtilityCode.ChartTool.ChartTool;
 namespace Form.NoteEdit
 {
     //由于这个控件需要的功能太多，所以这里做个分类，此文件负责字段事件委托属性，以及Unity生命周期的方法和接口实现的方法
-    public partial class NoteEdit : LabelWindowContent, IInputEventCallback, IRefresh, ISelectBox
+    public partial class NoteEdit : LabelWindowContent, IInputEventCallback, IRefresh, ISelectBox, IRefreshEdit, IRefreshPlayer, IRefreshAll
     {
         public int lastBoxID;
         public int lastLineID;
@@ -54,7 +54,7 @@ namespace Form.NoteEdit
 
         private void Start()
         {
-            RefreshNotes(currentBoxID, currentLineID);
+            RefreshEdit(currentBoxID, currentLineID);
             UpdateVerticalLineCount();
             UpdateNoteLocalPosition();
             onNotesRefreshed += NoteEdit_onNoteRefreshed;
@@ -112,7 +112,7 @@ namespace Form.NoteEdit
         public void Refresh()
         {
             UpdateVerticalLineCount();
-            RefreshNotes(-1, -1);
+            //RefreshNotes(-1, -1);
         }
 
         public List<ISelectBoxItem> TransmitObjects()
@@ -126,6 +126,34 @@ namespace Form.NoteEdit
             }
 
             return res;
+        }
+        public void RefreshPlayer(int boxID, int lineID)
+        {
+            ConvertLine(ChartEditData.boxes[boxID].lines[lineID].onlineNotes, ChartData.boxes[boxID].lines[lineID].onlineNotes);
+        }
+
+        public void RefreshEdit(int lineID, int boxID)
+        {
+            lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
+            lastLineID = boxID < 0 ? lastLineID : currentLineID;
+            currentBoxID = boxID < 0 ? currentBoxID : boxID;
+            currentLineID = lineID < 0 ? currentLineID : lineID;
+            DestroyNotes();
+            List<Scenes.Edit.NoteEdit> newNotes = AddNotes2UI(ChartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes);
+            notes.AddRange(newNotes);
+            List<Note> refreshedNotes = new();
+            foreach (Scenes.Edit.NoteEdit note in notes)
+            {
+                refreshedNotes.Add(note.thisNoteData);
+            }
+            onNotesRefreshed(refreshedNotes);
+        }
+
+        public void RefreshAll(int lineID, int boxID)
+        {
+            RefreshEdit(boxID, lineID);
+            RefreshPlayer(boxID, lineID);
+
         }
     }
 }
