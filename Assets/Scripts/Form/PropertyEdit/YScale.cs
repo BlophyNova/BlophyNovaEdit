@@ -41,6 +41,7 @@ namespace Form.PropertyEdit
                 LogCenter.Log($"属性编辑，Y轴缩放从{CurrentYScale}变更为{yScale}");
                 CurrentYScale = yScale;
                 GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
+                GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1,-1));
             });
         }
 

@@ -182,13 +182,21 @@ namespace Scenes.Edit
             }
             
         }
+        public void SetMutliNote(List<ISelectBoxItem> selectBoxItems)
+        {
+            ClearSelectedBoxItems();
+            foreach (ISelectBoxItem selectBoxItem in selectBoxItems)
+            {
+                selectBoxItem.SetSelectState(true);
+            }
+            selectedBoxItems.AddRange(selectBoxItems);
+            SetValue2NotePropertyEdit();
+        }
 
         private void EndHandle()
         {
             selectBoxTexture.color = disableSelectBoxTextureColor;
-            ClearSelectedBoxItems();
-            NewSelectedBoxItems();
-            SetValue2NotePropertyEdit();
+            SetMutliNote(NewSelectedBoxItems());
         }
 
         private void SetValue2NotePropertyEdit()
@@ -213,11 +221,12 @@ namespace Scenes.Edit
             selectedBoxItems.Clear();
         }
 
-        private void NewSelectedBoxItems()
+        private List<ISelectBoxItem> NewSelectedBoxItems()
         {
             Vector3[] selectBoxPoints = new Vector3[4];
             thisSelectBoxRect.GetWorldCorners(selectBoxPoints);
             List<ISelectBoxItem> points = selectBoxObjects.TransmitObjects();
+            List<ISelectBoxItem> result = new();
             foreach (ISelectBoxItem item in points)
             {
                 foreach (Vector3 point in item.GetCorners())
@@ -225,8 +234,7 @@ namespace Scenes.Edit
                     if (point.x > selectBoxPoints[0].x && point.y > selectBoxPoints[0].y &&
                         point.x < selectBoxPoints[2].x && point.y < selectBoxPoints[2].y)
                     {
-                        item.SetSelectState(true);
-                        selectedBoxItems.Add(item);
+                        result.Add(item);
                         Debug.Log(
                             $"0:{selectBoxPoints[0]};\n1:{selectBoxPoints[1]};\n2:{selectBoxPoints[2]};\n3{selectBoxPoints[3]};\np:{point}");
                         break;
@@ -237,6 +245,7 @@ namespace Scenes.Edit
             }
 
             Debug.Log($@"已选择{selectedBoxItems.Count}个音符！");
+            return result;
         }
 
         private void HoldHandle()

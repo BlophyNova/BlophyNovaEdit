@@ -35,12 +35,14 @@ namespace Form.NotePropertyEdit.ValueEdit
         public void Set(List<ISelectBoxItem> selectedBoxItems)
         {
             if (selectedBoxItems.Count <= 0) return;
-            eventEditText.text = $"事件编辑 {selectedBoxItems.Count}"; 
-            events=selectedBoxItems.Cast<Event>().ToList();
+            eventEditText.text = $"事件编辑 {selectedBoxItems.Count}";
+            List<EventEditItem> eventEditItems = selectedBoxItems.Cast<EventEditItem>().ToList();
             originEvents = new();
-            foreach (Event @event in events)
+            events.Clear();
+            foreach (EventEditItem eventEditItem in eventEditItems)
             {
-                originEvents.Add(new(@event));
+                originEvents.Add(new(eventEditItem.@event));
+                events.Add(eventEditItem.@event);
             }
             SetNoteValue2Form();
             notePropertyEdit.EditNote.gameObject.SetActive(false);
