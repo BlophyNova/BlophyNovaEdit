@@ -1,6 +1,8 @@
 using CustomSystem;
 using Data.ChartEdit;
+using Data.Interface;
 using Log;
+using Scenes.DontDestroyOnLoad;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

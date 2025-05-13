@@ -921,66 +921,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notePropertyEdit: {fileID: 8605462318396424784}
-  originEvent:
-    chartDataEvent:
-      startTime: 0
-      endTime: 0
-      startValue: 0
-      endValue: 0
-      curve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-    chartEditEvent: {fileID: 0}
-    isSelected: 0
-    eventType: 0
-    startBeats:
-      integer: 0
-      molecule: 0
-      denominator: 1
-      currentBPM: 0
-    endBeats:
-      integer: 0
-      molecule: 0
-      denominator: 1
-      currentBPM: 0
-    startValue: 0
-    endValue: 0
-    curveIndex: 0
-    disallowDelete: 0
-    disallowMove: 0
-  event:
-    chartDataEvent:
-      startTime: 0
-      endTime: 0
-      startValue: 0
-      endValue: 0
-      curve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-    chartEditEvent: {fileID: 0}
-    isSelected: 0
-    eventType: 0
-    startBeats:
-      integer: 0
-      molecule: 0
-      denominator: 1
-      currentBPM: 0
-    endBeats:
-      integer: 0
-      molecule: 0
-      denominator: 1
-      currentBPM: 0
-    startValue: 0
-    endValue: 0
-    curveIndex: 0
-    disallowDelete: 0
-    disallowMove: 0
+  originEvents: []
+  events: []
   eventEditText: {fileID: 7428020891724891823}
   startTime: {fileID: 3458550574015801599}
   endTime: {fileID: 6345861227431648104}
@@ -3364,7 +3306,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u662F\u9006\u65F6\u9488"
+  m_text: "\u662F\u987A\u65F6\u9488"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
   m_sharedMaterial: {fileID: 4737349496631823484, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
@@ -18986,50 +18928,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notePropertyEdit: {fileID: 8605462318396424784}
-  originNote:
-    chartDataNote:
-      noteType: 0
-      hitTime: 0
-      holdTime: 0
-      effect: 0
-      positionX: 0
-      isClockwise: 0
-      hasOther: 0
-      hitFloorPosition: -0.1
-    chartEditNote: {fileID: 0}
-    noteType: 0
-    holdBeats:
-      integer: 0
-      molecule: 0
-      denominator: 1
-      currentBPM: 0
-    effect: 0
-    positionX: 0
-    isClockwise: 0
-    hasOther: 0
-    isSelected: 0
-  note:
-    chartDataNote:
-      noteType: 0
-      hitTime: 0
-      holdTime: 0
-      effect: 0
-      positionX: 0
-      isClockwise: 0
-      hasOther: 0
-      hitFloorPosition: -0.1
-    chartEditNote: {fileID: 0}
-    noteType: 0
-    holdBeats:
-      integer: 0
-      molecule: 0
-      denominator: 1
-      currentBPM: 0
-    effect: 0
-    positionX: 0
-    isClockwise: 0
-    hasOther: 0
-    isSelected: 0
+  originNotes: []
+  notes: []
   noteEditText: {fileID: 8358081210608767384}
   noteType: {fileID: 5845769428770173073}
   hitEffect: {fileID: 4990396386421126933}
