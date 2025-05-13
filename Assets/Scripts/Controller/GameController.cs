@@ -51,6 +51,13 @@ namespace Controller
                         .noteRendererOrder) //这里的3是每一层分为三小层，第一层是方框渲染层，第二和三层是音符渲染层，有些音符占用两个渲染层，例如Hold，FullFlick
                     .SetBoxID(i)
                     .Init(AssetManager.Instance.chartData.boxes[i]);
+                for (int j = 0; j < newItem.decideLineControllers.Length; j++)
+                {
+                    newItem.decideLineControllers[j].lineNoteController.currentBoxID = i;
+                    newItem.decideLineControllers[j].lineNoteController.currentLineID = j;
+                    newItem.decideLineControllers[j].currentBoxID = i;
+                    newItem.decideLineControllers[j].currentLineID = j;
+                }
                 boxes.Add(newItem);
             }
             boxes[currentBoxID].SetShowXYPoint(currentBoxID);

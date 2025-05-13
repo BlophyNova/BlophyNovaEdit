@@ -3,6 +3,7 @@ using Data.ChartEdit;
 using Data.Interface;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,10 +13,8 @@ namespace Form.NotePropertyEdit.ValueEdit
     {
         public NotePropertyEdit notePropertyEdit;
 
-        public Data.ChartEdit.Note originNote;
-        public Data.ChartEdit.Note note;
-
-        private List<ISelectBoxItem> selectedBoxItems = new();
+        public List<Data.ChartEdit.Note> originNotes;
+        public List<Data.ChartEdit.Note> notes;
 
         public TextMeshProUGUI noteEditText;
         public TMP_Dropdown noteType;
@@ -35,36 +34,32 @@ namespace Form.NotePropertyEdit.ValueEdit
         {
             if (selectedBoxItems.Count <= 0) return;
             noteEditText.text = $"音符编辑 {selectedBoxItems.Count}";
-            this.selectedBoxItems =new(selectedBoxItems);
-            Set((Scenes.Edit.NoteEdit)this.selectedBoxItems[0]);
-        }
-        void Set(Scenes.Edit.NoteEdit note)
-        {
-            Set(note.thisNoteData);
-        }
-        void Set(Data.ChartEdit.Note note)
-        {
-            originNote = new(note);
-            this.note = note;
+            List<Scenes.Edit.NoteEdit> noteEdits = selectedBoxItems.Cast<Scenes.Edit.NoteEdit>().ToList();
+            originNotes = new();
+            notes.Clear();
+            foreach (var note in noteEdits)
+            {
+                originNotes.Add(new(note.thisNoteData));
+                notes.Add(note.thisNoteData);
+            }
             SetNoteValue2Form();
             notePropertyEdit.EditEvent.gameObject.SetActive(false);
             gameObject.SetActive(true);
-
         }
 
         private void SetNoteValue2Form()
         {
-            noteType.SetValueWithoutNotify((int)this.note.noteType);
+            noteType.SetValueWithoutNotify((int)this.notes[0].noteType);
             hitEffect.SetIsOnWithoutNotify(
-                this.note.effect.HasFlag(NoteEffect.CommonEffect));
-            hitRipple.SetIsOnWithoutNotify(this.note.effect.HasFlag(NoteEffect.Ripple));
+                this.notes[0].effect.HasFlag(NoteEffect.CommonEffect));
+            hitRipple.SetIsOnWithoutNotify(this.notes[0].effect.HasFlag(NoteEffect.Ripple));
             startTime.SetTextWithoutNotify(
-                $"{this.note.HitBeats.integer}:{this.note.HitBeats.molecule}/{this.note.HitBeats.denominator}");
-            if (this.note.noteType == NoteType.Hold)
+                $"{this.notes[0].HitBeats.integer}:{this.notes[0].HitBeats.molecule}/{this.notes[0].HitBeats.denominator}");
+            if (this.notes[0].noteType == NoteType.Hold)
             {
                 holdTime.interactable = true;
                 holdTime.SetTextWithoutNotify(
-                    $"{this.note.EndBeats.integer}:{this.note.EndBeats.molecule}/{this.note.EndBeats.denominator}");
+                    $"{this.notes[0].EndBeats.integer}:{this.notes[0].EndBeats.molecule}/{this.notes[0].EndBeats.denominator}");
             }
             else
             {
@@ -73,8 +68,8 @@ namespace Form.NotePropertyEdit.ValueEdit
                 holdTime.SetTextWithoutNotify($"仅Hold音符可用");
             }
 
-            postionX.SetTextWithoutNotify($"{this.note.positionX}");
-            isClockwise.SetIsOnWithoutNotify(this.note.isClockwise);
+            postionX.SetTextWithoutNotify($"{this.notes[0].positionX}");
+            isClockwise.SetIsOnWithoutNotify(this.notes[0].isClockwise);
         }
     }
 }

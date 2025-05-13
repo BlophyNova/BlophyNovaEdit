@@ -15,8 +15,4 @@ namespace Data.Interface
     {
         public void RefreshPlayer(int lineID, int boxID);
     }
-    public interface IRefreshAll
-    {
-        public void RefreshAll(int lineID, int boxID);
-    }
 }

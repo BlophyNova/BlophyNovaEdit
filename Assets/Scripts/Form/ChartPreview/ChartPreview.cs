@@ -6,9 +6,9 @@ using System.Collections.Generic;
 
 namespace Form.ChartPreview
 {
-    public class ChartPreview : LabelWindowContent, IRefresh
+    public class ChartPreview : LabelWindowContent, IRefreshPlayer
     {
-        public void Refresh()
+        public void RefreshPlayer(int lineID, int boxID)
         {
             ProgressManager.Instance.OffsetTime(0);
         }

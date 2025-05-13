@@ -22,7 +22,7 @@ using Vector3 = UnityEngine.Vector3;
  */
 namespace Controller
 {
-    public class DecideLineController : MonoBehaviour, IRefresh
+    public class DecideLineController : MonoBehaviour, IRefreshPlayer,IRefresh
     {
         // public float lineDistance;//线的距离，根据每帧计算，生成这个范围内的所有Note
 
@@ -37,6 +37,9 @@ namespace Controller
         public SpriteRenderer lineTexture; //线渲染器
         public BoxController box; //方框控制脚本
         public LineNoteController lineNoteController; //判定线音符管理脚本
+
+        public int currentBoxID;
+        public int currentLineID;
 
         public Line thisLine; //这根线的源数据
 
@@ -58,6 +61,11 @@ namespace Controller
         private void OnDestroy()
         {
             SpeckleManager.Instance.allLineNoteControllers.Remove(lineNoteController);
+        }
+
+        public void RefreshPlayer(int boxID,int lineID)
+        {
+            Refresh();
         }
 
         public void Refresh()

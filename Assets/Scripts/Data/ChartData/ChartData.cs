@@ -156,7 +156,11 @@ namespace Data.ChartData
         [JsonIgnore]
         public float HoldTime
         {
-            get => holdTime == 0 ? JudgeManager.Bad : holdTime;
+            get => noteType switch
+            {
+                NoteType.Hold => holdTime,
+                _ => JudgeManager.Bad
+            };
             set => holdTime = value;
         }
 

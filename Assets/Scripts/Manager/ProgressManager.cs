@@ -1,5 +1,6 @@
 using Controller;
 using Data.ChartData;
+using Data.Interface;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
@@ -8,7 +9,7 @@ using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 
 namespace Manager
 {
-    internal class ProgressManager : MonoBehaviourSingleton<ProgressManager>
+    internal class ProgressManager : MonoBehaviourSingleton<ProgressManager> 
     {
         public delegate void OnCurrentTimeChanged();
 

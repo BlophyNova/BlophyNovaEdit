@@ -22,20 +22,22 @@ namespace Form.EventEdit
 
             lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
-            RefreshEvents(EventType.Speed, boxID);
-            RefreshEvents(EventType.CenterX, boxID);
-            RefreshEvents(EventType.CenterY, boxID);
-            RefreshEvents(EventType.MoveX, boxID);
-            RefreshEvents(EventType.MoveY, boxID);
-            RefreshEvents(EventType.ScaleX, boxID);
-            RefreshEvents(EventType.ScaleY, boxID);
-            RefreshEvents(EventType.Rotate, boxID);
-            RefreshEvents(EventType.Alpha, boxID);
-            RefreshEvents(EventType.LineAlpha, boxID);
+            RefreshEvents(EventType.Speed, currentBoxID);
+            RefreshEvents(EventType.CenterX, currentBoxID);
+            RefreshEvents(EventType.CenterY, currentBoxID);
+            RefreshEvents(EventType.MoveX, currentBoxID);
+            RefreshEvents(EventType.MoveY, currentBoxID);
+            RefreshEvents(EventType.ScaleX, currentBoxID);
+            RefreshEvents(EventType.ScaleY, currentBoxID);
+            RefreshEvents(EventType.Rotate, currentBoxID);
+            RefreshEvents(EventType.Alpha, currentBoxID);
+            RefreshEvents(EventType.LineAlpha, currentBoxID);
         }
         void RefreshPlayer(int boxID)
         {
-            ConvertAllEvents(GlobalData.Instance.chartEditData.boxes[boxID], GlobalData.Instance.chartData.boxes[boxID]);
+            lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
+            currentBoxID = boxID < 0 ? currentBoxID : boxID;
+            ConvertAllEvents(GlobalData.Instance.chartEditData.boxes[currentBoxID], GlobalData.Instance.chartData.boxes[currentBoxID]);
         }
         #endregion
         #region 一键刷新当前框某一个特定事件的所有事件

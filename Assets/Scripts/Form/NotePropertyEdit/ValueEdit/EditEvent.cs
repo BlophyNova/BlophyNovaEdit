@@ -4,6 +4,7 @@ using Form.EventEdit;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,10 +16,8 @@ namespace Form.NotePropertyEdit.ValueEdit
     {
         public NotePropertyEdit notePropertyEdit;
 
-        public Event originEvent;
-        public Event @event;
-
-        private List<ISelectBoxItem> selectedBoxItems = new();
+        public List<Event> originEvents;
+        public List<Event> events;
 
         public TextMeshProUGUI eventEditText;
         public TMP_InputField startTime;
@@ -37,30 +36,23 @@ namespace Form.NotePropertyEdit.ValueEdit
         {
             if (selectedBoxItems.Count <= 0) return;
             eventEditText.text = $"事件编辑 {selectedBoxItems.Count}"; 
-            this.selectedBoxItems = new(selectedBoxItems);
-            Set((EventEditItem)selectedBoxItems[0]);
-        }
-        void Set(EventEditItem eventEditItem)
-        {
-            Set(eventEditItem.@event);
-        }
-        void Set(Data.ChartEdit.Event @event)
-        {
-            originEvent = new(@event);
-            this.@event = @event;
+            events=selectedBoxItems.Cast<Event>().ToList();
+            originEvents = new();
+            foreach (Event @event in events)
+            {
+                originEvents.Add(new(@event));
+            }
             SetNoteValue2Form();
             notePropertyEdit.EditNote.gameObject.SetActive(false);
             gameObject.SetActive(true);
-
         }
-
         private void SetNoteValue2Form()
         {
             startTime.SetTextWithoutNotify(
-                $"{@event.startBeats.integer}:{@event.startBeats.molecule}/{@event.startBeats.denominator}");
+                $"{events[0].startBeats.integer}:{events[0].startBeats.molecule}/{events[0].startBeats.denominator}");
             endTime.SetTextWithoutNotify(
-                $"{@event.endBeats.integer}:{@event.endBeats.molecule}/{@event.endBeats.denominator}");
-            Func<float, float> func = @event.eventType switch
+                $"{events[0].endBeats.integer}:{events[0].endBeats.molecule}/{events[0].endBeats.denominator}");
+            Func<float, float> func = events[0].eventType switch
             {
                 EventType.CenterX => value => CenterXYSnapTo16_9(value, true),
                 EventType.CenterY => value => CenterXYSnapTo16_9(value, false),
@@ -72,9 +64,9 @@ namespace Form.NotePropertyEdit.ValueEdit
                 EventType.LineAlpha => value => AlphaSnapTo0_255(value, false),
                 _ => value => value
             };
-            startValue.SetTextWithoutNotify($"{func(@event.startValue)}");
-            endValue.SetTextWithoutNotify($"{func(@event.endValue)}");
-            ease.SetValueWithoutNotify(@event.curveIndex);
+            startValue.SetTextWithoutNotify($"{func(events[0].startValue)}");
+            endValue.SetTextWithoutNotify($"{func(events[0].endValue)}");
+            ease.SetValueWithoutNotify(events[0].curveIndex);
         }
 
     }

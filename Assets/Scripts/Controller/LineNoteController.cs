@@ -9,7 +9,7 @@ using UtilityCode.Algorithm;
 
 namespace Controller
 {
-    public class LineNoteController : MonoBehaviour, IRefresh
+    public class LineNoteController : MonoBehaviour, IRefreshPlayer
     {
         [FormerlySerializedAs("freeBox_NoteParsent")]
         [Tooltip("如果是自由框，那就用这个作为音符的爸爸")]
@@ -32,6 +32,9 @@ namespace Controller
 
         public int movedOnlineNotesCount;
         public int movedOfflineNotesCount;
+
+        public int currentBoxID;
+        public int currentLineID;
 
         //public int decideLineOnlineNoteCount = -1;
         //public int decideLineOfflineNoteCount = -1;
@@ -61,12 +64,11 @@ namespace Controller
             //}
         }
 
-        public void Refresh()
+        public void RefreshPlayer(int lineID, int boxID)
         {
             ResetLineNoteState(ref lastOnlineIndex, ariseOnlineNotes, endTimeAriseOnlineNotes, decideLineController, decideLineController.thisLine.onlineNotes, true);
             ResetLineNoteState(ref lastOfflineIndex, ariseOfflineNotes, endTimeAriseOfflineNotes, decideLineController, decideLineController.thisLine.offlineNotes, false);
         }
-
         private void Find_Get_Update_PassHit_Return(List<Note> lineNotes, ref int lastIndex,
             List<NoteController> ariseNotes, List<NoteController> endTimeAriseTime, bool isOnlineNotes)
         {
@@ -143,7 +145,7 @@ namespace Controller
         private int FindNote(List<Note> notes)
         {
             return Algorithm.BinarySearch(notes,
-                m => m.hitFloorPosition < -decideLineController.onlineNote.localPosition.y + 2.00001f, false);
+                m => (float)Math.Round(decideLineController.canvasLocalOffset.Evaluate(m.hitTime), 3) < -decideLineController.onlineNote.localPosition.y + 2.00001f, false);
             //寻找这个时刻需要出现的音符，出现要提前两个单位长度的时间出现
         }
 
@@ -171,7 +173,7 @@ namespace Controller
             };
 
             noteController.transform.SetLocalPositionAndRotation(
-                new Vector2(note.positionX, note.hitFloorPosition * direction.z),
+                new Vector2(note.positionX, (float)Math.Round(decideLineController.canvasLocalOffset.Evaluate(note.hitTime), 3) * direction.z),
                 Quaternion.Euler(isOnlineNote ? Vector3.zero : Vector3.forward * 180));
             noteController.Init(); //执行音符初始化
 
@@ -282,5 +284,6 @@ namespace Controller
             ariseLineNotes.Clear();
             endTime_ariseLineNotes.Clear();
         }
+
     }
 }

@@ -17,7 +17,7 @@ using static UtilityCode.ChartTool.ChartTool;
 namespace Form.EventEdit
 {
     //由于这个控件需要的功能太多，所以这里做个分类，此文件负责字段事件委托属性，以及Unity生命周期的方法和接口实现的方法
-    public partial class EventEdit : LabelWindowContent, IInputEventCallback, IRefresh, ISelectBox,IRefreshEdit,IRefreshPlayer,IRefreshAll
+    public partial class EventEdit : LabelWindowContent, IInputEventCallback, IRefresh, ISelectBox,IRefreshEdit,IRefreshPlayer
     {
         public int lastBoxID;
         public int currentBoxID;
@@ -70,7 +70,9 @@ namespace Form.EventEdit
             eventLineRenderer = Instantiate(eventLineRendererPrefab, LabelWindowsManager.Instance.lineRendererParent);
             UpdateEventEditItemLineRendererRectSize();
             LabelWindow_onWindowMoved();
-            RefreshAll(-1,currentBoxID);
+
+            RefreshEvents(currentBoxID);
+            RefreshPlayer(currentBoxID);
         }
 
 
@@ -143,11 +145,11 @@ namespace Form.EventEdit
             RefreshPlayer(boxID);
         }
 
-        public void RefreshAll(int lineID, int boxID)
-        {
-            RefreshEvents(boxID);
-            RefreshPlayer(boxID);
-        }
+        //public void RefreshAll(int lineID, int boxID)
+        //{
+        //    //GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1), new() { typeof(EventEdit) });
+        //    //GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1, -1), new() { typeof(EventEdit) });
+        //}
 
     }
 }

@@ -1,6 +1,8 @@
+using Controller;
 using Data.ChartEdit;
 using Data.Interface;
 using Form.LabelWindow;
+using Scenes.DontDestroyOnLoad;
 using Scenes.Edit;
 using Scenes.PublicScripts;
 using System;
@@ -12,7 +14,7 @@ using static UtilityCode.ChartTool.ChartTool;
 namespace Form.NoteEdit
 {
     //由于这个控件需要的功能太多，所以这里做个分类，此文件负责字段事件委托属性，以及Unity生命周期的方法和接口实现的方法
-    public partial class NoteEdit : LabelWindowContent, IInputEventCallback, IRefresh, ISelectBox, IRefreshEdit, IRefreshPlayer, IRefreshAll
+    public partial class NoteEdit : LabelWindowContent, IInputEventCallback, IRefresh, ISelectBox, IRefreshEdit, IRefreshPlayer
     {
         public int lastBoxID;
         public int lastLineID;
@@ -127,9 +129,13 @@ namespace Form.NoteEdit
 
             return res;
         }
-        public void RefreshPlayer(int boxID, int lineID)
+        public void RefreshPlayer(int lineID,int boxID)
         {
-            ConvertLine(ChartEditData.boxes[boxID].lines[lineID].onlineNotes, ChartData.boxes[boxID].lines[lineID].onlineNotes);
+            lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
+            lastLineID = boxID < 0 ? lastLineID : currentLineID;
+            currentBoxID = boxID < 0 ? currentBoxID : boxID;
+            currentLineID = lineID < 0 ? currentLineID : lineID;
+            ConvertLine(ChartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes, ChartData.boxes[currentBoxID].lines[currentLineID].onlineNotes);
         }
 
         public void RefreshEdit(int lineID, int boxID)
@@ -149,11 +155,12 @@ namespace Form.NoteEdit
             onNotesRefreshed(refreshedNotes);
         }
 
-        public void RefreshAll(int lineID, int boxID)
-        {
-            RefreshEdit(boxID, lineID);
-            RefreshPlayer(boxID, lineID);
-
-        }
+        //public void RefreshAll(int lineID, int boxID)
+        //{
+        //    RefreshEdit(lineID, boxID);
+        //    RefreshPlayer(lineID, boxID);
+        //    //GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1), new() { typeof(NoteEdit) });
+        //    //GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1, -1), new() { typeof(NoteEdit),typeof(LineNoteController) });
+        //}
     }
 }
