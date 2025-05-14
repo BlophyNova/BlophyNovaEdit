@@ -23,11 +23,5 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             selfRectTransform.sizeDelta = new(viewport.rect.width, viewport.rect.width+250);
             contentRectTransform.sizeDelta = new(viewport.rect.width, viewport.rect.width);
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

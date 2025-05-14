@@ -100,7 +100,6 @@ namespace Form.NotePropertyEdit.ValueEdit
                     }
                 }
             });
-
             endValue.onEndEdit.AddListener(value =>
             {
                 if (!float.TryParse(value, out float result)) return;
@@ -136,6 +135,10 @@ namespace Form.NotePropertyEdit.ValueEdit
                     }
                 }
             });
+            easeEdit.onValueChanged += value =>
+            {
+                
+            };
         }
 
         private void LabelWindow_onWindowSizeChanged()
