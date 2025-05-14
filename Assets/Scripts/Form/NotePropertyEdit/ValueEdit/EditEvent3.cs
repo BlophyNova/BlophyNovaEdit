@@ -140,7 +140,10 @@ namespace Form.NotePropertyEdit.ValueEdit
 
         private void LabelWindow_onWindowSizeChanged()
         {
-            gridLayoutGroup.cellSize = new(viewport.rect.width,50);
+            foreach (RectTransform content in contentList)
+            {
+                content.sizeDelta = new(viewport.rect.width, 50);
+            }
         }
 
         void Finally()
