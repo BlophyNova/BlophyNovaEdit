@@ -138,15 +138,16 @@ namespace Form.NotePropertyEdit.ValueEdit
             });
             easeEdit.onValueChanged += value =>
             {
-                if(value<0)return;
+                if (value < 0) return;
                 Steps.Instance.Add(Undo, Redo, Finally);
                 Redo();
                 Finally();
                 void Undo()
-                {    for (int i = 0; i < events.Count; i++)
-                     {
+                {
+                    for (int i = 0; i < events.Count; i++)
+                    {
                         events[i].curveIndex = originEvents[i].curveIndex;
-                     }
+                    }
                 }
 
                 void Redo()

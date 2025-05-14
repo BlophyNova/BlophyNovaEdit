@@ -71,7 +71,7 @@ namespace Form.NotePropertyEdit.ValueEdit
             };
             startValue.SetTextWithoutNotify($"{func(events[0].startValue)}");
             endValue.SetTextWithoutNotify($"{func(events[0].endValue)}");
-            //easeEdit.SetValueWithoutNotify(events[0].curveIndex);
+            easeEdit.SetValueWithoutNotify(events[0].curveIndex);
         }
 
     }

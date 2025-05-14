@@ -31,7 +31,15 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             easeIO.onValueChanged.AddListener(EaseIoChanged);
             easeOption.onValueChanged.AddListener(EaseOptionChanged);
         }
-
+        public void SetValueWithoutNotify(int value)
+        {
+            if (value is < 0 or > 30) return;
+            Index2IO(value, out int io, out int option);
+            easeIndex.SetTextWithoutNotify($"{value}");
+            easeIO.SetValueWithoutNotify(io);
+            easeOption.SetValueWithoutNotify(option);
+            //onValueChanged(value);
+        }
         private void EaseOptionChanged(int value)
         {
             if (value is < 0 or > 30)return;
