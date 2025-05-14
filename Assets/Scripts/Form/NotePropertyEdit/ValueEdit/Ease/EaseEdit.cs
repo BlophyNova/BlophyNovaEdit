@@ -21,6 +21,8 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
         public TMP_Dropdown customEaseOption;
         #endregion
 
+        public VisualEase visualEase;
+
         public delegate void OnValueChanged(int value);
         public event OnValueChanged onValueChanged= value => { };
         
