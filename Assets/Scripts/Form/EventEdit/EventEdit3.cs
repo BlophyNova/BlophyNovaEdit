@@ -191,8 +191,15 @@ namespace Form.EventEdit
                 DeleteEvents(deletedEvents, currentBoxID);
             }
         }
-
-        private void AddEventFromUI()
+        private void AddSyncEventFromUI()
+        {
+            AddEventFromUI(true);
+        }
+        private void AddCommonEventFromUI()
+        {
+            AddEventFromUI(false);
+        }
+        private void AddEventFromUI(bool isSyncEvent=false)
         {
             Debug.Log($"{MousePositionInThisRectTransform}");
             if (!isFirstTime)
@@ -215,6 +222,7 @@ namespace Form.EventEdit
                 newEventEditItem.@event.chartEditEvent = newEventEditItem;
                 newEventEditItem.@event.startBeats = new(nearBeatLine.thisBPM);
                 newEventEditItem.@event.eventType = nearEventVerticalLine.eventType;
+                newEventEditItem.@event.isSyncEvent = isSyncEvent;
                 StartCoroutine(WaitForPressureAgain(newEventEditItem));
             }
             else if (isFirstTime)

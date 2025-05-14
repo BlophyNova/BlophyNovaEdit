@@ -343,7 +343,7 @@ namespace Data.ChartData
             startTime = BPMManager.Instance.GetSecondsTimeByBeats(@event.startBeats.ThisStartBPM);
             endTime = BPMManager.Instance.GetSecondsTimeByBeats(@event.endBeats.ThisStartBPM);
             startValue = @event.startValue;
-            endValue = @event.endValue;
+            endValue = @event.isSyncEvent ? @event.startValue : @event.endValue;
             curve = @event.Curve.thisCurve;
         }
 

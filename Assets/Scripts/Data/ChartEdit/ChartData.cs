@@ -473,6 +473,7 @@ namespace Data.ChartEdit
         public int curveIndex;
         public bool disallowDelete;
         public bool disallowMove;
+        public bool isSyncEvent;
 
 
         public Event()
@@ -489,6 +490,7 @@ namespace Data.ChartEdit
             endBeats = new BPM(@event.endBeats);
             IsSelected = @event.IsSelected;
             eventType = @event.eventType;
+            isSyncEvent = @event.isSyncEvent;
         }
 
         [JsonIgnore]public bool IsSelected

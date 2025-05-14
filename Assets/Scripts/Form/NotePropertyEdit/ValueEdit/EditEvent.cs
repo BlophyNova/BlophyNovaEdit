@@ -69,9 +69,19 @@ namespace Form.NotePropertyEdit.ValueEdit
                 EventType.LineAlpha => value => AlphaSnapTo0_255(value, false),
                 _ => value => value
             };
+            syncEvent.SetIsOnWithoutNotify(events[0].isSyncEvent);
             startValue.SetTextWithoutNotify($"{func(events[0].startValue)}");
             endValue.SetTextWithoutNotify($"{func(events[0].endValue)}");
             easeEdit.SetValueWithoutNotify(events[0].curveIndex);
+            if (events[0].isSyncEvent)
+            {
+                endValue.interactable = false;
+                endValue.SetTextWithoutNotify($"{endValue.text}-不可编辑");
+            }
+            else
+            {
+                endValue.interactable = true;
+            }
         }
 
     }

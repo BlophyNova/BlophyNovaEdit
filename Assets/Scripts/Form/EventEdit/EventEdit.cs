@@ -102,7 +102,8 @@ namespace Form.EventEdit
             //事件w抬起的时候调用
             Action action = callbackContext.action.name switch
             {
-                "AddEvent" => AddEventFromUI,
+                "AddSyncEvent" => AddSyncEventFromUI,
+                "AddEvent" => AddCommonEventFromUI,
                 "Delete" => DeleteEventFromUI,
                 "SelectBox" => SelectBoxUp,
                 "Undo" => UndoNote,

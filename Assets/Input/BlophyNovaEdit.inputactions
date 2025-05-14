@@ -60,6 +60,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "AddSyncEvent",
+                    "type": "Button",
+                    "id": "10a9a435-bb0e-4c18-a5b6-e4edd0cd35e7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "AddEvent",
                     "type": "Button",
                     "id": "5f3bf843-35e8-4bc7-a6ba-3b50b020ee2e",
@@ -1223,6 +1232,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "MirrorFlip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2347c200-bd35-406f-9955-b6f56eb8a77b",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "AddSyncEvent",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

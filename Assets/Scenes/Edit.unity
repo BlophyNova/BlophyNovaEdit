@@ -990,6 +990,51 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8652616196366717095, guid: 6db02e9ffbeec2c4eb8301210d78979d, type: 3}
   m_PrefabInstance: {fileID: 231388559}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &242032053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 242032054}
+  - component: {fileID: 242032055}
+  m_Layer: 0
+  m_Name: AddSyncEvent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &242032054
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242032053}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1025664432}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &242032055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242032053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eee2e123512df149b398648f6b41af5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActionName: AddSyncEvent
 --- !u!1 &248289078
 GameObject:
   m_ObjectHideFlags: 0
@@ -4705,6 +4750,7 @@ Transform:
   - {fileID: 120464424}
   - {fileID: 1554053098}
   - {fileID: 1054156949}
+  - {fileID: 242032054}
   - {fileID: 445126667}
   - {fileID: 645903704}
   - {fileID: 644390905}

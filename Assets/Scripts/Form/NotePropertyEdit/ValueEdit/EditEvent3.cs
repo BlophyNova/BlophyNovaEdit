@@ -158,6 +158,28 @@ namespace Form.NotePropertyEdit.ValueEdit
                     }
                 }
             };
+            syncEvent.onValueChanged.AddListener(value => 
+            {
+                Steps.Instance.Add(Undo,Redo,Finally);
+                Redo();
+                Finally();
+                return;
+                void Undo()
+                {
+                    for (int i = 0; i < events.Count; i++)
+                    {
+                        events[i].isSyncEvent = originEvents[i].isSyncEvent;
+                    }
+                }
+                void Redo()
+                {
+                    foreach (Event @event in events)
+                    {
+                        @event.isSyncEvent = value;
+                        @event.endValue = @event.startValue;
+                    }
+                }
+            });
         }
 
         private void LabelWindow_onWindowSizeChanged()
