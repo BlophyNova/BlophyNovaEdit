@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using Event = Data.ChartEdit.Event;
 
 namespace Form.NotePropertyEdit.ValueEdit
 {
@@ -137,7 +138,24 @@ namespace Form.NotePropertyEdit.ValueEdit
             });
             easeEdit.onValueChanged += value =>
             {
-                
+                if(value<0)return;
+                Steps.Instance.Add(Undo, Redo, Finally);
+                Redo();
+                Finally();
+                void Undo()
+                {    for (int i = 0; i < events.Count; i++)
+                     {
+                        events[i].curveIndex = originEvents[i].curveIndex;
+                     }
+                }
+
+                void Redo()
+                {
+                    foreach (Event @event in events)
+                    {
+                        @event.curveIndex = value;
+                    }
+                }
             };
         }
 
