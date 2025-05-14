@@ -8,12 +8,16 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
     public class EaseEdit : MonoBehaviour
     {
         public TMP_Dropdown easeStyle;
+        #region 预设缓动
         public TMP_InputField easeIndex;
         public TMP_Dropdown easeIO;
         public TMP_Dropdown easeOption;
+        #endregion
+
+        #region 自定义缓动
         public TextMeshProUGUI customEaseNameText;
         public TMP_InputField customEaseName;
-
+        #endregion
         private void Start()
         {
             easeStyle.onValueChanged.AddListener(value =>
