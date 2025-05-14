@@ -117,6 +117,7 @@ namespace Controller
         {
             bool isShowText = false;
             if (currentBoxID == this.currentBoxID) isShowText = true;
+            showPointInGameView[^1].lineID = $"{currentBoxID}";
             foreach (var item in showPointInGameView)
             {
                 item.isShowText = isShowText;
