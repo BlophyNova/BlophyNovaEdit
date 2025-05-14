@@ -99,7 +99,8 @@ namespace Form.EventEdit
 
         private void SetState2False(EventType eventType, int boxID)
         {
-            if (boxID == currentBoxID || currentBoxID < 0) return;
+            int targetBoxID = boxID < 0 ? currentBoxID : boxID;
+            if (targetBoxID == currentBoxID) return;
 
             List<Event> setSelect2False = FindChartEditEventList(GlobalData.Instance.chartEditData.boxes[lastBoxID], eventType);
             foreach (Event item in setSelect2False)
