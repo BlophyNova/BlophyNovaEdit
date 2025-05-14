@@ -117,5 +117,19 @@ namespace Form.NoteEdit
             }
             notes.Clear();
         }
+
+        private void SetState2False(int lineID,int boxID)
+        {
+            int targetLineID = lineID < 0 ? currentLineID : lineID;
+            int targetBoxID = boxID < 0 ? currentBoxID : boxID;
+            if (targetBoxID == currentBoxID && targetLineID == currentLineID) return;
+
+            foreach (Scenes.Edit.NoteEdit noteEdit in notes)
+            {
+                noteEdit.thisNoteData.isSelected = false;
+            }
+            //调用UnsetAll方法
+            selectBox.NotePropertyEdit.UnsetAll();
+        }
     }
 }

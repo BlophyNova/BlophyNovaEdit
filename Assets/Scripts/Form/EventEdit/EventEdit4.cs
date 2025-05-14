@@ -21,7 +21,16 @@ namespace Form.EventEdit
         #region 一键刷新当前框的所有事件
         void RefreshEvents(int boxID)
         {
-
+            SetState2False(EventType.Speed, boxID);
+            SetState2False(EventType.CenterX, boxID);
+            SetState2False(EventType.CenterY, boxID);
+            SetState2False(EventType.MoveX, boxID);
+            SetState2False(EventType.MoveY, boxID);
+            SetState2False(EventType.ScaleX, boxID);
+            SetState2False(EventType.ScaleY, boxID);
+            SetState2False(EventType.Rotate, boxID);
+            SetState2False(EventType.Alpha, boxID);
+            SetState2False(EventType.LineAlpha, boxID);
             lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
             List<EventEditItem> allSelectedEvents = new();
@@ -61,14 +70,7 @@ namespace Form.EventEdit
         {
             LogCenter.Log($"成功更改框号为{currentBoxID}");
 
-            if (boxID != currentBoxID && currentBoxID >= 0)
-            {
-                List<Event> setSelect2False = FindChartEditEventList(GlobalData.Instance.chartEditData.boxes[lastBoxID], eventType);
-                foreach (Event item in setSelect2False)
-                {
-                    item.IsSelected = false;
-                }
-            }
+            
             DestroyEvents(eventType);
 
             List<Event> events = FindChartEditEventList(GlobalData.Instance.chartEditData.boxes[currentBoxID], eventType);
@@ -95,5 +97,17 @@ namespace Form.EventEdit
             return selectedEvents;
         }
 
+        private void SetState2False(EventType eventType, int boxID)
+        {
+            if (boxID == currentBoxID || currentBoxID < 0) return;
+
+            List<Event> setSelect2False = FindChartEditEventList(GlobalData.Instance.chartEditData.boxes[lastBoxID], eventType);
+            foreach (Event item in setSelect2False)
+            {
+                item.IsSelected = false;
+            }
+            selectBox.NotePropertyEdit.UnsetAll();
+            
+        }
     }
 }

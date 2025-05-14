@@ -7,9 +7,11 @@ using Scenes.Edit;
 using Scenes.PublicScripts;
 using System;
 using System.Collections.Generic;
+using Data.Enumerate;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Form.NotePropertyEdit;
 using static UtilityCode.ChartTool.ChartTool;
 namespace Form.NoteEdit
 {
@@ -37,7 +39,8 @@ namespace Form.NoteEdit
 
         public bool isFirstTime;
         public bool waitForPressureAgain;
-
+        
+        
         public delegate void OnNotesAdded(List<Note> notes);
         public event OnNotesAdded onNotesAdded = notes => { };
 
@@ -140,6 +143,7 @@ namespace Form.NoteEdit
 
         public void RefreshEdit(int lineID, int boxID)
         {
+            SetState2False(lineID,boxID);
             lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
             lastLineID = boxID < 0 ? lastLineID : currentLineID;
             currentBoxID = boxID < 0 ? currentBoxID : boxID;

@@ -34,6 +34,11 @@ namespace Form.NotePropertyEdit
             get => editEvent; set => editEvent = value;
         }
 
+        public void UnsetAll()
+        {
+            editNote.gameObject.SetActive(false);
+            editEvent.gameObject.SetActive(false);
+        }
         public event OnNoteValueChanged onNoteValueChanged = () => { };
         public event OnEventValueChanged onEventValueChanged = () => { };
 
