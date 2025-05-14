@@ -14,6 +14,9 @@ namespace Form.NotePropertyEdit.ValueEdit
 {
     public partial class EditEvent : MonoBehaviour
     {
+        public RectTransform viewport;
+        public GridLayoutGroup gridLayoutGroup;
+
         public NotePropertyEdit notePropertyEdit;
 
         public List<Event> originEvents;

@@ -14,6 +14,9 @@ namespace Form.NotePropertyEdit.ValueEdit
     {
         private void Start()
         {
+            notePropertyEdit.labelWindow.onWindowSizeChanged += LabelWindow_onWindowSizeChanged;
+            LabelWindow_onWindowSizeChanged();
+
             noteType.onValueChanged.AddListener(value => 
             {
                 Steps.Instance.Add(Undo,Redo,Finally);
@@ -198,6 +201,11 @@ namespace Form.NotePropertyEdit.ValueEdit
                 GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1));
                 GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1, -1));
             }
+        }
+
+        private void LabelWindow_onWindowSizeChanged()
+        {
+            gridLayoutGroup.cellSize = new(viewport.rect.width, 50);
         }
     }
 }

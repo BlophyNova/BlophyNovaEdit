@@ -13,6 +13,8 @@ namespace Form.NotePropertyEdit.ValueEdit
     {
         private void Start()
         {
+            notePropertyEdit.labelWindow.onWindowSizeChanged += LabelWindow_onWindowSizeChanged;
+            LabelWindow_onWindowSizeChanged();
             startTime.onEndEdit.AddListener(value =>
             {
                 Match match = Regex.Match(value, @"(\d+):(\d+)/(\d+)");
@@ -135,6 +137,12 @@ namespace Form.NotePropertyEdit.ValueEdit
                 }
             });
         }
+
+        private void LabelWindow_onWindowSizeChanged()
+        {
+            gridLayoutGroup.cellSize = new(viewport.rect.width,50);
+        }
+
         void Finally()
         {
             GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1));

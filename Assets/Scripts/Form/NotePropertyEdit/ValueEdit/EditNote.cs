@@ -11,6 +11,9 @@ namespace Form.NotePropertyEdit.ValueEdit
 {
     public partial class EditNote : MonoBehaviour
     {
+        public RectTransform viewport;
+        public GridLayoutGroup gridLayoutGroup;
+
         public NotePropertyEdit notePropertyEdit;
 
         public List<Data.ChartEdit.Note> originNotes;
