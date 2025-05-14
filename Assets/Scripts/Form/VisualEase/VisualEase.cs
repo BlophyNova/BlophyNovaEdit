@@ -27,7 +27,8 @@ namespace Form.VisualEase
                 NotePropertyEdit.NotePropertyEdit notePropertyEdit =
                     (NotePropertyEdit.NotePropertyEdit)labelWindow.associateLabelWindow.currentLabelItem
                         .labelWindowContent;
-                EaseData ease = GlobalData.Instance.easeDatas[notePropertyEdit.EditEvent.ease.value];
+                //EaseData ease = GlobalData.Instance.easeDatas[notePropertyEdit.EditEvent.easeEdit.value];
+                EaseData ease = GlobalData.Instance.easeDatas[0];
                 Vector3[] positions = new Vector3[100];
                 Vector3[] corners = new Vector3[4];
                 lineRendererRectTransform.GetLocalCorners(corners);

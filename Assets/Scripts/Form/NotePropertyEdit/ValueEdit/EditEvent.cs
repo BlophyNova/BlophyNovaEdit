@@ -1,6 +1,7 @@
 using Data.ChartEdit;
 using Data.Interface;
 using Form.EventEdit;
+using Form.NotePropertyEdit.ValueEdit.Ease;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +16,8 @@ namespace Form.NotePropertyEdit.ValueEdit
     public partial class EditEvent : MonoBehaviour
     {
         public RectTransform viewport;
-        public GridLayoutGroup gridLayoutGroup;
+        public VerticalLayoutGroup verticalLayoutGroup;
+        public List<RectTransform> contentList;
 
         public NotePropertyEdit notePropertyEdit;
 
@@ -28,9 +30,7 @@ namespace Form.NotePropertyEdit.ValueEdit
         public TMP_InputField startValue;
         public TMP_InputField endValue;
         public Toggle syncEvent;
-        public TMP_InputField easeIndex;
-        public TMP_Dropdown easeIO;
-        public TMP_Dropdown ease;
+        public EaseEdit easeEdit;
         /// <summary>
         /// 多选编辑用的玩意，还没写.jpg
         /// </summary>
@@ -71,7 +71,7 @@ namespace Form.NotePropertyEdit.ValueEdit
             };
             startValue.SetTextWithoutNotify($"{func(events[0].startValue)}");
             endValue.SetTextWithoutNotify($"{func(events[0].endValue)}");
-            ease.SetValueWithoutNotify(events[0].curveIndex);
+            //easeEdit.SetValueWithoutNotify(events[0].curveIndex);
         }
 
     }
