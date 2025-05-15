@@ -30,7 +30,7 @@ namespace Form.NoteEdit
         {
             List<Data.ChartData.Note> notes = ChartData.boxes[boxID].lines[lineID].onlineNotes;
             notes.Remove(note.chartDataNote);
-            GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh(), new() { typeof(LineNoteController) });
+            GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1,-1));
         }
 
     }
