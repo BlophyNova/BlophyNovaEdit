@@ -48,6 +48,7 @@ namespace Form.NotePropertyEdit.ValueEdit
             SetNoteValue2Form();
             notePropertyEdit.EditEvent.gameObject.SetActive(false);
             gameObject.SetActive(true);
+            transform.SetAsLastSibling();
         }
 
         private void SetNoteValue2Form()

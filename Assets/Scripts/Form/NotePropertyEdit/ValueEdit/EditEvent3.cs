@@ -5,6 +5,7 @@ using Scenes.DontDestroyOnLoad;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Form.PropertyEdit;
 using UnityEngine;
 using Event = Data.ChartEdit.Event;
 
@@ -194,7 +195,7 @@ namespace Form.NotePropertyEdit.ValueEdit
 
         void Finally()
         {
-            GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1));
+            GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1),new(){typeof(LineID),typeof(BoxID),typeof(EventEdit.EventEdit)});
             GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1, -1));
         }
     }
