@@ -79,6 +79,7 @@ namespace Form.NotePropertyEdit.ValueEdit
                     for (int i = 0; i < events.Count; i++)
                     {
                         events[i].startValue = originEvents[i].startValue;
+                        if (events[i].isSyncEvent) events[i].endValue = originEvents[i].endValue;
                     }
                 }
                 void Redo()
@@ -98,6 +99,7 @@ namespace Form.NotePropertyEdit.ValueEdit
                             _ => result
                         };
                         @event.startValue = result;
+                        if (@event.isSyncEvent) @event.endValue = result;
                     }
                 }
             });
