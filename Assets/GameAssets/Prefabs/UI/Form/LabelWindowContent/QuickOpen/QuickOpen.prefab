@@ -281,12 +281,12 @@ GameObject:
   - component: {fileID: 8605745277281484434}
   - component: {fileID: 3351139414139998935}
   m_Layer: 5
-  m_Name: AssociateLabelWindow
+  m_Name: CustomEase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1914041878882978202
 RectTransform:
   m_ObjectHideFlags: 0
@@ -662,7 +662,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6580860433155254163
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1353,7 +1353,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u81EA\u5B9A\u4E49\u7F13\u52A8"
+  m_text: "\u5173\u8054\u5C5E\u6027\u7A97\u53E3"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
   m_sharedMaterial: {fileID: 4737349496631823484, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
@@ -1525,6 +1525,10 @@ MonoBehaviour:
   labelWindowContentType: 524288
   minX: 100
   minY: 100
+  bpmList: {fileID: 3274026896939831225}
+  notePropertyEdit: {fileID: 2283750928161023691}
+  boxList: {fileID: 7280814981694077763}
+  associateLabelWindow: {fileID: 4901281972401971423}
 --- !u!1 &5411085887969506260
 GameObject:
   m_ObjectHideFlags: 0
@@ -1659,7 +1663,7 @@ GameObject:
   - component: {fileID: 1427334950736040684}
   - component: {fileID: 4901281972401971423}
   m_Layer: 5
-  m_Name: CustomEase
+  m_Name: AssociateLabelWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

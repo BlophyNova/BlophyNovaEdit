@@ -29,16 +29,28 @@ namespace Form.NotePropertyEdit
 
         public EditNote EditNote 
         {
-            get => editNote; set => editNote = value;
+            get
+            {
+                labelItem.labelButton.ThisLabelGetFocus();
+                return editNote;
+            }
+            private set => editNote = value;
         }
         public EditEvent EditEvent
         {
-            get => editEvent; set => editEvent = value;
+            get
+            {
+                labelItem.labelButton.ThisLabelGetFocus();
+                return editEvent;
+            }
+            private set => editEvent = value;
         }
 
         private void Start()
         {
             UnsetAll();
+
+            labelItem.onLabelLostFocus += UnsetAll;
         }
 
         public void UnsetAll()
