@@ -63,8 +63,8 @@ namespace Form.PropertyEdit
 
         public void RefreshEdit(int lineID, int boxID)
         {
-            this.lineID = lineID;
-            thisText.text = $"线号：{lineID}";
+            this.lineID = lineID < 0 ? this.lineID : lineID;
+            thisText.text = $"线号：{this.lineID}";
         }
     }
 }

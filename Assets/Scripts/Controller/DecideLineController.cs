@@ -70,6 +70,8 @@ namespace Controller
 
         public void Refresh()
         {
+            canvasLocalOffset =
+                AssetManager.Instance.chartData.boxes[currentBoxID].lines[currentLineID].far;
             CalculatedNoteFloorPosition(ThisLine.onlineNotes); //计算判定线上方的所有音符的FloorPosition
             CalculatedNoteFloorPosition(ThisLine.offlineNotes); //计算判定线下方的所有音符的FloorPosition
         }
