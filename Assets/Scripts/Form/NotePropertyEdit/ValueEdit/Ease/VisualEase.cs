@@ -9,6 +9,8 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
 {
     public class VisualEase : MonoBehaviour
     {
+        public int currentCurveIndex;
+        
         public NotePropertyEdit notePropertyEdit;
         public RectTransform selfRectTransform;
         public RectTransform contentRectTransform;
@@ -57,23 +59,10 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
 
         public void EaseEdit_onValueChanged(int value)
         {
+            currentCurveIndex = value;
             if (isPresetEase)
             {
-                EaseData ease = GlobalData.Instance.easeDatas[value];
-                Vector3[] positions = new Vector3[100];
-                Vector3[] corners = new Vector3[4];
-                lineRectTransform.GetLocalCorners(corners);
-                for (int i = 0; i < positions.Length; i++)
-                {
-                    //positions[i].
-                    Vector3 currentPosition = (corners[2] - corners[0]) * (i / (float)positions.Length) + corners[0];
-                    currentPosition.y =
-                        ease.thisCurve.Evaluate(i / (float)positions.Length) * (corners[2].y - corners[0].y) +
-                        corners[0].y;
-                    currentPosition.z = -1;
-                    positions[i] = currentPosition;
-                }
-                line.UpdateDraw(100, positions);
+                UpdateDraw();
             }
             else
             {
@@ -81,11 +70,31 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             }
         }
 
+        private void UpdateDraw()
+        {
+            EaseData ease = GlobalData.Instance.easeDatas[currentCurveIndex];
+            Vector3[] positions = new Vector3[100];
+            Vector3[] corners = new Vector3[4];
+            lineRectTransform.GetLocalCorners(corners);
+            for (int i = 0; i < positions.Length; i++)
+            {
+                //positions[i].
+                Vector3 currentPosition = (corners[2] - corners[0]) * (i / (float)positions.Length) + corners[0];
+                currentPosition.y =
+                    ease.thisCurve.Evaluate(i / (float)positions.Length) * (corners[2].y - corners[0].y) +
+                    corners[0].y;
+                currentPosition.z = -1;
+                positions[i] = currentPosition;
+            }
+            line.UpdateDraw(100, positions);
+        }
+
         private void LabelWindow_onWindowSizeChanged()
         {
 
             selfRectTransform.sizeDelta = new(viewport.rect.width, viewport.rect.width+250);
             contentRectTransform.sizeDelta = new(viewport.rect.width, viewport.rect.width);
+            UpdateDraw();
         }
     }
 }
