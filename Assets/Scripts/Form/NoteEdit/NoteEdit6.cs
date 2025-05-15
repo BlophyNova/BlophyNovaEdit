@@ -34,8 +34,12 @@ namespace Form.NoteEdit
             notes.Remove(note);
             if(this.notes.Count > 0)
             this.notes.Remove(note.chartEditNote);
-            if(note.chartEditNote != null) 
-            Destroy(note.chartEditNote.gameObject);
+            if (note.chartEditNote != null)
+            {
+                selectBox.selectedBoxItems.Remove(note.chartEditNote);
+                Destroy(note.chartEditNote.gameObject);
+            }
+
             DeleteNote2ChartData(note,boxID,lineID);
 
         }
