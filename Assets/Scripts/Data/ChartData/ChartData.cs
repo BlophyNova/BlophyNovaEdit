@@ -136,6 +136,8 @@ namespace Data.ChartData
         public bool isClockwise; //是逆时针
         public bool hasOther; //还有别的Note和他在统一时间被打击，简称多押标识（（
         [JsonIgnore] public float hitFloorPosition = -.1f; //打击地板上距离
+        [JsonIgnore] public int currentLineID;
+        [JsonIgnore] public int currentBoxID;
 
         public Note(ChartEdit.Note noteEdit)
         {

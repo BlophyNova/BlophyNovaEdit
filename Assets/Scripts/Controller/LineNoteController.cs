@@ -162,6 +162,8 @@ namespace Controller
             List<NoteController> endTimeArisedNotes, bool isOnlineNote, Vector3 direction, int i)
         {
             Note note = notes[i]; //拿出当前遍历到的音符
+            note.currentLineID = currentLineID;
+            note.currentBoxID = currentBoxID;
             NoteController noteController = decideLineController.GetNote(note.noteType, isOnlineNote); //从对象池拿出来
             noteController.thisNote = note; //将这个音符的源数据赋值过去
             noteController.isOnlineNote = isOnlineNote; //将这个音符的源数据赋值过去

@@ -1,5 +1,6 @@
 using Data.Enumerate;
 using Data.Interface;
+using Manager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.Camera;
@@ -14,7 +15,34 @@ namespace Form.LabelWindow
         public LabelWindowContentType labelWindowContentType;
         public int minX = 100;
         public int minY = 100;
+        
+        public bool FocusIsMe =>labelWindow.currentLabelItem == labelItem && LabelWindowsManager.Instance.currentFocusWindow == labelWindow;
 
+        RectTransform selfRect;
+
+        RectTransform SelfRect
+        {
+            get
+            {
+                if (selfRect == null)
+                {
+                    selfRect= GetComponent<RectTransform>();
+                }
+                return selfRect;
+            }
+        }
+        public Vector2 MousePositionInThisTransformViewport
+        {
+            get
+            {
+                Vector2 mousePositionInThisRectTransform = MousePositionInThisRectTransform;
+                Rect rect = SelfRect.rect;
+                float x = mousePositionInThisRectTransform.x / rect.width;
+                float y = mousePositionInThisRectTransform.y / rect.height;
+                Vector2 v = new(x,y);
+                return v;
+            }
+        }
         public Vector2 MousePositionInThisRectTransform 
         { 
             get  
