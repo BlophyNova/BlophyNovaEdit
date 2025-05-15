@@ -4,6 +4,7 @@ using Manager;
 using System;
 using System.Collections.Generic;
 using Controller;
+using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -83,8 +84,9 @@ namespace Form.ChartPreview
             Debug.Log($"好玩的:{hit.collider.name}");
             Debug.DrawLine(ray.origin, hit.point, Color.cyan);
             NoteController noteController = hit.collider.GetComponent<NoteController>();
-            NoteEdit.RefreshEdit(noteController.thisNote.currentLineID,noteController.thisNote.currentBoxID);
-            EventEdit.RefreshEdit(-1,noteController.thisNote.currentBoxID);
+            //NoteEdit.RefreshEdit(noteController.thisNote.currentLineID,noteController.thisNote.currentBoxID);
+            //EventEdit.RefreshEdit(-1,noteController.thisNote.currentBoxID);
+            GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(noteController.thisNote.currentLineID,noteController.thisNote.currentBoxID));
         }
 
         public void RefreshPlayer(int lineID, int boxID)

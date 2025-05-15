@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace Form.PropertyEdit
 {
-    public class LineID : MonoBehaviour
+    public class LineID : MonoBehaviour,IRefreshEdit
     {
         public int lineID;
         public TMP_Text thisText;
@@ -59,6 +59,12 @@ namespace Form.PropertyEdit
                     noteEdit.RefreshEdit(lineID, -1);
                 }
             }
+        }
+
+        public void RefreshEdit(int lineID, int boxID)
+        {
+            this.lineID = lineID;
+            thisText.text = $"线号：{lineID}";
         }
     }
 }

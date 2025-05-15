@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace Form.PropertyEdit
 {
-    public class BoxID : MonoBehaviour
+    public class BoxID : MonoBehaviour,IRefreshEdit
     {
         public int boxID;
         public TMP_Text thisText;
@@ -65,6 +65,12 @@ namespace Form.PropertyEdit
                 }
             }
             GameController.Instance.ChangeShowXYPoint(boxID);
+        }
+
+        public void RefreshEdit(int lineID, int boxID)
+        {
+            this.boxID = boxID;
+            thisText.text = $"框号：{boxID}";
         }
     }
 }
