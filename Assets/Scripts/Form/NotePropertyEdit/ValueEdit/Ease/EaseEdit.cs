@@ -67,6 +67,8 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
                 easeIO.interactable = false;
                 easeOption.gameObject.SetActive(false);
                 customEaseOption.ClearOptions();
+                
+                customEaseOption.options.Add(new(){text = "请选择"});
                 foreach (CustomCurve customCurve in GlobalData.Instance.chartEditData.customCurves)
                 {
                     customEaseOption.options.Add(new(){text = customCurve.name});

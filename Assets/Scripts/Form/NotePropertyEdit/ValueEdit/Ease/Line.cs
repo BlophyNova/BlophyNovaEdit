@@ -78,6 +78,7 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             keyframes.Add(lastKeyframe);
 
             curve = new() { preWrapMode = WrapMode.ClampForever,postWrapMode = WrapMode.ClampForever,keys=keyframes.ToArray()};
+            
             UpdateDraw(curve);
         }
 

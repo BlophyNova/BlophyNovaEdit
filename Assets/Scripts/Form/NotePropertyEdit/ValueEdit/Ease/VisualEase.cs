@@ -8,6 +8,7 @@ using Data.ChartEdit;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
+
 namespace Form.NotePropertyEdit.ValueEdit.Ease
 {
     public class VisualEase : MonoBehaviour
@@ -50,26 +51,50 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             });
             saveCurve.onClick.AddListener(() =>
             {
-                List<Data.ChartEdit.Point> points = line.points.Select(point => point.thisPointData).ToList();
-                
-                CustomCurve customCurve = new() {name=$"{easeEdit.customEaseName.text}", points = points };
+                List<Data.ChartEdit.Point> points = new();
+                foreach (Point point in line.points)
+                {
+                    points.Add(new(point.thisPointData));
+                }
+
+                string customCurveName = easeEdit.customEaseName.text;
+                CustomCurve customCurve = new() {name=customCurveName, points = points };
                 GlobalData.Instance.chartEditData.customCurves.Add(customCurve);
+                
+                easeEdit.easeStyle.value = 0;
+                easeEdit.easeStyle.value = 1;
             });
             deleteCurve.onClick.AddListener(() =>
             {
-                GlobalData.Instance.chartEditData.customCurves.RemoveAt(currentCurveIndex);
+                if(currentCurveIndex<=0)return;
+                GlobalData.Instance.chartEditData.customCurves.RemoveAt(currentCurveIndex-1);
+                currentCurveIndex = 0;
+                easeEdit.easeStyle.value = 0;
+                easeEdit.easeStyle.value = 1;
             });
             exportToClipboard.onClick.AddListener(() =>
             {
                 List<Data.ChartEdit.Point> points = line.points.Select(point => point.thisPointData).ToList();
-                GUIUtility.systemCopyBuffer = JsonConvert.SerializeObject(points);
+                
+                CustomCurve customCurve = new() {name=$"{easeEdit.customEaseName.text}", points = points };
+                GUIUtility.systemCopyBuffer = JsonConvert.SerializeObject(customCurve);
             });
             importFromClipboard.onClick.AddListener(() =>
             {
                 string rawData = GUIUtility.systemCopyBuffer;
-                List<Data.ChartEdit.Point> points = JsonConvert.DeserializeObject<List<Data.ChartEdit.Point>>(rawData);
-                UpdateDraw(points);
+                CustomCurve customCurve = JsonConvert.DeserializeObject<CustomCurve>(rawData);
+                GlobalData.Instance.chartEditData.customCurves.Add(customCurve);
+                easeEdit.easeStyle.value = 0;
+                easeEdit.easeStyle.value = 1;
             });
+            notePropertyEdit.labelItem.onLabelGetFocus += () =>
+            {
+                line.lineRenderer.gameObject.SetActive(true);
+            };
+            notePropertyEdit.labelItem.onLabelLostFocus += () =>
+            {
+                line.lineRenderer.gameObject.SetActive(false);
+            };
         }
         private void EaseStyleChanged(int value)
         {
@@ -102,7 +127,8 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             }
             else
             {
-                UpdateDraw(GlobalData.Instance.chartEditData.customCurves[value].points);
+                if(value<=0)return;
+                UpdateDraw(GlobalData.Instance.chartEditData.customCurves[value-1].points);
             }
         }
 
@@ -112,6 +138,17 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
         }
         private void UpdateDraw(List<Data.ChartEdit.Point> points)
         {
+            Vector3[] corners = new Vector3[4];
+            line.selfRect.GetWorldCorners(corners);
+            //更新points的xy
+            for (int i = 0; i < line.points.Count; i++)
+            {
+                float x = (corners[2].x - corners[0].x) * points[i].x + corners[0].x;
+                float y = (corners[2].y - corners[0].y) * points[i].y + corners[0].y;
+                line.points[i].transform.position = new(x, y);
+                line.points[i].xyInfo.text = $"({points[i].x:F3},{points[i].y:F3})";
+            }
+
             line.UpdateDraw(points);
         }
 

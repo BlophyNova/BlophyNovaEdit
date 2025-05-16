@@ -49,8 +49,6 @@ namespace Form.NotePropertyEdit
         private void Start()
         {
             UnsetAll();
-
-            labelItem.onLabelLostFocus += UnsetAll;
         }
 
         public void UnsetAll()

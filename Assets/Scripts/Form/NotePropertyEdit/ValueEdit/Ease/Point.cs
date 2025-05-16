@@ -24,6 +24,7 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             parentRect.GetLocalCorners(corners);
             CalculateXY(new(corners[2].x * .0001f, corners[2].y * .0001f));
         }
+
         public Vector2 MousePositionInThisRectTransform 
         { 
             get  

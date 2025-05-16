@@ -19,6 +19,22 @@ namespace Data.ChartEdit
     public class Point
     {
         public float x, y;
+
+        public Point()
+        {
+        }
+
+        public Point(Point point)
+        {
+            x = point.x;
+            y = point.y;
+        }
+
+        public Point(float x,float y)
+        {
+            this.x = x;
+            this.y = y;
+        }
     }
     [Serializable]
     public class ChartData
