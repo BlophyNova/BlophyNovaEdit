@@ -115,9 +115,8 @@ namespace Controller
         }
         public void SetShowXYPoint(int currentBoxID)
         {
-            bool isShowText = false;
-            if (currentBoxID == this.currentBoxID) isShowText = true;
-            showPointInGameView[^1].lineID = $"{currentBoxID}";
+            bool isShowText = currentBoxID == this.currentBoxID;
+            showPointInGameView[^1].lineID = $"{this.currentBoxID}";
             foreach (var item in showPointInGameView)
             {
                 item.isShowText = isShowText;

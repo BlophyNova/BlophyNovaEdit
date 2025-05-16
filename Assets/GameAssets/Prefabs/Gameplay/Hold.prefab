@@ -211,7 +211,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7530131069725985595}
-  - component: {fileID: 7526445077957368096}
   m_Layer: 0
   m_Name: HoldHead
   m_TagString: Untagged
@@ -235,27 +234,6 @@ Transform:
   - {fileID: 8906278555077809907}
   m_Father: {fileID: 7854136802796728467}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7526445077957368096
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4882175874366612729}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.6, y: 0.2, z: 0.1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5078031419036842783
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +243,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8684928917179229485}
-  - component: {fileID: 1979065694267674587}
   m_Layer: 0
   m_Name: HoldBody
   m_TagString: Untagged
@@ -289,27 +266,6 @@ Transform:
   - {fileID: 7188336889880632840}
   m_Father: {fileID: 7854136802796728467}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1979065694267674587
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5078031419036842783}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.5, y: 1, z: 0.1}
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &6904512921540474701
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,6 +392,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4931948321244910957}
   - component: {fileID: 7249850021719846552}
+  - component: {fileID: 8094172573695020373}
   m_Layer: 0
   m_Name: Hold
   m_TagString: Untagged
@@ -490,6 +447,8 @@ MonoBehaviour:
     isClockwise: 0
     hasOther: 0
     hitFloorPosition: 0
+    currentLineID: 0
+    currentBoxID: 0
   decideLineController: {fileID: 0}
   texture: {fileID: 6735959982253518055}
   commonTexture: {fileID: 21300000, guid: 2ad1213a9ba1ed541a844c4e52cf82c8, type: 3}
@@ -505,3 +464,24 @@ MonoBehaviour:
   isMissed: 0
   reJudgeTime: 0
   checkTime: -0.1
+--- !u!65 &8094172573695020373
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7496068998751932708}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.6, y: 0.2, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
