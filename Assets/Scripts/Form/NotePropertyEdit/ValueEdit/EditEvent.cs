@@ -73,8 +73,19 @@ namespace Form.NotePropertyEdit.ValueEdit
             syncEvent.SetIsOnWithoutNotify(events[0].isSyncEvent);
             startValue.SetTextWithoutNotify($"{func(events[0].startValue)}");
             endValue.SetTextWithoutNotify($"{func(events[0].endValue)}");
-            easeEdit.SetValueWithoutNotify(events[0].curveIndex);
-            easeEdit.visualEase.EaseEdit_onValueChanged(events[0].curveIndex);
+            if (events[0].isCustomCurve)
+            {
+                easeEdit.easeStyle.value = 1;
+                easeEdit.SetCustomValueWithoutNotify(events[0].curveIndex+1);
+                easeEdit.visualEase.EaseEdit_onValueChanged(events[0].curveIndex+1);
+                
+            }
+            else
+            {
+                easeEdit.easeStyle.value = 0;
+                easeEdit.SetValueWithoutNotify(events[0].curveIndex);
+                easeEdit.visualEase.EaseEdit_onValueChanged(events[0].curveIndex);
+            }
             if (events[0].isSyncEvent)
             {
                 endValue.interactable = false;

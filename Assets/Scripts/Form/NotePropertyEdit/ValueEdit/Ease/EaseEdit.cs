@@ -110,6 +110,12 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             easeOption.SetValueWithoutNotify(option);
             //onValueChanged(value);
         }
+
+        public void SetCustomValueWithoutNotify(int value)
+        {
+            customEaseName.text = $"{GlobalData.Instance.chartEditData.customCurves[value-1].name}";
+            customEaseOption.SetValueWithoutNotify(value);
+        }
         
         /*
         
