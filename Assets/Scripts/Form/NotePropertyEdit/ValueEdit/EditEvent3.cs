@@ -150,6 +150,7 @@ namespace Form.NotePropertyEdit.ValueEdit
                     for (int i = 0; i < events.Count; i++)
                     {
                         events[i].curveIndex = originEvents[i].curveIndex;
+                        events[i].isCustomCurve = originEvents[i].isCustomCurve;
                     }
                 }
 
@@ -157,7 +158,32 @@ namespace Form.NotePropertyEdit.ValueEdit
                 {
                     foreach (Event @event in events)
                     {
+                        @event.isCustomCurve = false;
                         @event.curveIndex = value;
+                    }
+                }
+            };
+            easeEdit.onCustomValueChanged += value =>
+            {
+                if (value < 0) return;
+                Steps.Instance.Add(Undo, Redo, Finally);
+                Redo();
+                Finally();
+                void Undo()
+                {
+                    for (int i = 0; i < events.Count; i++)
+                    {
+                        events[i].curveIndex = originEvents[i].curveIndex;
+                        events[i].isCustomCurve = originEvents[i].isCustomCurve;
+                    }
+                }
+
+                void Redo()
+                {
+                    foreach (Event @event in events)
+                    {
+                        @event.isCustomCurve = true;
+                        @event.curveIndex = value - 1;
                     }
                 }
             };

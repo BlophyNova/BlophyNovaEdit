@@ -3,8 +3,11 @@ using Manager;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using Form.NotePropertyEdit.ValueEdit.Ease;
+using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Point = Data.ChartEdit.Point;
 
 namespace Data.ChartData
 {
@@ -346,7 +349,14 @@ namespace Data.ChartData
             endTime = BPMManager.Instance.GetSecondsTimeByBeats(@event.endBeats.ThisStartBPM);
             startValue = @event.startValue;
             endValue = @event.isSyncEvent ? @event.startValue : @event.endValue;
-            curve = @event.Curve.thisCurve;
+            if (@event.isCustomCurve)
+            {
+                curve = GlobalData.Instance.chartEditData.customCurves[@event.curveIndex].curve;
+            }
+            else
+            {
+                curve = @event.Curve.thisCurve;
+            }
         }
 
         public Event()

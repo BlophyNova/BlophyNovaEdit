@@ -14,6 +14,31 @@ namespace Data.ChartEdit
     {
         public string name;
         public List<Point> points;
+
+        public AnimationCurve curve
+        {
+            get
+            {
+                List<Keyframe> keyframes = new();
+                Keyframe firstKeyframe = new();
+                firstKeyframe.time = 0;
+                firstKeyframe.value = 0;
+                firstKeyframe.outTangent = points[0].y / points[0].x;
+                firstKeyframe.outWeight = points[0].x;
+                firstKeyframe.weightedMode = WeightedMode.Both;
+                keyframes.Add(firstKeyframe);
+
+                Keyframe lastKeyframe = new();
+                lastKeyframe.time = 1;
+                lastKeyframe.value = 1;
+                lastKeyframe.inTangent = (1 - points[1].y) / (1 - points[1].x);
+                lastKeyframe.inWeight = 1 - points[1].x;
+                lastKeyframe.weightedMode = WeightedMode.Both;
+                keyframes.Add(lastKeyframe);
+
+                return new() { preWrapMode = WrapMode.ClampForever,postWrapMode = WrapMode.ClampForever,keys=keyframes.ToArray()};
+            }
+        }
     }
     [Serializable]
     public class Point
@@ -500,6 +525,7 @@ namespace Data.ChartEdit
         public float startValue;
         public float endValue;
         public int curveIndex;
+        public bool isCustomCurve;
         public bool disallowDelete;
         public bool disallowMove;
         public bool isSyncEvent;

@@ -216,6 +216,10 @@ namespace UtilityCode.GameUtility
                 speedEventVoidFill.Add(speedEvent);
             }
 
+            foreach (Data.ChartEdit.Event @event in speedEventVoidFill)
+            {
+                @event.isCustomCurve = false;
+            }
             return speedEventVoidFill;
         }
 

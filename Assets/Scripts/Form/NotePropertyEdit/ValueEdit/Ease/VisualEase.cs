@@ -45,8 +45,8 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             createCurve.onClick.AddListener(() =>
             {
                 List<Data.ChartEdit.Point> points = new();
-                points.Add(new(){x=.5f,y=.5f});
-                points.Add(new(){x=.5f,y=.5f});
+                points.Add(new() { x = .5f, y = .5f });
+                points.Add(new() { x = .5f, y = .5f });
                 UpdateDraw(points);
             });
             saveCurve.onClick.AddListener(() =>
