@@ -67,10 +67,14 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             deleteCurve.onClick.AddListener(() =>
             {
                 if(currentCurveIndex<=0)return;
-                GlobalData.Instance.chartEditData.customCurves.RemoveAt(currentCurveIndex-1);
+                //GlobalData.Instance.chartEditData.customCurves.RemoveAt(currentCurveIndex-1);
+                //GlobalData.Instance.chartEditData.customCurves[currentCurveIndex - 1] = null;
+                GlobalData.Instance.chartEditData.customCurves[currentCurveIndex - 1].isDeleted=true;
                 currentCurveIndex = 0;
                 easeEdit.easeStyle.value = 0;
                 easeEdit.easeStyle.value = 1;
+                
+                EditEvent.Finally();
             });
             exportToClipboard.onClick.AddListener(() =>
             {
@@ -121,13 +125,16 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
         public void EaseEdit_onValueChanged(int value)
         {
             currentCurveIndex = value;
+
+            
             if (isPresetEase)
             {
                 UpdateDraw(currentCurveIndex);
             }
             else
             {
-                if(value<=0)return;
+                if (value<=0)return;
+                if (GlobalData.Instance.chartEditData.customCurves[value - 1].isDeleted)return;
                 UpdateDraw(GlobalData.Instance.chartEditData.customCurves[value-1].points);
             }
         }

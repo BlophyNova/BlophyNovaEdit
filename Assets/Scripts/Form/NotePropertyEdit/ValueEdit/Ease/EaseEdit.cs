@@ -113,8 +113,9 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
 
         public void SetCustomValueWithoutNotify(int value)
         {
-            customEaseName.text = $"{GlobalData.Instance.chartEditData.customCurves[value-1].name}";
             customEaseOption.SetValueWithoutNotify(value);
+            if(value<=0)return;
+            customEaseName.text = $"{GlobalData.Instance.chartEditData.customCurves[value-1].name}";
         }
         
         /*

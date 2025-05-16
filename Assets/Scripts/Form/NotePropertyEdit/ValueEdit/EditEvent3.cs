@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Form.PropertyEdit;
+using Scenes.PublicScripts;
 using UnityEngine;
 using Event = Data.ChartEdit.Event;
 
@@ -166,6 +167,12 @@ namespace Form.NotePropertyEdit.ValueEdit
             easeEdit.onCustomValueChanged += value =>
             {
                 if (value < 0) return;
+                if (GlobalData.Instance.chartEditData.customCurves[value - 1].isDeleted)
+                {
+                    Alert.EnableAlert("这个缓动被删除啦，不要再选择啦～");
+                    return;
+                }
+                
                 Steps.Instance.Add(Undo, Redo, Finally);
                 Redo();
                 Finally();
@@ -219,7 +226,7 @@ namespace Form.NotePropertyEdit.ValueEdit
             }
         }
 
-        void Finally()
+        public void Finally()
         {
             GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1),new(){typeof(LineID),typeof(BoxID),typeof(EventEdit.EventEdit)});
             GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1, -1));

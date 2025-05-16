@@ -29814,7 +29814,7 @@ MonoBehaviour:
     m_Options:
     - m_Text: "\u9884\u8BBE\u7F13\u52A8"
       m_Image: {fileID: 0}
-    - m_Text: "\u81EA\u5B9A\u4E49\u7F13\u52A8(WIP)"
+    - m_Text: "\u81EA\u5B9A\u4E49\u7F13\u52A8"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

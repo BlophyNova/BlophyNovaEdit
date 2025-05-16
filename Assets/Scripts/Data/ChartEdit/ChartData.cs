@@ -13,6 +13,7 @@ namespace Data.ChartEdit
     public class CustomCurve
     {
         public string name;
+        public bool isDeleted;
         public List<Point> points;
 
         public AnimationCurve curve

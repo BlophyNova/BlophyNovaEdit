@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Scenes.DontDestroyOnLoad;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -76,6 +77,12 @@ namespace Form.NotePropertyEdit.ValueEdit
             if (events[0].isCustomCurve)
             {
                 easeEdit.easeStyle.value = 1;
+                if (GlobalData.Instance.chartEditData.customCurves[events[0].curveIndex].isDeleted)
+                {
+                    events[0].isCustomCurve = false;
+                    events[0].curveIndex = 0;
+                    Finally();
+                }
                 easeEdit.SetCustomValueWithoutNotify(events[0].curveIndex+1);
                 easeEdit.visualEase.EaseEdit_onValueChanged(events[0].curveIndex+1);
                 
