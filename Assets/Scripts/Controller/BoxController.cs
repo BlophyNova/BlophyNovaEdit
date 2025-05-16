@@ -116,7 +116,6 @@ namespace Controller
         public void SetShowXYPoint(int currentBoxID)
         {
             bool isShowText = currentBoxID == this.currentBoxID;
-            showPointInGameView[^1].lineID = $"{this.currentBoxID}";
             foreach (var item in showPointInGameView)
             {
                 item.isShowText = isShowText;
@@ -157,6 +156,7 @@ namespace Controller
 
             boxFineness = ValueManager.Instance.boxFineness;
             ripples = new ObjectPoolQueue<RippleController>(AssetManager.Instance.ripple, 0, squarePosition);
+            showPointInGameView[^1].lineID = $"{this.currentBoxID}";
             return this; //返回自身
         }
 
