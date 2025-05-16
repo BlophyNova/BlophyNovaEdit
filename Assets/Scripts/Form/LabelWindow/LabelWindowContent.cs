@@ -54,7 +54,7 @@ namespace Form.LabelWindow
                 return result;
             } 
         }
-
+        
         public Vector2 MousePositionInThisRectTransformCenter =>
             transform.InverseTransformPoint(main.ScreenToWorldPoint(Mouse.current.position.value));
 

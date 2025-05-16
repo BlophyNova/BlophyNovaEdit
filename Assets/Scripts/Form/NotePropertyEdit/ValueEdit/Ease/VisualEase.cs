@@ -3,6 +3,9 @@ using Form.LabelWindow;
 using Scenes.DontDestroyOnLoad;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Data.ChartEdit;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 namespace Form.NotePropertyEdit.ValueEdit.Ease
@@ -16,11 +19,10 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
         public RectTransform contentRectTransform;
         public RectTransform viewport;
         public Line line;
-        public RectTransform lineRectTransform;
 
-        public Button create;
-        public Button save;
-        public Button delete;
+        public Button createCurve;
+        public Button saveCurve;
+        public Button deleteCurve;
         public Button exportToClipboard;
         public Button importFromClipboard;
 
@@ -35,26 +37,60 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             notePropertyEdit.labelWindow.onWindowSizeChanged += LabelWindow_onWindowSizeChanged; 
             LabelWindow_onWindowSizeChanged();
 
-            easeEdit.easeStyle.onValueChanged.AddListener(value =>
-            {
-                if (value == 0)
-                {
-                    create.interactable = false;
-                    save.interactable = false;
-                    delete.interactable = false;
-                    exportToClipboard.interactable = false;
-                    importFromClipboard.interactable = false;
-                }
-                else
-                {
-                    create.interactable = true;
-                    save.interactable = true;
-                    delete.interactable = true;
-                    exportToClipboard.interactable = true;
-                    importFromClipboard.interactable = true;
-                }
-            });
+            easeEdit.easeStyle.onValueChanged.AddListener(EaseStyleChanged);
+            EaseStyleChanged(easeEdit.easeStyle.value);
             easeEdit.onValueChanged += EaseEdit_onValueChanged;
+            easeEdit.onCustomValueChanged += EaseEdit_onValueChanged;
+            createCurve.onClick.AddListener(() =>
+            {
+                List<Data.ChartEdit.Point> points = new();
+                points.Add(new(){x=.5f,y=.5f});
+                points.Add(new(){x=.5f,y=.5f});
+                UpdateDraw(points);
+            });
+            saveCurve.onClick.AddListener(() =>
+            {
+                List<Data.ChartEdit.Point> points = line.points.Select(point => point.thisPointData).ToList();
+                
+                CustomCurve customCurve = new() {name=$"{easeEdit.customEaseName.text}", points = points };
+                GlobalData.Instance.chartEditData.customCurves.Add(customCurve);
+            });
+            deleteCurve.onClick.AddListener(() =>
+            {
+                GlobalData.Instance.chartEditData.customCurves.RemoveAt(currentCurveIndex);
+            });
+            exportToClipboard.onClick.AddListener(() =>
+            {
+                List<Data.ChartEdit.Point> points = line.points.Select(point => point.thisPointData).ToList();
+                GUIUtility.systemCopyBuffer = JsonConvert.SerializeObject(points);
+            });
+            importFromClipboard.onClick.AddListener(() =>
+            {
+                string rawData = GUIUtility.systemCopyBuffer;
+                List<Data.ChartEdit.Point> points = JsonConvert.DeserializeObject<List<Data.ChartEdit.Point>>(rawData);
+                UpdateDraw(points);
+            });
+        }
+        private void EaseStyleChanged(int value)
+        {
+            if (value == 0)
+            {
+                createCurve.interactable = false;
+                saveCurve.interactable = false;
+                deleteCurve.interactable = false;
+                exportToClipboard.interactable = false;
+                importFromClipboard.interactable = false;
+                line.HidePoints();
+            }
+            else
+            {
+                createCurve.interactable = true;
+                saveCurve.interactable = true;
+                deleteCurve.interactable = true;
+                exportToClipboard.interactable = true;
+                importFromClipboard.interactable = true;
+                line.ShowPoints();
+            }
         }
 
         public void EaseEdit_onValueChanged(int value)
@@ -62,31 +98,21 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             currentCurveIndex = value;
             if (isPresetEase)
             {
-                UpdateDraw();
+                UpdateDraw(currentCurveIndex);
             }
             else
             {
-                //自定义曲线做什么事情
+                UpdateDraw(GlobalData.Instance.chartEditData.customCurves[value].points);
             }
         }
 
-        private void UpdateDraw()
+        private void UpdateDraw(int value)
         {
-            EaseData ease = GlobalData.Instance.easeDatas[currentCurveIndex];
-            Vector3[] positions = new Vector3[100];
-            Vector3[] corners = new Vector3[4];
-            lineRectTransform.GetLocalCorners(corners);
-            for (int i = 0; i < positions.Length; i++)
-            {
-                //positions[i].
-                Vector3 currentPosition = (corners[2] - corners[0]) * (i / (float)positions.Length) + corners[0];
-                currentPosition.y =
-                    ease.thisCurve.Evaluate(i / (float)positions.Length) * (corners[2].y - corners[0].y) +
-                    corners[0].y;
-                currentPosition.z = -1;
-                positions[i] = currentPosition;
-            }
-            line.UpdateDraw(100, positions);
+            line.UpdateDraw(GlobalData.Instance.easeDatas[value].thisCurve);
+        }
+        private void UpdateDraw(List<Data.ChartEdit.Point> points)
+        {
+            line.UpdateDraw(points);
         }
 
         private void LabelWindow_onWindowSizeChanged()
@@ -94,7 +120,7 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
 
             selfRectTransform.sizeDelta = new(viewport.rect.width, viewport.rect.width+250);
             contentRectTransform.sizeDelta = new(viewport.rect.width, viewport.rect.width);
-            UpdateDraw();
+            UpdateDraw(currentCurveIndex);
         }
     }
 }

@@ -8,6 +8,18 @@ using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 
 namespace Data.ChartEdit
 {
+    
+    [Serializable]
+    public class CustomCurve
+    {
+        public string name;
+        public List<Point> points;
+    }
+    [Serializable]
+    public class Point
+    {
+        public float x, y;
+    }
     [Serializable]
     public class ChartData
     {
@@ -22,6 +34,7 @@ namespace Data.ChartEdit
         public bool loopPlayBack;
         public List<BPM> bpmList;
         public List<Box> boxes;
+        public List<CustomCurve> customCurves=new();
     }
 
     [Serializable]

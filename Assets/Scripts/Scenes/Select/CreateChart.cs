@@ -77,6 +77,7 @@ namespace Scenes.Select
             {
                 new() { integer = 0, molecule = 0, denominator = 1, currentBPM = 60 }
             };
+            chartData.customCurves = new();
 
             CreatChart(Data.Enumerate.Hard.Easy, chartData);
             CreatChart(Data.Enumerate.Hard.Normal, chartData);

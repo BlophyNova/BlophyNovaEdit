@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Data.ChartEdit;
+using Scenes.DontDestroyOnLoad;
 using TMPro;
 using UnityEngine;
 namespace Form.NotePropertyEdit.ValueEdit.Ease
@@ -16,6 +18,7 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
         #endregion
 
         #region 自定义缓动
+
         public TextMeshProUGUI customEaseNameText;
         public TMP_InputField customEaseName;
         public TMP_Dropdown customEaseOption;
@@ -25,22 +28,50 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
 
         public delegate void OnValueChanged(int value);
         public event OnValueChanged onValueChanged= value => { };
-        
+
+        public delegate void OnCustomValueChanged(int value);
+
+        public event OnCustomValueChanged onCustomValueChanged = value => { };
+
         private void Start()
         {
             easeStyle.onValueChanged.AddListener(EaseStyleChanged);
             easeIndex.onEndEdit.AddListener(EaseIndexChanged);
             easeIO.onValueChanged.AddListener(EaseIoChanged);
             easeOption.onValueChanged.AddListener(EaseOptionChanged);
+            customEaseOption.onValueChanged.AddListener(CustomEaseOptionChanged);
         }
-        public void SetValueWithoutNotify(int value)
+
+        private void CustomEaseOptionChanged(int value)
         {
-            if (value is < 0 or > 30) return;
-            Index2IO(value, out int io, out int option);
-            easeIndex.SetTextWithoutNotify($"{value}");
-            easeIO.SetValueWithoutNotify(io);
-            easeOption.SetValueWithoutNotify(option);
-            //onValueChanged(value);
+            onCustomValueChanged(value);
+        }
+
+        private void EaseStyleChanged(int value)
+        {
+            if (value == 0)
+            {
+                customEaseOption.gameObject.SetActive(false);
+                customEaseName.gameObject.SetActive(false);
+                customEaseNameText.gameObject.SetActive(false);
+                easeIndex.interactable = true;
+                easeIO.interactable = true;
+                easeOption.gameObject.SetActive(true);
+            }
+            else
+            {
+                customEaseOption.gameObject.SetActive(true);
+                customEaseName.gameObject.SetActive(true);
+                customEaseNameText.gameObject.SetActive(true);
+                easeIndex.interactable = false;
+                easeIO.interactable = false;
+                easeOption.gameObject.SetActive(false);
+                customEaseOption.ClearOptions();
+                foreach (CustomCurve customCurve in GlobalData.Instance.chartEditData.customCurves)
+                {
+                    customEaseOption.options.Add(new(){text = customCurve.name});
+                }
+            }
         }
         private void EaseOptionChanged(int value)
         {
@@ -67,6 +98,17 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             easeOption.SetValueWithoutNotify(option);
             onValueChanged(result);
         }
+        
+        public void SetValueWithoutNotify(int value)
+        {
+            if (value is < 0 or > 30) return;
+            Index2IO(value, out int io, out int option);
+            easeIndex.SetTextWithoutNotify($"{value}");
+            easeIO.SetValueWithoutNotify(io);
+            easeOption.SetValueWithoutNotify(option);
+            //onValueChanged(value);
+        }
+        
         /*
         
             0=IN           InSine = 1,          InExpo = 16,
@@ -286,26 +328,6 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
                     break;
             }
         }
-        private void EaseStyleChanged(int value)
-        {
-            if (value == 0)
-            {
-                customEaseNameText.gameObject.SetActive(false);
-                customEaseName.gameObject.SetActive(false);
-                customEaseOption.gameObject.SetActive(false);
-                easeIndex.interactable = true;
-                easeIO.gameObject.SetActive(true);
-                easeOption.gameObject.SetActive(true);
-            }
-            else
-            {
-                customEaseNameText.gameObject.SetActive(true);
-                customEaseName.gameObject.SetActive(true);
-                customEaseOption.gameObject.SetActive(true);
-                easeIndex.interactable = false;
-                easeIO.gameObject.SetActive(false);
-                easeOption.gameObject.SetActive(false);
-            }
-        }
+        
     }
 }
