@@ -2,10 +2,11 @@ using Scenes.DontDestroyOnLoad;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 
 namespace Scenes.PublicScripts
 {
-    public class Alert : PublicButton
+    public class Alert : PublicButton,ICanvasRaycastFilter
     {
         private static readonly List<string> textList = new();
         private static readonly List<Action> actions = new();
@@ -16,7 +17,7 @@ namespace Scenes.PublicScripts
             thisButton.onClick.AddListener(() => { DisableAlert(); });
         }
 
-        public static void EnableAlert(string text, Action action = null)
+        public static void EnableAlert(string text, Action action = null,bool isTip=false)
         {
             textList.Add(text);
             actions.Add(action);
@@ -48,6 +49,10 @@ namespace Scenes.PublicScripts
             }
 
             Destroy(gameObject);
+        }
+        public bool IsRaycastLocationValid(Vector2 sp, Camera eventCamera)
+        {
+            return false;
         }
     }
 }
