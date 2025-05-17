@@ -63,6 +63,7 @@ namespace Form.EventEdit
             List<Event> events = new();
             foreach (EventEditItem selectedEventEditItem in selectBox.TransmitObjects().Cast<EventEditItem>())
             {
+                if(selectedEventEditItem.@event.disallowCopy)continue;
                 selectedEventEditItem.@event.disallowDelete = false;
                 selectedEventEditItem.@event.disallowMove = false;
                 events.Add(selectedEventEditItem.@event);

@@ -533,6 +533,10 @@ namespace Data.ChartEdit
         public bool disallowDelete;
         public bool disallowMove;
         public bool isSyncEvent;
+        public bool disallowCopy;
+        public string id=string.Empty;
+        public string basedBoxID=string.Empty;
+        
 
 
         public Event()

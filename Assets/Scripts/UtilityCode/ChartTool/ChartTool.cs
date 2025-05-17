@@ -55,18 +55,18 @@ namespace UtilityCode.ChartTool
                     rotate = new(),
                     speed = new()
                 },
-                id = $"{DateTime.Now.Year}{DateTime.Now.Month:D2}{DateTime.Now.Day:D2}{DateTime.Now.Hour:D2}{DateTime.Now.Minute:D2}{DateTime.Now.Second:D2}{DateTime.Now.Millisecond}"
+                id = TimeUtility.GetCurrentTime()
             };
-            chartEditBox.boxEvents.scaleX.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 2.7f, endValue = 2.7f,disallowDelete=true,disallowMove=true,isSyncEvent = true});
-            chartEditBox.boxEvents.scaleY.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 2.7f, endValue = 2.7f, disallowDelete = true, disallowMove = true,isSyncEvent = true });
-            chartEditBox.boxEvents.moveX.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true, disallowMove = true,isSyncEvent = true });
-            chartEditBox.boxEvents.moveY.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true, disallowMove = true,isSyncEvent = true });
-            chartEditBox.boxEvents.centerX.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = .5f, endValue = .5f, disallowDelete = true, disallowMove = true,isSyncEvent = true });
-            chartEditBox.boxEvents.centerY.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = .5f, endValue = .5f, disallowDelete = true, disallowMove = true,isSyncEvent = true });
-            chartEditBox.boxEvents.alpha.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 1, endValue = 1, disallowDelete = true, disallowMove = true,isSyncEvent = true });
-            chartEditBox.boxEvents.lineAlpha.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true, disallowMove = true,isSyncEvent = true });
-            chartEditBox.boxEvents.rotate.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true, disallowMove = true,isSyncEvent = true });
-            chartEditBox.boxEvents.speed.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 3, endValue = 3, disallowDelete = true, disallowMove = true,isSyncEvent = true });
+            chartEditBox.boxEvents.scaleX.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 2.7f, endValue = 2.7f,disallowDelete=true,disallowMove=true,isSyncEvent = true,id=TimeUtility.GetCurrentTime()});
+            chartEditBox.boxEvents.scaleY.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 2.7f, endValue = 2.7f, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
+            chartEditBox.boxEvents.moveX.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true, disallowMove = true,isSyncEvent = true ,id=TimeUtility.GetCurrentTime()});
+            chartEditBox.boxEvents.moveY.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
+            chartEditBox.boxEvents.centerX.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = .5f, endValue = .5f, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
+            chartEditBox.boxEvents.centerY.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = .5f, endValue = .5f, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
+            chartEditBox.boxEvents.alpha.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 1, endValue = 1, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
+            chartEditBox.boxEvents.lineAlpha.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
+            chartEditBox.boxEvents.rotate.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
+            chartEditBox.boxEvents.speed.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 3, endValue = 3, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
             for (int i = 0; i < chartEditBox.lines.Count; i++)
             {
                 chartEditBox.lines[i].offlineNotes = new();

@@ -76,6 +76,7 @@ namespace Form.EventEdit
                 {
                     AlignEvents(newEvents, beatLine.thisBPM);
                     BatchEvents(newEvents, @event => @event.IsSelected = false);
+                    BatchEvents(newEvents, @event => @event.id = TimeUtility.GetCurrentTime());
                     List<Event> instNewEvents = AddEvents(newEvents, currentBoxID, true);
                     eventEditItems.AddRange(AddEvents2UI(instNewEvents));
                 }
@@ -223,6 +224,7 @@ namespace Form.EventEdit
                 newEventEditItem.@event.startBeats = new(nearBeatLine.thisBPM);
                 newEventEditItem.@event.eventType = nearEventVerticalLine.eventType;
                 newEventEditItem.@event.isSyncEvent = isSyncEvent;
+                newEventEditItem.@event.id = TimeUtility.GetCurrentTime();
                 StartCoroutine(WaitForPressureAgain(newEventEditItem));
             }
             else if (isFirstTime)
