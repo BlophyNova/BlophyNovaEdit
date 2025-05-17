@@ -47,23 +47,47 @@ namespace UtilityCode.AssemblySystem
             return interfaces;
         }
 
-        public static void Exe<T>(List<T> values, Action<T> action,List<Type> types)
+        public static void Exe<T>(List<T> values, Action<T> action,List<Type> types, bool isBlackList)
         {
             foreach (T item in values)
             {
                 if(ExeAllMethod(action, types, item)) continue;
-                ExeSpecificMethod(action, types, item);
+                if (isBlackList)
+                {
+                    bool isInBlackList = false;
+                    foreach (Type type in types)
+                    {
+                        if (item.GetType() == type)
+                        {
+                            isBlackList = true;
+                        }
+                    }
+
+                    if (isBlackList)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        Debug.LogError("你可能已经用上了黑名单机制，记得把这里检查一下，然后删掉这条Log");
+                        action?.Invoke(item);
+                    }
+                }
+                else
+                {
+                    ExeSpecificMethodWithWhiteList(action, types, item);
+                }
             }
         }
-
-        private static void ExeSpecificMethod<T>(Action<T> action, List<Type> types, T item)
+        private static void ExeSpecificMethodWithWhiteList<T>(Action<T> action, List<Type> types, T item)
         {
             foreach (Type type in types)
             {
-                if (item.GetType()==type)
+                if (item.GetType() == type)
                 {
                     action?.Invoke(item);
                     break;
+
                 }
             }
         }

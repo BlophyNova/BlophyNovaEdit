@@ -12,7 +12,6 @@ namespace Form.ChartPreview
 {
     public class ChartPreview : LabelWindowContent, IRefreshPlayer
     {
-        public RectTransform selfRect;
         [SerializeField]Camera chartCamera;
         Camera ChartCamera
         {
@@ -25,7 +24,7 @@ namespace Form.ChartPreview
                 return chartCamera;
             }
         }
-
+        /*
         [SerializeField]private EventEdit.EventEdit eventEdit;
 
         private EventEdit.EventEdit EventEdit
@@ -63,7 +62,7 @@ namespace Form.ChartPreview
                 }
                 return noteEdit;
             }
-        }
+        }*/
         private void Start()
         {
             /*

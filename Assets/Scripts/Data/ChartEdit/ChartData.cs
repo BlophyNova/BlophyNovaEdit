@@ -269,6 +269,9 @@ namespace Data.ChartEdit
     public class Box
     {
         [JsonIgnore] public Data.ChartData.Box chartDataBox;
+        public string id;
+        public List<string> childrenIds=new();
+        public string parentId=string.Empty;
         public BoxEvents boxEvents;
         public List<Line> lines = new();
     }

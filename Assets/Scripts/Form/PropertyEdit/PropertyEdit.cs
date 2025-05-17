@@ -9,6 +9,7 @@ namespace Form.PropertyEdit
         public GridLayoutGroup gridLayoutGroup;
         public BoxID boxID;
         public LineID lineID;
+        
         public VerticalLineCount verticalLineCount;
         public BeatLineCount beatLineCount;
         public PlaySpeed playSpeed;

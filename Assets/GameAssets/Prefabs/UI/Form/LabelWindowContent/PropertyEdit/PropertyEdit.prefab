@@ -119,8 +119,9 @@ GameObject:
   - component: {fileID: 1652246935724997784}
   - component: {fileID: 9058047481920654579}
   - component: {fileID: 1133390516221319352}
+  - component: {fileID: 4975861124703896619}
   m_Layer: 5
-  m_Name: Sample
+  m_Name: NoteSample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -185,6 +186,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4975861124703896619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166443871711558398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba20f60e64be749b28be7519f590e7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &345377241707194579
 GameObject:
   m_ObjectHideFlags: 0
@@ -4476,7 +4489,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: (WIP)
+  m_text: "\u82B1\u6C34\u7EC8"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
   m_sharedMaterial: {fileID: 4737349496631823484, guid: 63623bdff9431084089b9c2a5a9f5d8d, type: 2}
@@ -7090,6 +7103,7 @@ GameObject:
   - component: {fileID: 6348044868837890363}
   - component: {fileID: 6691764397602277123}
   - component: {fileID: 4719601367087576677}
+  - component: {fileID: 5274804063208036916}
   m_Layer: 5
   m_Name: Father
   m_TagString: Untagged
@@ -7156,6 +7170,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5274804063208036916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6316676079685477973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e984778ff66704305ab71c5fabd23782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  father: {fileID: 8229476368955021649}
 --- !u!1 &6374283745600782473
 GameObject:
   m_ObjectHideFlags: 0
@@ -7592,7 +7619,7 @@ GameObject:
   - component: {fileID: 7991308516659696621}
   - component: {fileID: 8229476368955021649}
   m_Layer: 5
-  m_Name: Fathers
+  m_Name: Father
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7708,7 +7735,9 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: (WIP)
+    - m_Text: "\u82B1\u6C34\u7EC8"
+      m_Image: {fileID: 0}
+    - m_Text: HuaWaterED
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8285,7 +8314,7 @@ GameObject:
   - component: {fileID: 2257527385063796075}
   - component: {fileID: 5651808448454592341}
   m_Layer: 5
-  m_Name: Fathers
+  m_Name: Sample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

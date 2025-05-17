@@ -2,6 +2,7 @@ using Data.Enumerate;
 using Data.Interface;
 using Form.LabelWindow;
 using Log;
+using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
 using TMPro;
 using UnityEngine;
@@ -51,6 +52,7 @@ namespace Form.PropertyEdit
         }
         private void RefreshNote()
         {
+            /*
             foreach (LabelItem item in propertyEdit.labelWindow.associateLabelWindow.labels)
             {
                 if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.NoteEdit)
@@ -58,7 +60,8 @@ namespace Form.PropertyEdit
                     NoteEdit.NoteEdit noteEdit = (NoteEdit.NoteEdit)item.labelWindowContent;
                     noteEdit.RefreshEdit(lineID, -1);
                 }
-            }
+            }*/
+            GlobalData.Refresh<IRefreshEdit>(a=>a.RefreshEdit(lineID,-1));
         }
 
         public void RefreshEdit(int lineID, int boxID)

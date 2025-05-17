@@ -49,7 +49,7 @@ namespace Form.PropertyEdit
             });
         }
         public void RefreshNote()
-        {
+        {/*
             foreach (LabelItem item in propertyEdit.labelWindow.associateLabelWindow.labels)
             {
                 if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit)
@@ -63,7 +63,8 @@ namespace Form.PropertyEdit
                     NoteEdit.NoteEdit noteEdit = (NoteEdit.NoteEdit)item.labelWindowContent;
                     noteEdit.RefreshEdit(-1, boxID);
                 }
-            }
+            }*/
+            GlobalData.Refresh<IRefreshEdit>(a=>a.RefreshEdit(-1,boxID));
             GameController.Instance.ChangeShowXYPoint(boxID);
         }
 

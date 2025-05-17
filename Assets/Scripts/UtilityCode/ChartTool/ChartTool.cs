@@ -1,3 +1,4 @@
+using System;
 using Data.ChartData;
 using Data.ChartEdit;
 using Data.EaseData;
@@ -53,7 +54,8 @@ namespace UtilityCode.ChartTool
                     lineAlpha = new(),
                     rotate = new(),
                     speed = new()
-                }
+                },
+                id = $"{DateTime.Now.Year}{DateTime.Now.Month:D2}{DateTime.Now.Day:D2}{DateTime.Now.Hour:D2}{DateTime.Now.Minute:D2}{DateTime.Now.Second:D2}{DateTime.Now.Millisecond}"
             };
             chartEditBox.boxEvents.scaleX.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 2.7f, endValue = 2.7f,disallowDelete=true,disallowMove=true,isSyncEvent = true});
             chartEditBox.boxEvents.scaleY.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 2.7f, endValue = 2.7f, disallowDelete = true, disallowMove = true,isSyncEvent = true });
