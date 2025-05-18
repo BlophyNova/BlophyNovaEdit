@@ -1,9 +1,8 @@
-using Data;
+using System.Collections.Generic;
+using System.IO;
 using Data.ChartData;
 using Newtonsoft.Json;
 using Scenes.DontDestroyOnLoad;
-using System.Collections.Generic;
-using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,25 +28,26 @@ namespace Scenes.Select
             {
                 Destroy(item.gameObject);
             }
+
             chartItems.Clear();
-            string[] chartPaths= Directory.GetDirectories($"{Application.streamingAssetsPath}");
+            string[] chartPaths = Directory.GetDirectories($"{Application.streamingAssetsPath}");
             foreach (string chartPath in chartPaths)
             {
-                
                 string chartJsonPath = $"{chartPath}/ChartFile/{GlobalData.Instance.currentHard}/MetaData.json";
-                if (!File.Exists(chartJsonPath)) continue;
+                if (!File.Exists(chartJsonPath))
+                {
+                    continue;
+                }
 
 
                 string rawData = File.ReadAllText(chartJsonPath);
                 ChartItem newChartItem = Instantiate(chartItemPrefab, transform);
-                newChartItem.metaData=JsonConvert.DeserializeObject<MetaData>(rawData);
+                newChartItem.metaData = JsonConvert.DeserializeObject<MetaData>(rawData);
                 newChartItem.musicName.text = newChartItem.metaData.musicName;
                 newChartItem.currentChartIndex = Path.GetFileName(chartPath);
                 newChartItem.illustrationPreview = illustrationPreview;
                 newChartItem.chartInfomation = chartInfomation;
                 chartItems.Add(newChartItem);
-
-
             }
         }
     }

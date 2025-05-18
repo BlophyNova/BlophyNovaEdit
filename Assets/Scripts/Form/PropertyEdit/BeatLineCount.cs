@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Data.Interface;
 using Form.NoteEdit;
 using Log;
@@ -22,7 +24,8 @@ namespace Form.PropertyEdit
                 GlobalData.Instance.chartEditData.beatSubdivision++;
                 thisText.text = $"水平线：{GlobalData.Instance.chartEditData.beatSubdivision}";
 
-                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BasicLine) });
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),
+                    new List<Type> { typeof(BasicLine) });
                 LogCenter.Log($"属性编辑执行+操作，水平份数更改为{GlobalData.Instance.chartEditData.beatSubdivision}");
             });
             subtraction.onClick.AddListener(() =>
@@ -32,10 +35,12 @@ namespace Form.PropertyEdit
                     Alert.EnableAlert("已经减到最低了呜呜呜···");
                     return;
                 }
+
                 GlobalData.Instance.chartEditData.beatSubdivision--;
                 thisText.text = $"水平线：{GlobalData.Instance.chartEditData.beatSubdivision}";
 
-                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BasicLine) });
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),
+                    new List<Type> { typeof(BasicLine) });
                 LogCenter.Log($"属性编辑执行-操作，水平份数更改为{GlobalData.Instance.chartEditData.beatSubdivision}");
             });
             thisText.text = $"水平线：{GlobalData.Instance.chartEditData.beatSubdivision}";

@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,8 +35,9 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
                 point.gameObject.SetActive(true);
             }
         }
+
         public void UpdateDraw(AnimationCurve curve)
-        {            
+        {
             Vector3[] positions = new Vector3[100];
             Vector3[] corners = new Vector3[4];
             selfRect.GetLocalCorners(corners);
@@ -52,7 +51,7 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
                 currentPosition.z = -1;
                 positions[i] = currentPosition;
             }
-            
+
             lineRenderer.positionCount = positions.Length;
             lineRenderer.SetPositions(positions);
         }
@@ -77,8 +76,11 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             lastKeyframe.weightedMode = WeightedMode.Both;
             keyframes.Add(lastKeyframe);
 
-            curve = new() { preWrapMode = WrapMode.ClampForever,postWrapMode = WrapMode.ClampForever,keys=keyframes.ToArray()};
-            
+            curve = new AnimationCurve
+            {
+                preWrapMode = WrapMode.ClampForever, postWrapMode = WrapMode.ClampForever, keys = keyframes.ToArray()
+            };
+
             UpdateDraw(curve);
         }
 
@@ -89,6 +91,7 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             {
                 points.Add(point.thisPointData);
             }
+
             UpdateDraw(points);
         }
     }

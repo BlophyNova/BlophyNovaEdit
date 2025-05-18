@@ -1,14 +1,16 @@
-using Data.ChartData;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using Data.ChartData;
+using Form.EventEdit;
+using Newtonsoft.Json;
+using Scenes.Edit;
 using UnityEngine;
 using UtilityCode.Algorithm;
+using EventType = Data.Enumerate.EventType;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 
 namespace Data.ChartEdit
 {
-    
     [Serializable]
     public class CustomCurve
     {
@@ -37,10 +39,15 @@ namespace Data.ChartEdit
                 lastKeyframe.weightedMode = WeightedMode.Both;
                 keyframes.Add(lastKeyframe);
 
-                return new() { preWrapMode = WrapMode.ClampForever,postWrapMode = WrapMode.ClampForever,keys=keyframes.ToArray()};
+                return new AnimationCurve
+                {
+                    preWrapMode = WrapMode.ClampForever, postWrapMode = WrapMode.ClampForever,
+                    keys = keyframes.ToArray()
+                };
             }
         }
     }
+
     [Serializable]
     public class Point
     {
@@ -56,12 +63,13 @@ namespace Data.ChartEdit
             y = point.y;
         }
 
-        public Point(float x,float y)
+        public Point(float x, float y)
         {
             this.x = x;
             this.y = y;
         }
     }
+
     [Serializable]
     public class ChartData
     {
@@ -76,7 +84,7 @@ namespace Data.ChartEdit
         public bool loopPlayBack;
         public List<BPM> bpmList;
         public List<Box> boxes;
-        public List<CustomCurve> customCurves=new();
+        public List<CustomCurve> customCurves = new();
     }
 
     [Serializable]
@@ -123,7 +131,8 @@ namespace Data.ChartEdit
         /// <summary>
         ///     当前BPM的开始或者说上一个BPM的结束拍
         /// </summary>
-        [JsonIgnore]public float ThisStartBPM => integer + molecule / (float)denominator;
+        [JsonIgnore]
+        public float ThisStartBPM => integer + molecule / (float)denominator;
 
         public static BPM Zero => new();
         public static BPM One => new(1, 0, 1);
@@ -178,6 +187,7 @@ namespace Data.ChartEdit
                 _a.AddOneBeat();
                 _b.SubtractionOneBeat();
             }
+
             ReducedFraction(_a);
             return _a;
 
@@ -270,8 +280,8 @@ namespace Data.ChartEdit
     {
         [JsonIgnore] public Data.ChartData.Box chartDataBox;
         public string id;
-        public List<string> childrenIds=new();
-        public string parentId=string.Empty;
+        public List<string> childrenIds = new();
+        public string parentId = string.Empty;
         public BoxEvents boxEvents;
         public List<Line> lines = new();
     }
@@ -315,7 +325,7 @@ namespace Data.ChartEdit
     public class Note
     {
         [JsonIgnore] public Data.ChartData.Note chartDataNote;
-        [JsonIgnore] public Scenes.Edit.NoteEdit chartEditNote;
+        [JsonIgnore] public NoteEdit chartEditNote;
         public NoteType noteType;
 
         public BPM holdBeats;
@@ -325,7 +335,7 @@ namespace Data.ChartEdit
         public float positionX;
         public bool isClockwise; //是逆时针
         public bool hasOther; //还有别的Note和他在统一时间被打击，简称多押标识（（
-        [JsonIgnore]public bool isSelected;
+        [JsonIgnore] public bool isSelected;
         private BPM hitBeats; //打击时间
 
         public Note()
@@ -521,9 +531,9 @@ namespace Data.ChartEdit
     public class Event
     {
         [JsonIgnore] public Data.ChartData.Event chartDataEvent;
-        [JsonIgnore] public Form.EventEdit.EventEditItem chartEditEvent;
-        [SerializeField][JsonIgnore] private bool isSelected;
-        public Data.Enumerate.EventType eventType;
+        [JsonIgnore] public EventEditItem chartEditEvent;
+        [SerializeField] [JsonIgnore] private bool isSelected;
+        public EventType eventType;
         public BPM startBeats;
         public BPM endBeats;
         public float startValue;
@@ -534,9 +544,8 @@ namespace Data.ChartEdit
         public bool disallowMove;
         public bool isSyncEvent;
         public bool disallowCopy;
-        public string id=string.Empty;
-        public string basedBoxID=string.Empty;
-        
+        public string id = string.Empty;
+        public string basedBoxID = string.Empty;
 
 
         public Event()
@@ -556,7 +565,8 @@ namespace Data.ChartEdit
             isSyncEvent = @event.isSyncEvent;
         }
 
-        [JsonIgnore]public bool IsSelected
+        [JsonIgnore]
+        public bool IsSelected
         {
             get => isSelected;
             set => isSelected = value;

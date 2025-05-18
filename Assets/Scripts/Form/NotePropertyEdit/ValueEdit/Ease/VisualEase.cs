@@ -1,11 +1,8 @@
-using Data.EaseData;
-using Form.LabelWindow;
-using Scenes.DontDestroyOnLoad;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Data.ChartEdit;
 using Newtonsoft.Json;
+using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +11,7 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
     public class VisualEase : MonoBehaviour
     {
         public int currentCurveIndex;
-        
+
         public NotePropertyEdit notePropertyEdit;
         public RectTransform selfRectTransform;
         public RectTransform contentRectTransform;
@@ -28,14 +25,14 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
         public Button importFromClipboard;
 
 
-        EaseEdit easeEdit => notePropertyEdit.EditEvent.easeEdit;
-        EditEvent EditEvent => notePropertyEdit.EditEvent;
-        bool isPresetEase => easeEdit.easeStyle.value == 0;
+        private EaseEdit easeEdit => notePropertyEdit.EditEvent.easeEdit;
+        private EditEvent EditEvent => notePropertyEdit.EditEvent;
+        private bool isPresetEase => easeEdit.easeStyle.value == 0;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-            notePropertyEdit.labelWindow.onWindowSizeChanged += LabelWindow_onWindowSizeChanged; 
+            notePropertyEdit.labelWindow.onWindowSizeChanged += LabelWindow_onWindowSizeChanged;
             LabelWindow_onWindowSizeChanged();
 
             easeEdit.easeStyle.onValueChanged.AddListener(EaseStyleChanged);
@@ -45,8 +42,8 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             createCurve.onClick.AddListener(() =>
             {
                 List<Data.ChartEdit.Point> points = new();
-                points.Add(new() { x = .5f, y = .5f });
-                points.Add(new() { x = .5f, y = .5f });
+                points.Add(new Data.ChartEdit.Point { x = .5f, y = .5f });
+                points.Add(new Data.ChartEdit.Point { x = .5f, y = .5f });
                 UpdateDraw(points);
             });
             saveCurve.onClick.AddListener(() =>
@@ -54,33 +51,37 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
                 List<Data.ChartEdit.Point> points = new();
                 foreach (Point point in line.points)
                 {
-                    points.Add(new(point.thisPointData));
+                    points.Add(new Data.ChartEdit.Point(point.thisPointData));
                 }
 
                 string customCurveName = easeEdit.customEaseName.text;
-                CustomCurve customCurve = new() {name=customCurveName, points = points };
+                CustomCurve customCurve = new() { name = customCurveName, points = points };
                 GlobalData.Instance.chartEditData.customCurves.Add(customCurve);
-                
+
                 easeEdit.easeStyle.value = 0;
                 easeEdit.easeStyle.value = 1;
             });
             deleteCurve.onClick.AddListener(() =>
             {
-                if(currentCurveIndex<=0)return;
+                if (currentCurveIndex <= 0)
+                {
+                    return;
+                }
+
                 //GlobalData.Instance.chartEditData.customCurves.RemoveAt(currentCurveIndex-1);
                 //GlobalData.Instance.chartEditData.customCurves[currentCurveIndex - 1] = null;
-                GlobalData.Instance.chartEditData.customCurves[currentCurveIndex - 1].isDeleted=true;
+                GlobalData.Instance.chartEditData.customCurves[currentCurveIndex - 1].isDeleted = true;
                 currentCurveIndex = 0;
                 easeEdit.easeStyle.value = 0;
                 easeEdit.easeStyle.value = 1;
-                
+
                 EditEvent.Finally();
             });
             exportToClipboard.onClick.AddListener(() =>
             {
                 List<Data.ChartEdit.Point> points = line.points.Select(point => point.thisPointData).ToList();
-                
-                CustomCurve customCurve = new() {name=$"{easeEdit.customEaseName.text}", points = points };
+
+                CustomCurve customCurve = new() { name = $"{easeEdit.customEaseName.text}", points = points };
                 GUIUtility.systemCopyBuffer = JsonConvert.SerializeObject(customCurve);
             });
             importFromClipboard.onClick.AddListener(() =>
@@ -91,15 +92,10 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
                 easeEdit.easeStyle.value = 0;
                 easeEdit.easeStyle.value = 1;
             });
-            notePropertyEdit.labelItem.onLabelGetFocus += () =>
-            {
-                line.lineRenderer.gameObject.SetActive(true);
-            };
-            notePropertyEdit.labelItem.onLabelLostFocus += () =>
-            {
-                line.lineRenderer.gameObject.SetActive(false);
-            };
+            notePropertyEdit.labelItem.onLabelGetFocus += () => { line.lineRenderer.gameObject.SetActive(true); };
+            notePropertyEdit.labelItem.onLabelLostFocus += () => { line.lineRenderer.gameObject.SetActive(false); };
         }
+
         private void EaseStyleChanged(int value)
         {
             if (value == 0)
@@ -126,16 +122,24 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
         {
             currentCurveIndex = value;
 
-            
+
             if (isPresetEase)
             {
                 UpdateDraw(currentCurveIndex);
             }
             else
             {
-                if (value<=0)return;
-                if (GlobalData.Instance.chartEditData.customCurves[value - 1].isDeleted)return;
-                UpdateDraw(GlobalData.Instance.chartEditData.customCurves[value-1].points);
+                if (value <= 0)
+                {
+                    return;
+                }
+
+                if (GlobalData.Instance.chartEditData.customCurves[value - 1].isDeleted)
+                {
+                    return;
+                }
+
+                UpdateDraw(GlobalData.Instance.chartEditData.customCurves[value - 1].points);
             }
         }
 
@@ -143,6 +147,7 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
         {
             line.UpdateDraw(GlobalData.Instance.easeDatas[value].thisCurve);
         }
+
         private void UpdateDraw(List<Data.ChartEdit.Point> points)
         {
             Vector3[] corners = new Vector3[4];
@@ -152,7 +157,7 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             {
                 float x = (corners[2].x - corners[0].x) * points[i].x + corners[0].x;
                 float y = (corners[2].y - corners[0].y) * points[i].y + corners[0].y;
-                line.points[i].transform.position = new(x, y);
+                line.points[i].transform.position = new Vector3(x, y);
                 line.points[i].xyInfo.text = $"({points[i].x:F3},{points[i].y:F3})";
             }
 
@@ -161,9 +166,8 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
 
         private void LabelWindow_onWindowSizeChanged()
         {
-
-            selfRectTransform.sizeDelta = new(viewport.rect.width, viewport.rect.width+250);
-            contentRectTransform.sizeDelta = new(viewport.rect.width, viewport.rect.width);
+            selfRectTransform.sizeDelta = new Vector2(viewport.rect.width, viewport.rect.width + 250);
+            contentRectTransform.sizeDelta = new Vector2(viewport.rect.width, viewport.rect.width);
             UpdateDraw(currentCurveIndex);
         }
     }

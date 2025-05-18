@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Data.ChartEdit;
 using Data.Interface;
@@ -9,19 +7,26 @@ using UnityEngine;
 
 namespace Form.PropertyEdit
 {
-    public class Father : MonoBehaviour,IRefreshEdit
+    public class Father : MonoBehaviour, IRefreshEdit
     {
-
         public int currentBoxID;
         public int currentLineID;
 
-        public List<Box> boxes => GlobalData.Instance.chartEditData.boxes;
-        
-        
+
         public TMP_Dropdown father;
+
+        public List<Box> boxes => GlobalData.Instance.chartEditData.boxes;
+
         private void Start()
         {
             father.onValueChanged.AddListener(FatherValueChanged);
+            UpdateFatherList();
+        }
+
+        public void RefreshEdit(int lineID, int boxID)
+        {
+            currentBoxID = boxID < 0 ? currentBoxID : boxID;
+            currentLineID = lineID < 0 ? currentLineID : lineID;
             UpdateFatherList();
         }
 
@@ -34,14 +39,18 @@ namespace Form.PropertyEdit
         private void UpdateFatherList()
         {
             father.options.Clear();
-            father.AddOptions(new List<string>(){"不继承"});
+            father.AddOptions(new List<string> { "不继承" });
             for (int index = 0; index < boxes.Count; index++)
             {
                 Box box = boxes[index];
-                if (box.parentId==string.Empty)
+                if (box.parentId == string.Empty)
                 {
-                    if(index==currentBoxID)continue;
-                    father.AddOptions(new List<string>(){$"{index}"});
+                    if (index == currentBoxID)
+                    {
+                        continue;
+                    }
+
+                    father.AddOptions(new List<string> { $"{index}" });
                 }
             }
 
@@ -61,13 +70,6 @@ namespace Form.PropertyEdit
                     }
                 }
             }
-        }
-
-        public void RefreshEdit(int lineID, int boxID)
-        {
-            currentBoxID = boxID < 0 ? currentBoxID : boxID;
-            currentLineID = lineID < 0 ? currentLineID : lineID;
-            UpdateFatherList();
         }
     }
 }

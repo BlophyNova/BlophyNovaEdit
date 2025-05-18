@@ -1,54 +1,58 @@
-﻿using Data.ChartEdit;
-using Form.PropertyEdit;
-using Log;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Data.ChartData;
+using Data.ChartEdit;
+using Form.PropertyEdit;
+using Manager;
+using Newtonsoft.Json;
 using UnityEngine;
+using UtilityCode.Algorithm;
+using ChartData = Data.ChartEdit.ChartData;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 using Note = Data.ChartEdit.Note;
-using static UtilityCode.ChartTool.ChartTool;
-using EventType = Data.Enumerate.EventType;
-using UtilityCode.Algorithm;
-using System;
-using Manager;
-using Data.ChartData;
-using Newtonsoft.Json;
+
 namespace Form.NoteEdit
 {
     //这里放处理数据的方法,不负责刷新
     public partial class NoteEdit
     {
-        Data.ChartEdit.ChartData ChartEditData => GlobalData.Instance.chartEditData;
-        Data.ChartData.ChartData ChartData => GlobalData.Instance.chartData;
+        private ChartData ChartEditData => GlobalData.Instance.chartEditData;
+        private Data.ChartData.ChartData ChartData => GlobalData.Instance.chartData;
 
-        void AddNote(Note note, int boxID,int lineID)
+        private void AddNote(Note note, int boxID, int lineID)
         {
             List<Note> notes = ChartEditData.boxes[boxID].lines[lineID].onlineNotes;
             int index = Algorithm.BinarySearch(notes, m => m.HitBeats.ThisStartBPM < note.HitBeats.ThisStartBPM, false);
             notes.Insert(index, note);
             AddNote2ChartData(note, boxID, lineID);
         }
-        void DeleteNote(Note note, int boxID, int lineID)
+
+        private void DeleteNote(Note note, int boxID, int lineID)
         {
             List<Note> notes = ChartEditData.boxes[boxID].lines[lineID].onlineNotes;
             notes.Remove(note);
-            if(this.notes.Count > 0)
-            this.notes.Remove(note.chartEditNote);
+            if (this.notes.Count > 0)
+            {
+                this.notes.Remove(note.chartEditNote);
+            }
+
             if (note.chartEditNote != null)
             {
                 selectBox.selectedBoxItems.Remove(note.chartEditNote);
                 Destroy(note.chartEditNote.gameObject);
             }
 
-            DeleteNote2ChartData(note,boxID,lineID);
-
+            DeleteNote2ChartData(note, boxID, lineID);
         }
-        int FindNoteIndex(Note note, int boxID, int lineID)
+
+        private int FindNoteIndex(Note note, int boxID, int lineID)
         {
             List<Note> notes = ChartEditData.boxes[boxID].lines[lineID].onlineNotes;
             int findIndex = notes.FindIndex(m => m == note);
             return findIndex;
         }
+
         private void AddNote2NoteClipboard()
         {
             List<Note> notes = new();
@@ -56,9 +60,11 @@ namespace Form.NoteEdit
             {
                 notes.Add(selectedNote.thisNoteData);
             }
-            GUIUtility.systemCopyBuffer=JsonConvert.SerializeObject(notes);
+
+            GUIUtility.systemCopyBuffer = JsonConvert.SerializeObject(notes);
         }
-        private List<Note> CopyNotes(List<Note> noteClipboard, int boxID,int lineID)
+
+        private List<Note> CopyNotes(List<Note> noteClipboard, int boxID, int lineID)
         {
             List<Note> newNotes = new();
             for (int i = 0; i < noteClipboard.Count; i++)
@@ -67,8 +73,10 @@ namespace Form.NoteEdit
                 //AddNote(note, boxID, lineID);
                 newNotes.Add(note);
             }
+
             return newNotes;
         }
+
         private List<Note> AddNotes(List<Note> noteClipboard, int boxID, int lineID)
         {
             List<Note> newNotes = new();
@@ -78,21 +86,29 @@ namespace Form.NoteEdit
                 AddNote(note, boxID, lineID);
                 newNotes.Add(note);
             }
+
             onNotesAdded(newNotes);
             return newNotes;
         }
-        private List<Note> DeleteNotes(List<Note> noteClipboard, int boxID,int lineID, bool isCopy = false)
+
+        private List<Note> DeleteNotes(List<Note> noteClipboard, int boxID, int lineID, bool isCopy = false)
         {
             List<Note> deletedNotes = new();
-            if (isCopy) return deletedNotes;
+            if (isCopy)
+            {
+                return deletedNotes;
+            }
+
             for (int i = 0; i < noteClipboard.Count; i++)
             {
-                DeleteNote(noteClipboard[i], boxID,lineID);
+                DeleteNote(noteClipboard[i], boxID, lineID);
                 deletedNotes.Add(noteClipboard[i]);
             }
+
             onNotesDeleted(deletedNotes);
             return deletedNotes;
         }
+
         private void AlignNotes(List<Note> noteClipboard, BPM bpm)
         {
             BPM firstNoteStartBeats = noteClipboard[0].HitBeats;
@@ -102,16 +118,19 @@ namespace Form.NoteEdit
                 noteClipboard[i].HitBeats = new BPM(bpm) + (new BPM(note.HitBeats) - new BPM(firstNoteStartBeats));
             }
         }
-        void BatchNotes(List<Note> notes,Action<Note> action)
+
+        private void BatchNotes(List<Note> notes, Action<Note> action)
         {
             for (int i = 0; i < notes.Count; i++)
             {
                 action(notes[i]);
             }
         }
+
         private List<Note> GetSelectedNotes()
         {
-            IEnumerable<Scenes.Edit.NoteEdit> selectedNoteEdits = selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>();
+            IEnumerable<Scenes.Edit.NoteEdit> selectedNoteEdits =
+                selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>();
             List<Note> selectedNotes = new();
             foreach (Scenes.Edit.NoteEdit item in selectedNoteEdits)
             {
@@ -120,6 +139,7 @@ namespace Form.NoteEdit
 
             return selectedNotes;
         }
+
         private List<Scenes.Edit.NoteEdit> AddNotes2UI(List<Note> needInstNotes)
         {
             List<Scenes.Edit.NoteEdit> notes = new();
@@ -130,6 +150,7 @@ namespace Form.NoteEdit
                 //Debug.LogError("写到这里了，下次继续写");
                 notes.Add(newNoteEdit);
             }
+
             onNotesAdded2UI(notes);
             return notes;
         }
@@ -159,6 +180,7 @@ namespace Form.NoteEdit
                 newNoteEdit.thisNoteRect.sizeDelta =
                     new Vector2(newNoteEdit.thisNoteRect.sizeDelta.x, holdBeatsPositionY);
             }
+
             newNoteEdit.SetSelectState(item.isSelected);
             return newNoteEdit;
         }

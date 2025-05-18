@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Data.ChartEdit;
 using Data.Interface;
 using Log;
@@ -16,7 +18,8 @@ namespace Form.BPMList
                 GlobalData.Instance.chartEditData.bpmList.Add(newBpm);
                 LogCenter.Log($"新增了一个BPMItem，{newBpm.integer}:{newBpm.molecule}/{newBpm.denominator}");
 
-                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BPMList)});
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),
+                    new List<Type> { typeof(BPMList) });
             });
         }
     }

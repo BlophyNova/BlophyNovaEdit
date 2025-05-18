@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Controller;
 using Data.Interface;
 using Log;
@@ -29,7 +31,8 @@ namespace Form.BoxList
                 GlobalData.Instance.chartData.boxes =
                     ChartTool.ConvertChartEdit2ChartData(GlobalData.Instance.chartEditData.boxes);
                 SpeckleManager.Instance.allLineNoteControllers.Clear();
-                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BoxList) });
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),
+                    new List<Type> { typeof(BoxList) });
                 GameController.Instance.RefreshChartPreview();
             });
         }

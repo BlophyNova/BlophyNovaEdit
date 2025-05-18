@@ -1,5 +1,5 @@
-using Log;
 using System.Collections.Generic;
+using Log;
 using UnityEngine;
 using UnityEngine.UI;
 

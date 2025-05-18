@@ -138,8 +138,9 @@ namespace UtilityCode.Algorithm
                 }
             }
         }
+
         /// <summary>
-        /// 获取最大公约数
+        ///     获取最大公约数
         /// </summary>
         /// <param name="n1"></param>
         /// <param name="n2"></param>
@@ -155,10 +156,12 @@ namespace UtilityCode.Algorithm
                 max = min;
                 min = remainder;
             }
+
             return max;
         }
+
         /// <summary>
-        /// 获取最小公倍数
+        ///     获取最小公倍数
         /// </summary>
         /// <param name="n1"></param>
         /// <param name="n2"></param>

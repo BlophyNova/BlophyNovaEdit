@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Data.Interface;
 using Form.NoteEdit;
 using Log;
@@ -41,8 +43,10 @@ namespace Form.PropertyEdit
 
                 LogCenter.Log($"属性编辑，Y轴缩放从{CurrentYScale}变更为{yScale}");
                 CurrentYScale = yScale;
-                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BasicLine) });
-                GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1), new() { typeof(EventEdit.EventEdit),typeof(NoteEdit.NoteEdit)});
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),
+                    new List<Type> { typeof(BasicLine) });
+                GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1),
+                    new List<Type> { typeof(EventEdit.EventEdit), typeof(NoteEdit.NoteEdit) });
             });
         }
 

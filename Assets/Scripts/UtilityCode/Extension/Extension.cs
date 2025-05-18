@@ -50,15 +50,17 @@ namespace UtilityCode.Extension
             return result; //返回
         }
     }
+
     public static class ListExtension
     {
-        public static List<T> RemoveOfEnd<T>(this List<T> values,int index)
+        public static List<T> RemoveOfEnd<T>(this List<T> values, int index)
         {
             List<T> result = new();
-            for (int i = 0; i < index; i++) 
+            for (int i = 0; i < index; i++)
             {
                 result.Add(values[i]);
             }
+
             return result;
         }
     }

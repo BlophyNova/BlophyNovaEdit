@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KeepGameObjectValue : MonoBehaviour
@@ -10,27 +9,19 @@ public class KeepGameObjectValue : MonoBehaviour
     public Transform parentTransform;
     public Vector3 positionPoint;
     public float scaleXY;
-    private IEnumerator InitScale()
-    {
-        yield return new WaitForEndOfFrame();
-        float x = scaleXY / 2.7f;
-        float y = scaleXY / 2.7f;
-        transform.localScale = new(x, y);
-    }
-    private void OnEnable()
-    {
-        StartCoroutine(InitScale());
-    }
+
     private void Update()
     {
         if (isPositionMode)
         {
-            transform.position= parentTransform.TransformPoint(positionPoint);
+            transform.position = parentTransform.TransformPoint(positionPoint);
         }
+
         if (isRotationMode)
         {
             transform.rotation = Quaternion.identity;
         }
+
         if (isScaleMode)
         {
             float x = scaleXY / parentTransform.lossyScale.x;
@@ -40,7 +31,20 @@ public class KeepGameObjectValue : MonoBehaviour
             //rotate -= CountOf90Degrees * 90;
             //float proportion = rotate / 90f;
             //transform.localScale = new((1 - proportion) * x + proportion * y, (1 - proportion) * y + proportion * x);
-            transform.localScale = new(x, y);
+            transform.localScale = new Vector3(x, y);
         }
+    }
+
+    private void OnEnable()
+    {
+        StartCoroutine(InitScale());
+    }
+
+    private IEnumerator InitScale()
+    {
+        yield return new WaitForEndOfFrame();
+        float x = scaleXY / 2.7f;
+        float y = scaleXY / 2.7f;
+        transform.localScale = new Vector3(x, y);
     }
 }

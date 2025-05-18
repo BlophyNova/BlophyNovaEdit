@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using Data.Interface;
 using Form.LabelWindow;
 using Form.NoteEdit;
@@ -5,20 +8,24 @@ using Manager;
 using Scenes.DontDestroyOnLoad;
 using Scenes.Edit;
 using Scenes.PublicScripts;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Event = Data.ChartEdit.Event;
-using EventType = Data.Enumerate.EventType;
-using static UtilityCode.ChartTool.ChartTool;
+
 namespace Form.EventEdit
 {
     //由于这个控件需要的功能太多，所以这里做个分类，此文件负责字段事件委托属性，以及Unity生命周期的方法和接口实现的方法
-    public partial class EventEdit : LabelWindowContent, IInputEventCallback, ISelectBox,IRefreshEdit,IRefreshPlayer
+    public partial class EventEdit : LabelWindowContent, IInputEventCallback, ISelectBox, IRefreshEdit, IRefreshPlayer
     {
+        public delegate void OnEventsAdded(List<Event> events);
+
+        public delegate void OnEventsAdded2UI(List<EventEditItem> eventEditItems);
+
+        public delegate void OnEventsDeleted(List<Event> events);
+
+        public delegate void OnEventsRefreshed(List<Event> events);
+
         public int lastBoxID;
         public int currentBoxID;
 
@@ -35,25 +42,16 @@ namespace Form.EventEdit
         public List<EventEditItem> eventEditItems = new();
         public bool isFirstTime;
         public bool waitForPressureAgain;
+
         [SerializeField] private bool isRef = true;
+
+        //public List<EventEditItem> otherBoxEventsClipboard = new();
+        //public List<EventEditItem> eventClipboard = new(); 
+        public bool isCopy;
 
         public float VerticalLineDistance =>
             Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition);
 
-        public delegate void OnEventsAdded(List<Event> events);
-        public event OnEventsAdded onEventsAdded = events => { };
-
-        public delegate void OnEventsAdded2UI(List<EventEditItem> eventEditItems);
-        public event OnEventsAdded2UI onEventsAdded2UI = eventEditItems => { };
-
-        public delegate void OnEventsDeleted(List<Event> events);
-        public event OnEventsDeleted onEventsDeleted = events => { };
-
-        public delegate void OnEventsRefreshed(List<Event> events);
-        public event OnEventsRefreshed onEventsRefreshed = events => { };
-        //public List<EventEditItem> otherBoxEventsClipboard = new();
-        //public List<EventEditItem> eventClipboard = new(); 
-        public bool isCopy;
         private IEnumerator Start()
         {
             yield return new WaitUntil(() => GlobalData.Instance.chartData.metaData.musicLength > 1);
@@ -128,14 +126,21 @@ namespace Form.EventEdit
                 //item.thisEventEditItemRect.GetLocalCorners(corners);
                 res.Add(item);
             }
+
             return res;
         }
+
+        public event OnEventsAdded onEventsAdded = events => { };
+        public event OnEventsAdded2UI onEventsAdded2UI = eventEditItems => { };
+        public event OnEventsDeleted onEventsDeleted = events => { };
+        public event OnEventsRefreshed onEventsRefreshed = events => { };
+
         public void RefreshEdit(int lineID, int boxID)
         {
             RefreshEvents(boxID);
         }
 
-        public void RefreshPlayer(int lineID,int boxID)
+        public void RefreshPlayer(int lineID, int boxID)
         {
             RefreshPlayer(boxID);
         }
@@ -145,6 +150,5 @@ namespace Form.EventEdit
         //    //GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1), new() { typeof(EventEdit) });
         //    //GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1, -1), new() { typeof(EventEdit) });
         //}
-
     }
 }

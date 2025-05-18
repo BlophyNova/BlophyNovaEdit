@@ -1,20 +1,21 @@
-using Data.Interface;
-using Form.LabelWindow;
-using Manager;
 using System;
 using System.Collections.Generic;
 using Controller;
+using Data.Interface;
+using Form.LabelWindow;
+using Form.PropertyEdit;
+using Manager;
 using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Form.PropertyEdit;
 
 namespace Form.ChartPreview
 {
     public class ChartPreview : LabelWindowContent, IRefreshPlayer
     {
-        [SerializeField]Camera chartCamera;
-        Camera ChartCamera
+        [SerializeField] private Camera chartCamera;
+
+        private Camera ChartCamera
         {
             get
             {
@@ -22,9 +23,11 @@ namespace Form.ChartPreview
                 {
                     chartCamera = GameObject.FindWithTag("ChartCamera").GetComponent<Camera>();
                 }
+
                 return chartCamera;
             }
         }
+
         /*
         [SerializeField]private EventEdit.EventEdit eventEdit;
 
@@ -76,17 +79,32 @@ namespace Form.ChartPreview
 
         private void Update()
         {
-            if(!FocusIsMe)return;
-            if(!Mouse.current.leftButton.isPressed)return;
-            Ray ray =ChartCamera.ViewportPointToRay(MousePositionInThisTransformViewport);
-            if (!Physics.Raycast(ray,out RaycastHit hit,Mathf.Infinity)) return;
-            
+            if (!FocusIsMe)
+            {
+                return;
+            }
+
+            if (!Mouse.current.leftButton.isPressed)
+            {
+                return;
+            }
+
+            Ray ray = ChartCamera.ViewportPointToRay(MousePositionInThisTransformViewport);
+            if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+            {
+                return;
+            }
+
             Debug.Log($"好玩的:{hit.collider.name}");
             Debug.DrawLine(ray.origin, hit.point, Color.cyan);
             NoteController noteController = hit.collider.GetComponent<NoteController>();
             //NoteEdit.RefreshEdit(noteController.thisNote.currentLineID,noteController.thisNote.currentBoxID);
             //EventEdit.RefreshEdit(-1,noteController.thisNote.currentBoxID);
-            GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(noteController.thisNote.currentLineID, noteController.thisNote.currentBoxID), new() { typeof(EventEdit.EventEdit), typeof(NoteEdit.NoteEdit), typeof(BoxID), typeof(LineID) });
+            GlobalData.Refresh<IRefreshEdit>(
+                interfaceMethod => interfaceMethod.RefreshEdit(noteController.thisNote.currentLineID,
+                    noteController.thisNote.currentBoxID),
+                new List<Type>
+                    { typeof(EventEdit.EventEdit), typeof(NoteEdit.NoteEdit), typeof(BoxID), typeof(LineID) });
         }
 
         public void RefreshPlayer(int lineID, int boxID)

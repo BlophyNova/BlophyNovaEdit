@@ -1,6 +1,6 @@
+using System.Collections;
 using Data.ChartData;
 using JetBrains.Annotations;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilityCode.ChartTool;
@@ -23,20 +23,18 @@ namespace Manager
 
         public static AudioClip MusicClip
         {
-            [UsedImplicitly]
-            get => AssetManager.Instance.musicPlayer.clip;
+            [UsedImplicitly] get => AssetManager.Instance.musicPlayer.clip;
             set => AssetManager.Instance.musicPlayer.clip = value;
         }
 
         public static Image Background
         {
             get => AssetManager.Instance.background;
-            [UsedImplicitly]
-            set => AssetManager.Instance.background = value; // 这里不能注释掉 不然后期没办法改背景了
+            [UsedImplicitly] set => AssetManager.Instance.background = value; // 这里不能注释掉 不然后期没办法改背景了
         }
 
         private IEnumerator Start()
-        { 
+        {
             //ChartData = JsonConvert.DeserializeObject<ChartData>(new StreamReader(new FileStream($"{Application.streamingAssetsPath}/-1/ChartFile/Red/Chart.json", FileMode.Open)).ReadToEnd());
 
             ChartData = GlobalData.Instance.chartData;

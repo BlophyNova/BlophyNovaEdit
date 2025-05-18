@@ -1,37 +1,19 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Data.ChartEdit;
 using Scenes.DontDestroyOnLoad;
 using TMPro;
 using UnityEngine;
+
 namespace Form.NotePropertyEdit.ValueEdit.Ease
 {
     public class EaseEdit : MonoBehaviour
     {
-        public TMP_Dropdown easeStyle;
-
-        #region 预设缓动
-        public TMP_InputField easeIndex;
-        public TMP_Dropdown easeIO;
-        public TMP_Dropdown easeOption;
-        #endregion
-
-        #region 自定义缓动
-
-        public TextMeshProUGUI customEaseNameText;
-        public TMP_InputField customEaseName;
-        public TMP_Dropdown customEaseOption;
-        #endregion
-
-        public VisualEase visualEase;
-
-        public delegate void OnValueChanged(int value);
-        public event OnValueChanged onValueChanged= value => { };
-
         public delegate void OnCustomValueChanged(int value);
 
-        public event OnCustomValueChanged onCustomValueChanged = value => { };
+        public delegate void OnValueChanged(int value);
+
+        public TMP_Dropdown easeStyle;
+
+        public VisualEase visualEase;
 
         private void Start()
         {
@@ -41,6 +23,10 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             easeOption.onValueChanged.AddListener(EaseOptionChanged);
             customEaseOption.onValueChanged.AddListener(CustomEaseOptionChanged);
         }
+
+        public event OnValueChanged onValueChanged = value => { };
+
+        public event OnCustomValueChanged onCustomValueChanged = value => { };
 
         private void CustomEaseOptionChanged(int value)
         {
@@ -67,43 +53,64 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
                 easeIO.interactable = false;
                 easeOption.gameObject.SetActive(false);
                 customEaseOption.ClearOptions();
-                
-                customEaseOption.options.Add(new(){text = "请选择"});
+
+                customEaseOption.options.Add(new TMP_Dropdown.OptionData { text = "请选择" });
                 foreach (CustomCurve customCurve in GlobalData.Instance.chartEditData.customCurves)
                 {
-                    customEaseOption.options.Add(new(){text = customCurve.name});
+                    customEaseOption.options.Add(new TMP_Dropdown.OptionData { text = customCurve.name });
                 }
             }
         }
+
         private void EaseOptionChanged(int value)
         {
-            if (value is < 0 or > 30)return;
-            IO2Index(easeIO.value,easeOption.value,out int index);
+            if (value is < 0 or > 30)
+            {
+                return;
+            }
+
+            IO2Index(easeIO.value, easeOption.value, out int index);
             easeIndex.SetTextWithoutNotify($"{index}");
             onValueChanged(index);
         }
 
         private void EaseIoChanged(int value)
         {
-            if (value is < 0 or > 2)return;
-            IO2Index(easeIO.value,easeOption.value,out int index);
+            if (value is < 0 or > 2)
+            {
+                return;
+            }
+
+            IO2Index(easeIO.value, easeOption.value, out int index);
             easeIndex.SetTextWithoutNotify($"{index}");
             onValueChanged(index);
         }
 
         private void EaseIndexChanged(string value)
         {
-            if (!int.TryParse(value, out int result))return;
-            if (result is < 0 or > 30)return;
-            Index2IO(result,out int io,out int option);
+            if (!int.TryParse(value, out int result))
+            {
+                return;
+            }
+
+            if (result is < 0 or > 30)
+            {
+                return;
+            }
+
+            Index2IO(result, out int io, out int option);
             easeIO.SetValueWithoutNotify(io);
             easeOption.SetValueWithoutNotify(option);
             onValueChanged(result);
         }
-        
+
         public void SetValueWithoutNotify(int value)
         {
-            if (value is < 0 or > 30) return;
+            if (value is < 0 or > 30)
+            {
+                return;
+            }
+
             Index2IO(value, out int io, out int option);
             easeIndex.SetTextWithoutNotify($"{value}");
             easeIO.SetValueWithoutNotify(io);
@@ -114,12 +121,16 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
         public void SetCustomValueWithoutNotify(int value)
         {
             customEaseOption.SetValueWithoutNotify(value);
-            if(value<=0)return;
-            customEaseName.text = $"{GlobalData.Instance.chartEditData.customCurves[value-1].name}";
+            if (value <= 0)
+            {
+                return;
+            }
+
+            customEaseName.text = $"{GlobalData.Instance.chartEditData.customCurves[value - 1].name}";
         }
-        
+
         /*
-        
+
             0=IN           InSine = 1,          InExpo = 16,
             1=OUT          OutSine = 2,         OutExpo = 17,
             2=I/O          InOutSine = 3,       InOutExpo = 18,
@@ -135,10 +146,10 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
             8=Elastic      InQuint = 13,        InBounce = 28,
             9=Back         OutQuint = 14,       OutBounce = 29,
             10=Bounce      InOutQuint = 15,     InOutBounce = 30
-        
-        
+
+
          */
-        void Index2IO(int index,out int io,out int @option)
+        private void Index2IO(int index, out int io, out int option)
         {
             io = option = 0;
             switch (index)
@@ -146,99 +157,129 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
                 case 0:
                     return;
                 case 1:
-                    io = 0; option = 1;
+                    io = 0;
+                    option = 1;
                     break;
                 case 2:
-                    io = 1; option = 1;
+                    io = 1;
+                    option = 1;
                     break;
                 case 3:
-                    io = 2; option = 1;
+                    io = 2;
+                    option = 1;
                     break;
                 case 4:
-                    io = 0; option = 2;
+                    io = 0;
+                    option = 2;
                     break;
                 case 5:
-                    io = 1; option = 2;
+                    io = 1;
+                    option = 2;
                     break;
                 case 6:
-                    io = 2; option = 2;
+                    io = 2;
+                    option = 2;
                     break;
                 case 7:
-                    io = 0; option = 3;
+                    io = 0;
+                    option = 3;
                     break;
                 case 8:
-                    io = 1; option = 3;
+                    io = 1;
+                    option = 3;
                     break;
                 case 9:
-                    io = 2; option = 3;
+                    io = 2;
+                    option = 3;
                     break;
                 case 10:
-                    io = 0; option = 4;
+                    io = 0;
+                    option = 4;
                     break;
                 case 11:
-                    io = 1; option = 4;
+                    io = 1;
+                    option = 4;
                     break;
                 case 12:
-                    io = 2; option = 4;
+                    io = 2;
+                    option = 4;
                     break;
                 case 13:
-                    io = 0; option = 5;
+                    io = 0;
+                    option = 5;
                     break;
                 case 14:
-                    io = 1; option = 5;
+                    io = 1;
+                    option = 5;
                     break;
                 case 15:
-                    io = 2; option = 5;
+                    io = 2;
+                    option = 5;
                     break;
                 case 16:
-                    io = 0; option = 6;
+                    io = 0;
+                    option = 6;
                     break;
                 case 17:
-                    io = 1; option = 6;
+                    io = 1;
+                    option = 6;
                     break;
                 case 18:
-                    io = 2; option = 6;
+                    io = 2;
+                    option = 6;
                     break;
                 case 19:
-                    io = 0; option = 7;
+                    io = 0;
+                    option = 7;
                     break;
                 case 20:
-                    io = 1; option = 7;
+                    io = 1;
+                    option = 7;
                     break;
                 case 21:
-                    io = 2; option = 7;
+                    io = 2;
+                    option = 7;
                     break;
                 case 22:
-                    io = 0; option = 8;
+                    io = 0;
+                    option = 8;
                     break;
                 case 23:
-                    io = 1; option = 8;
+                    io = 1;
+                    option = 8;
                     break;
                 case 24:
-                    io = 2; option = 8;
+                    io = 2;
+                    option = 8;
                     break;
                 case 25:
-                    io = 0; option = 9;
+                    io = 0;
+                    option = 9;
                     break;
                 case 26:
-                    io = 1; option = 9;
+                    io = 1;
+                    option = 9;
                     break;
                 case 27:
-                    io = 2; option = 9;
+                    io = 2;
+                    option = 9;
                     break;
                 case 28:
-                    io = 0; option = 10;
+                    io = 0;
+                    option = 10;
                     break;
                 case 29:
-                    io = 1; option = 10;
+                    io = 1;
+                    option = 10;
                     break;
                 case 30:
-                    io = 2; option = 10;
+                    io = 2;
+                    option = 10;
                     break;
             }
         }
 
-        void IO2Index(int io,int option,out int index)
+        private void IO2Index(int io, int option, out int index)
         {
             index = 0;
             switch (io)
@@ -327,16 +368,31 @@ namespace Form.NotePropertyEdit.ValueEdit.Ease
                     index = 27;
                     break;
                 case 0 when option == 10:
-                    index =28;
+                    index = 28;
                     break;
                 case 1 when option == 10:
-                    index =29;
+                    index = 29;
                     break;
                 case 2 when option == 10:
-                    index =30;
+                    index = 30;
                     break;
             }
         }
-        
+
+        #region 预设缓动
+
+        public TMP_InputField easeIndex;
+        public TMP_Dropdown easeIO;
+        public TMP_Dropdown easeOption;
+
+        #endregion
+
+        #region 自定义缓动
+
+        public TextMeshProUGUI customEaseNameText;
+        public TMP_InputField customEaseName;
+        public TMP_Dropdown customEaseOption;
+
+        #endregion
     }
 }

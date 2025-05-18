@@ -1,8 +1,8 @@
+using System;
+using System.Collections.Generic;
 using Data.ChartData;
 using Data.Interface;
 using Manager;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UtilityCode.ObjectPool;
 using Vector3 = UnityEngine.Vector3;
@@ -27,7 +27,6 @@ namespace Controller
         // public float lineDistance;//线的距离，根据每帧计算，生成这个范围内的所有Note
 
         public AnimationCurve canvasSpeed; //这个用来表示这根线的所有速度总览
-        public AnimationCurve canvasLocalOffset=>ThisLine.far; //这个用来表示的是某个时间，画布的Y轴应该是多少
         public Transform onlineNote; //判定线上边的音符
         public Transform offlineNote; //判定线下边的音符
 
@@ -42,6 +41,7 @@ namespace Controller
         public int currentLineID;
 
         public Line thisLine; //这根线的源数据
+        public AnimationCurve canvasLocalOffset => ThisLine.far; //这个用来表示的是某个时间，画布的Y轴应该是多少
 
         public Line ThisLine
         {
@@ -63,7 +63,7 @@ namespace Controller
             SpeckleManager.Instance.allLineNoteControllers.Remove(lineNoteController);
         }
 
-        public void RefreshPlayer(int boxID,int lineID)
+        public void RefreshPlayer(int boxID, int lineID)
         {
             Refresh();
         }
@@ -93,36 +93,36 @@ namespace Controller
         {
             onlineNotes = new List<ObjectPoolQueue<NoteController>>
             {
-                new ObjectPoolQueue<NoteController>(AssetManager.Instance.noteControllers[(int)NoteType.Tap], 0,
+                new(AssetManager.Instance.noteControllers[(int)NoteType.Tap], 0,
                     box.sortSeed, onlineNote),
-                new ObjectPoolQueue<NoteController>(AssetManager.Instance.noteControllers[(int)NoteType.Hold], 0,
+                new(AssetManager.Instance.noteControllers[(int)NoteType.Hold], 0,
                     box.sortSeed, onlineNote),
-                new ObjectPoolQueue<NoteController>(AssetManager.Instance.noteControllers[(int)NoteType.Drag], 0,
+                new(AssetManager.Instance.noteControllers[(int)NoteType.Drag], 0,
                     box.sortSeed, onlineNote),
-                new ObjectPoolQueue<NoteController>(AssetManager.Instance.noteControllers[(int)NoteType.Flick], 0,
+                new(AssetManager.Instance.noteControllers[(int)NoteType.Flick], 0,
                     box.sortSeed, onlineNote),
-                new ObjectPoolQueue<NoteController>(AssetManager.Instance.noteControllers[(int)NoteType.Point], 0,
+                new(AssetManager.Instance.noteControllers[(int)NoteType.Point], 0,
                     box.sortSeed, onlineNote),
-                new ObjectPoolQueue<NoteController>(AssetManager.Instance.noteControllers[(int)NoteType.FullFlickPink],
+                new(AssetManager.Instance.noteControllers[(int)NoteType.FullFlickPink],
                     0, box.sortSeed, onlineNote),
-                new ObjectPoolQueue<NoteController>(AssetManager.Instance.noteControllers[(int)NoteType.FullFlickBlue],
+                new(AssetManager.Instance.noteControllers[(int)NoteType.FullFlickBlue],
                     0, box.sortSeed, onlineNote)
             };
             offlineNotes = new List<ObjectPoolQueue<NoteController>>
             {
-                new ObjectPoolQueue<NoteController>(AssetManager.Instance.noteControllers[(int)NoteType.Tap], 0,
+                new(AssetManager.Instance.noteControllers[(int)NoteType.Tap], 0,
                     box.sortSeed, offlineNote),
-                new ObjectPoolQueue<NoteController>(AssetManager.Instance.noteControllers[(int)NoteType.Hold], 0,
+                new(AssetManager.Instance.noteControllers[(int)NoteType.Hold], 0,
                     box.sortSeed, offlineNote),
-                new ObjectPoolQueue<NoteController>(AssetManager.Instance.noteControllers[(int)NoteType.Drag], 0,
+                new(AssetManager.Instance.noteControllers[(int)NoteType.Drag], 0,
                     box.sortSeed, offlineNote),
-                new ObjectPoolQueue<NoteController>(AssetManager.Instance.noteControllers[(int)NoteType.Flick], 0,
+                new(AssetManager.Instance.noteControllers[(int)NoteType.Flick], 0,
                     box.sortSeed, offlineNote),
-                new ObjectPoolQueue<NoteController>(AssetManager.Instance.noteControllers[(int)NoteType.Point], 0,
+                new(AssetManager.Instance.noteControllers[(int)NoteType.Point], 0,
                     box.sortSeed, offlineNote),
-                new ObjectPoolQueue<NoteController>(AssetManager.Instance.noteControllers[(int)NoteType.FullFlickPink],
+                new(AssetManager.Instance.noteControllers[(int)NoteType.FullFlickPink],
                     0, box.sortSeed, offlineNote),
-                new ObjectPoolQueue<NoteController>(AssetManager.Instance.noteControllers[(int)NoteType.FullFlickBlue],
+                new(AssetManager.Instance.noteControllers[(int)NoteType.FullFlickBlue],
                     0, box.sortSeed, offlineNote)
             };
         }

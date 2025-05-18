@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Data.Enumerate;
 using Data.Interface;
 using Form.NoteEdit;
@@ -43,7 +45,8 @@ namespace ShortcutKey.Events
                     ProgressManager.Instance.OffsetTime(offsetTime);
                 }
 
-                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BasicLine) });
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),
+                    new List<Type> { typeof(BasicLine) });
             }
 
             Debug.Log($"MousePerformed：{callbackContext.ReadValue<float>()}");

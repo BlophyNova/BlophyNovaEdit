@@ -25,7 +25,9 @@ namespace ShortcutKey.Events
             LogCenter.Log($"{inputActionName}.Canceled被调用！");
         }
 
-        protected void Init() => ShortcutKeyManager.Instance.RegisterEvents(inputActionName, Started, Performed, Canceled);
-
+        protected void Init()
+        {
+            ShortcutKeyManager.Instance.RegisterEvents(inputActionName, Started, Performed, Canceled);
+        }
     }
 }

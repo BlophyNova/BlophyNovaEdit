@@ -1,16 +1,16 @@
+using System;
+using System.Collections.Generic;
 using Data.Enumerate;
 using Data.Interface;
 using Form.LabelWindow;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Event = Data.ChartEdit.Event;
 using EventType = Data.Enumerate.EventType;
 using static UtilityCode.ValueConvert.ValueConvert;
+
 namespace Form.EventEdit
 {
     public class EventEditItem : PublicButton, ISelectBoxItem
@@ -46,10 +46,14 @@ namespace Form.EventEdit
 
         private void Start()
         {
-            thisButton.onClick.AddListener(() => 
+            thisButton.onClick.AddListener(() =>
             {
-                if (@event.eventType == EventType.LineAlpha) return;
-                ThisEventEdit.selectBox.SetSingleNote(this); 
+                if (@event.eventType == EventType.LineAlpha)
+                {
+                    return;
+                }
+
+                ThisEventEdit.selectBox.SetSingleNote(this);
             });
             ThisEventEdit.labelItem.onLabelGetFocus += LabelWindow_onLabelGetFocus;
             ThisEventEdit.labelItem.onLabelLostFocus += LabelWindow_onLabelLostFocus;
@@ -171,6 +175,7 @@ namespace Form.EventEdit
                     maxValue = item.endValue;
                 }
             }
+
             DrawLineOnEEI();
             return this;
         }
@@ -189,19 +194,20 @@ namespace Form.EventEdit
                 //positions[i].
                 Vector3 currentPosition = (corners[2] - corners[0]) * (i / (float)pointCount) + corners[0];
                 //currentPosition.y = @event.curve.thisCurve.Evaluate(i / (float)pointCount) * (corners[2].y - corners[0].y) + corners[0].y;
-                if (@event.isCustomCurve&&@event.curveIndex<GlobalData.Instance.chartEditData.customCurves.Count)
+                if (@event.isCustomCurve && @event.curveIndex < GlobalData.Instance.chartEditData.customCurves.Count)
                 {
                     currentPosition.x =
-                        GlobalData.Instance.chartEditData.customCurves[@event.curveIndex].curve.Evaluate(i / (float)pointCount) * (corners[2].x - corners[0].x) +
+                        GlobalData.Instance.chartEditData.customCurves[@event.curveIndex].curve
+                            .Evaluate(i / (float)pointCount) * (corners[2].x - corners[0].x) +
                         corners[0].x;
                 }
                 else
                 {
                     currentPosition.x =
-                    @event.Curve.thisCurve.Evaluate(i / (float)pointCount) * (corners[2].x - corners[0].x) +
-                    corners[0].x;
+                        @event.Curve.thisCurve.Evaluate(i / (float)pointCount) * (corners[2].x - corners[0].x) +
+                        corners[0].x;
                 }
-                
+
                 currentPosition.z = -.1f;
                 points.Add(currentPosition);
             }

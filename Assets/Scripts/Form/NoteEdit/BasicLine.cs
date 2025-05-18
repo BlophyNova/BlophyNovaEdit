@@ -1,10 +1,9 @@
+using System.Collections.Generic;
 using Data.ChartEdit;
 using Data.Interface;
 using Form.PropertyEdit;
 using Manager;
 using Scenes.DontDestroyOnLoad;
-using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -42,6 +41,11 @@ namespace Form.NoteEdit
             UpdateBeatLines();
         }
 
+        public void RefreshUI()
+        {
+            Refresh();
+        }
+
         /// <summary>
         ///     在bpm改变的时候应该被调用
         /// </summary>
@@ -50,7 +54,11 @@ namespace Form.NoteEdit
             nextBPMWithAriseLine =
                 new BPM(BPMManager.Instance.GetBeatsBySeconds((float)ProgressManager.Instance.CurrentTime).integer, 0,
                     1);
-            if (nextBPMWithAriseLine.ThisStartBPM < 0) nextBPMWithAriseLine = BPM.Zero;
+            if (nextBPMWithAriseLine.ThisStartBPM < 0)
+            {
+                nextBPMWithAriseLine = BPM.Zero;
+            }
+
             foreach (BeatLine item in beatLines)
             {
                 Destroy(item.gameObject);
@@ -86,10 +94,6 @@ namespace Form.NoteEdit
                     Destroy(thisBeatLine.gameObject);
                 }
             }
-        }
-        public void RefreshUI()
-        {
-            Refresh();
         }
     }
 }

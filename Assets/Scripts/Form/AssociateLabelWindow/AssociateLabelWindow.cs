@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using Form.LabelWindow;
 using Manager;
-using System.Collections.Generic;
 using UnityEngine.UI;
 
 namespace Form.AssociateLabelWindow

@@ -1,8 +1,4 @@
-using System;
 using Form.LabelWindow;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace Form.PropertyEdit
@@ -16,25 +12,19 @@ namespace Form.PropertyEdit
 
         private void Start()
         {
-            bpmList.onClick.AddListener(() =>
-            {
-                GetT<BPMList.BPMList>().labelItem.labelButton.ThisLabelGetFocus();
-            });
+            bpmList.onClick.AddListener(() => { GetT<BPMList.BPMList>().labelItem.labelButton.ThisLabelGetFocus(); });
             notePropertyEdit.onClick.AddListener(() =>
             {
                 GetT<NotePropertyEdit.NotePropertyEdit>().labelItem.labelButton.ThisLabelGetFocus();
             });
-            boxList.onClick.AddListener(() =>
-            {
-                GetT<BoxList.BoxList>().labelItem.labelButton.ThisLabelGetFocus();
-            });
+            boxList.onClick.AddListener(() => { GetT<BoxList.BoxList>().labelItem.labelButton.ThisLabelGetFocus(); });
             associateLabelWindow.onClick.AddListener(() =>
             {
                 GetT<AssociateLabelWindow.AssociateLabelWindow>().labelItem.labelButton.ThisLabelGetFocus();
             });
         }
 
-        T GetT<T>() where T : LabelWindowContent
+        private T GetT<T>() where T : LabelWindowContent
         {
             foreach (LabelItem labelItem in labelWindow.labels)
             {
@@ -43,6 +33,7 @@ namespace Form.PropertyEdit
                     return (T)labelItem.labelWindowContent;
                 }
             }
+
             return null;
         }
     }

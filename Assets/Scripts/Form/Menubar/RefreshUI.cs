@@ -1,7 +1,5 @@
 using Controller;
-using Data.Interface;
 using Log;
-using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
 
 namespace Form.Menubar

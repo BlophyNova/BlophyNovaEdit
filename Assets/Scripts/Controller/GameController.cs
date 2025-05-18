@@ -1,7 +1,7 @@
-using Manager;
-using Scenes.DontDestroyOnLoad;
 using System.Collections;
 using System.Collections.Generic;
+using Manager;
+using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 using UtilityCode.Singleton;
 
@@ -58,8 +58,10 @@ namespace Controller
                     newItem.decideLineControllers[j].currentBoxID = i;
                     newItem.decideLineControllers[j].currentLineID = j;
                 }
+
                 boxes.Add(newItem);
             }
+
             boxes[currentBoxID].SetShowXYPoint(currentBoxID);
         }
 
@@ -67,10 +69,11 @@ namespace Controller
         {
             InstNewBox();
         }
+
         public void ChangeShowXYPoint(int currentBoxID)
         {
             this.currentBoxID = currentBoxID;
-            foreach (var item in boxes)
+            foreach (BoxController item in boxes)
             {
                 item.SetShowXYPoint(currentBoxID);
             }

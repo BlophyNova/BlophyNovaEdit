@@ -24,6 +24,6 @@ namespace Data.Enumerate
         VisualEase = 65536, //1<<16
         SpecialThanks = 1 << 17, //131072
         Devices = 1 << 18, //262144
-        QuickOpen = 1 << 19,
+        QuickOpen = 1 << 19
     }
 }

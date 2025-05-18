@@ -1,7 +1,8 @@
+using System;
+using System.Collections.Generic;
 using Data.Interface;
 using Form.LabelWindow;
 using Form.NoteEdit;
-using Form.PropertyEdit;
 using Manager;
 using Scenes.DontDestroyOnLoad;
 using TMPro;
@@ -28,24 +29,29 @@ namespace Form.PorgressBar
                 float result = GlobalData.Instance.chartData.metaData.musicLength * theValue;
                 ProgressManager.Instance.SetTime(result);
 
-                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BasicLine) });
-                GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1,-1),null);
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),
+                    new List<Type> { typeof(BasicLine) });
+                GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1, -1), null);
             });
         }
 
         private void Update()
         {
-            if (GlobalData.Instance.chartData.metaData.musicLength <= 1) return;
+            if (GlobalData.Instance.chartData.metaData.musicLength <= 1)
+            {
+                return;
+            }
+
             float currentProgress = (float)ProgressManager.Instance.CurrentTime /
                                     GlobalData.Instance.chartData.metaData.musicLength;
             progressBar.SetValueWithoutNotify(currentProgress);
             if (currentProgress >= .9999f)
             {
-
                 StateManager.Instance.RestartTime(GlobalData.Instance.chartEditData.loopPlayBack);
                 //Debug.LogError($"循环播放做好后用在这里");
 
-                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BasicLine) });
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),
+                    new List<Type> { typeof(BasicLine) });
             }
 
             progressInfomation.text = $"\t{(int)(ProgressManager.Instance.CurrentTime / 60):D2}:" +

@@ -1,19 +1,12 @@
-using Data.ChartData;
-using Data.ChartEdit;
+using System.Collections.Generic;
 using Data.Enumerate;
 using Data.Interface;
 using Form.EventEdit;
 using Form.LabelWindow;
 using Form.NotePropertyEdit;
 using Log;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Event = Data.ChartEdit.Event;
-using EventType = Data.Enumerate.EventType;
-using Note = Data.ChartEdit.Note;
 
 namespace Scenes.Edit
 {
@@ -27,8 +20,8 @@ namespace Scenes.Edit
         public Color disableSelectBoxTextureColor = new(1, 1, 1, 0);
         public Vector2 firstFramePositionInLabelWindow = Vector2.zero;
         public bool isPressing;
-        private NotePropertyEdit notePropertyEdit;
         public readonly List<ISelectBoxItem> selectedBoxItems = new();
+        private NotePropertyEdit notePropertyEdit;
         public ISelectBox selectBoxObjects => noteEdit == null ? eventEdit : noteEdit;
         public LabelWindowContent labelWindowContent => noteEdit == null ? eventEdit : noteEdit;
         private bool isNoteEdit => noteEdit == null ? false : true;
@@ -111,7 +104,7 @@ namespace Scenes.Edit
 
             if (eventEdit != null)
             {
-                eventEdit.onEventsAdded2UI += eventEditItems => 
+                eventEdit.onEventsAdded2UI += eventEditItems =>
                 {
                     for (int i = 0; i < eventEditItems.Count; i++)
                     {
@@ -121,9 +114,9 @@ namespace Scenes.Edit
                         }
                     }
                 };
-                eventEdit.onEventsDeleted += events => 
-                { 
-                    for (int i = 0;i < events.Count; i++)
+                eventEdit.onEventsDeleted += events =>
+                {
+                    for (int i = 0; i < events.Count; i++)
                     {
                         selectedBoxItems.Remove(events[i].chartEditEvent);
                     }
@@ -131,7 +124,7 @@ namespace Scenes.Edit
                 eventEdit.onEventsRefreshed += events =>
                 {
                     selectedBoxItems.Clear();
-                    for (int i = 0;i<events.Count; i++)
+                    for (int i = 0; i < events.Count; i++)
                     {
                         if (events[i].IsSelected)
                         {
@@ -139,7 +132,7 @@ namespace Scenes.Edit
                         }
                     }
                 };
-            } 
+            }
         }
 
         private void Update()
@@ -151,11 +144,15 @@ namespace Scenes.Edit
                     Debug.Log("SelectBox第一帧");
                     StartHandle();
                 }
+
                 HoldHandle();
                 return;
             }
 
-            if (selectBoxTexture.color.Equals(disableSelectBoxTextureColor)) return;
+            if (selectBoxTexture.color.Equals(disableSelectBoxTextureColor))
+            {
+                return;
+            }
 
             Debug.Log("SelectBox最后一帧");
             EndHandle();
@@ -174,14 +171,14 @@ namespace Scenes.Edit
 
             if (selectBoxItem.IsNoteEdit)
             {
-                NotePropertyEdit.EditNote.Set(new List<ISelectBoxItem>() { selectBoxItem });
+                NotePropertyEdit.EditNote.Set(new List<ISelectBoxItem> { selectBoxItem });
             }
             else
             {
-                NotePropertyEdit.EditEvent.Set(new List<ISelectBoxItem>() { selectBoxItem });
+                NotePropertyEdit.EditEvent.Set(new List<ISelectBoxItem> { selectBoxItem });
             }
-            
         }
+
         public void SetMutliNote(List<ISelectBoxItem> selectBoxItems)
         {
             ClearSelectedBoxItems();
@@ -189,6 +186,7 @@ namespace Scenes.Edit
             {
                 selectBoxItem.SetSelectState(true);
             }
+
             selectedBoxItems.AddRange(selectBoxItems);
             SetValue2NotePropertyEdit();
         }

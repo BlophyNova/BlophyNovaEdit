@@ -1,23 +1,18 @@
+using System;
+using System.Collections.Generic;
 using CustomSystem;
 using Data.ChartData;
 using Data.ChartEdit;
-using Data.Interface;
-using Form.PropertyEdit;
-using Log;
-using Manager;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 using Note = Data.ChartEdit.Note;
+
 namespace Form.NoteEdit
 {
     //这里放用户编辑操作响应相关的事情
     public partial class NoteEdit
     {
-
         private Note AddNewNote(NoteType noteType, NoteEffect noteEffect, int boxID, int lineID)
         {
             FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
@@ -27,14 +22,15 @@ namespace Form.NoteEdit
             note.HitBeats = new BPM(nearBeatLine.thisBPM);
             note.holdBeats = BPM.One;
             note.effect = noteEffect;
-            note.positionX= CalculatePositionX(nearVerticalLine);
+            note.positionX = CalculatePositionX(nearVerticalLine);
             Scenes.Edit.NoteEdit instNewNoteEditPrefab = GetNoteType(noteType);
             FullFlickSpecialHandling(noteType, note);
 
             Scenes.Edit.NoteEdit newNoteEdit = Instantiate(instNewNoteEditPrefab, basicLine.noteCanvas).Init(note);
             note.chartEditNote = newNoteEdit;
             newNoteEdit.labelWindow = labelWindow;
-            newNoteEdit.transform.localPosition = new(nearVerticalLine.localPosition.x, nearBeatLine.transform.localPosition.y);
+            newNoteEdit.transform.localPosition =
+                new Vector3(nearVerticalLine.localPosition.x, nearBeatLine.transform.localPosition.y);
             notes.Add(newNoteEdit);
             AddNote(note, boxID, lineID);
             return note;
@@ -42,7 +38,9 @@ namespace Form.NoteEdit
 
         private float CalculatePositionX(RectTransform nearVerticalLine)
         {
-                return(nearVerticalLine.localPosition.x + (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) / (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
+            return (nearVerticalLine.localPosition.x +
+                    (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) /
+                (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
         }
 
         private static void FullFlickSpecialHandling(NoteType noteType, Note note)
@@ -83,17 +81,20 @@ namespace Form.NoteEdit
             Note newNote = AddNewNote(NoteType.Tap, NoteEffect.CommonEffect, currentBoxID, currentLineID);
             Steps.Instance.Add(Undo, Redo, default);
             return;
+
             void Undo()
             {
                 DeleteNote(newNote, currentBoxID, currentLineID);
             }
+
             void Redo()
             {
-                List<Note> instNewNotes = AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                List<Note> instNewNotes = AddNotes(new List<Note> { newNote }, currentBoxID, currentLineID);
                 BatchNotes(instNewNotes, note => note.isSelected = false);
                 notes.AddRange(AddNotes2UI(instNewNotes));
             }
         }
+
         public void AddNewHold()
         {
             Debug.Log($"{MousePositionInThisRectTransform}");
@@ -125,34 +126,40 @@ namespace Form.NoteEdit
                 waitForPressureAgain = true;
             } /*报错*/
         }
+
         public void AddNewFullFlick()
         {
-            Note newNote =AddNewNote(NoteType.FullFlick, 0, currentBoxID, currentLineID); 
+            Note newNote = AddNewNote(NoteType.FullFlick, 0, currentBoxID, currentLineID);
             Steps.Instance.Add(Undo, Redo, default);
             return;
+
             void Undo()
             {
                 DeleteNote(newNote, currentBoxID, currentLineID);
             }
+
             void Redo()
             {
-                List<Note> instNewNotes = AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                List<Note> instNewNotes = AddNotes(new List<Note> { newNote }, currentBoxID, currentLineID);
                 BatchNotes(instNewNotes, note => note.isSelected = false);
                 notes.AddRange(AddNotes2UI(instNewNotes));
             }
         }
+
         public void AddNewDrag()
         {
             Note newNote = AddNewNote(NoteType.Drag, NoteEffect.CommonEffect, currentBoxID, currentLineID);
             Steps.Instance.Add(Undo, Redo, default);
             return;
+
             void Undo()
             {
                 DeleteNote(newNote, currentBoxID, currentLineID);
             }
+
             void Redo()
             {
-                List<Note> instNewNotes = AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                List<Note> instNewNotes = AddNotes(new List<Note> { newNote }, currentBoxID, currentLineID);
                 BatchNotes(instNewNotes, note => note.isSelected = false);
                 notes.AddRange(AddNotes2UI(instNewNotes));
             }
@@ -163,13 +170,15 @@ namespace Form.NoteEdit
             Note newNote = AddNewNote(NoteType.Flick, NoteEffect.CommonEffect, currentBoxID, currentLineID);
             Steps.Instance.Add(Undo, Redo, default);
             return;
+
             void Undo()
             {
                 DeleteNote(newNote, currentBoxID, currentLineID);
             }
+
             void Redo()
             {
-                List<Note> instNewNotes = AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                List<Note> instNewNotes = AddNotes(new List<Note> { newNote }, currentBoxID, currentLineID);
                 BatchNotes(instNewNotes, note => note.isSelected = false);
                 notes.AddRange(AddNotes2UI(instNewNotes));
             }
@@ -180,17 +189,20 @@ namespace Form.NoteEdit
             Note newNote = AddNewNote(NoteType.Point, NoteEffect.Ripple, currentBoxID, currentLineID);
             Steps.Instance.Add(Undo, Redo, default);
             return;
+
             void Undo()
             {
                 DeleteNote(newNote, currentBoxID, currentLineID);
             }
+
             void Redo()
             {
-                List<Note> instNewNotes = AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                List<Note> instNewNotes = AddNotes(new List<Note> { newNote }, currentBoxID, currentLineID);
                 BatchNotes(instNewNotes, note => note.isSelected = false);
                 notes.AddRange(AddNotes2UI(instNewNotes));
             }
         }
+
         private void SelectBoxDown()
         {
             selectBox.isPressing = true;
@@ -240,10 +252,12 @@ namespace Form.NoteEdit
                 PasteRedo();
                 isCopy = true;
                 return;
+
                 void PasteUndo()
                 {
-                    DeleteNotes(newNotes, currentBoxID,currentLineID, false);
+                    DeleteNotes(newNotes, currentBoxID, currentLineID);
                 }
+
                 void PasteRedo()
                 {
                     AlignNotes(newNotes, beatLine.thisBPM);
@@ -252,38 +266,48 @@ namespace Form.NoteEdit
                     notes.AddRange(AddNotes2UI(instNewNotes));
                 }
             }
-            catch (JsonException je) { }
+            catch (JsonException je)
+            {
+            }
         }
+
         private void DeleteNoteWithUI()
         {
             List<Note> selectedNotes = GetSelectedNotes();
-            List<Note> deletedEvents = DeleteNotes(selectedNotes, currentBoxID,currentLineID);
+            List<Note> deletedEvents = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
             Steps.Instance.Add(Undo, Redo, default);
             return;
+
             void Undo()
             {
                 List<Note> instNewNotes = AddNotes(deletedEvents, currentBoxID, currentLineID);
-                BatchNotes(instNewNotes, note => note.isSelected=false);
+                BatchNotes(instNewNotes, note => note.isSelected = false);
                 notes.AddRange(AddNotes2UI(instNewNotes));
             }
+
             void Redo()
             {
                 DeleteNotes(deletedEvents, currentBoxID, currentLineID);
             }
         }
+
         private void MoveUp()
         {
-            List<Note> newNotes= null;
+            List<Note> newNotes = null;
             List<Note> deletedNotes = null;
             List<Note> selectedNotes = GetSelectedNotes();
             newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
             BPM bpm = new(newNotes[0].HitBeats);
-            BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedNotes[0].chartEditNote.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
-            bpm = new(nearBPM);
+            BPM nearBPM =
+                FindNearBeatLine(
+                    (Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedNotes[0]
+                        .chartEditNote.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
+            bpm = new BPM(nearBPM);
             if (bpm.denominator == ChartEditData.beatSubdivision && bpm.ThisStartBPM == nearBPM.ThisStartBPM)
             {
                 bpm.AddOneBeat();
             }
+
             AlignNotes(newNotes, bpm);
             AddNotes(newNotes, currentBoxID, currentLineID);
             notes.AddRange(AddNotes2UI(newNotes));
@@ -291,19 +315,22 @@ namespace Form.NoteEdit
             deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
             Steps.Instance.Add(Undo, Redo, default);
             return;
+
             void Undo()
             {
                 List<Note> instNewNotes = AddNotes(deletedNotes, currentBoxID, currentLineID);
                 notes.AddRange(AddNotes2UI(instNewNotes));
-                DeleteNotes(newNotes, currentBoxID, currentLineID, false);
+                DeleteNotes(newNotes, currentBoxID, currentLineID);
             }
+
             void Redo()
             {
                 List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
                 notes.AddRange(AddNotes2UI(instNewNotes));
-                DeleteNotes(deletedNotes, currentBoxID, currentLineID, false);
+                DeleteNotes(deletedNotes, currentBoxID, currentLineID);
             }
         }
+
         private void MoveDown()
         {
             List<Note> newNotes = null;
@@ -311,30 +338,36 @@ namespace Form.NoteEdit
             List<Note> selectedNotes = GetSelectedNotes();
             newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
             BPM bpm = new(newNotes[0].HitBeats);
-            BPM nearBPM = FindNearBeatLine((Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedNotes[0].chartEditNote.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
-            bpm = new(nearBPM);
+            BPM nearBPM =
+                FindNearBeatLine(
+                    (Vector2)labelWindow.labelWindowContent.transform.InverseTransformPoint(selectedNotes[0]
+                        .chartEditNote.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2).thisBPM;
+            bpm = new BPM(nearBPM);
             if (bpm.denominator == ChartEditData.beatSubdivision && bpm.ThisStartBPM == nearBPM.ThisStartBPM)
             {
                 bpm.SubtractionOneBeat();
             }
+
             AlignNotes(newNotes, bpm);
             AddNotes(newNotes, currentBoxID, currentLineID);
             notes.AddRange(AddNotes2UI(newNotes));
 
-            deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID); 
+            deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
             Steps.Instance.Add(Undo, Redo, default);
             return;
+
             void Undo()
             {
                 List<Note> instNewNotes = AddNotes(deletedNotes, currentBoxID, currentLineID);
                 notes.AddRange(AddNotes2UI(instNewNotes));
-                DeleteNotes(newNotes, currentBoxID, currentLineID, false);
+                DeleteNotes(newNotes, currentBoxID, currentLineID);
             }
+
             void Redo()
             {
                 List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
                 notes.AddRange(AddNotes2UI(instNewNotes));
-                DeleteNotes(deletedNotes, currentBoxID, currentLineID, false);
+                DeleteNotes(deletedNotes, currentBoxID, currentLineID);
             }
         }
 
@@ -346,26 +379,32 @@ namespace Form.NoteEdit
             newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
             foreach (Note note in newNotes)
             {
-                if (note.positionX - verticalLineDeltaDataForChartData < -1.0001f) return;
+                if (note.positionX - verticalLineDeltaDataForChartData < -1.0001f)
+                {
+                    return;
+                }
             }
-            BatchNotes(newNotes, note => note.positionX -=verticalLineDeltaDataForChartData);
+
+            BatchNotes(newNotes, note => note.positionX -= verticalLineDeltaDataForChartData);
             AddNotes(newNotes, currentBoxID, currentLineID);
             notes.AddRange(AddNotes2UI(newNotes));
 
             deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
             Steps.Instance.Add(Undo, Redo, default);
             return;
+
             void Undo()
             {
                 List<Note> instNewNotes = AddNotes(deletedNotes, currentBoxID, currentLineID);
                 notes.AddRange(AddNotes2UI(instNewNotes));
-                DeleteNotes(newNotes, currentBoxID, currentLineID, false);
+                DeleteNotes(newNotes, currentBoxID, currentLineID);
             }
+
             void Redo()
             {
                 List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
                 notes.AddRange(AddNotes2UI(instNewNotes));
-                DeleteNotes(deletedNotes, currentBoxID, currentLineID, false);
+                DeleteNotes(deletedNotes, currentBoxID, currentLineID);
             }
         }
 
@@ -377,26 +416,32 @@ namespace Form.NoteEdit
             newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
             foreach (Note note in newNotes)
             {
-                if (note.positionX + verticalLineDeltaDataForChartData > 1.0001f) return;
+                if (note.positionX + verticalLineDeltaDataForChartData > 1.0001f)
+                {
+                    return;
+                }
             }
-            BatchNotes(newNotes, note => note.positionX+=verticalLineDeltaDataForChartData);
+
+            BatchNotes(newNotes, note => note.positionX += verticalLineDeltaDataForChartData);
             AddNotes(newNotes, currentBoxID, currentLineID);
             notes.AddRange(AddNotes2UI(newNotes));
 
             deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
             Steps.Instance.Add(Undo, Redo, default);
             return;
+
             void Undo()
             {
                 List<Note> instNewNotes = AddNotes(deletedNotes, currentBoxID, currentLineID);
                 notes.AddRange(AddNotes2UI(instNewNotes));
-                DeleteNotes(newNotes, currentBoxID, currentLineID, false);
+                DeleteNotes(newNotes, currentBoxID, currentLineID);
             }
+
             void Redo()
             {
                 List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
                 notes.AddRange(AddNotes2UI(instNewNotes));
-                DeleteNotes(deletedNotes, currentBoxID, currentLineID, false);
+                DeleteNotes(deletedNotes, currentBoxID, currentLineID);
             }
         }
 
@@ -407,48 +452,55 @@ namespace Form.NoteEdit
             List<Note> selectedNotes = GetSelectedNotes();
 
             newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
-            BatchNotes(newNotes, note => { note.isSelected = false;note.positionX = -note.positionX; });
+            BatchNotes(newNotes, note =>
+            {
+                note.isSelected = false;
+                note.positionX = -note.positionX;
+            });
             AddNotes(newNotes, currentBoxID, currentLineID);
             notes.AddRange(AddNotes2UI(newNotes));
             Steps.Instance.Add(Undo, Redo, default);
             return;
+
             void Undo()
             {
-                DeleteNotes(newNotes, currentBoxID, currentLineID, false);
+                DeleteNotes(newNotes, currentBoxID, currentLineID);
             }
+
             void Redo()
             {
                 List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
                 notes.AddRange(AddNotes2UI(instNewNotes));
             }
         }
-        void MirrorFlip()
+
+        private void MirrorFlip()
         {
             List<Note> newNotes = null;
             List<Note> deletedNotes = null;
             List<Note> selectedNotes = GetSelectedNotes();
             newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
-            deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID, false);
-            BatchNotes(newNotes, note => note.positionX=-note.positionX);
+            deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
+            BatchNotes(newNotes, note => note.positionX = -note.positionX);
             AddNotes(newNotes, currentBoxID, currentLineID);
             notes.AddRange(AddNotes2UI(newNotes));
 
             Steps.Instance.Add(Undo, Redo, default);
             return;
+
             void Undo()
             {
                 List<Note> instNewNotes = AddNotes(deletedNotes, currentBoxID, currentLineID);
                 notes.AddRange(AddNotes2UI(instNewNotes));
-                DeleteNotes(newNotes, currentBoxID, currentLineID, false);
+                DeleteNotes(newNotes, currentBoxID, currentLineID);
             }
+
             void Redo()
             {
                 List<Note> instNewNotes = AddNotes(newNotes, currentBoxID, currentLineID);
                 notes.AddRange(AddNotes2UI(instNewNotes));
-                DeleteNotes(deletedNotes, currentBoxID, currentLineID, false);
+                DeleteNotes(deletedNotes, currentBoxID, currentLineID);
             }
         }
-
-
     }
 }

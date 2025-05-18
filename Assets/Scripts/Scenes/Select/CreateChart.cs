@@ -1,11 +1,10 @@
-using Data;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using Data.ChartData;
 using Data.ChartEdit;
 using Newtonsoft.Json;
 using Scenes.PublicScripts;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -62,7 +61,8 @@ namespace Scenes.Select
         private void CreatCharts()
         {
             File.Copy(musicPathText.text, $"{MusicFilePath}/Music{Path.GetExtension(musicPathText.text)}");
-            File.Copy(illustrationPathText.text, $"{IllustrationFilePath}/Background{Path.GetExtension(illustrationPathText.text)}");
+            File.Copy(illustrationPathText.text,
+                $"{IllustrationFilePath}/Background{Path.GetExtension(illustrationPathText.text)}");
             ChartData chartData = new();
             ChartTool.CreateNewChart(chartData, GlobalData.Instance.easeDatas);
             chartData.yScale = 6;
@@ -77,7 +77,7 @@ namespace Scenes.Select
             {
                 new() { integer = 0, molecule = 0, denominator = 1, currentBPM = 60 }
             };
-            chartData.customCurves = new();
+            chartData.customCurves = new List<CustomCurve>();
 
             CreatChart(Data.Enumerate.Hard.Easy, chartData);
             CreatChart(Data.Enumerate.Hard.Normal, chartData);
@@ -85,6 +85,7 @@ namespace Scenes.Select
             CreatChart(Data.Enumerate.Hard.Ultra, chartData);
             CreatChart(Data.Enumerate.Hard.Special, chartData);
         }
+
         private void CreatChart(Data.Enumerate.Hard hard, ChartData chartData)
         {
             File.WriteAllText($"{ChartFilePath}/{hard}/Chart.json",
@@ -103,6 +104,7 @@ namespace Scenes.Select
             File.WriteAllText($"{ChartFilePath}/{hard}/MetaData.json",
                 JsonConvert.SerializeObject(metaData));
         }
+
         private bool VerifyLocalMusicExistence()
         {
             if (File.Exists(musicPathText.text))
@@ -131,8 +133,8 @@ namespace Scenes.Select
             if (VerifyLocalMusicExistence() &
                 VerifyLocalIllustrationExistence())
             {
-
-                currentChartFileIndex = $"{DateTime.Now.Year}{DateTime.Now.Month:D2}{DateTime.Now.Day:D2}{DateTime.Now.Hour:D2}{DateTime.Now.Minute:D2}{DateTime.Now.Second:D2}";
+                currentChartFileIndex =
+                    $"{DateTime.Now.Year}{DateTime.Now.Month:D2}{DateTime.Now.Day:D2}{DateTime.Now.Hour:D2}{DateTime.Now.Minute:D2}{DateTime.Now.Second:D2}";
 
                 CreateDirectory();
                 CreatCharts();
@@ -141,6 +143,7 @@ namespace Scenes.Select
                 ChartList.Instance.RefreshList();
                 return;
             }
+
             thisButton.interactable = true;
         }
 

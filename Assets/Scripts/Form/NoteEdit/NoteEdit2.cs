@@ -1,11 +1,10 @@
-using CustomSystem;
-using Data.ChartEdit;
-using Data.Interface;
-using Log;
-using Scenes.DontDestroyOnLoad;
 using System.Collections;
 using System.Collections.Generic;
+using CustomSystem;
+using Data.ChartEdit;
+using Log;
 using UnityEngine;
+
 namespace Form.NoteEdit
 {
     public partial class NoteEdit
@@ -75,7 +74,10 @@ namespace Form.NoteEdit
                     newHoldEdit.thisNoteData.holdBeats =
                         new BPM(new BPM(nearBeatLine.thisBPM) - new BPM(newHoldEdit.thisNoteData.HitBeats));
                 }
-                catch { }
+                catch
+                {
+                }
+
                 yield return new WaitForEndOfFrame();
             }
 
@@ -93,41 +95,51 @@ namespace Form.NoteEdit
                 //添加事件到对应的地方
                 AddNote(newHoldEdit.thisNoteData, boxID, lineID);
             }
+
             Steps.Instance.Add(Undo, Redo, default);
             yield break;
+
             void Undo()
             {
                 DeleteNote(newNote, currentBoxID, currentLineID);
             }
+
             void Redo()
             {
-                List<Note> instNewNotes = AddNotes(new() { newNote }, currentBoxID, currentLineID);
+                List<Note> instNewNotes = AddNotes(new List<Note> { newNote }, currentBoxID, currentLineID);
                 BatchNotes(instNewNotes, note => note.isSelected = false);
                 notes.AddRange(AddNotes2UI(instNewNotes));
             }
         }
+
         private void NoteEdit_onNoteRefreshed(List<Note> notes)
         {
         }
+
         private void DestroyNotes()
         {
             foreach (Scenes.Edit.NoteEdit item in notes)
             {
                 Destroy(item.gameObject);
             }
+
             notes.Clear();
         }
 
-        private void SetState2False(int lineID,int boxID)
+        private void SetState2False(int lineID, int boxID)
         {
             int targetLineID = lineID < 0 ? currentLineID : lineID;
             int targetBoxID = boxID < 0 ? currentBoxID : boxID;
-            if (targetBoxID == currentBoxID && targetLineID == currentLineID) return;
+            if (targetBoxID == currentBoxID && targetLineID == currentLineID)
+            {
+                return;
+            }
 
             foreach (Scenes.Edit.NoteEdit noteEdit in notes)
             {
                 noteEdit.thisNoteData.isSelected = false;
             }
+
             //调用UnsetAll方法
             selectBox.NotePropertyEdit.UnsetAll();
         }

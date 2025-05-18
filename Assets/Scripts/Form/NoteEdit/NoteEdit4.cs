@@ -1,17 +1,7 @@
-﻿using Controller;
+﻿using System;
 using Data.ChartData;
-using Data.Interface;
-using Form.PropertyEdit;
-using Log;
-using Manager;
-using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEngine;
-using UtilityCode.ChartTool;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 using Note = Data.ChartEdit.Note;
-using static UtilityCode.ChartTool.ChartTool;
 
 namespace Form.NoteEdit
 {

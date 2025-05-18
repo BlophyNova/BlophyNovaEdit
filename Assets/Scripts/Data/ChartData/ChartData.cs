@@ -1,13 +1,10 @@
+using System;
+using System.Collections.Generic;
 using Data.Enumerate;
 using Manager;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using Form.NotePropertyEdit.ValueEdit.Ease;
 using Scenes.DontDestroyOnLoad;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Point = Data.ChartEdit.Point;
 
 namespace Data.ChartData
 {
@@ -48,37 +45,42 @@ namespace Data.ChartData
         public int fakeFullFlickCount;
         public int fakePointCount;
         public int chartVersion;
+
         public MetaData(MetaData metaData)
         {
-            this.musicName = metaData.musicName;
-            this.musicWriter = metaData.musicWriter;
-            this.musicBpmText = metaData.musicBpmText;
-            this.artWriter = metaData.artWriter;
-            this.description = metaData.description;
-            this.chartWriter = metaData.chartWriter;
-            this.chartLevel = metaData.chartLevel;
-            this.hard = metaData.hard;
-            this.offset = metaData.offset;
-            this.musicLength = metaData.musicLength;
-            this.noteCount = metaData.noteCount;
-            this.trueNoteCount = metaData.trueNoteCount;
-            this.trueTapCount = metaData.trueTapCount;
-            this.trueHoldCount = metaData.trueHoldCount;
-            this.trueDragCount = metaData.trueDragCount;
-            this.trueFlickCount = metaData.trueFlickCount;
-            this.trueFullFlickCount = metaData.trueFullFlickCount;
-            this.truePointCount = metaData.truePointCount;
-            this.fakeNoteCount = metaData.fakeNoteCount;
-            this.fakeTapCount = metaData.fakeTapCount;
-            this.fakeHoldCount = metaData.fakeHoldCount;
-            this.fakeDragCount = metaData.fakeDragCount;
-            this.fakeFlickCount = metaData.fakeFlickCount;
-            this.fakeFullFlickCount = metaData.fakeFullFlickCount;
-            this.fakePointCount = metaData.fakePointCount;
-            this.chartVersion = metaData.chartVersion;
+            musicName = metaData.musicName;
+            musicWriter = metaData.musicWriter;
+            musicBpmText = metaData.musicBpmText;
+            artWriter = metaData.artWriter;
+            description = metaData.description;
+            chartWriter = metaData.chartWriter;
+            chartLevel = metaData.chartLevel;
+            hard = metaData.hard;
+            offset = metaData.offset;
+            musicLength = metaData.musicLength;
+            noteCount = metaData.noteCount;
+            trueNoteCount = metaData.trueNoteCount;
+            trueTapCount = metaData.trueTapCount;
+            trueHoldCount = metaData.trueHoldCount;
+            trueDragCount = metaData.trueDragCount;
+            trueFlickCount = metaData.trueFlickCount;
+            trueFullFlickCount = metaData.trueFullFlickCount;
+            truePointCount = metaData.truePointCount;
+            fakeNoteCount = metaData.fakeNoteCount;
+            fakeTapCount = metaData.fakeTapCount;
+            fakeHoldCount = metaData.fakeHoldCount;
+            fakeDragCount = metaData.fakeDragCount;
+            fakeFlickCount = metaData.fakeFlickCount;
+            fakeFullFlickCount = metaData.fakeFullFlickCount;
+            fakePointCount = metaData.fakePointCount;
+            chartVersion = metaData.chartVersion;
         }
-        public MetaData() { }
+
+        public MetaData()
+        {
+        }
     }
+
     [Serializable]
     public class Text
     {
@@ -182,7 +184,7 @@ namespace Data.ChartData
         Point = 4,
         FullFlickPink = 5,
         FullFlickBlue = 6,
-        FullFlick=7
+        FullFlick = 7
     }
 
     [Flags]

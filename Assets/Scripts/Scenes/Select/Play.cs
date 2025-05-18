@@ -1,9 +1,9 @@
+using System.Collections;
+using System.IO;
 using Data.ChartEdit;
 using Newtonsoft.Json;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
-using System.Collections;
-using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

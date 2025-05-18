@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Data.Interface;
 using Log;
 using Scenes.DontDestroyOnLoad;
@@ -21,7 +23,8 @@ namespace Form.PropertyEdit
                 GlobalData.Instance.chartEditData.verticalSubdivision++;
                 thisText.text = $"垂直线：{GlobalData.Instance.chartEditData.verticalSubdivision}";
 
-                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(NoteEdit.NoteEdit)});
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),
+                    new List<Type> { typeof(NoteEdit.NoteEdit) });
                 LogCenter.Log($"属性编辑执行+操作，垂直份数更改为{GlobalData.Instance.chartEditData.verticalSubdivision}");
             });
             subtraction.onClick.AddListener(() =>
@@ -31,10 +34,12 @@ namespace Form.PropertyEdit
                     Alert.EnableAlert("已经减到最低了呜呜呜···");
                     return;
                 }
+
                 GlobalData.Instance.chartEditData.verticalSubdivision--;
                 thisText.text = $"垂直线：{GlobalData.Instance.chartEditData.verticalSubdivision}";
 
-                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(NoteEdit.NoteEdit) });
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),
+                    new List<Type> { typeof(NoteEdit.NoteEdit) });
                 LogCenter.Log($"属性编辑执行-操作，垂直份数更改为{GlobalData.Instance.chartEditData.verticalSubdivision}");
             });
             thisText.text = $"垂直线：{GlobalData.Instance.chartEditData.verticalSubdivision}";

@@ -1,15 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
 using Data.Interface;
 using Form.LabelWindow;
 using Scenes.DontDestroyOnLoad;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Form.BPMList
 {
-    public class BPMList : LabelWindowContent,IRefreshUI
+    public class BPMList : LabelWindowContent, IRefreshUI
     {
         public BPMItem bpmItemPrefabs;
         public List<BPMItem> bpmItems;
@@ -20,6 +19,11 @@ namespace Form.BPMList
             Refresh();
             yield return new WaitForEndOfFrame();
             UpdateAera();
+        }
+
+        public void RefreshUI()
+        {
+            Refresh();
         }
 
         public void Refresh()
@@ -51,11 +55,6 @@ namespace Form.BPMList
         {
             gridLayoutGroup.cellSize =
                 new Vector2(labelWindow.labelWindowRect.sizeDelta.x * .8f, gridLayoutGroup.cellSize.y);
-        }
-
-        public void RefreshUI()
-        {
-            Refresh();
         }
     }
 }

@@ -1,18 +1,17 @@
-using Data.Interface;
+using System.Collections.Generic;
 using Log;
 using Manager;
 using Scenes.DontDestroyOnLoad;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Form.PropertyEdit
 {
     public class PlaySpeed : MonoBehaviour
     {
         public TMP_Dropdown speedOptions;
-        private readonly Dictionary<int, float> option2Speed = new() 
+
+        private readonly Dictionary<int, float> option2Speed = new()
         {
             { 0, 1 },
             { 1, .75f },
@@ -23,14 +22,18 @@ namespace Form.PropertyEdit
             { 6, 1.5f },
             { 7, 2 },
             { 8, 3 },
-            { 9, 5 },
+            { 9, 5 }
         };
 
         private void Start()
         {
             speedOptions.onValueChanged.AddListener(v =>
             {
-                if (!option2Speed.TryGetValue(v, out float speed)) return;
+                if (!option2Speed.TryGetValue(v, out float speed))
+                {
+                    return;
+                }
+
                 GlobalData.Instance.chartEditData.playSpeed = speed;
                 double currentTime = ProgressManager.Instance.CurrentTime;
                 ProgressManager.Instance.SetPlaySpeed(GlobalData.Instance.chartEditData.playSpeed);

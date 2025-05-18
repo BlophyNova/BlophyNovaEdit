@@ -1,23 +1,29 @@
-using Controller;
+using System;
+using System.Collections.Generic;
 using Data.ChartEdit;
 using Data.Interface;
 using Form.LabelWindow;
-using Scenes.DontDestroyOnLoad;
 using Scenes.Edit;
 using Scenes.PublicScripts;
-using System;
-using System.Collections.Generic;
-using Data.Enumerate;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Form.NotePropertyEdit;
 using static UtilityCode.ChartTool.ChartTool;
+
 namespace Form.NoteEdit
 {
     //由于这个控件需要的功能太多，所以这里做个分类，此文件负责字段事件委托属性，以及Unity生命周期的方法和接口实现的方法
-    public partial class NoteEdit : LabelWindowContent, IInputEventCallback, ISelectBox, IRefreshEdit, IRefreshPlayer,IRefreshUI
+    public partial class NoteEdit : LabelWindowContent, IInputEventCallback, ISelectBox, IRefreshEdit, IRefreshPlayer,
+        IRefreshUI
     {
+        public delegate void OnNotesAdded(List<Note> notes);
+
+        public delegate void OnNotesAdded2UI(List<Scenes.Edit.NoteEdit> notes);
+
+        public delegate void OnNotesDeleted(List<Note> notes);
+
+        public delegate void OnNotesRefreshed(List<Note> notes);
+
         public int lastBoxID;
         public int lastLineID;
         public int currentBoxID;
@@ -39,19 +45,6 @@ namespace Form.NoteEdit
 
         public bool isFirstTime;
         public bool waitForPressureAgain;
-        
-        
-        public delegate void OnNotesAdded(List<Note> notes);
-        public event OnNotesAdded onNotesAdded = notes => { };
-
-        public delegate void OnNotesAdded2UI(List<Scenes.Edit.NoteEdit> notes);
-        public event OnNotesAdded2UI onNotesAdded2UI = notes => { };
-
-        public delegate void OnNotesDeleted(List<Note> notes);
-        public event OnNotesDeleted onNotesDeleted = notes => { };
-
-        public delegate void OnNotesRefreshed(List<Note> notes);
-        public event OnNotesRefreshed onNotesRefreshed = notes => { };
 
 
         public bool isCopy;
@@ -114,6 +107,27 @@ namespace Form.NoteEdit
             };
             action();
         }
+
+        public void RefreshEdit(int lineID, int boxID)
+        {
+            SetState2False(lineID, boxID);
+            lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
+            lastLineID = boxID < 0 ? lastLineID : currentLineID;
+            currentBoxID = boxID < 0 ? currentBoxID : boxID;
+            currentLineID = lineID < 0 ? currentLineID : lineID;
+            DestroyNotes();
+            List<Scenes.Edit.NoteEdit> newNotes =
+                AddNotes2UI(ChartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes);
+            notes.AddRange(newNotes);
+            List<Note> refreshedNotes = new();
+            foreach (Scenes.Edit.NoteEdit note in notes)
+            {
+                refreshedNotes.Add(note.thisNoteData);
+            }
+
+            onNotesRefreshed(refreshedNotes);
+        }
+
         public List<ISelectBoxItem> TransmitObjects()
         {
             List<ISelectBoxItem> res = new();
@@ -126,31 +140,20 @@ namespace Form.NoteEdit
 
             return res;
         }
-        public void RefreshPlayer(int lineID,int boxID)
-        {
-            lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
-            lastLineID = boxID < 0 ? lastLineID : currentLineID;
-            currentBoxID = boxID < 0 ? currentBoxID : boxID;
-            currentLineID = lineID < 0 ? currentLineID : lineID;
-            ConvertLine(ChartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes, ChartData.boxes[currentBoxID].lines[currentLineID].onlineNotes);
-        }
 
-        public void RefreshEdit(int lineID, int boxID)
+        public event OnNotesAdded onNotesAdded = notes => { };
+        public event OnNotesAdded2UI onNotesAdded2UI = notes => { };
+        public event OnNotesDeleted onNotesDeleted = notes => { };
+        public event OnNotesRefreshed onNotesRefreshed = notes => { };
+
+        public void RefreshPlayer(int lineID, int boxID)
         {
-            SetState2False(lineID,boxID);
             lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
             lastLineID = boxID < 0 ? lastLineID : currentLineID;
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
             currentLineID = lineID < 0 ? currentLineID : lineID;
-            DestroyNotes();
-            List<Scenes.Edit.NoteEdit> newNotes = AddNotes2UI(ChartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes);
-            notes.AddRange(newNotes);
-            List<Note> refreshedNotes = new();
-            foreach (Scenes.Edit.NoteEdit note in notes)
-            {
-                refreshedNotes.Add(note.thisNoteData);
-            }
-            onNotesRefreshed(refreshedNotes);
+            ConvertLine(ChartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes,
+                ChartData.boxes[currentBoxID].lines[currentLineID].onlineNotes);
         }
 
         public void RefreshUI()

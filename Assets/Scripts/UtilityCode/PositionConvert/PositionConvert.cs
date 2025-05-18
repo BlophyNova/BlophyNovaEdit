@@ -1,45 +1,45 @@
 using UnityEngine;
 using static UnityEngine.Camera;
+
 public class PositionConvert
 {
-
     /// <summary>
-    /// ÊÀ½ç×ø±ê×ª»»ÎªÆÁÄ»×ø±ê
+    ///     ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½
     /// </summary>
-    /// <param name="worldPoint">ÆÁÄ»×ø±ê</param>
+    /// <param name="worldPoint">ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½</param>
     /// <returns></returns>
     public static Vector2 WorldPointToScreenPoint(Vector3 worldPoint)
     {
-        // Camera.main ÊÀ½çÉãÏñ»ú
-        Vector2 screenPoint = Camera.main.WorldToScreenPoint(worldPoint);
+        // Camera.main ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        Vector2 screenPoint = main.WorldToScreenPoint(worldPoint);
         return screenPoint;
     }
 
     /// <summary>
-    /// ÆÁÄ»×ø±ê×ª»»ÎªÊÀ½ç×ø±ê
+    ///     ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
-    /// <param name="screenPoint">ÆÁÄ»×ø±ê</param>
-    /// <param name="planeZ">¾àÀëÉãÏñ»ú Z Æ½ÃæµÄ¾àÀë</param>
+    /// <param name="screenPoint">ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="planeZ">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Z Æ½ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½</param>
     /// <returns></returns>
     public static Vector3 ScreenPointToWorldPoint(Vector2 screenPoint, float planeZ)
     {
-        // Camera.main ÊÀ½çÉãÏñ»ú
-        Vector3 position = new Vector3(screenPoint.x, screenPoint.y, planeZ);
-        Vector3 worldPoint = Camera.main.ScreenToWorldPoint(position);
+        // Camera.main ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        Vector3 position = new(screenPoint.x, screenPoint.y, planeZ);
+        Vector3 worldPoint = main.ScreenToWorldPoint(position);
         return worldPoint;
     }
 
     // RectTransformUtility.WorldToScreenPoint
     // RectTransformUtility.ScreenPointToWorldPointInRectangle
     // RectTransformUtility.ScreenPointToLocalPointInRectangle
-    // ÉÏÃæÈý¸ö×ø±ê×ª»»µÄ·½·¨Ê¹ÓÃ Camera µÄµØ·½
-    // µ± Canvas renderMode Îª RenderMode.ScreenSpaceCamera¡¢RenderMode.WorldSpace Ê± ´«µÝ²ÎÊý canvas.worldCamera
-    // µ± Canvas renderMode Îª RenderMode.ScreenSpaceOverlay Ê± ´«µÝ²ÎÊý null
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ Camera ï¿½ÄµØ·ï¿½
+    // ï¿½ï¿½ Canvas renderMode Îª RenderMode.ScreenSpaceCameraï¿½ï¿½RenderMode.WorldSpace Ê± ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ canvas.worldCamera
+    // ï¿½ï¿½ Canvas renderMode Îª RenderMode.ScreenSpaceOverlay Ê± ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ null
 
-    // UI ×ø±ê×ª»»ÎªÆÁÄ»×ø±ê
+    // UI ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½
     public static Vector2 UIPointToScreenPoint(Vector3 worldPoint)
     {
-        // RectTransform£ºtarget
+        // RectTransformï¿½ï¿½target
         // worldPoint = target.position;
         Camera uiCamera = main;
 
@@ -47,36 +47,34 @@ public class PositionConvert
         return screenPoint;
     }
 
-    // ÆÁÄ»×ø±ê×ª»»Îª UGUI ×ø±ê
+    // ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îª UGUI ï¿½ï¿½ï¿½ï¿½
     public static Vector3 ScreenPointToUIPoint(RectTransform rt, Vector2 screenPoint)
     {
         Vector3 globalMousePos;
-        //UIÆÁÄ»×ø±ê×ª»»ÎªÊÀ½ç×ø±ê
-        Camera uiCamera = Camera.main;
+        //UIï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        Camera uiCamera = main;
 
-        // µ± Canvas renderMode Îª RenderMode.ScreenSpaceCamera¡¢RenderMode.WorldSpace Ê± uiCamera ²»ÄÜÎª¿Õ
-        // µ± Canvas renderMode Îª RenderMode.ScreenSpaceOverlay Ê± uiCamera ¿ÉÒÔÎª¿Õ
+        // ï¿½ï¿½ Canvas renderMode Îª RenderMode.ScreenSpaceCameraï¿½ï¿½RenderMode.WorldSpace Ê± uiCamera ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½
+        // ï¿½ï¿½ Canvas renderMode Îª RenderMode.ScreenSpaceOverlay Ê± uiCamera ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½
         RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, screenPoint, uiCamera, out globalMousePos);
-        // ×ª»»ºóµÄ globalMousePos Ê¹ÓÃÏÂÃæ·½·¨¸³Öµ
-        // target ÎªÐèÒªÊ¹ÓÃµÄ UI RectTransform
-        // rt ¿ÉÒÔÊÇ target.GetComponent<RectTransform>(), Ò²¿ÉÒÔÊÇ target.parent.GetComponent<RectTransform>()
+        // ×ªï¿½ï¿½ï¿½ï¿½ï¿½ globalMousePos Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½æ·½ï¿½ï¿½ï¿½ï¿½Öµ
+        // target Îªï¿½ï¿½ÒªÊ¹ï¿½Ãµï¿½ UI RectTransform
+        // rt ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ target.GetComponent<RectTransform>(), Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ target.parent.GetComponent<RectTransform>()
         // target.transform.position = globalMousePos;
         return globalMousePos;
     }
 
-    // ÆÁÄ»×ø±ê×ª»»Îª UGUI RectTransform µÄ anchoredPosition
+    // ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îª UGUI RectTransform ï¿½ï¿½ anchoredPosition
     public static Vector2 ScreenPointToUILocalPoint(RectTransform parentRT, Vector2 screenPoint)
     {
         Vector2 localPos;
         Camera uiCamera = main;
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRT, screenPoint, uiCamera, out localPos);
-        // ×ª»»ºóµÄ localPos Ê¹ÓÃÏÂÃæ·½·¨¸³Öµ
-        // target ÎªÐèÒªÊ¹ÓÃµÄ UI RectTransform
-        // parentRT ÊÇ target.parent.GetComponent<RectTransform>()
-        // ×îºó¸³Öµ target.anchoredPosition = localPos;
+        // ×ªï¿½ï¿½ï¿½ï¿½ï¿½ localPos Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½æ·½ï¿½ï¿½ï¿½ï¿½Öµ
+        // target Îªï¿½ï¿½ÒªÊ¹ï¿½Ãµï¿½ UI RectTransform
+        // parentRT ï¿½ï¿½ target.parent.GetComponent<RectTransform>()
+        // ï¿½ï¿½ï¿½Öµ target.anchoredPosition = localPos;
         return localPos;
     }
-
 }
-

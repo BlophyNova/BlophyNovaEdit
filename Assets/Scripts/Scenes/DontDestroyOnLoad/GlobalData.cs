@@ -1,3 +1,7 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using Data.ChartData;
 using Data.EaseData;
 using Data.Enumerate;
@@ -6,10 +10,6 @@ using Form.LabelWindow;
 using Newtonsoft.Json;
 using Scenes.Edit;
 using Scenes.PublicScripts;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;
@@ -21,6 +21,8 @@ namespace Scenes.DontDestroyOnLoad
 {
     public class GlobalData : MonoBehaviourSingleton<GlobalData>
     {
+        public delegate void OnStartEdit();
+
         public Hard currentHard;
         public ChartData chartData;
         public Data.ChartEdit.ChartData chartEditData;
@@ -53,15 +55,11 @@ namespace Scenes.DontDestroyOnLoad
 
         public List<EaseData> easeDatas;
         public bool isNewEditData;
+
+        public bool saveChartData;
         public List<Action> loopCallBacks = new();
         public int ScreenWidth => Camera.main.pixelWidth;
         public int ScreenHeight => Camera.main.pixelHeight;
-
-        public delegate void OnStartEdit();
-        public event OnStartEdit onStartEdit=()=> { };
-        public void StartEdit() => onStartEdit();
-
-        public bool saveChartData;
 
         private IEnumerator Start()
         {
@@ -88,21 +86,40 @@ namespace Scenes.DontDestroyOnLoad
                 action();
             }
         }
+
         private void Update()
         {
             if (saveChartData)
             {
                 saveChartData = false;
-                string chartDataContent= JsonConvert.SerializeObject(chartData);
-                File.WriteAllText($"{Application.streamingAssetsPath}/Chart.json",chartDataContent);
+                string chartDataContent = JsonConvert.SerializeObject(chartData);
+                File.WriteAllText($"{Application.streamingAssetsPath}/Chart.json", chartDataContent);
             }
         }
+
+        private void OnDestroy()
+        {
+            Destroy(gameObject);
+        }
+
+        public event OnStartEdit onStartEdit = () => { };
+
+        public void StartEdit()
+        {
+            onStartEdit();
+        }
+
         private static void Disclaimer()
         {
-            if (Application.platform == RuntimePlatform.WindowsEditor) return;
+            if (Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                return;
+            }
+
             if (File.Exists($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"))
             {
-                if (bool.TryParse(File.ReadAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"), out bool result) && !result)
+                if (bool.TryParse(File.ReadAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"),
+                        out bool result) && !result)
                 {
                     ShowDisclaimer();
                 }
@@ -119,12 +136,7 @@ namespace Scenes.DontDestroyOnLoad
             File.WriteAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt", "True");
         }
 
-        private void OnDestroy()
-        {
-            Destroy(gameObject);
-        }
-
-        public static void Refresh<T>(Action<T> action,List<Type> types,bool isBlackList=false)
+        public static void Refresh<T>(Action<T> action, List<Type> types, bool isBlackList = false)
         {
             List<T> foundTypes = AssemblySystem.FindAllInterfaceByTypes<T>();
             AssemblySystem.Exe(foundTypes, interfaceMethod => action?.Invoke(interfaceMethod), types, isBlackList);
@@ -148,14 +160,14 @@ namespace Scenes.DontDestroyOnLoad
                 ".wav" => AudioType.WAV,
                 _ => throw new Exception("呜呜呜，瓦没见过这个音频格式喵···")
             };
-            
+
             UnityWebRequest unityWebRequest = UnityWebRequestMultimedia.GetAudioClip($"file://{musicPath}", audioType);
             yield return unityWebRequest.SendWebRequest();
             clip = DownloadHandlerAudioClip.GetContent(unityWebRequest);
 
 
             string illustrationPath = $"{Application.streamingAssetsPath}/{currentChartIndex}/Illustration";
-            illustrationPath=Directory.GetFiles(illustrationPath)[0];
+            illustrationPath = Directory.GetFiles(illustrationPath)[0];
             unityWebRequest = UnityWebRequestTexture.GetTexture($"file://{illustrationPath}");
             yield return unityWebRequest.SendWebRequest();
             Texture2D cph = DownloadHandlerTexture.GetContent(unityWebRequest);

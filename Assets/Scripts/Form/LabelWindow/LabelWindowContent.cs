@@ -15,22 +15,25 @@ namespace Form.LabelWindow
         public LabelWindowContentType labelWindowContentType;
         public int minX = 100;
         public int minY = 100;
-        
-        public bool FocusIsMe =>labelWindow.currentLabelItem == labelItem && LabelWindowsManager.Instance.currentFocusWindow == labelWindow;
 
-        RectTransform selfRect;
+        private RectTransform selfRect;
 
-        RectTransform SelfRect
+        public bool FocusIsMe => labelWindow.currentLabelItem == labelItem &&
+                                 LabelWindowsManager.Instance.currentFocusWindow == labelWindow;
+
+        private RectTransform SelfRect
         {
             get
             {
                 if (selfRect == null)
                 {
-                    selfRect= GetComponent<RectTransform>();
+                    selfRect = GetComponent<RectTransform>();
                 }
+
                 return selfRect;
             }
         }
+
         public Vector2 MousePositionInThisTransformViewport
         {
             get
@@ -39,22 +42,23 @@ namespace Form.LabelWindow
                 Rect rect = SelfRect.rect;
                 float x = mousePositionInThisRectTransform.x / rect.width;
                 float y = mousePositionInThisRectTransform.y / rect.height;
-                Vector2 v = new(x,y);
+                Vector2 v = new(x, y);
                 return v;
             }
         }
-        public Vector2 MousePositionInThisRectTransform 
-        { 
-            get  
+
+        public Vector2 MousePositionInThisRectTransform
+        {
+            get
             {
                 Vector2 mousePosition = Mouse.current.position.value;
                 Vector2 mousePositionInWorldPosition = main.ScreenToWorldPoint(mousePosition);
                 Vector2 mousePositionInLocalPosition = transform.InverseTransformPoint(mousePositionInWorldPosition);
                 Vector2 result = mousePositionInLocalPosition + labelWindow.labelWindowRect.sizeDelta / 2;
                 return result;
-            } 
+            }
         }
-        
+
         public Vector2 MousePositionInThisRectTransformCenter =>
             transform.InverseTransformPoint(main.ScreenToWorldPoint(Mouse.current.position.value));
 

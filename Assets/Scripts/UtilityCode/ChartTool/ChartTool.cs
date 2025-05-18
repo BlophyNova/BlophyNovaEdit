@@ -1,9 +1,6 @@
-using System;
-using Data.ChartData;
+using System.Collections.Generic;
 using Data.ChartEdit;
 using Data.EaseData;
-using Manager;
-using System.Collections.Generic;
 using UnityEngine;
 using Box = Data.ChartData.Box;
 using BoxEvents = Data.ChartEdit.BoxEvents;
@@ -14,12 +11,12 @@ using GU = UtilityCode.GameUtility.GameUtility;
 using Line = Data.ChartEdit.Line;
 using Note = Data.ChartData.Note;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
+
 namespace UtilityCode.ChartTool
 {
     //这个类应该只负责生成新的ChartEdit数据和转换ChartEdit数据到ChartData数据
     public class ChartTool
     {
-
         /// <summary>
         ///     创建一个新的Edit谱面
         /// </summary>
@@ -27,7 +24,7 @@ namespace UtilityCode.ChartTool
         /// <param name="easeData"></param>
         public static void CreateNewChart(ChartData chartEditData, List<EaseData> easeData)
         {
-            chartEditData.boxes = new();
+            chartEditData.boxes = new List<Data.ChartEdit.Box>();
             Data.ChartEdit.Box chartEditBox = CreateNewBox(easeData);
             chartEditData.boxes.Add(chartEditBox);
         }
@@ -41,36 +38,76 @@ namespace UtilityCode.ChartTool
         {
             Data.ChartEdit.Box chartEditBox = new()
             {
-                lines = new(){ new(), new(), new(), new(), new() },
-                boxEvents = new()
+                lines = new List<Line> { new(), new(), new(), new(), new() },
+                boxEvents = new BoxEvents
                 {
-                    scaleX = new(),
-                    scaleY = new(),
-                    moveX = new(),
-                    moveY = new(),
-                    centerX = new(),
-                    centerY = new(),
-                    alpha = new(),
-                    lineAlpha = new(),
-                    rotate = new(),
-                    speed = new()
+                    scaleX = new List<Data.ChartEdit.Event>(),
+                    scaleY = new List<Data.ChartEdit.Event>(),
+                    moveX = new List<Data.ChartEdit.Event>(),
+                    moveY = new List<Data.ChartEdit.Event>(),
+                    centerX = new List<Data.ChartEdit.Event>(),
+                    centerY = new List<Data.ChartEdit.Event>(),
+                    alpha = new List<Data.ChartEdit.Event>(),
+                    lineAlpha = new List<Data.ChartEdit.Event>(),
+                    rotate = new List<Data.ChartEdit.Event>(),
+                    speed = new List<Data.ChartEdit.Event>()
                 },
                 id = TimeUtility.GetCurrentTime()
             };
-            chartEditBox.boxEvents.scaleX.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 2.7f, endValue = 2.7f,disallowDelete=true,disallowMove=true,isSyncEvent = true,id=TimeUtility.GetCurrentTime()});
-            chartEditBox.boxEvents.scaleY.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 2.7f, endValue = 2.7f, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
-            chartEditBox.boxEvents.moveX.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true, disallowMove = true,isSyncEvent = true ,id=TimeUtility.GetCurrentTime()});
-            chartEditBox.boxEvents.moveY.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
-            chartEditBox.boxEvents.centerX.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = .5f, endValue = .5f, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
-            chartEditBox.boxEvents.centerY.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = .5f, endValue = .5f, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
-            chartEditBox.boxEvents.alpha.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 1, endValue = 1, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
-            chartEditBox.boxEvents.lineAlpha.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
-            chartEditBox.boxEvents.rotate.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
-            chartEditBox.boxEvents.speed.Add(new() { startBeats = BPM.Zero, endBeats = new(1, 0, 1), startValue = 3, endValue = 3, disallowDelete = true, disallowMove = true,isSyncEvent = true,id=TimeUtility.GetCurrentTime() });
+            chartEditBox.boxEvents.scaleX.Add(new Data.ChartEdit.Event
+            {
+                startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 2.7f, endValue = 2.7f,
+                disallowDelete = true, disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+            });
+            chartEditBox.boxEvents.scaleY.Add(new Data.ChartEdit.Event
+            {
+                startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 2.7f, endValue = 2.7f,
+                disallowDelete = true, disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+            });
+            chartEditBox.boxEvents.moveX.Add(new Data.ChartEdit.Event
+            {
+                startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true,
+                disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+            });
+            chartEditBox.boxEvents.moveY.Add(new Data.ChartEdit.Event
+            {
+                startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true,
+                disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+            });
+            chartEditBox.boxEvents.centerX.Add(new Data.ChartEdit.Event
+            {
+                startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = .5f, endValue = .5f,
+                disallowDelete = true, disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+            });
+            chartEditBox.boxEvents.centerY.Add(new Data.ChartEdit.Event
+            {
+                startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = .5f, endValue = .5f,
+                disallowDelete = true, disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+            });
+            chartEditBox.boxEvents.alpha.Add(new Data.ChartEdit.Event
+            {
+                startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 1, endValue = 1, disallowDelete = true,
+                disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+            });
+            chartEditBox.boxEvents.lineAlpha.Add(new Data.ChartEdit.Event
+            {
+                startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true,
+                disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+            });
+            chartEditBox.boxEvents.rotate.Add(new Data.ChartEdit.Event
+            {
+                startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true,
+                disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+            });
+            chartEditBox.boxEvents.speed.Add(new Data.ChartEdit.Event
+            {
+                startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 3, endValue = 3, disallowDelete = true,
+                disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+            });
             for (int i = 0; i < chartEditBox.lines.Count; i++)
             {
-                chartEditBox.lines[i].offlineNotes = new();
-                chartEditBox.lines[i].onlineNotes = new();
+                chartEditBox.lines[i].offlineNotes = new List<Data.ChartEdit.Note>();
+                chartEditBox.lines[i].onlineNotes = new List<Data.ChartEdit.Note>();
             }
 
             return chartEditBox;
@@ -98,25 +135,25 @@ namespace UtilityCode.ChartTool
         {
             Box chartDataBox = new()
             {
-                lines = new()
+                lines = new List<Data.ChartData.Line>
                 {
-                    new() { offlineNotes = new(), onlineNotes = new() },
-                    new() { offlineNotes = new(), onlineNotes = new() },
-                    new() { offlineNotes = new(), onlineNotes = new() },
-                    new() { offlineNotes = new(), onlineNotes = new() },
-                    new() { offlineNotes = new(), onlineNotes = new() }
+                    new() { offlineNotes = new List<Note>(), onlineNotes = new List<Note>() },
+                    new() { offlineNotes = new List<Note>(), onlineNotes = new List<Note>() },
+                    new() { offlineNotes = new List<Note>(), onlineNotes = new List<Note>() },
+                    new() { offlineNotes = new List<Note>(), onlineNotes = new List<Note>() },
+                    new() { offlineNotes = new List<Note>(), onlineNotes = new List<Note>() }
                 },
-                boxEvents = new()
+                boxEvents = new Data.ChartData.BoxEvents
                 {
-                    scaleX = new(),
-                    scaleY = new(),
-                    moveX = new(),
-                    moveY = new(),
-                    centerX = new(),
-                    centerY = new(),
-                    alpha = new(),
-                    lineAlpha = new(),
-                    rotate = new()
+                    scaleX = new List<Event>(),
+                    scaleY = new List<Event>(),
+                    moveX = new List<Event>(),
+                    moveY = new List<Event>(),
+                    centerX = new List<Event>(),
+                    centerY = new List<Event>(),
+                    alpha = new List<Event>(),
+                    lineAlpha = new List<Event>(),
+                    rotate = new List<Event>()
                 }
             };
             //var box = boxes[index];
@@ -137,7 +174,7 @@ namespace UtilityCode.ChartTool
             ConvertLine(box.lines[i].offlineNotes, chartDataBox.lines[i].offlineNotes);
         }
 
-        public static void ConvertLine(List<Data.ChartEdit.Note> chartEditNotes,List<Data.ChartData.Note> chartDataNotes)
+        public static void ConvertLine(List<Data.ChartEdit.Note> chartEditNotes, List<Note> chartDataNotes)
         {
             chartDataNotes.Clear();
             foreach (Data.ChartEdit.Note chartEditNote in chartEditNotes)
@@ -161,19 +198,22 @@ namespace UtilityCode.ChartTool
             ForeachBoxEvents(box.boxEvents.rotate, chartDataBox.boxEvents.rotate);
             ForeachSpeedEvents(box, chartDataBox);
         }
-        public static void ConvertEvents(Data.ChartEdit.Box box, Box chartDataBox,EventType eventType,int boxID)
+
+        public static void ConvertEvents(Data.ChartEdit.Box box, Box chartDataBox, EventType eventType, int boxID)
         {
             if (eventType == EventType.Speed)
             {
                 ForeachSpeedEvents(box, chartDataBox);
                 return;
             }
-            List<Data.ChartEdit.Event> chartEditEvents=FindChartEditEventList(GlobalData.Instance.chartEditData.boxes[boxID], eventType);
-            List<Data.ChartData.Event> chartDataEvents=FindChartDataEventList(GlobalData.Instance.chartData.boxes[boxID], eventType);
-            ForeachBoxEvents(chartEditEvents,chartDataEvents);
+
+            List<Data.ChartEdit.Event> chartEditEvents =
+                FindChartEditEventList(GlobalData.Instance.chartEditData.boxes[boxID], eventType);
+            List<Event> chartDataEvents = FindChartDataEventList(GlobalData.Instance.chartData.boxes[boxID], eventType);
+            ForeachBoxEvents(chartEditEvents, chartDataEvents);
         }
 
-        public static List<Data.ChartEdit.Event> FindChartEditEventList(Data.ChartEdit.Box box,EventType eventType)
+        public static List<Data.ChartEdit.Event> FindChartEditEventList(Data.ChartEdit.Box box, EventType eventType)
         {
             return eventType switch
             {
@@ -190,7 +230,8 @@ namespace UtilityCode.ChartTool
                 _ => null
             };
         }
-        public static List<Event> FindChartDataEventList( Box box,EventType eventType)
+
+        public static List<Event> FindChartDataEventList(Box box, EventType eventType)
         {
             return eventType switch
             {
@@ -206,12 +247,13 @@ namespace UtilityCode.ChartTool
                 _ => null
             };
         }
+
         public static void ForeachSpeedEvents(Data.ChartEdit.Box box, Box chartDataBox)
         {
             List<Data.ChartEdit.Event> filledVoid = GU.FillVoid(box.boxEvents.speed);
             for (int i = 0; i < chartDataBox.lines.Count; i++)
             {
-                chartDataBox.lines[i].speed = new();
+                chartDataBox.lines[i].speed = new List<Event>();
                 ForeachBoxEvents(filledVoid, chartDataBox.lines[i].speed);
                 //chartDataBox.lines[i].career = new()
                 //{
@@ -219,7 +261,7 @@ namespace UtilityCode.ChartTool
                 //    preWrapMode = WrapMode.ClampForever,
                 //    keys = GU.CalculatedSpeedCurve(chartDataBox.lines[i].speed.ToArray()).ToArray()
                 //};
-                chartDataBox.lines[i].far = new()
+                chartDataBox.lines[i].far = new AnimationCurve
                 {
                     postWrapMode = WrapMode.ClampForever,
                     preWrapMode = WrapMode.ClampForever,

@@ -1,15 +1,15 @@
-using Controller;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using CustomSystem;
 using Data.ChartData;
 using Data.ChartEdit;
 using Data.Interface;
-using Scenes.DontDestroyOnLoad;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using Form.PropertyEdit;
-using UnityEngine;
 using NCalc;
+using Scenes.DontDestroyOnLoad;
+using UnityEngine;
+using Note = Data.ChartEdit.Note;
+
 namespace Form.NotePropertyEdit.ValueEdit
 {
     public partial class EditNote
@@ -19,12 +19,13 @@ namespace Form.NotePropertyEdit.ValueEdit
             notePropertyEdit.labelWindow.onWindowSizeChanged += LabelWindow_onWindowSizeChanged;
             LabelWindow_onWindowSizeChanged();
 
-            noteType.onValueChanged.AddListener(value => 
+            noteType.onValueChanged.AddListener(value =>
             {
-                Steps.Instance.Add(Undo,Redo,Finally);
+                Steps.Instance.Add(Undo, Redo, Finally);
                 Redo();
                 Finally();
                 return;
+
                 void Undo()
                 {
                     for (int i = 0; i < notes.Count; i++)
@@ -32,20 +33,22 @@ namespace Form.NotePropertyEdit.ValueEdit
                         notes[i].noteType = originNotes[i].noteType;
                     }
                 }
+
                 void Redo()
                 {
-                    foreach (Data.ChartEdit.Note note in notes)
+                    foreach (Note note in notes)
                     {
                         note.noteType = (NoteType)value;
                     }
                 }
             });
-            hitEffect.onValueChanged.AddListener(value => 
+            hitEffect.onValueChanged.AddListener(value =>
             {
                 Steps.Instance.Add(Undo, Redo, Finally);
                 Redo();
                 Finally();
                 return;
+
                 void Undo()
                 {
                     for (int i = 0; i < notes.Count; i++)
@@ -53,9 +56,10 @@ namespace Form.NotePropertyEdit.ValueEdit
                         notes[i].effect = originNotes[i].effect;
                     }
                 }
+
                 void Redo()
                 {
-                    foreach (Data.ChartEdit.Note note in notes)
+                    foreach (Note note in notes)
                     {
                         if (value)
                         {
@@ -74,6 +78,7 @@ namespace Form.NotePropertyEdit.ValueEdit
                 Redo();
                 Finally();
                 return;
+
                 void Undo()
                 {
                     for (int i = 0; i < notes.Count; i++)
@@ -81,9 +86,10 @@ namespace Form.NotePropertyEdit.ValueEdit
                         notes[i].effect = originNotes[i].effect;
                     }
                 }
+
                 void Redo()
                 {
-                    foreach (Data.ChartEdit.Note note in notes)
+                    foreach (Note note in notes)
                     {
                         if (value)
                         {
@@ -96,28 +102,35 @@ namespace Form.NotePropertyEdit.ValueEdit
                     }
                 }
             });
-            startTime.onEndEdit.AddListener(value => 
+            startTime.onEndEdit.AddListener(value =>
             {
                 Match match = Regex.Match(value, @"(\d+):(\d+)/(\d+)");
-                if (!match.Success) return;
+                if (!match.Success)
+                {
+                    return;
+                }
+
                 //EventValueChanged(match, note.HitBeats);
-                BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
+                BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
+                    int.Parse(match.Groups[3].Value));
                 Steps.Instance.Add(Undo, Redo, Finally);
                 Redo();
                 Finally();
                 return;
+
                 void Undo()
                 {
-                    for (int i = 0; i < notes.Count; i++) 
+                    for (int i = 0; i < notes.Count; i++)
                     {
-                        notes[i].HitBeats = new(originNotes[i].HitBeats);
+                        notes[i].HitBeats = new BPM(originNotes[i].HitBeats);
                     }
                 }
-                void Redo() 
+
+                void Redo()
                 {
-                    foreach (Data.ChartEdit.Note note in notes)
+                    foreach (Note note in notes)
                     {
-                        note.HitBeats = new(targetValue);
+                        note.HitBeats = new BPM(targetValue);
                     }
                 }
             });
@@ -125,30 +138,36 @@ namespace Form.NotePropertyEdit.ValueEdit
             holdTime.onEndEdit.AddListener(value =>
             {
                 Match match = Regex.Match(value, @"(\d+):(\d+)/(\d+)");
-                if (!match.Success) return;
+                if (!match.Success)
+                {
+                    return;
+                }
+
                 //EventValueChanged(match, note.HitBeats);
-                BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
+                BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
+                    int.Parse(match.Groups[3].Value));
                 Steps.Instance.Add(Undo, Redo, Finally);
                 Redo();
                 Finally();
                 return;
+
                 void Undo()
                 {
                     for (int i = 0; i < notes.Count; i++)
                     {
-                        notes[i].holdBeats = new(originNotes[i].holdBeats);
+                        notes[i].holdBeats = new BPM(originNotes[i].holdBeats);
                     }
                 }
+
                 void Redo()
                 {
-                    foreach (Data.ChartEdit.Note note in notes)
+                    foreach (Note note in notes)
                     {
-                        note.holdBeats = new(targetValue);
+                        note.holdBeats = new BPM(targetValue);
                     }
                 }
-                
             });
-            postionX.onEndEdit.AddListener(value => 
+            postionX.onEndEdit.AddListener(value =>
             {
                 if (!float.TryParse(value, out float result))
                 {
@@ -161,11 +180,14 @@ namespace Form.NotePropertyEdit.ValueEdit
                     {
                         return;
                     }
-                };
-                Steps.Instance.Add(Undo,Redo, Finally);
+                }
+
+                ;
+                Steps.Instance.Add(Undo, Redo, Finally);
                 Redo();
                 Finally();
                 return;
+
                 void Undo()
                 {
                     for (int i = 0; i < notes.Count; i++)
@@ -173,20 +195,22 @@ namespace Form.NotePropertyEdit.ValueEdit
                         notes[i].positionX = originNotes[i].positionX;
                     }
                 }
+
                 void Redo()
                 {
-                    foreach (Data.ChartEdit.Note note in notes)
+                    foreach (Note note in notes)
                     {
                         note.positionX = result;
                     }
                 }
             });
-            isClockwise.onValueChanged.AddListener(value => 
+            isClockwise.onValueChanged.AddListener(value =>
             {
                 Steps.Instance.Add(Undo, Redo, Finally);
                 Redo();
                 Finally();
                 return;
+
                 void Undo()
                 {
                     for (int i = 0; i < notes.Count; i++)
@@ -194,9 +218,10 @@ namespace Form.NotePropertyEdit.ValueEdit
                         notes[i].isClockwise = originNotes[i].isClockwise;
                     }
                 }
+
                 void Redo()
                 {
-                    foreach (Data.ChartEdit.Note note in notes)
+                    foreach (Note note in notes)
                     {
                         if (value)
                         {
@@ -209,16 +234,18 @@ namespace Form.NotePropertyEdit.ValueEdit
                     }
                 }
             });
+
             void Finally()
             {
-                GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1),new(){typeof(NoteEdit.NoteEdit)});
-                GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1, -1),null);
+                GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1),
+                    new List<Type> { typeof(NoteEdit.NoteEdit) });
+                GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1, -1), null);
             }
         }
 
         private void LabelWindow_onWindowSizeChanged()
         {
-            gridLayoutGroup.cellSize = new(viewport.rect.width, 50);
+            gridLayoutGroup.cellSize = new Vector2(viewport.rect.width, 50);
         }
     }
 }

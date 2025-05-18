@@ -2,7 +2,6 @@ using Log;
 using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 using UnityEngine.UI;
-using UtilityCode.Singleton;
 
 namespace Form.PropertyEdit
 {
@@ -12,10 +11,10 @@ namespace Form.PropertyEdit
 
         private void Start()
         {
-            isOn.onValueChanged.AddListener(on => 
+            isOn.onValueChanged.AddListener(on =>
             {
                 GlobalData.Instance.chartEditData.loopPlayBack = on;
-                LogCenter.Log($"属性编辑，循环播放从{!on}变更为{on}"); 
+                LogCenter.Log($"属性编辑，循环播放从{!on}变更为{on}");
             });
             isOn.SetIsOnWithoutNotify(GlobalData.Instance.chartEditData.loopPlayBack);
         }

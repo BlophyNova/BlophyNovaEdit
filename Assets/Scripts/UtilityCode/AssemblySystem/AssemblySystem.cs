@@ -47,11 +47,15 @@ namespace UtilityCode.AssemblySystem
             return interfaces;
         }
 
-        public static void Exe<T>(List<T> values, Action<T> action,List<Type> types, bool isBlackList)
+        public static void Exe<T>(List<T> values, Action<T> action, List<Type> types, bool isBlackList)
         {
             foreach (T item in values)
             {
-                if(ExeAllMethod(action, types, item)) continue;
+                if (ExeAllMethod(action, types, item))
+                {
+                    continue;
+                }
+
                 if (isBlackList)
                 {
                     bool isInBlackList = false;
@@ -67,10 +71,8 @@ namespace UtilityCode.AssemblySystem
                     {
                         continue;
                     }
-                    else
-                    {
-                        action?.Invoke(item);
-                    }
+
+                    action?.Invoke(item);
                 }
                 else
                 {
@@ -78,6 +80,7 @@ namespace UtilityCode.AssemblySystem
                 }
             }
         }
+
         private static void ExeSpecificMethodWithWhiteList<T>(Action<T> action, List<Type> types, T item)
         {
             foreach (Type type in types)
@@ -86,7 +89,6 @@ namespace UtilityCode.AssemblySystem
                 {
                     action?.Invoke(item);
                     break;
-
                 }
             }
         }
@@ -98,6 +100,7 @@ namespace UtilityCode.AssemblySystem
                 action?.Invoke(item);
                 return true;
             }
+
             return false;
         }
     }

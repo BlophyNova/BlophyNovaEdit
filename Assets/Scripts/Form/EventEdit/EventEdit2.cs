@@ -1,19 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
 using CustomSystem;
 using Data.ChartEdit;
 using Form.NoteEdit;
 using Log;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Event = Data.ChartEdit.Event;
-using EventType = Data.Enumerate.EventType;
 
 namespace Form.EventEdit
 {
     public partial class EventEdit
     {
-
         /// <summary>
         ///     裁剪Texture2D
         /// </summary>
@@ -63,7 +60,8 @@ namespace Form.EventEdit
             return newTexture;
         }
 
-        private void FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine, out EventVerticalLine nearEventVerticalLine)
+        private void FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
+            out EventVerticalLine nearEventVerticalLine)
         {
             nearBeatLine = FindNearBeatLine(MousePositionInThisRectTransform);
 
@@ -119,15 +117,19 @@ namespace Form.EventEdit
                 {
                     break;
                 }
+
                 BeatLine beatLine = FindNearBeatLine(MousePositionInThisRectTransform);
                 try
                 {
                     eventEditItem.thisEventEditItemRect.sizeDelta = new Vector2(
                         Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition),
                         beatLine.transform.localPosition.y - eventEditItem.transform.localPosition.y);
-                    eventEditItem.@event.endBeats = new(beatLine.thisBPM);
+                    eventEditItem.@event.endBeats = new BPM(beatLine.thisBPM);
                 }
-                catch { }
+                catch
+                {
+                }
+
                 yield return new WaitForEndOfFrame();
             }
 
@@ -150,7 +152,7 @@ namespace Form.EventEdit
                 //eventEditItem.DrawLineOnEEI();
                 //eventEditItem.Init();
                 eventEditItems.Add(eventEditItem);
-                AddEvent(eventEditItem.@event,  currentBoxID, false);
+                AddEvent(eventEditItem.@event, currentBoxID);
             }
 
             yield break;
@@ -159,9 +161,10 @@ namespace Form.EventEdit
             {
                 DeleteEvents(events, currentBoxID);
             }
+
             void Redo()
             {
-                List<Event> newEvents = AddEvents(events, currentBoxID,true);
+                List<Event> newEvents = AddEvents(events, currentBoxID, true);
                 BatchEvents(newEvents, @event => @event.IsSelected = false);
                 eventEditItems.AddRange(AddEvents2UI(newEvents));
             }

@@ -1,6 +1,6 @@
-using Data.Enumerate;
+using System;
+using System.Collections.Generic;
 using Data.Interface;
-using Form.LabelWindow;
 using Log;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace Form.PropertyEdit
 {
-    public class LineID : MonoBehaviour,IRefreshEdit
+    public class LineID : MonoBehaviour, IRefreshEdit
     {
         public int lineID;
         public TMP_Text thisText;
@@ -50,6 +50,13 @@ namespace Form.PropertyEdit
                 LogCenter.Log($"属性编辑执行-操作，线号更改为{lineID}");
             });
         }
+
+        public void RefreshEdit(int lineID, int boxID)
+        {
+            this.lineID = lineID < 0 ? this.lineID : lineID;
+            thisText.text = $"线号：{this.lineID}";
+        }
+
         private void RefreshNote()
         {
             /*
@@ -61,12 +68,8 @@ namespace Form.PropertyEdit
                     noteEdit.RefreshEdit(lineID, -1);
                 }
             }*/
-            GlobalData.Refresh<IRefreshEdit>(a => a.RefreshEdit(lineID, -1), new() { typeof(NoteEdit.NoteEdit),typeof(EventEdit.EventEdit)});
-        }
-        public void RefreshEdit(int lineID, int boxID)
-        {
-            this.lineID = lineID < 0 ? this.lineID : lineID;
-            thisText.text = $"线号：{this.lineID}";
+            GlobalData.Refresh<IRefreshEdit>(a => a.RefreshEdit(lineID, -1),
+                new List<Type> { typeof(NoteEdit.NoteEdit), typeof(EventEdit.EventEdit) });
         }
     }
 }

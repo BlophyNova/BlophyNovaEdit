@@ -1,5 +1,5 @@
-using Scenes.DontDestroyOnLoad;
 using System.Collections.Generic;
+using Scenes.DontDestroyOnLoad;
 using UtilityCode.Singleton;
 using BPM = Data.ChartEdit.BPM;
 

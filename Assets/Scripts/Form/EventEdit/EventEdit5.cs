@@ -1,7 +1,7 @@
-﻿using Form.PropertyEdit;
+﻿using System.Collections.Generic;
+using Form.PropertyEdit;
 using Manager;
 using Scenes.DontDestroyOnLoad;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Form.EventEdit
@@ -13,6 +13,7 @@ namespace Form.EventEdit
         {
             eventLineRenderer.lineRendererTextureRect.anchoredPosition = labelWindow.labelWindowRect.anchoredPosition;
         }
+
         private void LabelWindow_onWindowGetFocus()
         {
             LabelWindowsManager.Instance.lineRendererParent.transform.SetAsLastSibling();
@@ -21,6 +22,7 @@ namespace Form.EventEdit
         private void LabelWindow_onWindowLostFocus()
         {
         }
+
         private void LabelItem_onLabelLostFocus()
         {
             eventLineRenderer.gameObject.SetActive(false);
@@ -30,10 +32,12 @@ namespace Form.EventEdit
         {
             eventLineRenderer.gameObject.SetActive(true);
         }
+
         private void UpdateEventEditItemLineRendererRectSize()
         {
             eventLineRenderer.lineRendererTextureRect.sizeDelta = labelWindow.labelWindowRect.sizeDelta;
         }
+
         public override void WindowSizeChanged()
         {
             base.WindowSizeChanged();
@@ -48,7 +52,11 @@ namespace Form.EventEdit
             {
                 foreach (EventVerticalLine item in eventVerticalLines)
                 {
-                    if (item.eventType != eventEditItems[i].@event.eventType) continue;
+                    if (item.eventType != eventEditItems[i].@event.eventType)
+                    {
+                        continue;
+                    }
+
                     float positionX = item.transform.localPosition.x;
                     eventEditItems[i].transform.localPosition = new Vector3(positionX,
                         YScale.Instance.GetPositionYWithBeats(eventEditItems[i].@event.startBeats.ThisStartBPM));
@@ -59,6 +67,7 @@ namespace Form.EventEdit
                 }
             }
         }
+
         public void UpdateVerticalLineCount()
         {
             int subdivision = GlobalData.Instance.chartEditData.eventVerticalSubdivision;

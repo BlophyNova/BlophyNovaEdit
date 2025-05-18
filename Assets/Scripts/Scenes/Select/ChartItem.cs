@@ -1,9 +1,8 @@
-using Data;
+using System.Collections;
+using System.IO;
 using Data.ChartData;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
-using System.Collections;
-using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -24,7 +23,8 @@ namespace Scenes.Select
             thisButton.onClick.AddListener(() =>
             {
                 GlobalData.Instance.currentChartIndex = currentChartIndex;
-                string illustrationPath = $"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/Illustration";
+                string illustrationPath =
+                    $"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/Illustration";
                 illustrationPath = $"{Directory.GetFiles(illustrationPath)[0]}";
                 StartCoroutine(GetIllustration(illustrationPath));
                 illustrationPreview.color = Color.white;

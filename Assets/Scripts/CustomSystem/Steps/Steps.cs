@@ -25,16 +25,18 @@ namespace CustomSystem
                 steps.Add(new Step { Undo = undo, Redo = redo, Finally = @finally });
                 //currentStepsIndex++;
             }
+
             CheckMaxLength();
         }
 
         public void Undo()
         {
-            if (currentStepsIndex< 0)
+            if (currentStepsIndex < 0)
             {
                 return;
             }
-            else if(currentStepsIndex >= steps.Count)
+
+            if (currentStepsIndex >= steps.Count)
             {
                 currentStepsIndex = steps.Count - 1;
             }
@@ -46,14 +48,16 @@ namespace CustomSystem
 
         public void Redo()
         {
-            if (currentStepsIndex>=steps.Count-1)
+            if (currentStepsIndex >= steps.Count - 1)
             {
                 return;
             }
-            else if (currentStepsIndex < 0)
+
+            if (currentStepsIndex < 0)
             {
                 currentStepsIndex = -1;
             }
+
             steps[++currentStepsIndex].Redo();
             steps[currentStepsIndex].Finally();
             CheckMaxLength();
@@ -85,8 +89,8 @@ namespace CustomSystem
 
     public class Step
     {
+        public Action Finally;
         public Action Redo;
         public Action Undo;
-        public Action Finally;
     }
 }

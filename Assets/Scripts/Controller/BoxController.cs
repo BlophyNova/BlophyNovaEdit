@@ -1,8 +1,7 @@
-using Data.ChartData;
-using JetBrains.Annotations;
-using Manager;
 using System.Collections;
 using System.Collections.Generic;
+using Data.ChartData;
+using Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -113,14 +112,16 @@ namespace Controller
         {
             UpdateEvents();
         }
+
         public void SetShowXYPoint(int currentBoxID)
         {
             bool isShowText = currentBoxID == this.currentBoxID;
-            foreach (var item in showPointInGameView)
+            foreach (ShowPointInGameView item in showPointInGameView)
             {
                 item.isShowText = isShowText;
             }
         }
+
         /// <summary>
         ///     设置遮罩种子
         /// </summary>
@@ -139,6 +140,7 @@ namespace Controller
 
             return this; //返回自己
         }
+
         /// <summary>
         ///     初始化
         /// </summary>
@@ -156,7 +158,7 @@ namespace Controller
 
             boxFineness = ValueManager.Instance.boxFineness;
             ripples = new ObjectPoolQueue<RippleController>(AssetManager.Instance.ripple, 0, squarePosition);
-            showPointInGameView[^1].lineID = $"{this.currentBoxID}";
+            showPointInGameView[^1].lineID = $"{currentBoxID}";
             return this; //返回自身
         }
 
@@ -237,10 +239,8 @@ namespace Controller
                 {
                     return -.0001f;
                 }
-                else
-                {
-                    return events[eventIndex].endValue;
-                }
+
+                return events[eventIndex].endValue;
             }
 
             return GameUtility.GetValueWithEvent(events[eventIndex], currentTime); //拿到事件后根据时间Get到当前值
@@ -284,7 +284,6 @@ namespace Controller
             //{
             //    spriteRenderers[i].color = new(spriteRenderers[i].color.r, spriteRenderers[i].color.g, spriteRenderers[i].color.b, currentAlpha);
             //}
-            
         }
 
         private void UpdateLineAlpha()

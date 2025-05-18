@@ -12,12 +12,12 @@ namespace Scenes.Edit
     {
         public InputActionAsset inputActionsAsset;
         public PlayerInput playerInput;
+        public KeyValueList<Action, InputAction.CallbackContext> canceled = new();
+        public KeyValueList<Action, InputAction.CallbackContext> performed = new();
+        public KeyValueList<Action, InputAction.CallbackContext> started = new();
 
         public List<InputAction> EnabledShortcurKeyEvents => GetAssignStateShortcutKeyEvents(true);
         public List<InputAction> DisabledShortcurKeyEvents => GetAssignStateShortcutKeyEvents(false);
-        public KeyValueList<Action, InputAction.CallbackContext> started = new();
-        public KeyValueList<Action, InputAction.CallbackContext> performed = new();
-        public KeyValueList<Action, InputAction.CallbackContext> canceled = new();
 
 
         // Start is called before the first frame update
@@ -37,6 +37,13 @@ namespace Scenes.Edit
             }
         }
 
+        private void LateUpdate()
+        {
+            ExecuteEvents(started);
+            ExecuteEvents(performed);
+            ExecuteEvents(canceled);
+        }
+
         private List<InputAction> GetAssignStateShortcutKeyEvents(bool state)
         {
             List<InputAction> assignStateActions = new();
@@ -51,25 +58,24 @@ namespace Scenes.Edit
 
             return assignStateActions;
         }
-        public void RegisterEvents(string actionNameOrId, Action<InputAction.CallbackContext> started, Action<InputAction.CallbackContext> performed, Action<InputAction.CallbackContext> canceled)
+
+        public void RegisterEvents(string actionNameOrId, Action<InputAction.CallbackContext> started,
+            Action<InputAction.CallbackContext> performed, Action<InputAction.CallbackContext> canceled)
         {
             InputAction inputAction = playerInput.actions[actionNameOrId];
             inputAction.started += callbackContext => this.started.Add(() => started(callbackContext), callbackContext);
-            inputAction.performed += callbackContext => this.performed.Add(() => performed(callbackContext), callbackContext);
-            inputAction.canceled += callbackContext => this.canceled.Add(() => canceled(callbackContext), callbackContext);
+            inputAction.performed += callbackContext =>
+                this.performed.Add(() => performed(callbackContext), callbackContext);
+            inputAction.canceled += callbackContext =>
+                this.canceled.Add(() => canceled(callbackContext), callbackContext);
             inputAction.Enable();
         }
-        private void LateUpdate()
-        {
-            ExecuteEvents(started);
-            ExecuteEvents(performed);
-            ExecuteEvents(canceled);
-        }
-        void ExecuteEvents(KeyValueList<Action, InputAction.CallbackContext> keyValueList)
+
+        private void ExecuteEvents(KeyValueList<Action, InputAction.CallbackContext> keyValueList)
         {
             for (int i = keyValueList.Count - 1; i >= 0; i--)
             {
-                //ÕâÀï·ÅÔÚÖÚ¶à±»´¥·¢µÄ¿ì½Ý¼üÖÐÑ¡ÔñÒ»¸öµÄÂß¼­£¬µ«ÎªÁËÔÝÊ±²»ÒòÎª±¨´íµ¼ÖÂÎÞ·¨¼ÌÐøÔËÐÐ£¬ËùÒÔÏÈ·Å¸ötry
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶à±»ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½Ý¼ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·Å¸ï¿½try
                 try
                 {
                     keyValueList[i]();
@@ -78,6 +84,7 @@ namespace Scenes.Edit
                 {
                     Debug.LogError($"{e.Message}\n{e.StackTrace}");
                 }
+
                 keyValueList.RemoveAt(i);
             }
         }

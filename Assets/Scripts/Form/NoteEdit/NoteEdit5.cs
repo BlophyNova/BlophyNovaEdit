@@ -13,6 +13,7 @@ namespace Form.NoteEdit
             UpdateVerticalLineCount();
             UpdateNoteLocalPosition();
         }
+
         public void UpdateVerticalLineCount()
         {
             for (int i = 0; i < verticalLines.Count;)
@@ -34,12 +35,14 @@ namespace Form.NoteEdit
                 newVerticalLine.SetSiblingIndex(4);
                 verticalLines.Add(newVerticalLine);
             }
-            verticalLineDeltaDataForChartData=CalculatePositionXDelta(verticalLineLeftAndRightDelta);
+
+            verticalLineDeltaDataForChartData = CalculatePositionXDelta(verticalLineLeftAndRightDelta);
         }
 
         private float CalculatePositionXDelta(Vector3 verticalLineLeftAndRightDelta)
         {
-             return ((verticalLines[1].localPosition.x - verticalLines[0].localPosition.x) / verticalLineLeftAndRightDelta.x) * 2;
+            return (verticalLines[1].localPosition.x - verticalLines[0].localPosition.x) /
+                verticalLineLeftAndRightDelta.x * 2;
         }
 
         public void UpdateNoteLocalPosition()

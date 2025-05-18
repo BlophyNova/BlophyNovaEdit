@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class TimeUtility
 {
@@ -21,6 +18,7 @@ public class TimeUtility
             time++;
             result = $"{time}";
         }
+
         return result;
     }
 }
