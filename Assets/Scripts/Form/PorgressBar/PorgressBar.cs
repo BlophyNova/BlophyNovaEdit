@@ -40,7 +40,8 @@ namespace Form.PorgressBar
             progressBar.SetValueWithoutNotify(currentProgress);
             if (currentProgress >= .9999f)
             {
-                StateManager.Instance.RestartTime(LoopPlayback.Instance.isOn);
+
+                StateManager.Instance.RestartTime(GlobalData.Instance.chartEditData.loopPlayBack);
                 //Debug.LogError($"循环播放做好后用在这里");
 
                 GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BasicLine) });
