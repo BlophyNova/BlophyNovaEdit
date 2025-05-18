@@ -72,6 +72,7 @@ namespace Form.NoteEdit
             float ariseBeats = BPMManager.Instance.GetCurrentBeatsWithSecondsTime(
                 (float)(ProgressManager.Instance.CurrentTime +
                         AriseLineAndBasicLineSeconds * (1 / YScale.Instance.CurrentYScale)));
+            float currentBeats = BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime);
             //int ariseBeatLineIndex = Algorithm.BinarySearch(BPMManager.Instance.bpmList, m => m.ThisStartBPM < ariseBeats, true);
             while (nextBPMWithAriseLine.ThisStartBPM < ariseBeats)
             {
@@ -81,9 +82,7 @@ namespace Form.NoteEdit
                 beatLines.Add(initBeatLine);
                 nextBPMWithAriseLine.AddOneBeat(GlobalData.Instance.chartEditData.beatSubdivision);
             }
-
-            float currentBeats =
-                BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime);
+            
             for (int i = 0; i < beatLines.Count; i++)
             {
                 if (beatLines[i].thisBPM.ThisStartBPM < currentBeats || beatLines[i].thisBPM.ThisStartBPM > ariseBeats)
