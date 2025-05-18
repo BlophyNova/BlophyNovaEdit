@@ -128,6 +128,21 @@ namespace Form.NoteEdit
             onNotesRefreshed(refreshedNotes);
         }
 
+        public void RefreshPlayer(int lineID, int boxID)
+        {
+            lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
+            lastLineID = boxID < 0 ? lastLineID : currentLineID;
+            currentBoxID = boxID < 0 ? currentBoxID : boxID;
+            currentLineID = lineID < 0 ? currentLineID : lineID;
+            ConvertLine(ChartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes,
+                ChartData.boxes[currentBoxID].lines[currentLineID].onlineNotes);
+        }
+
+        public void RefreshUI()
+        {
+            UpdateVerticalLineCount();
+        }
+
         public List<ISelectBoxItem> TransmitObjects()
         {
             List<ISelectBoxItem> res = new();
@@ -145,21 +160,6 @@ namespace Form.NoteEdit
         public event OnNotesAdded2UI onNotesAdded2UI = notes => { };
         public event OnNotesDeleted onNotesDeleted = notes => { };
         public event OnNotesRefreshed onNotesRefreshed = notes => { };
-
-        public void RefreshPlayer(int lineID, int boxID)
-        {
-            lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
-            lastLineID = boxID < 0 ? lastLineID : currentLineID;
-            currentBoxID = boxID < 0 ? currentBoxID : boxID;
-            currentLineID = lineID < 0 ? currentLineID : lineID;
-            ConvertLine(ChartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes,
-                ChartData.boxes[currentBoxID].lines[currentLineID].onlineNotes);
-        }
-
-        public void RefreshUI()
-        {
-            UpdateVerticalLineCount();
-        }
 
         //public void RefreshAll(int lineID, int boxID)
         //{

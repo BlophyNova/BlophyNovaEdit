@@ -116,6 +116,16 @@ namespace Form.EventEdit
             action();
         }
 
+        public void RefreshEdit(int lineID, int boxID)
+        {
+            RefreshEvents(boxID);
+        }
+
+        public void RefreshPlayer(int lineID, int boxID)
+        {
+            RefreshPlayer(boxID);
+        }
+
 
         public List<ISelectBoxItem> TransmitObjects()
         {
@@ -134,16 +144,6 @@ namespace Form.EventEdit
         public event OnEventsAdded2UI onEventsAdded2UI = eventEditItems => { };
         public event OnEventsDeleted onEventsDeleted = events => { };
         public event OnEventsRefreshed onEventsRefreshed = events => { };
-
-        public void RefreshEdit(int lineID, int boxID)
-        {
-            RefreshEvents(boxID);
-        }
-
-        public void RefreshPlayer(int lineID, int boxID)
-        {
-            RefreshPlayer(boxID);
-        }
 
         //public void RefreshAll(int lineID, int boxID)
         //{

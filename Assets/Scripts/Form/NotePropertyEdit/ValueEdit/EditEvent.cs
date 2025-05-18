@@ -1,11 +1,9 @@
-using Data.ChartEdit;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Data.Interface;
 using Form.EventEdit;
 using Form.NotePropertyEdit.ValueEdit.Ease;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Scenes.DontDestroyOnLoad;
 using TMPro;
 using UnityEngine;
@@ -13,6 +11,7 @@ using UnityEngine.UI;
 using Event = Data.ChartEdit.Event;
 using EventType = Data.Enumerate.EventType;
 using static UtilityCode.ValueConvert.ValueConvert;
+
 namespace Form.NotePropertyEdit.ValueEdit
 {
     public partial class EditEvent : MonoBehaviour
@@ -33,27 +32,34 @@ namespace Form.NotePropertyEdit.ValueEdit
         public TMP_InputField endValue;
         public Toggle syncEvent;
         public EaseEdit easeEdit;
+
         /// <summary>
-        /// 多选编辑用的玩意，还没写.jpg
+        ///     多选编辑用的玩意，还没写.jpg
         /// </summary>
         /// <param name="selectedBoxItems"></param>
         public void Set(List<ISelectBoxItem> selectedBoxItems)
         {
-            if (selectedBoxItems.Count <= 0) return;
+            if (selectedBoxItems.Count <= 0)
+            {
+                return;
+            }
+
             eventEditText.text = $"事件编辑 {selectedBoxItems.Count}";
             List<EventEditItem> eventEditItems = selectedBoxItems.Cast<EventEditItem>().ToList();
-            originEvents = new();
+            originEvents = new List<Event>();
             events.Clear();
             foreach (EventEditItem eventEditItem in eventEditItems)
             {
-                originEvents.Add(new(eventEditItem.@event));
+                originEvents.Add(new Event(eventEditItem.@event));
                 events.Add(eventEditItem.@event);
             }
+
             SetNoteValue2Form();
             notePropertyEdit.EditNote.gameObject.SetActive(false);
             gameObject.SetActive(true);
             transform.SetAsLastSibling();
         }
+
         private void SetNoteValue2Form()
         {
             startTime.SetTextWithoutNotify(
@@ -84,9 +90,9 @@ namespace Form.NotePropertyEdit.ValueEdit
                     events[0].curveIndex = 0;
                     Finally();
                 }
-                easeEdit.SetCustomValueWithoutNotify(events[0].curveIndex+1);
-                easeEdit.visualEase.EaseEdit_onValueChanged(events[0].curveIndex+1);
-                
+
+                easeEdit.SetCustomValueWithoutNotify(events[0].curveIndex + 1);
+                easeEdit.visualEase.EaseEdit_onValueChanged(events[0].curveIndex + 1);
             }
             else
             {
@@ -94,6 +100,7 @@ namespace Form.NotePropertyEdit.ValueEdit
                 easeEdit.SetValueWithoutNotify(events[0].curveIndex);
                 easeEdit.visualEase.EaseEdit_onValueChanged(events[0].curveIndex);
             }
+
             if (events[0].isSyncEvent)
             {
                 endValue.interactable = false;
@@ -104,6 +111,5 @@ namespace Form.NotePropertyEdit.ValueEdit
                 endValue.interactable = true;
             }
         }
-
     }
 }
