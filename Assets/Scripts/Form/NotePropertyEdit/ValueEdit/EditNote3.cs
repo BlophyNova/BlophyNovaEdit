@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Form.PropertyEdit;
 using UnityEngine;
+using NCalc;
 namespace Form.NotePropertyEdit.ValueEdit
 {
     public partial class EditNote
@@ -149,7 +150,18 @@ namespace Form.NotePropertyEdit.ValueEdit
             });
             postionX.onEndEdit.AddListener(value => 
             {
-                if (!float.TryParse(value,out float result)) return;
+                if (!float.TryParse(value, out float result))
+                {
+                    Expression expression = new(value);
+                    try
+                    {
+                        result = float.Parse($"{expression.Evaluate()}");
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                };
                 Steps.Instance.Add(Undo,Redo, Finally);
                 Redo();
                 Finally();

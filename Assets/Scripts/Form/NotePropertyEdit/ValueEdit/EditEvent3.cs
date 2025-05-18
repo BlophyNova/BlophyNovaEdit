@@ -10,6 +10,7 @@ using Scenes.PublicScripts;
 using UnityEngine;
 using Event = Data.ChartEdit.Event;
 using static UtilityCode.ValueConvert.ValueConvert;
+using NCalc;
 namespace Form.NotePropertyEdit.ValueEdit
 {
     public partial class EditEvent
@@ -70,7 +71,18 @@ namespace Form.NotePropertyEdit.ValueEdit
             });
             startValue.onEndEdit.AddListener(value =>
             {
-                if (!float.TryParse(value,out float result)) return;
+                if (!float.TryParse(value, out float result))
+                {
+                    Expression expression = new(value);
+                    try
+                    {
+                        result = float.Parse($"{expression.Evaluate()}");
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                };
                 //EventValueChanged(match, note.HitBeats);
                 Steps.Instance.Add(Undo, Redo, Finally);
                 Redo();
@@ -107,7 +119,18 @@ namespace Form.NotePropertyEdit.ValueEdit
             });
             endValue.onEndEdit.AddListener(value =>
             {
-                if (!float.TryParse(value, out float result)) return;
+                if (!float.TryParse(value, out float result))
+                {
+                    Expression expression = new(value);
+                    try
+                    {
+                        result = float.Parse($"{expression.Evaluate()}");
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                };
                 //EventValueChanged(match, note.HitBeats);
                 Steps.Instance.Add(Undo, Redo, Finally);
                 Redo();
