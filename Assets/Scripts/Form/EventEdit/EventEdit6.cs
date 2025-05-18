@@ -34,6 +34,7 @@ namespace Form.EventEdit
                 @event.startValue = @event.endValue = events[index - 1].endValue;
                 //@event.Curve = GlobalData.Instance.easeData[0];
                 @event.curveIndex = 0;
+                @event.chartEditEvent.Init();
             }
 
             AddEvent2ChartData(@event, boxID);

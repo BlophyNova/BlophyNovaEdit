@@ -6,10 +6,11 @@ using Scenes.PublicScripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Event = Data.ChartEdit.Event;
 using EventType = Data.Enumerate.EventType;
-
+using static UtilityCode.ValueConvert.ValueConvert;
 namespace Form.EventEdit
 {
     public class EventEditItem : PublicButton, ISelectBoxItem
@@ -18,6 +19,8 @@ namespace Form.EventEdit
         public RectTransform thisEventEditItemRect;
         public RectTransform isSelectedRect;
         public RectTransform easeLineRect;
+        public TextMeshProUGUI startValueText;
+        public TextMeshProUGUI endValueText;
         public LineRenderer easeLine;
         public Event @event;
         private EventEdit thisEventEdit;
@@ -132,6 +135,20 @@ namespace Form.EventEdit
                 EventType.Speed => GlobalData.Instance.chartEditData.boxes[ThisEventEdit.currentBoxID].boxEvents.speed,
                 _ => throw new Exception("怎么会···没找到事件类型")
             };
+            Func<float, float> func = events[0].eventType switch
+            {
+                EventType.CenterX => value => CenterXYSnapTo16_9(value, true),
+                EventType.CenterY => value => CenterXYSnapTo16_9(value, false),
+                EventType.MoveX => value => MoveXYSnapTo16_9(value, true),
+                EventType.MoveY => value => MoveXYSnapTo16_9(value, false),
+                EventType.ScaleX => value => ScaleXYSnapTo16_9(value, true),
+                EventType.ScaleY => value => ScaleXYSnapTo16_9(value, false),
+                EventType.Alpha => value => AlphaSnapTo0_255(value, true),
+                EventType.LineAlpha => value => AlphaSnapTo0_255(value, false),
+                _ => value => value
+            };
+            startValueText.text = $"{func(@event.startValue)}";
+            endValueText.text = $"{func(@event.endValue)}";
             foreach (Event item in events)
             {
                 if (item.startValue < minValue)

@@ -147,7 +147,8 @@ namespace Form.EventEdit
                     $"{eventEditItem.@event.eventType}新事件：{eventEditItem.@event.startBeats.integer}:{eventEditItem.@event.startBeats.molecule}/{eventEditItem.@event.startBeats.denominator}");
                 events.Add(eventEditItem.@event);
                 Steps.Instance.Add(Undo, Redo, default);
-                eventEditItem.DrawLineOnEEI();
+                //eventEditItem.DrawLineOnEEI();
+                //eventEditItem.Init();
                 eventEditItems.Add(eventEditItem);
                 AddEvent(eventEditItem.@event,  currentBoxID, false);
             }

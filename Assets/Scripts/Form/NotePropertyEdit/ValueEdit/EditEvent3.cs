@@ -9,7 +9,7 @@ using Form.PropertyEdit;
 using Scenes.PublicScripts;
 using UnityEngine;
 using Event = Data.ChartEdit.Event;
-
+using static UtilityCode.ValueConvert.ValueConvert;
 namespace Form.NotePropertyEdit.ValueEdit
 {
     public partial class EditEvent
@@ -94,10 +94,10 @@ namespace Form.NotePropertyEdit.ValueEdit
                             Data.Enumerate.EventType.CenterY => Value16_9ToCenterXY(result, false),
                             Data.Enumerate.EventType.MoveX => Value16_9ToMoveXY(result, true),
                             Data.Enumerate.EventType.MoveY => Value16_9ToMoveXY(result, false),
-                            Data.Enumerate.EventType.ScaleX =>  Value16_9ToScaleXY(result, true),
-                            Data.Enumerate.EventType.ScaleY =>  Value16_9ToScaleXY(result, false),
-                            Data.Enumerate.EventType.Alpha =>  Value0_255ToAlpha(result, true),
-                            Data.Enumerate.EventType.LineAlpha =>  Value0_255ToAlpha(result, true),
+                            Data.Enumerate.EventType.ScaleX => Value16_9ToScaleXY(result, true),
+                            Data.Enumerate.EventType.ScaleY => Value16_9ToScaleXY(result, false),
+                            Data.Enumerate.EventType.Alpha => Value0_255ToAlpha(result, true),
+                            Data.Enumerate.EventType.LineAlpha => Value0_255ToAlpha(result, true),
                             _ => result
                         };
                         @event.startValue = result;

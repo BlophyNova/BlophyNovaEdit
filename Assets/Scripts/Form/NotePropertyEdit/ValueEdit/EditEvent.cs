@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Event = Data.ChartEdit.Event;
 using EventType = Data.Enumerate.EventType;
+using static UtilityCode.ValueConvert.ValueConvert;
 namespace Form.NotePropertyEdit.ValueEdit
 {
     public partial class EditEvent : MonoBehaviour
