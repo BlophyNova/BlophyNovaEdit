@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,6 @@ namespace Data.Interface
     {
         public List<ISelectBoxItem> TransmitObjects();
     }
-
     public interface ISelectBoxItem
     {
         public bool IsNoteEdit { get; }

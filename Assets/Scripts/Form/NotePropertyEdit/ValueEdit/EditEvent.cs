@@ -21,8 +21,6 @@ namespace Form.NotePropertyEdit.ValueEdit
         public List<RectTransform> contentList;
 
         public NotePropertyEdit notePropertyEdit;
-
-        public List<Event> originEvents;
         public List<Event> events;
 
         public TextMeshProUGUI eventEditText;
@@ -34,7 +32,7 @@ namespace Form.NotePropertyEdit.ValueEdit
         public EaseEdit easeEdit;
 
         /// <summary>
-        ///     多选编辑用的玩意，还没写.jpg
+        ///     多选编辑用的玩意
         /// </summary>
         /// <param name="selectedBoxItems"></param>
         public void Set(List<ISelectBoxItem> selectedBoxItems)
@@ -46,12 +44,11 @@ namespace Form.NotePropertyEdit.ValueEdit
 
             eventEditText.text = $"事件编辑 {selectedBoxItems.Count}";
             List<EventEditItem> eventEditItems = selectedBoxItems.Cast<EventEditItem>().ToList();
-            originEvents = new List<Event>();
             events.Clear();
-            foreach (EventEditItem eventEditItem in eventEditItems)
+            for (int i = 0; i < eventEditItems.Count; i++)
             {
-                originEvents.Add(new Event(eventEditItem.@event));
-                events.Add(eventEditItem.@event);
+                Event @event = eventEditItems[i].@event;
+                events.Add(@event);
             }
 
             SetNoteValue2Form();

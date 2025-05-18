@@ -565,6 +565,11 @@ namespace Data.ChartEdit
             isSyncEvent = @event.isSyncEvent;
         }
 
+        public static Event Copy(Event @event)
+        {
+            return new(@event);
+        }
+
         [JsonIgnore]
         public bool IsSelected
         {
