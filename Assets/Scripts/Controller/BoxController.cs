@@ -150,8 +150,7 @@ namespace Controller
         {
             box = thisBox; //赋值thisBox到box
             mainCamera = Camera.main;
-            int lengthDecideLineControllers = decideLineControllers.Length; //获得到当前判定线的数量
-            for (int i = 0; i < lengthDecideLineControllers; i++) //遍历
+            for (int i = 0; i < decideLineControllers.Length; i++) //遍历
             {
                 decideLineControllers[i].ThisLine = box.lines[i]; //将line的源数据赋值过去
             }

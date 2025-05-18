@@ -83,11 +83,11 @@ namespace UtilityCode.Algorithm
                 int middle = (left + right) / 2; //m无默认值
                 if (match(list[middle]))
                 {
-                    left = middle; //更新右边界
+                    left = middle; //更新左边界
                 }
                 else //否则
                 {
-                    right = middle; //更新左边界
+                    right = middle; //更新右边界
                 }
             }
 

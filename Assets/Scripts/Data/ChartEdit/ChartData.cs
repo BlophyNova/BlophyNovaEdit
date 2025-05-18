@@ -103,6 +103,8 @@ namespace Data.ChartEdit
         public int denominator = 1;
 
         public float currentBPM;
+        [JsonIgnore]public decimal lastBpmEndSeconds=-.1m;
+        [JsonIgnore]public float perSecond=-.1f;
 
         public BPM()
         {

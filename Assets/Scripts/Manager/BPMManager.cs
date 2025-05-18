@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Scenes.DontDestroyOnLoad;
+using UtilityCode.Algorithm;
 using UtilityCode.Singleton;
 using BPM = Data.ChartEdit.BPM;
 
@@ -154,23 +155,10 @@ namespace Manager
         /// <returns></returns>
         public float GetSecondsTimeByBeats(float beats)
         {
-            float secondsTime = 0;
-            int index = -1;
-            for (int i = 0; i < bpmList.Count; i++)
-            {
-                if (bpmList[i].ThisStartBPM <= beats)
-                {
-                    index++;
-                }
-            }
+            int index= Algorithm.BinarySearch(bpmList, m => m.ThisStartBPM <= beats, true);
 
-            for (int i = 0; i < index; i++)
-            {
-                secondsTime += (bpmList[i + 1].ThisStartBPM - bpmList[i].ThisStartBPM) /
-                               GetBeatsPerSecondWithBPMEvent(bpmList[i]);
-            }
-
-            secondsTime += (beats - bpmList[index].ThisStartBPM) / GetBeatsPerSecondWithBPMEvent(bpmList[index]);
+            float secondsTime = (float)bpmList[index].lastBpmEndSeconds +
+                                (beats - bpmList[index].ThisStartBPM) / bpmList[index].perSecond;
             return secondsTime;
         }
 
