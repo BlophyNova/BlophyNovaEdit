@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Form.BoxList
 {
-    public class BoxList : LabelWindowContent, IRefresh
+    public class BoxList : LabelWindowContent,IRefreshUI
     {
         public BoxListItem boxListItemPrefabs;
         public List<BoxListItem> boxListItems;
@@ -53,5 +53,9 @@ namespace Form.BoxList
                 new Vector2(labelWindow.labelWindowRect.sizeDelta.x * .8f, gridLayoutGroup.cellSize.y);
         }
 
+        public void RefreshUI()
+        {
+            Refresh();
+        }
     }
 }

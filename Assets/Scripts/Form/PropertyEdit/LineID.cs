@@ -61,9 +61,8 @@ namespace Form.PropertyEdit
                     noteEdit.RefreshEdit(lineID, -1);
                 }
             }*/
-            GlobalData.Refresh<IRefreshEdit>(a=>a.RefreshEdit(lineID,-1));
+            GlobalData.Refresh<IRefreshEdit>(a => a.RefreshEdit(lineID, -1), new() { typeof(NoteEdit.NoteEdit),typeof(EventEdit.EventEdit)});
         }
-
         public void RefreshEdit(int lineID, int boxID)
         {
             this.lineID = lineID < 0 ? this.lineID : lineID;

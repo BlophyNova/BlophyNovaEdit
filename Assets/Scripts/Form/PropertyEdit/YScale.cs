@@ -1,4 +1,5 @@
 using Data.Interface;
+using Form.NoteEdit;
 using Log;
 using Manager;
 using Scenes.DontDestroyOnLoad;
@@ -40,8 +41,8 @@ namespace Form.PropertyEdit
 
                 LogCenter.Log($"属性编辑，Y轴缩放从{CurrentYScale}变更为{yScale}");
                 CurrentYScale = yScale;
-                GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
-                GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1,-1));
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BasicLine) });
+                GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1), new() { typeof(EventEdit.EventEdit),typeof(NoteEdit.NoteEdit)});
             });
         }
 

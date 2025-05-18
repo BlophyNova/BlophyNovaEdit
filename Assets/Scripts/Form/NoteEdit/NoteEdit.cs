@@ -16,7 +16,7 @@ using static UtilityCode.ChartTool.ChartTool;
 namespace Form.NoteEdit
 {
     //由于这个控件需要的功能太多，所以这里做个分类，此文件负责字段事件委托属性，以及Unity生命周期的方法和接口实现的方法
-    public partial class NoteEdit : LabelWindowContent, IInputEventCallback, IRefresh, ISelectBox, IRefreshEdit, IRefreshPlayer
+    public partial class NoteEdit : LabelWindowContent, IInputEventCallback, ISelectBox, IRefreshEdit, IRefreshPlayer,IRefreshUI
     {
         public int lastBoxID;
         public int lastLineID;
@@ -114,12 +114,6 @@ namespace Form.NoteEdit
             };
             action();
         }
-        public void Refresh()
-        {
-            UpdateVerticalLineCount();
-            //RefreshNotes(-1, -1);
-        }
-
         public List<ISelectBoxItem> TransmitObjects()
         {
             List<ISelectBoxItem> res = new();
@@ -157,6 +151,11 @@ namespace Form.NoteEdit
                 refreshedNotes.Add(note.thisNoteData);
             }
             onNotesRefreshed(refreshedNotes);
+        }
+
+        public void RefreshUI()
+        {
+            UpdateVerticalLineCount();
         }
 
         //public void RefreshAll(int lineID, int boxID)

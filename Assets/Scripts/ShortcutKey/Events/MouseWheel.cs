@@ -1,5 +1,6 @@
 using Data.Enumerate;
 using Data.Interface;
+using Form.NoteEdit;
 using Manager;
 using Scenes.DontDestroyOnLoad;
 using UnityEngine;
@@ -42,7 +43,7 @@ namespace ShortcutKey.Events
                     ProgressManager.Instance.OffsetTime(offsetTime);
                 }
 
-                GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BasicLine) });
             }
 
             Debug.Log($"MousePerformed：{callbackContext.ReadValue<float>()}");

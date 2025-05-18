@@ -22,7 +22,7 @@ using Vector3 = UnityEngine.Vector3;
  */
 namespace Controller
 {
-    public class DecideLineController : MonoBehaviour, IRefreshPlayer,IRefresh
+    public class DecideLineController : MonoBehaviour, IRefreshPlayer
     {
         // public float lineDistance;//线的距离，根据每帧计算，生成这个范围内的所有Note
 

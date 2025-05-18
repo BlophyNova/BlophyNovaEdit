@@ -199,8 +199,8 @@ namespace Form.NotePropertyEdit.ValueEdit
             });
             void Finally()
             {
-                GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1),new(){typeof(LineID),typeof(BoxID),typeof(NoteEdit.NoteEdit)});
-                GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1, -1));
+                GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1),new(){typeof(NoteEdit.NoteEdit)});
+                GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1, -1),null);
             }
         }
 

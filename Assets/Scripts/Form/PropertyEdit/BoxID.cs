@@ -11,8 +11,7 @@ using UnityEngine.UI;
 
 namespace Form.PropertyEdit
 {
-    public class BoxID : MonoBehaviour,IRefreshEdit
-    {
+    public class BoxID : MonoBehaviour,IRefreshEdit    {
         public int boxID;
         public TMP_Text thisText;
         public Button add;
@@ -64,7 +63,7 @@ namespace Form.PropertyEdit
                     noteEdit.RefreshEdit(-1, boxID);
                 }
             }*/
-            GlobalData.Refresh<IRefreshEdit>(a=>a.RefreshEdit(-1,boxID));
+            GlobalData.Refresh<IRefreshEdit>(a => a.RefreshEdit(-1, boxID), new() { typeof(NoteEdit.NoteEdit), typeof(EventEdit.EventEdit) });
             GameController.Instance.ChangeShowXYPoint(boxID);
         }
 

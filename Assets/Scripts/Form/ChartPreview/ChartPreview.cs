@@ -7,6 +7,7 @@ using Controller;
 using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Form.PropertyEdit;
 
 namespace Form.ChartPreview
 {
@@ -85,7 +86,7 @@ namespace Form.ChartPreview
             NoteController noteController = hit.collider.GetComponent<NoteController>();
             //NoteEdit.RefreshEdit(noteController.thisNote.currentLineID,noteController.thisNote.currentBoxID);
             //EventEdit.RefreshEdit(-1,noteController.thisNote.currentBoxID);
-            GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(noteController.thisNote.currentLineID,noteController.thisNote.currentBoxID));
+            GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(noteController.thisNote.currentLineID, noteController.thisNote.currentBoxID), new() { typeof(EventEdit.EventEdit), typeof(NoteEdit.NoteEdit), typeof(BoxID), typeof(LineID) });
         }
 
         public void RefreshPlayer(int lineID, int boxID)

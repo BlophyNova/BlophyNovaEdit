@@ -59,17 +59,16 @@ namespace UtilityCode.AssemblySystem
                     {
                         if (item.GetType() == type)
                         {
-                            isBlackList = true;
+                            isInBlackList = true;
                         }
                     }
 
-                    if (isBlackList)
+                    if (isInBlackList)
                     {
                         continue;
                     }
                     else
                     {
-                        Debug.LogError("你可能已经用上了黑名单机制，记得把这里检查一下，然后删掉这条Log");
                         action?.Invoke(item);
                     }
                 }

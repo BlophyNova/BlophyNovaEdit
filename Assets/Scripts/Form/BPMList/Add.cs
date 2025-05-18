@@ -16,7 +16,7 @@ namespace Form.BPMList
                 GlobalData.Instance.chartEditData.bpmList.Add(newBpm);
                 LogCenter.Log($"新增了一个BPMItem，{newBpm.integer}:{newBpm.molecule}/{newBpm.denominator}");
 
-                GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BPMList)});
             });
         }
     }

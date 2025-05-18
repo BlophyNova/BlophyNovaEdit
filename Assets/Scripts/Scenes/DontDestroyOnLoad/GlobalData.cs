@@ -124,7 +124,7 @@ namespace Scenes.DontDestroyOnLoad
             Destroy(gameObject);
         }
 
-        public static void Refresh<T>(Action<T> action,List<Type> types=null,bool isBlackList=false)
+        public static void Refresh<T>(Action<T> action,List<Type> types,bool isBlackList=false)
         {
             List<T> foundTypes = AssemblySystem.FindAllInterfaceByTypes<T>();
             AssemblySystem.Exe(foundTypes, interfaceMethod => action?.Invoke(interfaceMethod), types, isBlackList);

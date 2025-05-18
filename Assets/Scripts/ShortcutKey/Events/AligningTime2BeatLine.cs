@@ -1,5 +1,6 @@
 using Data.Enumerate;
 using Data.Interface;
+using Form.NoteEdit;
 using Manager;
 using Scenes.DontDestroyOnLoad;
 using UnityEngine;
@@ -44,7 +45,7 @@ namespace ShortcutKey.Events
                     ProgressManager.Instance.OffsetTime(-BPMManager.Instance.GetSecondsTimeByBeats(offsetBeats));
                 }
 
-                GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BasicLine)});
             }
 
             Debug.Log($"AligningTime2BeatLinePerformed：{callbackContext.ReadValue<float>()}");

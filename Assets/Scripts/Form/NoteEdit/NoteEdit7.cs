@@ -24,13 +24,13 @@ namespace Form.NoteEdit
             newNote.hitFloorPosition =(float)Math.Round(ChartData.boxes[boxID].lines[lineID].far.Evaluate(newNote.hitTime),3);
             note.chartDataNote= newNote;
             notes.Insert(index, note.chartDataNote);
-            GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh(), new() { typeof(LineNoteController) });//定向刷新，终于不再是以前的暴力刷新所有东西了
+            GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1,-1), new() { typeof(LineNoteController) });//定向刷新，终于不再是以前的暴力刷新所有东西了
         }
         public void DeleteNote2ChartData(Note note, int boxID, int lineID)
         {
             List<Data.ChartData.Note> notes = ChartData.boxes[boxID].lines[lineID].onlineNotes;
             notes.Remove(note.chartDataNote);
-            GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1,-1));
+            GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1,-1),null);
         }
 
     }

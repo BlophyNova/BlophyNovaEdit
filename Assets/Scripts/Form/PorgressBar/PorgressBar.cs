@@ -1,5 +1,6 @@
 using Data.Interface;
 using Form.LabelWindow;
+using Form.NoteEdit;
 using Form.PropertyEdit;
 using Manager;
 using Scenes.DontDestroyOnLoad;
@@ -27,7 +28,7 @@ namespace Form.PorgressBar
                 float result = GlobalData.Instance.chartData.metaData.musicLength * theValue;
                 ProgressManager.Instance.SetTime(result);
 
-                GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BasicLine) });
             });
         }
 
@@ -42,7 +43,7 @@ namespace Form.PorgressBar
                 StateManager.Instance.RestartTime(LoopPlayback.Instance.isOn);
                 //Debug.LogError($"循环播放做好后用在这里");
 
-                GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BasicLine) });
             }
 
             progressInfomation.text = $"\t{(int)(ProgressManager.Instance.CurrentTime / 60):D2}:" +

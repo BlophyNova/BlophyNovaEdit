@@ -36,8 +36,6 @@ namespace Form.PropertyEdit
                 ProgressManager.Instance.SetPlaySpeed(GlobalData.Instance.chartEditData.playSpeed);
                 ProgressManager.Instance.SetTime(currentTime);
 
-                GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
-
                 LogCenter.Log($"属性编辑，播放速度变更为{speed}");
             });
         }

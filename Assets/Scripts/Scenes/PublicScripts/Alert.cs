@@ -52,7 +52,7 @@ namespace Scenes.PublicScripts
         }
         public bool IsRaycastLocationValid(Vector2 sp, Camera eventCamera)
         {
-            return false;
+            return true;
         }
     }
 }

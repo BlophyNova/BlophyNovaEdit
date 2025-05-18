@@ -3,10 +3,6 @@ using System.Collections.Generic;
 
 namespace Data.Interface
 {
-    public interface IRefresh
-    {
-        public void Refresh();
-    }    
     public interface IRefreshUI
     {
         public void RefreshUI();

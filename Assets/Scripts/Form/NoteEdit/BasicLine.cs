@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Form.NoteEdit
 {
-    public class BasicLine : MonoBehaviour, IRefresh
+    public class BasicLine : MonoBehaviour, IRefreshUI
     {
         public TMP_Text currentBeatsText; //显示节拍线的
         public RectTransform basicLine; //基准线的position
@@ -86,6 +86,10 @@ namespace Form.NoteEdit
                     Destroy(thisBeatLine.gameObject);
                 }
             }
+        }
+        public void RefreshUI()
+        {
+            Refresh();
         }
     }
 }

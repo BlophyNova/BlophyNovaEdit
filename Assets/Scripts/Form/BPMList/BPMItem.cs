@@ -1,5 +1,6 @@
 using Data.ChartEdit;
 using Data.Interface;
+using Form.NoteEdit;
 using Log;
 using Manager;
 using Scenes.DontDestroyOnLoad;
@@ -29,7 +30,7 @@ namespace Form.BPMList
                     myBPM.currentBPM = result;
                 }
 
-                GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
+                //GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
             });
             startBeats.onEndEdit.AddListener(v =>
             {
@@ -42,7 +43,7 @@ namespace Form.BPMList
                     myBPM.molecule = int.Parse(match.Groups[2].Value);
                     myBPM.denominator = int.Parse(match.Groups[3].Value);
 
-                    GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
+                    GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1,-1), new() { typeof(BasicLine) });
                 }
             });
             deleteBPM.onClick.AddListener(() =>
@@ -52,7 +53,7 @@ namespace Form.BPMList
                     BPMManager.Instance.bpmList.Remove(myBPM);
                     LogCenter.Log($"{myBPM.integer}:{myBPM.molecule}/{myBPM.denominator}被删除");
 
-                    GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
+                    GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BPMList),typeof(BasicLine) });
                     Destroy(gameObject);
                 }
                 else

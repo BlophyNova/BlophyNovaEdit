@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace Form.BPMList
 {
-    public class BPMList : LabelWindowContent, IRefresh
+    public class BPMList : LabelWindowContent,IRefreshUI
     {
         public BPMItem bpmItemPrefabs;
         public List<BPMItem> bpmItems;
@@ -51,6 +51,11 @@ namespace Form.BPMList
         {
             gridLayoutGroup.cellSize =
                 new Vector2(labelWindow.labelWindowRect.sizeDelta.x * .8f, gridLayoutGroup.cellSize.y);
+        }
+
+        public void RefreshUI()
+        {
+            Refresh();
         }
     }
 }
