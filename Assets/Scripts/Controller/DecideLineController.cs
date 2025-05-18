@@ -27,7 +27,7 @@ namespace Controller
         // public float lineDistance;//线的距离，根据每帧计算，生成这个范围内的所有Note
 
         public AnimationCurve canvasSpeed; //这个用来表示这根线的所有速度总览
-        public AnimationCurve canvasLocalOffset; //这个用来表示的是某个时间，画布的Y轴应该是多少
+        public AnimationCurve canvasLocalOffset=>ThisLine.far; //这个用来表示的是某个时间，画布的Y轴应该是多少
         public Transform onlineNote; //判定线上边的音符
         public Transform offlineNote; //判定线下边的音符
 
@@ -70,8 +70,6 @@ namespace Controller
 
         public void Refresh()
         {
-            canvasLocalOffset =
-                AssetManager.Instance.chartData.boxes[currentBoxID].lines[currentLineID].far;
             CalculatedNoteFloorPosition(ThisLine.onlineNotes); //计算判定线上方的所有音符的FloorPosition
             CalculatedNoteFloorPosition(ThisLine.offlineNotes); //计算判定线下方的所有音符的FloorPosition
         }
@@ -83,7 +81,6 @@ namespace Controller
         {
             InitNotesObjectPool(); //初始化对象池
             SpeckleManager.Instance.allLineNoteControllers.Add(lineNoteController); //把自己加入到判定系统的判定线管理中
-            canvasLocalOffset = thisLine.far;
             canvasSpeed = thisLine.career;
             CalculatedNoteFloorPosition(ThisLine.onlineNotes); //计算判定线上方的所有音符的FloorPosition
             CalculatedNoteFloorPosition(ThisLine.offlineNotes); //计算判定线下方的所有音符的FloorPosition
