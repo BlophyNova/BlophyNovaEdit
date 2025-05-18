@@ -29,6 +29,7 @@ namespace Form.PorgressBar
                 ProgressManager.Instance.SetTime(result);
 
                 GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(), new() { typeof(BasicLine) });
+                GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1,-1),null);
             });
         }
 
