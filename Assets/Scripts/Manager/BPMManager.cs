@@ -62,6 +62,17 @@ namespace Manager
                 bpmList[GetBPMListIndexWithSecondsTime(secondsTime)].ThisStartBPM;
             return result;
         }
+        public BPM GetBeatsBySeconds(float seconds)
+        {
+            BPM bpm = new();
+            seconds -= GetSecondsTimeByBeats(bpmList[^1].ThisStartBPM);
+            float resBeats = bpmList[^1].currentBPM / 60 * seconds;
+            bpm.integer = (int)resBeats;
+            bpm.denominator = 1000;
+            bpm.molecule = (int)((resBeats - (int)resBeats) * 1000);
+            bpm.currentBPM = bpmList[^1].currentBPM;
+            return bpm;
+        }
 
         //public BPM GetBPMWithSecondsTime(float SecondsTime)
         //{
@@ -136,17 +147,6 @@ namespace Manager
             return lastBPMStartTime;
         }
 
-        public BPM GetBeatsBySeconds(float seconds)
-        {
-            BPM bpm = new();
-            seconds -= GetSecondsTimeByBeats(bpmList[^1].ThisStartBPM);
-            float resBeats = bpmList[^1].currentBPM / 60 * seconds;
-            bpm.integer = (int)resBeats;
-            bpm.denominator = 1000;
-            bpm.molecule = (int)((resBeats - (int)resBeats) * 1000);
-            bpm.currentBPM = bpmList[^1].currentBPM;
-            return bpm;
-        }
 
         /// <summary>
         ///     根据beats获取当前时间
