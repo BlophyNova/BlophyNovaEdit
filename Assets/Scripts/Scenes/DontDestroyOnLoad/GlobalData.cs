@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Data.ChartData;
+using Data.ChartEdit;
 using Data.EaseData;
 using Data.Enumerate;
 using Form.EventEdit;
@@ -16,6 +16,7 @@ using UnityEngine.Serialization;
 using UtilityCode.AssemblySystem;
 using UtilityCode.ChartTool;
 using UtilityCode.Singleton;
+using ChartData = Data.ChartData.ChartData;
 
 namespace Scenes.DontDestroyOnLoad
 {
@@ -69,6 +70,17 @@ namespace Scenes.DontDestroyOnLoad
             if (isNewEditData)
             {
                 ChartTool.CreateNewChart(chartEditData, easeDatas);
+                List<BPM> bpmList = GlobalData.Instance.chartEditData.bpmList;
+                bpmList[0].lastBpmEndSeconds = 0;
+                bpmList[0].perSecond = bpmList[0].currentBPM / 60;
+                for (int i = 1; i < bpmList.Count; i++)
+                {
+                    bpmList[i].lastBpmEndSeconds = bpmList[i - 1].lastBpmEndSeconds +
+                                                   60m / (decimal)bpmList[i - 1].currentBPM *
+                                                   ((decimal)bpmList[i].ThisStartBPM -
+                                                    (decimal)bpmList[i - 1].ThisStartBPM);
+                    bpmList[i].perSecond = bpmList[i].currentBPM / 60;
+                }
                 //chartData.boxes = ChartTool.ConvertChartEdit2ChartData(chartEditData.boxes);
             }
 

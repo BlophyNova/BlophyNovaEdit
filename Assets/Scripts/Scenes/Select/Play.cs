@@ -29,13 +29,14 @@ namespace Scenes.Select
                     $"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/Chart.json"));
             List<BPM> bpmList = GlobalData.Instance.chartEditData.bpmList;
             bpmList[0].lastBpmEndSeconds = 0;
+            bpmList[0].perSecond = bpmList[0].currentBPM / 60;
             for (int i = 1; i < bpmList.Count; i++)
             {
                 bpmList[i].lastBpmEndSeconds = bpmList[i - 1].lastBpmEndSeconds +
                                                60m / (decimal)bpmList[i - 1].currentBPM *
                                                ((decimal)bpmList[i].ThisStartBPM -
                                                 (decimal)bpmList[i - 1].ThisStartBPM);
-                bpmList[i].perSecond = bpmList[i].perSecond / 60;
+                bpmList[i].perSecond = bpmList[i].currentBPM / 60;
             }
             SceneManager.LoadSceneAsync(1, LoadSceneMode.Single).completed += Play_completed;
         }

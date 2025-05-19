@@ -6922,12 +6922,9 @@ MonoBehaviour:
     offset: 0
     musicLength: 0.1
     loopPlayBack: 0
-    bpmList:
-    - integer: 0
-      molecule: 0
-      denominator: 1
-      currentBPM: 60
+    bpmList: []
     boxes: []
+    customCurves: []
   clip: {fileID: 0}
   currentCp: {fileID: 0}
   currentCph: {fileID: 0}
