@@ -52,8 +52,9 @@ namespace Form.NoteEdit
         public void Refresh()
         {
             nextBPMWithAriseLine =
-                new BPM(BPMManager.Instance.GetBeatsBySeconds((float)ProgressManager.Instance.CurrentTime).integer, 0,
+                new BPM((int)BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime), 0,
                     1);
+            //BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime)
             if (nextBPMWithAriseLine.ThisStartBPM < 0)
             {
                 nextBPMWithAriseLine = BPM.Zero;
