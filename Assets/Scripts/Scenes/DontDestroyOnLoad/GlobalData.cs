@@ -13,6 +13,7 @@ using Scenes.Edit;
 using Scenes.PublicScripts;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UtilityCode.AssemblySystem;
 using UtilityCode.ChartTool;
@@ -76,7 +77,14 @@ namespace Scenes.DontDestroyOnLoad
             }
             else
             {
-                
+                if (SceneManager.GetActiveScene().name == "Edit")
+                {
+                    chartEditData = JsonConvert.DeserializeObject<Data.ChartEdit.ChartData>(
+                        File.ReadAllText(
+                            $"{Application.streamingAssetsPath}/{currentChartIndex}/ChartFile/{currentHard}/Chart.json"));
+                    BPMManager.UpdateInfo(GlobalData.Instance.chartEditData.bpmList);
+                }
+
             }
 
             Disclaimer();
