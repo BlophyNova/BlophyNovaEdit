@@ -30,6 +30,7 @@ namespace Form.BPMList
                     LogCenter.Log(
                         $"{myBPM.integer}:{myBPM.molecule}/{myBPM.denominator}Value被修改，原始值：{myBPM.currentBPM},修改后的值：{result}");
                     myBPM.currentBPM = result;
+                    BPMManager.UpdateInfo(GlobalData.Instance.chartEditData.bpmList);
                 }
 
                 //GlobalData.Refresh<IRefresh>(interfaceMethod => interfaceMethod.Refresh());
@@ -44,6 +45,7 @@ namespace Form.BPMList
                     myBPM.integer = int.Parse(match.Groups[1].Value);
                     myBPM.molecule = int.Parse(match.Groups[2].Value);
                     myBPM.denominator = int.Parse(match.Groups[3].Value);
+                    BPMManager.UpdateInfo(GlobalData.Instance.chartEditData.bpmList);
 
                     GlobalData.Refresh<IRefreshEdit>(interfaceMethod => interfaceMethod.RefreshEdit(-1, -1),
                         new List<Type> { typeof(BasicLine) });
@@ -54,6 +56,7 @@ namespace Form.BPMList
                 if (BPMManager.Instance.bpmList.Count > 1)
                 {
                     BPMManager.Instance.bpmList.Remove(myBPM);
+                    BPMManager.UpdateInfo(GlobalData.Instance.chartEditData.bpmList);
                     LogCenter.Log($"{myBPM.integer}:{myBPM.molecule}/{myBPM.denominator}被删除");
 
                     GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),

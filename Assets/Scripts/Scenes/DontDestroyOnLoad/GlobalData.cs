@@ -7,6 +7,7 @@ using Data.EaseData;
 using Data.Enumerate;
 using Form.EventEdit;
 using Form.LabelWindow;
+using Manager;
 using Newtonsoft.Json;
 using Scenes.Edit;
 using Scenes.PublicScripts;
@@ -70,18 +71,12 @@ namespace Scenes.DontDestroyOnLoad
             if (isNewEditData)
             {
                 ChartTool.CreateNewChart(chartEditData, easeDatas);
-                List<BPM> bpmList = GlobalData.Instance.chartEditData.bpmList;
-                bpmList[0].lastBpmEndSeconds = 0;
-                bpmList[0].perSecond = bpmList[0].currentBPM / 60;
-                for (int i = 1; i < bpmList.Count; i++)
-                {
-                    bpmList[i].lastBpmEndSeconds = bpmList[i - 1].lastBpmEndSeconds +
-                                                   60m / (decimal)bpmList[i - 1].currentBPM *
-                                                   ((decimal)bpmList[i].ThisStartBPM -
-                                                    (decimal)bpmList[i - 1].ThisStartBPM);
-                    bpmList[i].perSecond = bpmList[i].currentBPM / 60;
-                }
+                BPMManager.UpdateInfo(GlobalData.Instance.chartEditData.bpmList);
                 //chartData.boxes = ChartTool.ConvertChartEdit2ChartData(chartEditData.boxes);
+            }
+            else
+            {
+                
             }
 
             Disclaimer();
