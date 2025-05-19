@@ -10,8 +10,10 @@ namespace Form.NoteEdit
     public class BeatLine : MonoBehaviour
     {
         public Image texture;
+        public RectTransform selfRect;
         public TextMeshProUGUI thisText;
         public Color color;
+        public Color bigColor;
         public BPM thisBPM;
 
         public BeatLine Init(float currentBeats, BPM thisBPM)
@@ -23,10 +25,15 @@ namespace Form.NoteEdit
             transform.localPosition = Vector2.up * positionY;
             if (thisBPM.molecule != 0)
             {
-                RectTransform rt = texture.GetComponent<RectTransform>();
-                rt.sizeDelta = new Vector2(rt.sizeDelta.x, 3);
+                //小节拍线的一些设置
+                selfRect.sizeDelta = new Vector2(selfRect.sizeDelta.x, 3);
                 texture.color = color;
                 thisText.text = string.Empty;
+            }
+            else
+            {
+                selfRect.sizeDelta = new Vector2(selfRect.sizeDelta.x, 5);
+                texture.color = bigColor;
             }
 
             return this;

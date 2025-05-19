@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Data.ChartEdit;
 using Data.Interface;
@@ -6,6 +7,7 @@ using Manager;
 using Scenes.DontDestroyOnLoad;
 using TMPro;
 using UnityEngine;
+using UtilityCode.ObjectPool;
 
 namespace Form.NoteEdit
 {
@@ -18,6 +20,10 @@ namespace Form.NoteEdit
         public BeatLine beatLinePrefab; //节拍先的预制件
         public List<BeatLine> beatLines = new(); //节拍线游戏物体管理列表
         public BPM nextBPMWithAriseLine = new();
+        
+        //没错，第二波优化我要上对象池了
+        private ObjectPoolQueue<BeatLine> beatLineObjectPoolQueue;
+        
         public float AriseLineAndBasicLineSeconds => AriseLineAndBasicLinePositionYDelta / 100; //基准线和出现线之间是多少秒
 
         public float AriseLineAndBasicLinePositionYDelta =>
@@ -29,6 +35,11 @@ namespace Form.NoteEdit
         public float CurrentAriseLine =>
             YScale.Instance.GetPositionYWithSecondsTime((float)ProgressManager.Instance.CurrentTime) +
             AriseLineAndBasicLineSeconds;
+
+        private void Start()
+        {
+            beatLineObjectPoolQueue = new(beatLinePrefab,0,noteCanvas.transform);
+        }
 
         private void Update()
         {
@@ -62,7 +73,7 @@ namespace Form.NoteEdit
 
             foreach (BeatLine item in beatLines)
             {
-                Destroy(item.gameObject);
+                beatLineObjectPoolQueue.ReturnObject(item);
             }
 
             beatLines.Clear();
@@ -77,7 +88,7 @@ namespace Form.NoteEdit
             //int ariseBeatLineIndex = Algorithm.BinarySearch(BPMManager.Instance.bpmList, m => m.ThisStartBPM < ariseBeats, true);
             while (nextBPMWithAriseLine.ThisStartBPM < ariseBeats)
             {
-                BeatLine initBeatLine = Instantiate(beatLinePrefab, noteCanvas.transform)
+                BeatLine initBeatLine = beatLineObjectPoolQueue.PrepareObject()
                     .Init(nextBPMWithAriseLine.ThisStartBPM, nextBPMWithAriseLine);
                 initBeatLine.transform.SetAsFirstSibling();
                 beatLines.Add(initBeatLine);
@@ -91,7 +102,7 @@ namespace Form.NoteEdit
                     BeatLine thisBeatLine = beatLines[i--];
 
                     beatLines.Remove(thisBeatLine);
-                    Destroy(thisBeatLine.gameObject);
+                    beatLineObjectPoolQueue.ReturnObject(thisBeatLine);
                 }
             }
         }

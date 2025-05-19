@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2358806728435423468}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -168,7 +167,6 @@ RectTransform:
   m_Children:
   - {fileID: 2906163061640126408}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -226,10 +224,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   texture: {fileID: 2358806728435423475}
+  selfRect: {fileID: 2358806728435423468}
   thisText: {fileID: 1343920336514156655}
   color: {r: 0.2509804, g: 0.2509804, b: 0.2509804, a: 1}
+  bigColor: {r: 0.62352943, g: 0.62352943, b: 0.62352943, a: 1}
   thisBPM:
     integer: 0
     molecule: 0
     denominator: 1
     currentBPM: 0
+    perSecond: -0.1
