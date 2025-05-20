@@ -1,3 +1,4 @@
+using Controller;
 using Log;
 using Manager;
 using Scenes.DontDestroyOnLoad;
@@ -22,6 +23,7 @@ namespace Form.PropertyEdit
                     GlobalData.Instance.chartEditData.offset = result / 1000f;
                     WebManager.Instance.RefreshChartData();
                     ProgressManager.Instance.Offset = GlobalData.Instance.chartEditData.offset;
+                    GameController.Instance.RefreshChartPreview();
                     LogCenter.Log($"属性编辑，偏移变更为{result}");
                 }
             });
