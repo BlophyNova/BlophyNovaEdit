@@ -150,6 +150,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Move",
+                    "type": "Button",
+                    "id": "0d3ca8b6-e64f-4300-b25d-d8995055aa59",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "MoveUp",
                     "type": "Button",
                     "id": "32997ead-df52-4cbd-a7c2-39c332f57c1e",
@@ -1243,6 +1252,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "AddSyncEvent",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a734e872-9bce-449b-8c5b-67161d8c3cb3",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

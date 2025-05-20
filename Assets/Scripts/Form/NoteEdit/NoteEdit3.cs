@@ -291,6 +291,11 @@ namespace Form.NoteEdit
             }
         }
 
+        private void Move()
+        {
+
+        }
+
         private void MoveUp()
         {
             List<Note> newNotes = null;

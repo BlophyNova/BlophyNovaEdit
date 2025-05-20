@@ -14,10 +14,11 @@ namespace Manager
         public bool[] usedColors;
         public LabelWindow currentFocusWindow;
         public LabelWindow labelWindowPrefab;
-        public Transform lineRendererParent;
+        public RectTransform lineRendererParent;
 
         public void SetFocusWindow(LabelWindow window)
         {
+            if (currentFocusWindow == window) return;
             SetAllWindowFocusAsFalse();
             Color.RGBToHSV(window.labelColor.color, out float H, out _, out float V);
             float S = 1;

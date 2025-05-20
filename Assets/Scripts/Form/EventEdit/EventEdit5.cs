@@ -16,7 +16,6 @@ namespace Form.EventEdit
 
         private void LabelWindow_onWindowGetFocus()
         {
-            LabelWindowsManager.Instance.lineRendererParent.transform.SetAsLastSibling();
         }
 
         private void LabelWindow_onWindowLostFocus()

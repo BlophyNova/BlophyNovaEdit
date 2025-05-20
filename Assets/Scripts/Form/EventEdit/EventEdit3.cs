@@ -1,6 +1,9 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CustomSystem;
+using Cysharp.Threading.Tasks;
 using Data.ChartEdit;
 using Form.NoteEdit;
 using Form.PropertyEdit;
@@ -87,6 +90,20 @@ namespace Form.EventEdit
         }
 
 
+        private void Move(bool isMoving) 
+        {
+            this.isMoving = isMoving;
+            MoveAsync();
+        }
+        async void MoveAsync()
+        {
+            Debug.Log("Moveing Notes");
+            while (isMoving)
+            {
+                await UniTask.NextFrame();
+                Debug.Log("Moveing Notes");
+            }
+        }
         private void MoveUp()
         {
             List<Event> newEvents = null;

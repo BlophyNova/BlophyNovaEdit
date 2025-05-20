@@ -29,6 +29,8 @@ namespace Form.EventEdit
         public int lastBoxID;
         public int currentBoxID;
 
+        public bool isMoving;
+
         public BasicLine basicLine;
         public EventLineRenderer eventLineRendererPrefab;
         public EventLineRenderer eventLineRenderer;
@@ -84,10 +86,12 @@ namespace Form.EventEdit
             Action action = callbackContext.action.name switch
             {
                 "SelectBox" => () => SelectBoxDown(),
-                _ => () => Debug.Log("欸···？怎么回事，怎么会找不到事件呢···")
+                "Move"=>()=>Move(true),
+                _ => () => Debug.Log("欸···？怎么回事，怎么会找不到快捷键呢···")
             };
             action();
         }
+
 
         public override void Performed(InputAction.CallbackContext callbackContext)
         {
@@ -109,9 +113,10 @@ namespace Form.EventEdit
                 "Copy" => CopyEvent,
                 "Paste" => PasteEvent,
                 "Cut" => CutEvent,
+                "Move" => ()=>Move(false),
                 "MoveUp" => MoveUp,
                 "MoveDown" => MoveDown,
-                _ => () => Alert.EnableAlert("欸···？怎么回事，怎么会找不到你想添加的是哪个音符呢···")
+                _ => () => Alert.EnableAlert("欸···？怎么回事，怎么会找不到快捷键呢···")
             };
             action();
         }
