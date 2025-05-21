@@ -83,7 +83,7 @@ namespace Form.EventEdit
             SetState2False(EventType.Rotate, boxID);
             SetState2False(EventType.Alpha, boxID);
             SetState2False(EventType.LineAlpha, boxID);
-            if (boxID > 0 && boxID != currentBoxID)
+            if (boxID >= 0 && boxID != currentBoxID)
             {
                 onIndexChanged(boxID);
             }
