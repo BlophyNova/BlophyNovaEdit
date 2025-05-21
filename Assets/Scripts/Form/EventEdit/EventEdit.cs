@@ -18,6 +18,10 @@ namespace Form.EventEdit
     //由于这个控件需要的功能太多，所以这里做个分类，此文件负责字段事件委托属性，以及Unity生命周期的方法和接口实现的方法
     public partial class EventEdit : LabelWindowContent, IInputEventCallback, ISelectBox, IRefreshEdit, IRefreshPlayer
     {
+
+        public delegate void OnIndexChanged(int currentIndex);
+
+        public event OnIndexChanged onIndexChanged= value => { };
         public delegate void OnEventsAdded(List<Event> events);
 
         public delegate void OnEventsAdded2UI(List<EventEditItem> eventEditItems);
@@ -28,8 +32,12 @@ namespace Form.EventEdit
 
         public int lastBoxID;
         public int currentBoxID;
-
+        [SerializeField] private bool isRef = true;
+        public bool isCopy;
         public bool isMoving;
+        public bool isFirstTime;
+        public bool waitForPressureAgain;
+
 
         public BasicLine basicLine;
         public EventLineRenderer eventLineRendererPrefab;
@@ -42,14 +50,9 @@ namespace Form.EventEdit
         public List<RectTransform> verticalLines = new();
         public List<EventVerticalLine> eventVerticalLines = new();
         public List<EventEditItem> eventEditItems = new();
-        public bool isFirstTime;
-        public bool waitForPressureAgain;
-
-        [SerializeField] private bool isRef = true;
 
         //public List<EventEditItem> otherBoxEventsClipboard = new();
         //public List<EventEditItem> eventClipboard = new(); 
-        public bool isCopy;
 
         public float VerticalLineDistance =>
             Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition);

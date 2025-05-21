@@ -642,7 +642,11 @@ MonoBehaviour:
   minY: 100
   lastBoxID: 0
   currentBoxID: 0
+  isRef: 1
+  isCopy: 0
   isMoving: 0
+  isFirstTime: 0
+  waitForPressureAgain: 0
   basicLine: {fileID: 8279857815255672507}
   eventLineRendererPrefab: {fileID: 0}
   eventLineRenderer: {fileID: 0}
@@ -673,10 +677,6 @@ MonoBehaviour:
   - {fileID: 8832123143906055231}
   - {fileID: 5172682764130601185}
   eventEditItems: []
-  isFirstTime: 0
-  waitForPressureAgain: 0
-  isRef: 1
-  isCopy: 0
 --- !u!222 &8250625353876711219
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2410,6 +2410,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
+      propertyPath: eventEdit
+      value: 
+      objectReference: {fileID: 8069792749430917713}
+    - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
       propertyPath: eventType
       value: 3
       objectReference: {fileID: 0}
@@ -2526,6 +2530,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
+      propertyPath: eventEdit
+      value: 
+      objectReference: {fileID: 8069792749430917713}
     - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
       propertyPath: eventType
       value: 9
@@ -2644,6 +2652,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
+      propertyPath: eventEdit
+      value: 
+      objectReference: {fileID: 8069792749430917713}
+    - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
       propertyPath: eventType
       value: 2
       objectReference: {fileID: 0}
@@ -2761,6 +2773,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
+      propertyPath: eventEdit
+      value: 
+      objectReference: {fileID: 8069792749430917713}
+    - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
       propertyPath: eventType
       value: 8
       objectReference: {fileID: 0}
@@ -2877,6 +2893,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
+      propertyPath: eventEdit
+      value: 
+      objectReference: {fileID: 8069792749430917713}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2990,6 +3010,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
+      propertyPath: eventEdit
+      value: 
+      objectReference: {fileID: 8069792749430917713}
     - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
       propertyPath: eventType
       value: 5
@@ -4026,6 +4050,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
+      propertyPath: eventEdit
+      value: 
+      objectReference: {fileID: 8069792749430917713}
+    - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
       propertyPath: eventType
       value: 1
       objectReference: {fileID: 0}
@@ -4264,6 +4292,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
+      propertyPath: eventEdit
+      value: 
+      objectReference: {fileID: 8069792749430917713}
+    - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
       propertyPath: eventType
       value: 7
       objectReference: {fileID: 0}
@@ -4381,6 +4413,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
+      propertyPath: eventEdit
+      value: 
+      objectReference: {fileID: 8069792749430917713}
+    - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
       propertyPath: eventType
       value: 6
       objectReference: {fileID: 0}
@@ -4497,6 +4533,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
+      propertyPath: eventEdit
+      value: 
+      objectReference: {fileID: 8069792749430917713}
     - target: {fileID: 6316185828062284213, guid: 6678c9415326e624ba61929d93247228, type: 3}
       propertyPath: eventType
       value: 4

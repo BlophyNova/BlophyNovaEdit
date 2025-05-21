@@ -83,6 +83,10 @@ namespace Form.EventEdit
             SetState2False(EventType.Rotate, boxID);
             SetState2False(EventType.Alpha, boxID);
             SetState2False(EventType.LineAlpha, boxID);
+            if (boxID > 0 && boxID != currentBoxID)
+            {
+                onIndexChanged(boxID);
+            }
             lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
             List<EventEditItem> allSelectedEvents = new();
