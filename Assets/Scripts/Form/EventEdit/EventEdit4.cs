@@ -17,7 +17,7 @@ namespace Form.EventEdit
         /// <param name="eventType"></param>
         /// <param name="boxID"></param>
         /// <returns>isSelect为True的Events</returns>
-        private List<EventEditItem> RefreshEvents(EventType eventType, int boxID)
+        private IEnumerable<EventEditItem> RefreshEvents(EventType eventType, int boxID)
         {
             LogCenter.Log($"成功更改框号为{currentBoxID}");
 

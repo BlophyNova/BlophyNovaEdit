@@ -5,6 +5,7 @@ using System.Linq;
 using CustomSystem;
 using Cysharp.Threading.Tasks;
 using Data.ChartEdit;
+using Data.Interface;
 using Form.NoteEdit;
 using Form.PropertyEdit;
 using Manager;
@@ -97,13 +98,49 @@ namespace Form.EventEdit
         }
         async void MoveAsync()
         {
+            FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
+                out _);
             while (isMoving && FocusIsMe && selectBox.selectedBoxItems.Count != 0)
             {
                 await UniTask.NextFrame();//啊哈，没错，引入了UniTask导致的，真方便（
                 Debug.Log("Moveing Notes");
-                FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
+                FindNearBeatLineAndEventVerticalLine(out nearBeatLine,
                     out _);
+                //这，这对吗？还是不要频繁刷新比较好，想想别的方法吧
+                
+                
+                
+            }
+            //我有一计，放这里不就好了？
+            
+            List<Event> newEvents = null;
+            List<Event> deletedEvents = null;
+            List<Event> selectedEvents = GetSelectedEvents();
+            newEvents = CopyEvents(selectedEvents, currentBoxID, true);
+            BPM bpm = new(newEvents[0].startBeats);
+            BPM nearBpm = nearBeatLine.thisBPM;
+            bpm = new BPM(nearBpm);
+            
+            AlignEvents(newEvents, bpm);
+            AddEvents(newEvents, currentBoxID, true);
+            eventEditItems.AddRange(AddEvents2UI(newEvents));
 
+            deletedEvents = DeleteEvents(selectedEvents, currentBoxID);
+            Steps.Instance.Add(Undo, Redo, default);
+            return;
+
+            void Undo()
+            {
+                List<Event> instNewEvents = AddEvents(deletedEvents, currentBoxID, true);
+                eventEditItems.AddRange(AddEvents2UI(instNewEvents));
+                DeleteEvents(newEvents, currentBoxID, isCopy);
+            }
+
+            void Redo()
+            {
+                List<Event> instNewEvents = AddEvents(newEvents, currentBoxID, true);
+                eventEditItems.AddRange(AddEvents2UI(instNewEvents));
+                DeleteEvents(deletedEvents, currentBoxID, isCopy);
             }
         }
         private void MoveUp()
@@ -150,13 +187,8 @@ namespace Form.EventEdit
         private List<Event> GetSelectedEvents()
         {
             IEnumerable<EventEditItem> selectedEventEditItems = selectBox.TransmitObjects().Cast<EventEditItem>();
-            List<Event> selectedEvents = new();
-            foreach (EventEditItem item in selectedEventEditItems)
-            {
-                selectedEvents.Add(item.@event);
-            }
 
-            return selectedEvents;
+            return selectedEventEditItems.Select(item => item.@event).ToList();
         }
 
         private void MoveDown()

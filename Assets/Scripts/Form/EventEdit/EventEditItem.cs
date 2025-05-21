@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Data.Enumerate;
 using Data.Interface;
 using Form.LabelWindow;
@@ -7,6 +8,7 @@ using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Event = Data.ChartEdit.Event;
 using EventType = Data.Enumerate.EventType;
 using static UtilityCode.ValueConvert.ValueConvert;
@@ -19,6 +21,8 @@ namespace Form.EventEdit
         public RectTransform thisEventEditItemRect;
         public RectTransform isSelectedRect;
         public RectTransform easeLineRect;
+        public Image start;
+        public Image end;
         public TextMeshProUGUI startValueText;
         public TextMeshProUGUI endValueText;
         public LineRenderer easeLine;
@@ -29,15 +33,14 @@ namespace Form.EventEdit
         {
             get
             {
-                if (thisEventEdit == null)
+                if (thisEventEdit != null)
                 {
-                    foreach (LabelItem item in labelWindow.labels)
-                    {
-                        if (item.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit)
-                        {
-                            thisEventEdit = (EventEdit)item.labelWindowContent;
-                        }
-                    }
+                    return thisEventEdit;
+                }
+
+                foreach (var item in labelWindow.labels.Where(item => item.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit))
+                {
+                    thisEventEdit = (EventEdit)item.labelWindowContent;
                 }
 
                 return thisEventEdit;
