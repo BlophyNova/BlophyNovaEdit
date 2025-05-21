@@ -657,11 +657,13 @@ MonoBehaviour:
       molecule: 0
       denominator: 1
       currentBPM: 0
+      perSecond: -0.1
     endBeats:
       integer: 0
       molecule: 0
       denominator: 1
       currentBPM: 0
+      perSecond: -0.1
     startValue: 0
     endValue: 0
     curveIndex: 0

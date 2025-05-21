@@ -11,7 +11,8 @@ namespace Form.EventEdit
     {
         private void LabelWindow_onWindowMoved()
         {
-            eventLineRenderer.lineRendererTextureRect.anchoredPosition = labelWindow.labelWindowRect.anchoredPosition;
+            //eventLineRenderer.lineRendererTextureRect.anchoredPosition = labelWindow.labelWindowRect.anchoredPosition;
+            eventLineRenderer.lineRendererTextureRect.anchoredPosition = new(labelWindow.labelWindowRect.anchoredPosition.x, labelWindow.labelWindowRect.anchoredPosition.y-30);
         }
 
         private void LabelWindow_onWindowGetFocus()
@@ -34,7 +35,8 @@ namespace Form.EventEdit
 
         private void UpdateEventEditItemLineRendererRectSize()
         {
-            eventLineRenderer.lineRendererTextureRect.sizeDelta = labelWindow.labelWindowRect.sizeDelta;
+            //eventLineRenderer.lineRendererTextureRect.sizeDelta = labelWindow.labelWindowRect.sizeDelta;
+            eventLineRenderer.lineRendererTextureRect.sizeDelta = new(labelWindow.labelWindowRect.sizeDelta.x, labelWindow.labelWindowRect.sizeDelta.y - 80);
         }
 
         public override void WindowSizeChanged()

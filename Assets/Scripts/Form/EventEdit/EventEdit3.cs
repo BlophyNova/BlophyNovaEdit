@@ -97,11 +97,13 @@ namespace Form.EventEdit
         }
         async void MoveAsync()
         {
-            Debug.Log("Moveing Notes");
-            while (isMoving)
+            while (isMoving && FocusIsMe && selectBox.selectedBoxItems.Count != 0)
             {
-                await UniTask.NextFrame();
+                await UniTask.NextFrame();//啊哈，没错，引入了UniTask导致的，真方便（
                 Debug.Log("Moveing Notes");
+                FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
+                    out _);
+
             }
         }
         private void MoveUp()

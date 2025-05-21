@@ -6,7 +6,8 @@ namespace Form.EventEdit
 {
     public class EventVerticalLine : MonoBehaviour
     {
-        public TMP_Text displayEventTypeName;
+        public TextMeshProUGUI displayEventTypeName;
+        public TextMeshProUGUI displayCurrentEventValue;
 
         public EventType eventType;
 
