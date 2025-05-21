@@ -94,21 +94,33 @@ namespace Form.EventEdit
         private void Move(bool isMoving) 
         {
             this.isMoving = isMoving;
-            MoveAsync();
+            MoveAsync(isMoving);
         }
-        async void MoveAsync()
+        async void MoveAsync(bool isMoving)
         {
             FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
                 out _);
-            while (isMoving && FocusIsMe && selectBox.selectedBoxItems.Count != 0)
+            if (!isMoving)
+            {
+                return;
+            }
+            while (this.isMoving && FocusIsMe && selectBox.selectedBoxItems.Count != 0)
             {
                 await UniTask.NextFrame();//啊哈，没错，引入了UniTask导致的，真方便（
                 Debug.Log("Moveing Notes");
                 FindNearBeatLineAndEventVerticalLine(out nearBeatLine,
                     out _);
                 //这，这对吗？还是不要频繁刷新比较好，想想别的方法吧
-                
-                
+                BPM firstBpm = ((EventEditItem)selectBox.selectedBoxItems[0]).@event.startBeats;
+                foreach (EventEditItem eventEditItem in selectBox.selectedBoxItems.Cast<EventEditItem>())
+                {
+                    RectTransform rect=eventEditItem.thisEventEditItemRect;
+                    BPM newBpm = new BPM(nearBeatLine.thisBPM) + (new BPM(eventEditItem.@event.startBeats) - new BPM(firstBpm));
+                    float currentSecondsTime =
+                        BPMManager.Instance.GetSecondsTimeByBeats(newBpm.ThisStartBPM);
+                    float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
+                    rect.localPosition = new(rect.localPosition.x,positionY);
+                }
                 
             }
             //我有一计，放这里不就好了？
