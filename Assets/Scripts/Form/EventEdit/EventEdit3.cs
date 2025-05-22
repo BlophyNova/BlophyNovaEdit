@@ -98,16 +98,15 @@ namespace Form.EventEdit
         }
         async void MoveAsync(bool isMoving)
         {
-            FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
-                out _);
             if (!isMoving)
             {
                 return;
             }
+            FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
+                out _);
             while (this.isMoving && FocusIsMe && selectBox.selectedBoxItems.Count != 0)
             {
                 await UniTask.NextFrame();//啊哈，没错，引入了UniTask导致的，真方便（
-                Debug.Log("Moveing Notes");
                 FindNearBeatLineAndEventVerticalLine(out nearBeatLine,
                     out _);
                 //这，这对吗？还是不要频繁刷新比较好，想想别的方法吧

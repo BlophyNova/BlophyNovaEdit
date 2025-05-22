@@ -150,6 +150,18 @@ namespace UtilityCode.Algorithm
 
         public static void BubbleSort<T>(List<T> list, Comparison<T> match)
         {
+            for (int j = list.Count - 1; j > 0; j--)  //每排一次，剩下的无序数减一
+            {
+                for (int i = 0; i < j; i++)　　　　//一个for循环获得一个最大的数
+                {
+                    //if (array[i] > array[i + 1])
+                    if (match(list[i],list[i+1])>0)　　//数值互换
+                    {
+                        (list[i], list[i + 1]) = (list[i + 1], list[i]);
+                    }
+                }
+            }
+            /*
             int n = list.Count;
             for (int i = 0; i < n - 1; i++)
             {
@@ -161,6 +173,7 @@ namespace UtilityCode.Algorithm
                     }
                 }
             }
+            */
         }
 
         /// <summary>

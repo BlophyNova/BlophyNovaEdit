@@ -23,7 +23,7 @@ namespace Scenes.Edit
         // Start is called before the first frame update
         private void Start()
         {
-            if (Application.platform == RuntimePlatform.WindowsEditor)
+            if (Application.isEditor)
             {
                 playerInput.actions = inputActionsAsset;
                 Debug.Log($"{inputActionsAsset.ToJson()}");

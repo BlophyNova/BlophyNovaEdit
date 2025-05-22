@@ -90,6 +90,11 @@ namespace Form.EventEdit
             isSelectedRect.gameObject.SetActive(active);
         }
 
+        public float GetStartBeats()
+        {
+            return @event.startBeats.ThisStartBPM;
+        }
+
         private void LabelWindow_onWindowSizeChanged()
         {
             DrawLineOnEEI();

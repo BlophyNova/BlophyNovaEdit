@@ -7,6 +7,7 @@ using Form.NotePropertyEdit;
 using Log;
 using UnityEngine;
 using UnityEngine.UI;
+using UtilityCode.Algorithm;
 
 namespace Scenes.Edit
 {
@@ -232,6 +233,8 @@ namespace Scenes.Edit
                     if (point.x > selectBoxPoints[0].x && point.y > selectBoxPoints[0].y &&
                         point.x < selectBoxPoints[2].x && point.y < selectBoxPoints[2].y)
                     {
+                        //int index = Algorithm.BinarySearch(points, m => m.GetStartBeats() < item.GetStartBeats(), false);
+                        //result.Insert(index, item);
                         result.Add(item);
                         Debug.Log(
                             $"0:{selectBoxPoints[0]};\n1:{selectBoxPoints[1]};\n2:{selectBoxPoints[2]};\n3{selectBoxPoints[3]};\np:{point}");
@@ -241,7 +244,11 @@ namespace Scenes.Edit
 
                 LogCenter.Log($"成功选择{selectedBoxItems.Count}个{isNoteEdit switch { true => "音符", false => "事件" }}");
             }
-
+            
+            Algorithm.BubbleSort(result,
+                (arg1,arg2) => arg1.GetStartBeats()>arg2.GetStartBeats() ? 1 : 0);
+            
+            
             Debug.Log($@"已选择{selectedBoxItems.Count}个音符！");
             return result;
         }

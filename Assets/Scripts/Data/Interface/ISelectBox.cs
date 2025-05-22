@@ -13,5 +13,6 @@ namespace Data.Interface
         public bool IsNoteEdit { get; }
         public Vector3[] GetCorners();
         public void SetSelectState(bool active);
+        public float GetStartBeats();
     }
 }

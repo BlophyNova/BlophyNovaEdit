@@ -60,6 +60,11 @@ namespace Scenes.Edit
                 $@"{ThisNoteEdit.currentBoxID}号框的{ThisNoteEdit.currentLineID}号线的{thisNoteData.HitBeats.integer}:{thisNoteData.HitBeats.molecule}/{thisNoteData.HitBeats.denominator}的选择状态被改为：{isSelectedRect.gameObject.activeSelf}");
         }
 
+        public float GetStartBeats()
+        {
+            return thisNoteData.HitBeats.ThisStartBPM;
+        }
+
         public virtual NoteEdit Init(Note note)
         {
             thisNoteData = note;
