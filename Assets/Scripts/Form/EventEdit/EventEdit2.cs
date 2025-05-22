@@ -93,8 +93,6 @@ namespace Form.EventEdit
             //第一次
             foreach (BeatLine item in basicLine.beatLines)
             {
-                Debug.Log(
-                    $@"{thisEventEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
                 float dis = Vector2.Distance(mousePosition,
                     (Vector2)thisEventEditRect.InverseTransformPoint(item.transform.position) +
                     labelWindow.labelWindowRect.sizeDelta / 2);

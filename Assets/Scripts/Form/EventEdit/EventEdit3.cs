@@ -98,23 +98,33 @@ namespace Form.EventEdit
         }
         async void MoveAsync(bool isMoving)
         {
-            if (!isMoving)
+            if (!isMoving||selectBox.selectedBoxItems.Count==0)
             {
                 return;
             }
             FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
                 out _);
+            BPM nearBeatLineBpm = new(nearBeatLine.thisBPM);
             while (this.isMoving && FocusIsMe && selectBox.selectedBoxItems.Count != 0)
             {
                 await UniTask.NextFrame();//啊哈，没错，引入了UniTask导致的，真方便（
                 FindNearBeatLineAndEventVerticalLine(out nearBeatLine,
                     out _);
+                try
+                {
+                    nearBeatLineBpm = new(nearBeatLine.thisBPM);
+                }
+                catch
+                {
+                    // ignored
+                }
+
                 //这，这对吗？还是不要频繁刷新比较好，想想别的方法吧
                 BPM firstBpm = ((EventEditItem)selectBox.selectedBoxItems[0]).@event.startBeats;
                 foreach (EventEditItem eventEditItem in selectBox.selectedBoxItems.Cast<EventEditItem>())
                 {
                     RectTransform rect=eventEditItem.thisEventEditItemRect;
-                    BPM newBpm = new BPM(nearBeatLine.thisBPM) + (new BPM(eventEditItem.@event.startBeats) - new BPM(firstBpm));
+                    BPM newBpm = new BPM(nearBeatLineBpm) + (new BPM(eventEditItem.@event.startBeats) - new BPM(firstBpm));
                     float currentSecondsTime =
                         BPMManager.Instance.GetSecondsTimeByBeats(newBpm.ThisStartBPM);
                     float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);

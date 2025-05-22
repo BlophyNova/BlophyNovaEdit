@@ -305,17 +305,27 @@ namespace Form.NoteEdit
 
         async void MoveAsync(bool isMoving)
         {
-            if (!isMoving)
+            if (!isMoving|| selectBox.selectedBoxItems.Count==0)
             {
                 return;
             }
             FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine,out RectTransform nearVerticalLine);
+            
+            BPM neatBeatLineBpm = new(nearBeatLine.thisBPM);
             while (this.isMoving && FocusIsMe && selectBox.selectedBoxItems.Count != 0)
             {
                 await UniTask.NextFrame();//啊哈，没错，引入了UniTask导致的，真方便（
-                Debug.Log("Moving Notes");
                 FindNearBeatLineAndVerticalLine(out nearBeatLine,
                     out nearVerticalLine);
+                try
+                {
+                    neatBeatLineBpm = new(nearBeatLine.thisBPM);
+                }
+                catch
+                {
+                    // ignored
+                }
+
                 //这，这对吗？还是不要频繁刷新比较好，想想别的方法吧
                 
                 float firstPositionX=((Scenes.Edit.NoteEdit)selectBox.selectedBoxItems[0]).thisNoteData.positionX;
@@ -345,7 +355,7 @@ namespace Form.NoteEdit
                     float currentPositionX = CalculatePositionX(nearVerticalLine) + (noteEdit.thisNoteData.positionX - firstPositionX);
                     float currentLocalPositionX = nearVerticalLine.localPosition.x + (noteEdit.thisNoteRect.localPosition.x-firstLocalPositionX);
                     
-                    BPM newBpm = new BPM(nearBeatLine.thisBPM) + (new BPM(noteEdit.thisNoteData.HitBeats) - new BPM(firstBpm));
+                    BPM newBpm = new BPM(neatBeatLineBpm) + (new BPM(noteEdit.thisNoteData.HitBeats) - new BPM(firstBpm));
                     float currentSecondsTime =
                         BPMManager.Instance.GetSecondsTimeByBeats(newBpm.ThisStartBPM);
                     float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);

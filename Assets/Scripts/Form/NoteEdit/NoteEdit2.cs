@@ -41,8 +41,6 @@ namespace Form.NoteEdit
             //第一次
             foreach (BeatLine item in basicLine.beatLines)
             {
-                Debug.Log(
-                    $@"{noteEditRect.InverseTransformPoint(item.transform.position)}||{item.transform.position}||{(Vector2)noteEditRect.InverseTransformPoint(item.transform.position) + labelWindow.labelWindowRect.sizeDelta / 2}");
                 float dis = Vector2.Distance(mousePosition,
                     (Vector2)noteEditRect.InverseTransformPoint(item.transform.position) +
                     labelWindow.labelWindowRect.sizeDelta / 2);
