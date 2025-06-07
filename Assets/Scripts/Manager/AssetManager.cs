@@ -1,3 +1,4 @@
+using Container.SortHeap;
 using Controller;
 using Data.ChartData;
 using UnityEngine;
@@ -9,6 +10,8 @@ namespace Manager
     public class AssetManager : MonoBehaviourSingleton<AssetManager>
     {
         [Header("铺面数据")] public ChartData chartData;
+
+        [Header("渲染数据")] public SortHeap sortHeap;
 
         [Header("音乐播放")] public AudioSource musicPlayer;
         //public Koreography MusicPlayer=>musicPlayer.GetKoreographyAtIndex(0);
