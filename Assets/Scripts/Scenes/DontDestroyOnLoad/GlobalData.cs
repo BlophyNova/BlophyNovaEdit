@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Container.SortHeap;
 using Data.ChartEdit;
 using Data.EaseData;
 using Data.Enumerate;
@@ -28,6 +29,7 @@ namespace Scenes.DontDestroyOnLoad
 
         public Hard currentHard;
         public ChartData chartData;
+        public SortHeap sortHeap;
         public Data.ChartEdit.ChartData chartEditData;
         public AudioClip clip;
 
@@ -83,6 +85,7 @@ namespace Scenes.DontDestroyOnLoad
                         File.ReadAllText(
                             $"{Application.streamingAssetsPath}/{currentChartIndex}/ChartFile/{currentHard}/Chart.json"));
                     BPMManager.UpdateInfo(GlobalData.Instance.chartEditData.bpmList);
+                    sortHeap = new(chartEditData.sortList);
                 }
 
             }
