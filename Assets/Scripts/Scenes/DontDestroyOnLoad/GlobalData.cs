@@ -127,7 +127,7 @@ namespace Scenes.DontDestroyOnLoad
 
         private static void Disclaimer()
         {
-            if (Application.platform == RuntimePlatform.WindowsEditor)
+            if (Application.isEditor)
             {
                 return;
             }
