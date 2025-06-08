@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.IO;
 using System.Text;
@@ -26,7 +27,7 @@ public class AutoSave : MonoBehaviourSingleton<AutoSave>
             yield return new WaitForSeconds(600);
             string saveData = JsonConvert.SerializeObject(GlobalData.Instance.chartEditData);
             File.WriteAllText(
-                $"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/AutoSave.{saveCount++}",
+                new Uri($"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/AutoSave.{saveCount++}").LocalPath,
                 saveData,Encoding.UTF8);
             if (saveCount >= 10)
             {

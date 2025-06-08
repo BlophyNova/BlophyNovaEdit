@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -40,8 +41,7 @@ namespace Scenes.Select
                     continue;
                 }
 
-
-                string rawData = File.ReadAllText(chartJsonPath,Encoding.UTF8);
+                string rawData = File.ReadAllText(new Uri(chartJsonPath).LocalPath,Encoding.UTF8);
                 ChartItem newChartItem = Instantiate(chartItemPrefab, transform);
                 newChartItem.metaData = JsonConvert.DeserializeObject<MetaData>(rawData);
                 newChartItem.musicName.text = newChartItem.metaData.musicName;

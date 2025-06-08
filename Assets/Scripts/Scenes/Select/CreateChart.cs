@@ -74,6 +74,7 @@ namespace Scenes.Select
             chartData.offset = 0;
             chartData.loopPlayBack = true;
             chartData.musicLength = -1;
+            chartData.chartVersion = 1;
             chartData.bpmList = new List<BPM>
             {
                 new() { integer = 0, molecule = 0, denominator = 1, currentBPM = 60 }
@@ -89,7 +90,7 @@ namespace Scenes.Select
 
         private void CreatChart(Data.Enumerate.Hard hard, ChartData chartData)
         {
-            File.WriteAllText($"{ChartFilePath}/{hard}/Chart.json",
+            File.WriteAllText(new Uri($"{ChartFilePath}/{hard}/Chart.json").LocalPath,
                 JsonConvert.SerializeObject(chartData),Encoding.UTF8);
             MetaData metaData = new()
             {
@@ -102,7 +103,7 @@ namespace Scenes.Select
                 description = descriptionText.text,
                 chartVersion = 0
             };
-            File.WriteAllText($"{ChartFilePath}/{hard}/MetaData.json",
+            File.WriteAllText(new Uri($"{ChartFilePath}/{hard}/MetaData.json").LocalPath,
                 JsonConvert.SerializeObject(metaData),Encoding.UTF8);
         }
 

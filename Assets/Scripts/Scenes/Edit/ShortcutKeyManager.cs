@@ -28,13 +28,13 @@ namespace Scenes.Edit
             {
                 playerInput.actions = inputActionsAsset;
                 Debug.Log($"{inputActionsAsset.ToJson()}");
-                File.WriteAllText($"{Application.streamingAssetsPath}/Config/ShortcutKeyConfig.HuaWaterED",
+                File.WriteAllText(new Uri($"{Application.streamingAssetsPath}/Config/ShortcutKeyConfig.HuaWaterED").LocalPath,
                     inputActionsAsset.ToJson(),Encoding.UTF8);
             }
             else
             {
                 playerInput.actions = InputActionAsset.FromJson(
-                    File.ReadAllText($"{Application.streamingAssetsPath}/Config/ShortcutKeyConfig.HuaWaterED",Encoding.UTF8));
+                    File.ReadAllText(new Uri($"{Application.streamingAssetsPath}/Config/ShortcutKeyConfig.HuaWaterED").LocalPath,Encoding.UTF8));
             }
         }
 
