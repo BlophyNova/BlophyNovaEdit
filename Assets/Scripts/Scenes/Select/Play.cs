@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Data.ChartEdit;
+using Hook;
 using Manager;
 using Newtonsoft.Json;
 using Scenes.DontDestroyOnLoad;
@@ -29,7 +30,7 @@ namespace Scenes.Select
             yield return new WaitForSeconds(.1f);
             GlobalData.Instance.chartEditData = JsonConvert.DeserializeObject<ChartData>(
                 File.ReadAllText(
-                    new Uri($"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/Chart.json").LocalPath,Encoding.UTF8));
+                    new Uri($"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/Chart.json").LocalPath,Encoding.UTF8));
             
             BPMManager.UpdateInfo(GlobalData.Instance.chartEditData.bpmList);
             SceneManager.LoadSceneAsync(1, LoadSceneMode.Single).completed += Play_completed;

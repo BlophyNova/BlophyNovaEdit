@@ -1,6 +1,7 @@
 using System.Collections;
 using System.IO;
 using Data.ChartData;
+using Hook;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
 using TMPro;
@@ -24,7 +25,7 @@ namespace Scenes.Select
             {
                 GlobalData.Instance.currentChartIndex = currentChartIndex;
                 string illustrationPath =
-                    $"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/Illustration";
+                    $"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/Illustration";
                 illustrationPath = $"{Directory.GetFiles(illustrationPath)[0]}";
                 StartCoroutine(GetIllustration(illustrationPath));
                 illustrationPreview.color = Color.white;

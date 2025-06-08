@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using Data.ChartData;
 using Data.ChartEdit;
+using Hook;
 using Newtonsoft.Json;
 using Scenes.PublicScripts;
 using TMPro;
@@ -33,11 +34,11 @@ namespace Scenes.Select
 
 
         public string currentChartFileIndex = string.Empty;
-        private string ChartFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/ChartFile";
-        private string MusicFilePath => $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Music";
+        private string ChartFilePath => $"{Applicationm.streamingAssetsPath}/{currentChartFileIndex}/ChartFile";
+        private string MusicFilePath => $"{Applicationm.streamingAssetsPath}/{currentChartFileIndex}/Music";
 
         private string IllustrationFilePath =>
-            $"{Application.streamingAssetsPath}/{currentChartFileIndex}/Illustration";
+            $"{Applicationm.streamingAssetsPath}/{currentChartFileIndex}/Illustration";
 
         private void Start()
         {

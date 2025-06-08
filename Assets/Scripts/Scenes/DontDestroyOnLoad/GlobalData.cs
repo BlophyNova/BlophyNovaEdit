@@ -8,6 +8,7 @@ using Data.EaseData;
 using Data.Enumerate;
 using Form.EventEdit;
 using Form.LabelWindow;
+using Hook;
 using Manager;
 using Newtonsoft.Json;
 using Scenes.Edit;
@@ -69,7 +70,7 @@ namespace Scenes.DontDestroyOnLoad
         {
             Application.targetFrameRate = 9999;
             easeDatas = JsonConvert.DeserializeObject<List<EaseData>>(
-                File.ReadAllText(new Uri($"{Application.streamingAssetsPath}/Config/EaseDatas.json").LocalPath ,Encoding.UTF8));
+                File.ReadAllText(new Uri($"{Applicationm.streamingAssetsPath}/Config/EaseDatas.json").LocalPath ,Encoding.UTF8));
             if (isNewEditData)
             {
                 ChartTool.CreateNewChart(chartEditData, easeDatas);
@@ -82,7 +83,7 @@ namespace Scenes.DontDestroyOnLoad
                 {
                     chartEditData = JsonConvert.DeserializeObject<Data.ChartEdit.ChartData>(
                         File.ReadAllText(
-                            new Uri($"{Application.streamingAssetsPath}/{currentChartIndex}/ChartFile/{currentHard}/Chart.json").LocalPath,Encoding.UTF8));
+                            new Uri($"{Applicationm.streamingAssetsPath}/{currentChartIndex}/ChartFile/{currentHard}/Chart.json").LocalPath,Encoding.UTF8));
                     BPMManager.UpdateInfo(chartEditData.bpmList);
                 }
 
@@ -109,7 +110,7 @@ namespace Scenes.DontDestroyOnLoad
             {
                 saveChartData = false;
                 string chartDataContent = JsonConvert.SerializeObject(chartData);
-                File.WriteAllText(new Uri($"{Application.streamingAssetsPath}/Chart.json").LocalPath, chartDataContent,Encoding.UTF8);
+                File.WriteAllText(new Uri($"{Applicationm.streamingAssetsPath}/Chart.json").LocalPath, chartDataContent,Encoding.UTF8);
             }
         }
 
@@ -132,9 +133,9 @@ namespace Scenes.DontDestroyOnLoad
                 return;
             }
 
-            if (File.Exists($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"))
+            if (File.Exists($"{Applicationm.streamingAssetsPath}/Config/Disclaimer.txt"))
             {
-                if (bool.TryParse(File.ReadAllText(new Uri($"{Application.streamingAssetsPath}/Config/Disclaimer.txt").LocalPath,Encoding.UTF8),
+                if (bool.TryParse(File.ReadAllText(new Uri($"{Applicationm.streamingAssetsPath}/Config/Disclaimer.txt").LocalPath,Encoding.UTF8),
                         out bool result) && !result)
                 {
                     ShowDisclaimer();
@@ -149,7 +150,7 @@ namespace Scenes.DontDestroyOnLoad
         private static void ShowDisclaimer()
         {
             Alert.EnableAlert("使用本软件制作谱面之前，请明确获得相关素材的作者授权，本软件以及开发者不为因使用未授权的相关素材或其他形式产生的版权问题负责。继续使用本软件代表您同意，否则关闭本软件。");
-            File.WriteAllText(new Uri($"{Application.streamingAssetsPath}/Config/Disclaimer.txt").LocalPath, "True",Encoding.UTF8);
+            File.WriteAllText(new Uri($"{Applicationm.streamingAssetsPath}/Config/Disclaimer.txt").LocalPath, "True",Encoding.UTF8);
         }
 
         public static void Refresh<T>(Action<T> action, List<Type> types, bool isBlackList = false)
@@ -167,7 +168,7 @@ namespace Scenes.DontDestroyOnLoad
         public IEnumerator ReadResource()
         {
             yield return new WaitForEndOfFrame();
-            string musicPath = $"{Application.streamingAssetsPath}/{currentChartIndex}/Music";
+            string musicPath = $"{Applicationm.streamingAssetsPath}/{currentChartIndex}/Music";
             musicPath = Directory.GetFiles(musicPath)[0];
             AudioType audioType = Path.GetExtension(musicPath).ToLower() switch
             {
@@ -182,7 +183,7 @@ namespace Scenes.DontDestroyOnLoad
             clip = DownloadHandlerAudioClip.GetContent(unityWebRequest);
 
 
-            string illustrationPath = $"{Application.streamingAssetsPath}/{currentChartIndex}/Illustration";
+            string illustrationPath = $"{Applicationm.streamingAssetsPath}/{currentChartIndex}/Illustration";
             illustrationPath = Directory.GetFiles(illustrationPath)[0];
             unityWebRequest = UnityWebRequestTexture.GetTexture($"file://{illustrationPath}");
             yield return unityWebRequest.SendWebRequest();

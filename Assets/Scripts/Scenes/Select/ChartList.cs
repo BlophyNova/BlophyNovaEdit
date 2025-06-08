@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Data.ChartData;
+using Hook;
 using Newtonsoft.Json;
 using Scenes.DontDestroyOnLoad;
 using TMPro;
@@ -32,7 +33,7 @@ namespace Scenes.Select
             }
 
             chartItems.Clear();
-            string[] chartPaths = Directory.GetDirectories($"{Application.streamingAssetsPath}");
+            string[] chartPaths = Directory.GetDirectories($"{Applicationm.streamingAssetsPath}");
             foreach (string chartPath in chartPaths)
             {
                 string chartJsonPath = $"{chartPath}/ChartFile/{GlobalData.Instance.currentHard}/MetaData.json";
