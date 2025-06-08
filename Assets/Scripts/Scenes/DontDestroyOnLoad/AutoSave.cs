@@ -1,5 +1,6 @@
 using System.Collections;
 using System.IO;
+using System.Text;
 using Newtonsoft.Json;
 using Scenes.DontDestroyOnLoad;
 using UnityEngine;
@@ -26,7 +27,7 @@ public class AutoSave : MonoBehaviourSingleton<AutoSave>
             string saveData = JsonConvert.SerializeObject(GlobalData.Instance.chartEditData);
             File.WriteAllText(
                 $"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/AutoSave.{saveCount++}",
-                saveData);
+                saveData,Encoding.UTF8);
             if (saveCount >= 10)
             {
                 saveCount = 0;

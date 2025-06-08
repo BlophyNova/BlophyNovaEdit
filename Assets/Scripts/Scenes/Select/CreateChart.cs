@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Data.ChartData;
 using Data.ChartEdit;
 using Newtonsoft.Json;
@@ -89,7 +90,7 @@ namespace Scenes.Select
         private void CreatChart(Data.Enumerate.Hard hard, ChartData chartData)
         {
             File.WriteAllText($"{ChartFilePath}/{hard}/Chart.json",
-                JsonConvert.SerializeObject(chartData));
+                JsonConvert.SerializeObject(chartData),Encoding.UTF8);
             MetaData metaData = new()
             {
                 musicName = musicNameText.text,
@@ -102,7 +103,7 @@ namespace Scenes.Select
                 chartVersion = 0
             };
             File.WriteAllText($"{ChartFilePath}/{hard}/MetaData.json",
-                JsonConvert.SerializeObject(metaData));
+                JsonConvert.SerializeObject(metaData),Encoding.UTF8);
         }
 
         private bool VerifyLocalMusicExistence()

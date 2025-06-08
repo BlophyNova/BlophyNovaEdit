@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UtilityCode.Singleton;
@@ -28,12 +29,12 @@ namespace Scenes.Edit
                 playerInput.actions = inputActionsAsset;
                 Debug.Log($"{inputActionsAsset.ToJson()}");
                 File.WriteAllText($"{Application.streamingAssetsPath}/Config/ShortcutKeyConfig.HuaWaterED",
-                    inputActionsAsset.ToJson());
+                    inputActionsAsset.ToJson(),Encoding.UTF8);
             }
             else
             {
                 playerInput.actions = InputActionAsset.FromJson(
-                    File.ReadAllText($"{Application.streamingAssetsPath}/Config/ShortcutKeyConfig.HuaWaterED"));
+                    File.ReadAllText($"{Application.streamingAssetsPath}/Config/ShortcutKeyConfig.HuaWaterED",Encoding.UTF8));
             }
         }
 

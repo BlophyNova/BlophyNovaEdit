@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Data.ChartEdit;
 using Data.EaseData;
 using Data.Enumerate;
@@ -68,11 +69,11 @@ namespace Scenes.DontDestroyOnLoad
         {
             Application.targetFrameRate = 9999;
             easeDatas = JsonConvert.DeserializeObject<List<EaseData>>(
-                File.ReadAllText($"{Application.streamingAssetsPath}/Config/EaseDatas.json"));
+                File.ReadAllText($"{Application.streamingAssetsPath}/Config/EaseDatas.json",Encoding.UTF8));
             if (isNewEditData)
             {
                 ChartTool.CreateNewChart(chartEditData, easeDatas);
-                BPMManager.UpdateInfo(GlobalData.Instance.chartEditData.bpmList);
+                BPMManager.UpdateInfo(chartEditData.bpmList);
                 //chartData.boxes = ChartTool.ConvertChartEdit2ChartData(chartEditData.boxes);
             }
             else
@@ -81,8 +82,8 @@ namespace Scenes.DontDestroyOnLoad
                 {
                     chartEditData = JsonConvert.DeserializeObject<Data.ChartEdit.ChartData>(
                         File.ReadAllText(
-                            $"{Application.streamingAssetsPath}/{currentChartIndex}/ChartFile/{currentHard}/Chart.json"));
-                    BPMManager.UpdateInfo(GlobalData.Instance.chartEditData.bpmList);
+                            $"{Application.streamingAssetsPath}/{currentChartIndex}/ChartFile/{currentHard}/Chart.json",Encoding.UTF8));
+                    BPMManager.UpdateInfo(chartEditData.bpmList);
                 }
 
             }
@@ -108,7 +109,7 @@ namespace Scenes.DontDestroyOnLoad
             {
                 saveChartData = false;
                 string chartDataContent = JsonConvert.SerializeObject(chartData);
-                File.WriteAllText($"{Application.streamingAssetsPath}/Chart.json", chartDataContent);
+                File.WriteAllText($"{Application.streamingAssetsPath}/Chart.json", chartDataContent,Encoding.UTF8);
             }
         }
 
@@ -133,7 +134,7 @@ namespace Scenes.DontDestroyOnLoad
 
             if (File.Exists($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"))
             {
-                if (bool.TryParse(File.ReadAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt"),
+                if (bool.TryParse(File.ReadAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt",Encoding.UTF8),
                         out bool result) && !result)
                 {
                     ShowDisclaimer();
@@ -148,7 +149,7 @@ namespace Scenes.DontDestroyOnLoad
         private static void ShowDisclaimer()
         {
             Alert.EnableAlert("使用本软件制作谱面之前，请明确获得相关素材的作者授权，本软件以及开发者不为因使用未授权的相关素材或其他形式产生的版权问题负责。继续使用本软件代表您同意，否则关闭本软件。");
-            File.WriteAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt", "True");
+            File.WriteAllText($"{Application.streamingAssetsPath}/Config/Disclaimer.txt", "True",Encoding.UTF8);
         }
 
         public static void Refresh<T>(Action<T> action, List<Type> types, bool isBlackList = false)

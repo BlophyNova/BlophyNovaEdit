@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Data.ChartData;
 using Newtonsoft.Json;
 using Scenes.DontDestroyOnLoad;
@@ -40,7 +41,7 @@ namespace Scenes.Select
                 }
 
 
-                string rawData = File.ReadAllText(chartJsonPath);
+                string rawData = File.ReadAllText(chartJsonPath,Encoding.UTF8);
                 ChartItem newChartItem = Instantiate(chartItemPrefab, transform);
                 newChartItem.metaData = JsonConvert.DeserializeObject<MetaData>(rawData);
                 newChartItem.musicName.text = newChartItem.metaData.musicName;

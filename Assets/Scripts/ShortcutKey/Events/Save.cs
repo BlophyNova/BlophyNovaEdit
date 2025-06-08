@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text;
 using Newtonsoft.Json;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
@@ -19,7 +20,7 @@ namespace ShortcutKey.Events
             base.Canceled(callbackContext);
             File.WriteAllText(
                 $"{Application.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/Chart.json",
-                JsonConvert.SerializeObject(GlobalData.Instance.chartEditData));
+                JsonConvert.SerializeObject(GlobalData.Instance.chartEditData),Encoding.UTF8);
             Alert.EnableAlert("喵~保存成功~");
         }
     }
