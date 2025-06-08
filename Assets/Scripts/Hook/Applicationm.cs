@@ -14,7 +14,7 @@ namespace Hook
             {
                 if (Application.platform == RuntimePlatform.Android)
                 {
-                    string rawPath = new Uri($"/data/data/{Application.identifier}/files/StreamingAssets").LocalPath;
+                    string rawPath = new Uri($"/storage/emulated/0/Android/data/{Application.identifier}/files/StreamingAssets").LocalPath;
                     if (!Directory.Exists(rawPath))
                     {
                         Directory.CreateDirectory(rawPath);
