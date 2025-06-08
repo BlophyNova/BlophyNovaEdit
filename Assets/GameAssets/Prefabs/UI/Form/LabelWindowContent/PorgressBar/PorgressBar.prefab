@@ -1534,7 +1534,7 @@ MonoBehaviour:
   labelItem: {fileID: 0}
   labelWindowContentType: 256
   minX: 700
-  minY: 240
+  minY: 135
   progressBar: {fileID: 3393232626789953541}
   progressInfomation: {fileID: 1702444288152225659}
   back2Bottom: {fileID: 1702444288516644878}
