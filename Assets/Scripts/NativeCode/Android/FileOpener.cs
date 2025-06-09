@@ -8,7 +8,7 @@ namespace NativeCode.Android
     {
         void Start()
         {
-            Debug.Log("FileOpener.Start()");
+            Debug.Log("Android:FileOpener.Start()");
             GetFilePathFromIntent();
         }
 
