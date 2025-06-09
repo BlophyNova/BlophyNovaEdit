@@ -8,8 +8,6 @@ using Hook;
 using Newtonsoft.Json;
 using Scenes.DontDestroyOnLoad;
 using TMPro;
-using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UtilityCode.Singleton;
 
@@ -24,7 +22,7 @@ namespace Scenes.Select
 
         private async void Start()
         {
-            await UniTask.WaitUntil(()=> GlobalData.Instance.isInited);
+            await UniTask.WaitUntil(() => GlobalData.Instance.isInited);
             RefreshList();
         }
 
@@ -45,7 +43,7 @@ namespace Scenes.Select
                     continue;
                 }
 
-                string rawData = File.ReadAllText(new Uri(chartJsonPath).LocalPath,Encoding.UTF8);
+                string rawData = File.ReadAllText(new Uri(chartJsonPath).LocalPath, Encoding.UTF8);
                 ChartItem newChartItem = Instantiate(chartItemPrefab, transform);
                 newChartItem.metaData = JsonConvert.DeserializeObject<MetaData>(rawData);
                 newChartItem.musicName.text = newChartItem.metaData.musicName;

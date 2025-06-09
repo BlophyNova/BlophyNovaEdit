@@ -28,8 +28,10 @@ public class AutoSave : MonoBehaviourSingleton<AutoSave>
             yield return new WaitForSeconds(600);
             string saveData = JsonConvert.SerializeObject(GlobalData.Instance.chartEditData);
             File.WriteAllText(
-                new Uri($"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/AutoSave.{saveCount++}").LocalPath,
-                saveData,Encoding.UTF8);
+                new Uri(
+                        $"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/AutoSave.{saveCount++}")
+                    .LocalPath,
+                saveData, Encoding.UTF8);
             if (saveCount >= 10)
             {
                 saveCount = 0;

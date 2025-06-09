@@ -1,11 +1,8 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CustomSystem;
 using Cysharp.Threading.Tasks;
 using Data.ChartEdit;
-using Data.Interface;
 using Form.NoteEdit;
 using Form.PropertyEdit;
 using Manager;
@@ -91,28 +88,30 @@ namespace Form.EventEdit
         }
 
 
-        private void Move(bool isMoving) 
+        private void Move(bool isMoving)
         {
             this.isMoving = isMoving;
             MoveAsync(isMoving);
         }
-        async void MoveAsync(bool isMoving)
+
+        private async void MoveAsync(bool isMoving)
         {
-            if (!isMoving||selectBox.selectedBoxItems.Count==0)
+            if (!isMoving || selectBox.selectedBoxItems.Count == 0)
             {
                 return;
             }
+
             FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
                 out _);
             BPM nearBeatLineBpm = new(nearBeatLine.thisBPM);
             while (this.isMoving && FocusIsMe && selectBox.selectedBoxItems.Count != 0)
             {
-                await UniTask.NextFrame();//啊哈，没错，引入了UniTask导致的，真方便（
+                await UniTask.NextFrame(); //啊哈，没错，引入了UniTask导致的，真方便（
                 FindNearBeatLineAndEventVerticalLine(out nearBeatLine,
                     out _);
                 try
                 {
-                    nearBeatLineBpm = new(nearBeatLine.thisBPM);
+                    nearBeatLineBpm = new BPM(nearBeatLine.thisBPM);
                 }
                 catch
                 {
@@ -123,17 +122,17 @@ namespace Form.EventEdit
                 BPM firstBpm = ((EventEditItem)selectBox.selectedBoxItems[0]).@event.startBeats;
                 foreach (EventEditItem eventEditItem in selectBox.selectedBoxItems.Cast<EventEditItem>())
                 {
-                    RectTransform rect=eventEditItem.thisEventEditItemRect;
-                    BPM newBpm = new BPM(nearBeatLineBpm) + (new BPM(eventEditItem.@event.startBeats) - new BPM(firstBpm));
+                    RectTransform rect = eventEditItem.thisEventEditItemRect;
+                    BPM newBpm = new BPM(nearBeatLineBpm) +
+                                 (new BPM(eventEditItem.@event.startBeats) - new BPM(firstBpm));
                     float currentSecondsTime =
                         BPMManager.Instance.GetSecondsTimeByBeats(newBpm.ThisStartBPM);
                     float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
-                    rect.localPosition = new(rect.localPosition.x,positionY);
+                    rect.localPosition = new Vector3(rect.localPosition.x, positionY);
                 }
-                
             }
             //我有一计，放这里不就好了？
-            
+
             List<Event> newEvents = null;
             List<Event> deletedEvents = null;
             List<Event> selectedEvents = GetSelectedEvents();
@@ -141,7 +140,7 @@ namespace Form.EventEdit
             BPM bpm = new(newEvents[0].startBeats);
             BPM nearBpm = nearBeatLine.thisBPM;
             bpm = new BPM(nearBpm);
-            
+
             AlignEvents(newEvents, bpm);
             AddEvents(newEvents, currentBoxID, true);
             eventEditItems.AddRange(AddEvents2UI(newEvents));
@@ -164,6 +163,7 @@ namespace Form.EventEdit
                 DeleteEvents(deletedEvents, currentBoxID, isCopy);
             }
         }
+
         private void MoveUp()
         {
             List<Event> newEvents = null;

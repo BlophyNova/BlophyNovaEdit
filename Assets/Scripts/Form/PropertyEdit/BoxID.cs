@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Controller;
 using Data.Interface;
-using Form.EventEdit;
 using Log;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;

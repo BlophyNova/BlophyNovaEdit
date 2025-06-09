@@ -1,13 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
-using Object = UnityEngine.Object;
 
 namespace Hook
 {
@@ -15,30 +12,26 @@ namespace Hook
     {
         public static string dataPath => Application.dataPath;
         public static bool isEditor => Application.isEditor;
-        public static string streamingAssetsPath
-        {
-            get
-            {
-                if (Application.platform != RuntimePlatform.Android)
-                {
-                    return Application.streamingAssetsPath;
-                }
 
-                
-                return new Uri($"/storage/emulated/0/Android/data/{Application.identifier}/files/StreamingAssets").LocalPath;
-            }
-        }
+        public static string streamingAssetsPath => Application.platform != RuntimePlatform.Android
+            ? Application.streamingAssetsPath
+            : new Uri($"/storage/emulated/0/Android/data/{Application.identifier}/files/StreamingAssets").LocalPath;
 
         public static async UniTask Init(string rawPath)
         {
-            if (Directory.Exists(rawPath)) return;
+            if (Directory.Exists(rawPath))
+            {
+                return;
+            }
 
-            Directory.CreateDirectory(rawPath); 
+            Directory.CreateDirectory(rawPath);
             await InitStreamingAssetsFileAsync();
         }
-        static async UniTask InitStreamingAssetsFileAsync()
+
+        private static async UniTask InitStreamingAssetsFileAsync()
         {
-            List<string> streamingAssetFiles = (await Resources.LoadAsync("StreamingAssetsManifest") as TextAsset)?.text.Split("\n").ToList();
+            List<string> streamingAssetFiles = (await Resources.LoadAsync("StreamingAssetsManifest") as TextAsset)?.text
+                .Split("\n").ToList();
             streamingAssetFiles!.RemoveAt(streamingAssetFiles.Count - 1);
             foreach (string streamingAssetFile in streamingAssetFiles!)
             {
@@ -49,7 +42,7 @@ namespace Hook
                 string path = new Uri($"{streamingAssetsPath}/{streamingAssetFile}").LocalPath;
                 Debug.Log(path);
                 Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-                File.WriteAllBytes(path,binData);
+                File.WriteAllBytes(path, binData);
             }
         }
     }

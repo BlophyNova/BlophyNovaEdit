@@ -34,7 +34,7 @@ namespace Form.NotePropertyEdit.ValueEdit
             List<Event> originEvents = new();
             foreach (Event @event in events)
             {
-                originEvents.Add(new(@event));
+                originEvents.Add(new Event(@event));
             }
 
             Steps.Instance.Add(Undo, Redo, Finally);
@@ -70,7 +70,7 @@ namespace Form.NotePropertyEdit.ValueEdit
             List<Event> originEvents = new();
             foreach (Event @event in events)
             {
-                originEvents.Add(new(@event));
+                originEvents.Add(new Event(@event));
             }
 
             if (GlobalData.Instance.chartEditData.customCurves[value - 1].isDeleted)
@@ -112,7 +112,7 @@ namespace Form.NotePropertyEdit.ValueEdit
             List<Event> originEvents = new();
             foreach (Event @event in events)
             {
-                originEvents.Add(new(@event));
+                originEvents.Add(new Event(@event));
             }
 
             Steps.Instance.Add(Undo, Redo, Finally);
@@ -156,7 +156,7 @@ namespace Form.NotePropertyEdit.ValueEdit
             List<Event> originEvents = new();
             foreach (Event @event in events)
             {
-                originEvents.Add(new(@event));
+                originEvents.Add(new Event(@event));
             }
 
             //EventValueChanged(match, note.HitBeats);
@@ -212,7 +212,7 @@ namespace Form.NotePropertyEdit.ValueEdit
             List<Event> originEvents = new();
             foreach (Event @event in events)
             {
-                originEvents.Add(new(@event));
+                originEvents.Add(new Event(@event));
             }
 
             //EventValueChanged(match, note.HitBeats);
@@ -269,11 +269,12 @@ namespace Form.NotePropertyEdit.ValueEdit
             List<Event> originEvents = new();
             foreach (Event @event in events)
             {
-                originEvents.Add(new(@event));
+                originEvents.Add(new Event(@event));
             }
 
             //EventValueChanged(match, note.HitBeats);
-            BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
+            BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
+                int.Parse(match.Groups[3].Value));
             Steps.Instance.Add(Undo, Redo, Finally);
             Redo();
             Finally();
@@ -307,10 +308,11 @@ namespace Form.NotePropertyEdit.ValueEdit
             List<Event> originEvents = new();
             foreach (Event @event in events)
             {
-                originEvents.Add(new(@event));
+                originEvents.Add(new Event(@event));
             }
 
-            BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
+            BPM targetValue = new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value),
+                int.Parse(match.Groups[3].Value));
             Steps.Instance.Add(Undo, Redo, Finally);
             Redo();
             Finally();

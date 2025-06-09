@@ -93,7 +93,7 @@ namespace Scenes.Select
         private void CreatChart(Data.Enumerate.Hard hard, ChartData chartData)
         {
             File.WriteAllText(new Uri($"{ChartFilePath}/{hard}/Chart.json").LocalPath,
-                JsonConvert.SerializeObject(chartData),Encoding.UTF8);
+                JsonConvert.SerializeObject(chartData), Encoding.UTF8);
             MetaData metaData = new()
             {
                 musicName = musicNameText.text,
@@ -106,7 +106,7 @@ namespace Scenes.Select
                 chartVersion = 0
             };
             File.WriteAllText(new Uri($"{ChartFilePath}/{hard}/MetaData.json").LocalPath,
-                JsonConvert.SerializeObject(metaData),Encoding.UTF8);
+                JsonConvert.SerializeObject(metaData), Encoding.UTF8);
         }
 
         private bool VerifyLocalMusicExistence()

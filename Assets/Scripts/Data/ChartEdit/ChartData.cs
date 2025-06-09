@@ -73,12 +73,14 @@ namespace Data.ChartEdit
     [Serializable]
     public class ChartData
     {
-        public int chartVersion;//谱面版本
-        public string chartID;//谱面身份标识符
+        public int chartVersion; //谱面版本
+        public string chartID; //谱面身份标识符
+
         /// <summary>
-        /// 谱面导出次数，每次导出后这个数值自增1
+        ///     谱面导出次数，每次导出后这个数值自增1
         /// </summary>
         public int exportTime;
+
         public float yScale;
         public int beatSubdivision; //节拍线细分(单位：份)
         public int verticalSubdivision; //垂直线细分(单位：份)
@@ -108,8 +110,8 @@ namespace Data.ChartEdit
         public int denominator = 1;
 
         public float currentBPM;
-        [JsonIgnore]public decimal lastBpmEndSeconds=-.1m;
-        [JsonIgnore]public float perSecond=-.1f;
+        [JsonIgnore] public float perSecond = -.1f;
+        [JsonIgnore] public decimal lastBpmEndSeconds = -.1m;
 
         public BPM()
         {
@@ -572,11 +574,6 @@ namespace Data.ChartEdit
             isSyncEvent = @event.isSyncEvent;
         }
 
-        public static Event Copy(Event @event)
-        {
-            return new(@event);
-        }
-
         [JsonIgnore]
         public bool IsSelected
         {
@@ -586,6 +583,11 @@ namespace Data.ChartEdit
 
         //public EaseData curve;
         [JsonIgnore] public EaseData.EaseData Curve => GlobalData.Instance.easeDatas[curveIndex];
+
+        public static Event Copy(Event @event)
+        {
+            return new Event(@event);
+        }
 
         public override bool Equals(object obj)
         {

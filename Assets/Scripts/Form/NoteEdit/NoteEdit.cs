@@ -68,8 +68,8 @@ namespace Form.NoteEdit
         {
             Action action = callbackContext.action.name switch
             {
-                "SelectBox" =>  SelectBoxDown,
-                "Move" => ()=>Move(true),
+                "SelectBox" => SelectBoxDown,
+                "Move" => () => Move(true),
                 _ => () => Debug.Log("欸···？怎么回事，怎么会找不到快捷键呢···")
             };
             action();
@@ -100,7 +100,7 @@ namespace Form.NoteEdit
                 "Paste" => PasteNote,
                 "Cut" => CutNote,
                 "Mirror" => MirrorNote,
-                "Move" => ()=>Move(false),
+                "Move" => () => Move(false),
                 "MoveUp" => MoveUp,
                 "MoveDown" => MoveDown,
                 "MoveLeft" => MoveLeft,

@@ -5,8 +5,6 @@ using CustomSystem;
 using Cysharp.Threading.Tasks;
 using Data.ChartData;
 using Data.ChartEdit;
-using Data.Interface;
-using Form.EventEdit;
 using Form.PropertyEdit;
 using Manager;
 using Newtonsoft.Json;
@@ -303,23 +301,24 @@ namespace Form.NoteEdit
             MoveAsync(isMoving);
         }
 
-        async void MoveAsync(bool isMoving)
+        private async void MoveAsync(bool isMoving)
         {
-            if (!isMoving|| selectBox.selectedBoxItems.Count==0)
+            if (!isMoving || selectBox.selectedBoxItems.Count == 0)
             {
                 return;
             }
-            FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine,out RectTransform nearVerticalLine);
-            
+
+            FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
+
             BPM neatBeatLineBpm = new(nearBeatLine.thisBPM);
             while (this.isMoving && FocusIsMe && selectBox.selectedBoxItems.Count != 0)
             {
-                await UniTask.NextFrame();//啊哈，没错，引入了UniTask导致的，真方便（
+                await UniTask.NextFrame(); //啊哈，没错，引入了UniTask导致的，真方便（
                 FindNearBeatLineAndVerticalLine(out nearBeatLine,
                     out nearVerticalLine);
                 try
                 {
-                    neatBeatLineBpm = new(nearBeatLine.thisBPM);
+                    neatBeatLineBpm = new BPM(nearBeatLine.thisBPM);
                 }
                 catch
                 {
@@ -327,53 +326,58 @@ namespace Form.NoteEdit
                 }
 
                 //这，这对吗？还是不要频繁刷新比较好，想想别的方法吧
-                
-                float firstPositionX=((Scenes.Edit.NoteEdit)selectBox.selectedBoxItems[0]).thisNoteData.positionX;
+
+                float firstPositionX = ((Scenes.Edit.NoteEdit)selectBox.selectedBoxItems[0]).thisNoteData.positionX;
                 float firstLocalPositionX =
                     ((Scenes.Edit.NoteEdit)selectBox.selectedBoxItems[0]).thisNoteRect.localPosition.x;
                 BPM firstBpm = ((Scenes.Edit.NoteEdit)selectBox.selectedBoxItems[0]).thisNoteData.HitBeats;
 
-                float minPositionX=float.MaxValue;
+                float minPositionX = float.MaxValue;
                 float maxPositionX = float.MinValue;
                 foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.selectedBoxItems.Cast<Scenes.Edit.NoteEdit>())
                 {
-                    if (noteEdit.thisNoteData.positionX>maxPositionX)
+                    if (noteEdit.thisNoteData.positionX > maxPositionX)
                     {
                         maxPositionX = noteEdit.thisNoteData.positionX;
                     }
 
-                    if (noteEdit.thisNoteData.positionX<minPositionX)
+                    if (noteEdit.thisNoteData.positionX < minPositionX)
                     {
                         minPositionX = noteEdit.thisNoteData.positionX;
                     }
                 }
+
                 foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.selectedBoxItems.Cast<Scenes.Edit.NoteEdit>())
                 {
-                    RectTransform rect=noteEdit.thisNoteRect;
-                    
-                    
-                    float currentPositionX = CalculatePositionX(nearVerticalLine) + (noteEdit.thisNoteData.positionX - firstPositionX);
-                    float currentLocalPositionX = nearVerticalLine.localPosition.x + (noteEdit.thisNoteRect.localPosition.x-firstLocalPositionX);
-                    
-                    BPM newBpm = new BPM(neatBeatLineBpm) + (new BPM(noteEdit.thisNoteData.HitBeats) - new BPM(firstBpm));
+                    RectTransform rect = noteEdit.thisNoteRect;
+
+
+                    float currentPositionX = CalculatePositionX(nearVerticalLine) +
+                                             (noteEdit.thisNoteData.positionX - firstPositionX);
+                    float currentLocalPositionX = nearVerticalLine.localPosition.x +
+                                                  (noteEdit.thisNoteRect.localPosition.x - firstLocalPositionX);
+
+                    BPM newBpm = new BPM(neatBeatLineBpm) +
+                                 (new BPM(noteEdit.thisNoteData.HitBeats) - new BPM(firstBpm));
                     float currentSecondsTime =
                         BPMManager.Instance.GetSecondsTimeByBeats(newBpm.ThisStartBPM);
                     float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
-                    
-                    float currentMaxPositionX=CalculatePositionX(nearVerticalLine) + (maxPositionX - firstPositionX);
-                    float currentMinPositionX=CalculatePositionX(nearVerticalLine) + (minPositionX - firstPositionX);
-                    
-                    if (currentMaxPositionX>1||currentMinPositionX<-1)
+
+                    float currentMaxPositionX = CalculatePositionX(nearVerticalLine) + (maxPositionX - firstPositionX);
+                    float currentMinPositionX = CalculatePositionX(nearVerticalLine) + (minPositionX - firstPositionX);
+
+                    if (currentMaxPositionX > 1 || currentMinPositionX < -1)
                     {
-                        rect.localPosition = new(rect.localPosition.x,positionY);
+                        rect.localPosition = new Vector3(rect.localPosition.x, positionY);
                     }
                     else
                     {
                         noteEdit.thisNoteData.positionX = currentPositionX;
-                        rect.localPosition = new(currentLocalPositionX, positionY);
+                        rect.localPosition = new Vector3(currentLocalPositionX, positionY);
                     }
                 }
             }
+
             List<Note> newNotes = null;
             List<Note> deletedNotes = null;
             List<Note> selectedNotes = GetSelectedNotes();
@@ -381,12 +385,12 @@ namespace Form.NoteEdit
             BPM bpm = new(newNotes[0].HitBeats);
             BPM nearBpm = nearBeatLine.thisBPM;
             bpm = new BPM(nearBpm);
-            
+
             AlignNotes(newNotes, bpm);
             AddNotes(newNotes, currentBoxID, currentLineID);
             notes.AddRange(AddNotes2UI(newNotes));
 
-            deletedNotes = DeleteNotes(selectedNotes, currentBoxID,currentLineID);
+            deletedNotes = DeleteNotes(selectedNotes, currentBoxID, currentLineID);
             Steps.Instance.Add(Undo, Redo, default);
             return;
 

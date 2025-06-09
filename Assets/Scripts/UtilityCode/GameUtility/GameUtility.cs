@@ -24,6 +24,7 @@ namespace UtilityCode.GameUtility
                         @event.startValue; //用百分比*总时间再加上开始时间就是当前这个时间所代表的值了
             return res == 0 ? -.0001f : res; //返回这个值
         }
+
         /// <summary>
         ///     这个就是在一个事件当中，根据时间获取值的一个方法
         /// </summary>
@@ -37,6 +38,7 @@ namespace UtilityCode.GameUtility
                         @event.startValue; //用百分比*总时间再加上开始时间就是当前这个时间所代表的值了
             return res == 0 ? -.0001f : res; //返回这个值
         }
+
         private static float CalculatedPercentage(Event @event, float time)
         {
             float eventTimeDelta = @event.endTime - @event.startTime; //计算时间结束时间和开始时间的时间差
@@ -50,6 +52,7 @@ namespace UtilityCode.GameUtility
                 @event.curve.Evaluate(currentTime / eventTimeDelta); //用当前所经过的时间/时间差得到时间维度的百分比，然后用eva函数通过时间评估值
             return percentage;
         }
+
         private static float CalculatedPercentage(Data.ChartEdit.Event @event, float time)
         {
             float eventTimeDelta = @event.endBeats.ThisStartBPM - @event.startBeats.ThisStartBPM; //计算时间结束时间和开始时间的时间差
@@ -63,6 +66,7 @@ namespace UtilityCode.GameUtility
                 @event.Curve.thisCurve.Evaluate(currentTime / eventTimeDelta); //用当前所经过的时间/时间差得到时间维度的百分比，然后用eva函数通过时间评估值
             return percentage;
         }
+
         /// <summary>
         ///     计算速度曲线
         /// </summary>

@@ -244,11 +244,11 @@ namespace Scenes.Edit
 
                 LogCenter.Log($"成功选择{selectedBoxItems.Count}个{isNoteEdit switch { true => "音符", false => "事件" }}");
             }
-            
+
             Algorithm.BubbleSort(result,
-                (arg1,arg2) => arg1.GetStartBeats()>arg2.GetStartBeats() ? 1 : 0);
-            
-            
+                (arg1, arg2) => arg1.GetStartBeats() > arg2.GetStartBeats() ? 1 : 0);
+
+
             Debug.Log($@"已选择{selectedBoxItems.Count}个音符！");
             return result;
         }

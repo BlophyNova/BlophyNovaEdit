@@ -52,7 +52,7 @@ namespace Form.LabelWindow
             get
             {
                 Vector2 mousePosition = Mouse.current.position.value;
-                Vector2 mousePositionInWorldPosition = main.ScreenToWorldPoint(mousePosition);
+                Vector2 mousePositionInWorldPosition = main!.ScreenToWorldPoint(mousePosition);
                 Vector2 mousePositionInLocalPosition = transform.InverseTransformPoint(mousePositionInWorldPosition);
                 Vector2 result = mousePositionInLocalPosition + labelWindow.labelWindowRect.sizeDelta / 2;
                 return result;

@@ -38,7 +38,8 @@ namespace Form.EventEdit
                     return thisEventEdit;
                 }
 
-                foreach (var item in labelWindow.labels.Where(item => item.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit))
+                foreach (LabelItem item in labelWindow.labels.Where(item =>
+                             item.labelWindowContent.labelWindowContentType == LabelWindowContentType.EventEdit))
                 {
                     thisEventEdit = (EventEdit)item.labelWindowContent;
                 }

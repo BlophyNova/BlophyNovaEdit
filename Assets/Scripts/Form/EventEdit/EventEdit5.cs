@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Form.PropertyEdit;
-using Manager;
 using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 
@@ -12,7 +11,8 @@ namespace Form.EventEdit
         private void LabelWindow_onWindowMoved()
         {
             //eventLineRenderer.lineRendererTextureRect.anchoredPosition = labelWindow.labelWindowRect.anchoredPosition;
-            eventLineRenderer.lineRendererTextureRect.anchoredPosition = new(labelWindow.labelWindowRect.anchoredPosition.x, labelWindow.labelWindowRect.anchoredPosition.y-30);
+            eventLineRenderer.lineRendererTextureRect.anchoredPosition = new Vector2(
+                labelWindow.labelWindowRect.anchoredPosition.x, labelWindow.labelWindowRect.anchoredPosition.y - 30);
         }
 
         private void LabelWindow_onWindowGetFocus()
@@ -36,7 +36,8 @@ namespace Form.EventEdit
         private void UpdateEventEditItemLineRendererRectSize()
         {
             //eventLineRenderer.lineRendererTextureRect.sizeDelta = labelWindow.labelWindowRect.sizeDelta;
-            eventLineRenderer.lineRendererTextureRect.sizeDelta = new(labelWindow.labelWindowRect.sizeDelta.x, labelWindow.labelWindowRect.sizeDelta.y - 80);
+            eventLineRenderer.lineRendererTextureRect.sizeDelta = new Vector2(labelWindow.labelWindowRect.sizeDelta.x,
+                labelWindow.labelWindowRect.sizeDelta.y - 80);
         }
 
         public override void WindowSizeChanged()

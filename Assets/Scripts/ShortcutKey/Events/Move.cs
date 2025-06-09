@@ -1,9 +1,7 @@
 using Data.Enumerate;
 using Manager;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
+
 namespace ShortcutKey.Events
 {
     public class Move : ShortcutKeyEventBase
@@ -12,6 +10,7 @@ namespace ShortcutKey.Events
         {
             Init();
         }
+
         public override void Started(InputAction.CallbackContext callbackContext)
         {
             base.Started(callbackContext);
@@ -29,6 +28,7 @@ namespace ShortcutKey.Events
                     callbackContext);
             }
         }
+
         public override void Canceled(InputAction.CallbackContext callbackContext)
         {
             base.Canceled(callbackContext);

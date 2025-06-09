@@ -3,10 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
-using AssetsSync;
 using Cysharp.Threading.Tasks;
-using Data.ChartEdit;
 using Data.EaseData;
 using Data.Enumerate;
 using Form.EventEdit;
@@ -71,8 +68,24 @@ namespace Scenes.DontDestroyOnLoad
         public int ScreenHeight => Camera.main.pixelHeight;
 
         private void Start()
-        { 
+        {
             Init();
+        }
+
+        private void Update()
+        {
+            if (saveChartData)
+            {
+                saveChartData = false;
+                string chartDataContent = JsonConvert.SerializeObject(chartData);
+                File.WriteAllText(new Uri($"{Applicationm.streamingAssetsPath}/Chart.json").LocalPath, chartDataContent,
+                    Encoding.UTF8);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            Destroy(gameObject);
         }
 
         private async void Init()
@@ -100,7 +113,6 @@ namespace Scenes.DontDestroyOnLoad
                                 .LocalPath, Encoding.UTF8));
                     BPMManager.UpdateInfo(chartEditData.bpmList);
                 }
-
             }
 
             Disclaimer();
@@ -119,21 +131,6 @@ namespace Scenes.DontDestroyOnLoad
             }
         }
 
-        private void Update()
-        {
-            if (saveChartData)
-            {
-                saveChartData = false;
-                string chartDataContent = JsonConvert.SerializeObject(chartData);
-                File.WriteAllText(new Uri($"{Applicationm.streamingAssetsPath}/Chart.json").LocalPath, chartDataContent,Encoding.UTF8);
-            }
-        }
-
-        private void OnDestroy()
-        {
-            Destroy(gameObject);
-        }
-
         public event OnStartEdit onStartEdit = () => { };
 
         public void StartEdit()
@@ -150,7 +147,9 @@ namespace Scenes.DontDestroyOnLoad
 
             if (File.Exists($"{Applicationm.streamingAssetsPath}/Config/Disclaimer.txt"))
             {
-                if (bool.TryParse(File.ReadAllText(new Uri($"{Applicationm.streamingAssetsPath}/Config/Disclaimer.txt").LocalPath,Encoding.UTF8),
+                if (bool.TryParse(
+                        File.ReadAllText(new Uri($"{Applicationm.streamingAssetsPath}/Config/Disclaimer.txt").LocalPath,
+                            Encoding.UTF8),
                         out bool result) && !result)
                 {
                     ShowDisclaimer();
@@ -165,7 +164,8 @@ namespace Scenes.DontDestroyOnLoad
         private static void ShowDisclaimer()
         {
             Alert.EnableAlert("使用本软件制作谱面之前，请明确获得相关素材的作者授权，本软件以及开发者不为因使用未授权的相关素材或其他形式产生的版权问题负责。继续使用本软件代表您同意，否则关闭本软件。");
-            File.WriteAllText(new Uri($"{Applicationm.streamingAssetsPath}/Config/Disclaimer.txt").LocalPath, "True",Encoding.UTF8);
+            File.WriteAllText(new Uri($"{Applicationm.streamingAssetsPath}/Config/Disclaimer.txt").LocalPath, "True",
+                Encoding.UTF8);
         }
 
         public static void Refresh<T>(Action<T> action, List<Type> types, bool isBlackList = false)

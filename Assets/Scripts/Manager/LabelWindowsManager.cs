@@ -18,7 +18,11 @@ namespace Manager
 
         public void SetFocusWindow(LabelWindow window)
         {
-            if (currentFocusWindow == window) return;
+            if (currentFocusWindow == window)
+            {
+                return;
+            }
+
             SetAllWindowFocusAsFalse();
             Color.RGBToHSV(window.labelColor.color, out float H, out _, out float V);
             float S = 1;

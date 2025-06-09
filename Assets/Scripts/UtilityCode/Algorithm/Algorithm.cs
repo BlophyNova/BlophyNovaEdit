@@ -7,8 +7,9 @@ namespace UtilityCode.Algorithm
 {
     public class Algorithm
     {
-        public delegate bool Pre(Event obj, ref float currentTime);
         public delegate bool EditPre(Data.ChartEdit.Event obj, ref float currentTime);
+
+        public delegate bool Pre(Event obj, ref float currentTime);
 
         /// <summary>
         ///     二分查找算法
@@ -66,7 +67,9 @@ namespace UtilityCode.Algorithm
                 false => right
             }; //返回最终结果
         }
-        public static int BinarySearch(List<Data.ChartEdit.Event> list, EditPre match, bool isLeft, ref float currentTime)
+
+        public static int BinarySearch(List<Data.ChartEdit.Event> list, EditPre match, bool isLeft,
+            ref float currentTime)
         {
             int left = -1; //左初始化为-1
             int right = list.Count; //右初始化为数量
@@ -150,12 +153,12 @@ namespace UtilityCode.Algorithm
 
         public static void BubbleSort<T>(List<T> list, Comparison<T> match)
         {
-            for (int j = list.Count - 1; j > 0; j--)  //每排一次，剩下的无序数减一
+            for (int j = list.Count - 1; j > 0; j--) //每排一次，剩下的无序数减一
             {
-                for (int i = 0; i < j; i++)　　　　//一个for循环获得一个最大的数
+                for (int i = 0; i < j; i++) //一个for循环获得一个最大的数
                 {
                     //if (array[i] > array[i + 1])
-                    if (match(list[i],list[i+1])>0)　　//数值互换
+                    if (match(list[i], list[i + 1]) > 0) //数值互换
                     {
                         (list[i], list[i + 1]) = (list[i + 1], list[i]);
                     }

@@ -62,6 +62,7 @@ namespace Manager
                 bpmList[GetBPMListIndexWithSecondsTime(secondsTime)].ThisStartBPM;
             return result;
         }
+
         public BPM GetBeatsBySeconds(float seconds)
         {
             BPM bpm = new();
@@ -155,7 +156,7 @@ namespace Manager
         /// <returns></returns>
         public float GetSecondsTimeByBeats(float beats)
         {
-            int index= Algorithm.BinarySearch(bpmList, m => m.ThisStartBPM <= beats, true);
+            int index = Algorithm.BinarySearch(bpmList, m => m.ThisStartBPM <= beats, true);
 
             float secondsTime = (float)bpmList[index].lastBpmEndSeconds +
                                 (beats - bpmList[index].ThisStartBPM) / bpmList[index].perSecond;

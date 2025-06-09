@@ -87,6 +87,7 @@ namespace Form.EventEdit
             {
                 onIndexChanged(boxID);
             }
+
             lastBoxID = boxID < 0 ? lastBoxID : currentBoxID;
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
             List<EventEditItem> allSelectedEvents = new();

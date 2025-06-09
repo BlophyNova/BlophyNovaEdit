@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Data.ChartEdit;
 using Data.Interface;
@@ -20,10 +19,10 @@ namespace Form.NoteEdit
         public BeatLine beatLinePrefab; //节拍先的预制件
         public List<BeatLine> beatLines = new(); //节拍线游戏物体管理列表
         public BPM nextBPMWithAriseLine = new();
-        
+
         //没错，第二波优化我要上对象池了
         private ObjectPoolQueue<BeatLine> beatLineObjectPoolQueue;
-        
+
         public float AriseLineAndBasicLineSeconds => AriseLineAndBasicLinePositionYDelta / 100; //基准线和出现线之间是多少秒
 
         public float AriseLineAndBasicLinePositionYDelta =>
@@ -38,7 +37,7 @@ namespace Form.NoteEdit
 
         private void Start()
         {
-            beatLineObjectPoolQueue = new(beatLinePrefab,0,noteCanvas.transform);
+            beatLineObjectPoolQueue = new ObjectPoolQueue<BeatLine>(beatLinePrefab, 0, noteCanvas.transform);
         }
 
         private void Update()
@@ -63,7 +62,9 @@ namespace Form.NoteEdit
         public void Refresh()
         {
             nextBPMWithAriseLine =
-                new BPM((int)BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime), 0,
+                new BPM(
+                    (int)BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance
+                        .CurrentTime), 0,
                     1);
             //BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime)
             if (nextBPMWithAriseLine.ThisStartBPM < 0)
@@ -84,7 +85,8 @@ namespace Form.NoteEdit
             float ariseBeats = BPMManager.Instance.GetCurrentBeatsWithSecondsTime(
                 (float)(ProgressManager.Instance.CurrentTime +
                         AriseLineAndBasicLineSeconds * (1 / YScale.Instance.CurrentYScale)));
-            float currentBeats = BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime);
+            float currentBeats =
+                BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime);
             //int ariseBeatLineIndex = Algorithm.BinarySearch(BPMManager.Instance.bpmList, m => m.ThisStartBPM < ariseBeats, true);
             while (nextBPMWithAriseLine.ThisStartBPM < ariseBeats)
             {
@@ -94,7 +96,7 @@ namespace Form.NoteEdit
                 beatLines.Add(initBeatLine);
                 nextBPMWithAriseLine.AddOneBeat(GlobalData.Instance.chartEditData.beatSubdivision);
             }
-            
+
             for (int i = 0; i < beatLines.Count; i++)
             {
                 if (beatLines[i].thisBPM.ThisStartBPM < currentBeats || beatLines[i].thisBPM.ThisStartBPM > ariseBeats)

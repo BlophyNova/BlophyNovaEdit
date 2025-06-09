@@ -18,10 +18,6 @@ namespace Form.EventEdit
     //由于这个控件需要的功能太多，所以这里做个分类，此文件负责字段事件委托属性，以及Unity生命周期的方法和接口实现的方法
     public partial class EventEdit : LabelWindowContent, IInputEventCallback, ISelectBox, IRefreshEdit, IRefreshPlayer
     {
-
-        public delegate void OnIndexChanged(int currentIndex);
-
-        public event OnIndexChanged onIndexChanged= value => { };
         public delegate void OnEventsAdded(List<Event> events);
 
         public delegate void OnEventsAdded2UI(List<EventEditItem> eventEditItems);
@@ -29,6 +25,8 @@ namespace Form.EventEdit
         public delegate void OnEventsDeleted(List<Event> events);
 
         public delegate void OnEventsRefreshed(List<Event> events);
+
+        public delegate void OnIndexChanged(int currentIndex);
 
         public int lastBoxID;
         public int currentBoxID;
@@ -89,7 +87,7 @@ namespace Form.EventEdit
             Action action = callbackContext.action.name switch
             {
                 "SelectBox" => () => SelectBoxDown(),
-                "Move"=>()=>Move(true),
+                "Move" => () => Move(true),
                 _ => () => Debug.Log("欸···？怎么回事，怎么会找不到快捷键呢···")
             };
             action();
@@ -116,7 +114,7 @@ namespace Form.EventEdit
                 "Copy" => CopyEvent,
                 "Paste" => PasteEvent,
                 "Cut" => CutEvent,
-                "Move" => ()=>Move(false),
+                "Move" => () => Move(false),
                 "MoveUp" => MoveUp,
                 "MoveDown" => MoveDown,
                 _ => () => Alert.EnableAlert("欸···？怎么回事，怎么会找不到快捷键呢···")
@@ -147,6 +145,8 @@ namespace Form.EventEdit
 
             return res;
         }
+
+        public event OnIndexChanged onIndexChanged = value => { };
 
         public event OnEventsAdded onEventsAdded = events => { };
         public event OnEventsAdded2UI onEventsAdded2UI = eventEditItems => { };

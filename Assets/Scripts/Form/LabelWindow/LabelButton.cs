@@ -13,7 +13,11 @@ namespace Form.LabelWindow
 
         public void ThisLabelGetFocus()
         {
-            if (labelItem.labelWindow.currentLabelItem == labelItem) return;
+            if (labelItem.labelWindow.currentLabelItem == labelItem)
+            {
+                return;
+            }
+
             labelItem.labelWindow.currentLabelItem.LabelLostFocus();
             labelItem.labelWindow.currentLabelItem = labelItem;
             labelItem.labelWindow.currentLabelItem.LabelGetFocus();
