@@ -1,6 +1,5 @@
 ﻿20250519164417/ChartFile/Easy/Chart.json
 20250519164417/ChartFile/Easy/MetaData.json
-20250519164417/ChartFile/Hard/AutoSave.0
 20250519164417/ChartFile/Hard/Chart.json
 20250519164417/ChartFile/Hard/MetaData.json
 20250519164417/ChartFile/Normal/Chart.json
