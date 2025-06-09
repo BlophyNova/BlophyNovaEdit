@@ -73,7 +73,12 @@ namespace Data.ChartEdit
     [Serializable]
     public class ChartData
     {
-        public int chartVersion;
+        public int chartVersion;//谱面版本
+        public string chartID;//谱面身份标识符
+        /// <summary>
+        /// 谱面导出次数，每次导出后这个数值自增1
+        /// </summary>
+        public int exportTime;
         public float yScale;
         public int beatSubdivision; //节拍线细分(单位：份)
         public int verticalSubdivision; //垂直线细分(单位：份)

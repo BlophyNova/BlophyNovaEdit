@@ -8407,6 +8407,7 @@ GameObject:
   - component: {fileID: 1886952041}
   - component: {fileID: 1886952042}
   - component: {fileID: 1886952043}
+  - component: {fileID: 1886952044}
   m_Layer: 0
   m_Name: GlobalData
   m_TagString: Untagged
@@ -8474,6 +8475,8 @@ MonoBehaviour:
     texts: []
   chartEditData:
     chartVersion: 0
+    chartID: 
+    exportTime: 0
     yScale: 6
     beatSubdivision: 4
     verticalSubdivision: 10
@@ -8583,6 +8586,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4abbd4c7188fa6941b3229094e65d7d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1886952044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886952039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9045766d612a04cc09bc59ae8ddc6879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &1889507754 stripped

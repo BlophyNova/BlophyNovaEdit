@@ -76,6 +76,7 @@ namespace Scenes.Select
             chartData.loopPlayBack = true;
             chartData.musicLength = -1;
             chartData.chartVersion = 1;
+            chartData.chartID = TimeUtility.GetCurrentTime();
             chartData.bpmList = new List<BPM>
             {
                 new() { integer = 0, molecule = 0, denominator = 1, currentBPM = 60 }

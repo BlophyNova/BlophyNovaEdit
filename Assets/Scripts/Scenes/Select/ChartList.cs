@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Cysharp.Threading.Tasks;
 using Data.ChartData;
 using Hook;
 using Newtonsoft.Json;
 using Scenes.DontDestroyOnLoad;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UtilityCode.Singleton;
 
@@ -18,10 +20,11 @@ namespace Scenes.Select
         public ChartItem chartItemPrefab;
         public List<ChartItem> chartItems;
         public Image illustrationPreview;
-        public TMP_Text chartInfomation;
+        public TMP_Text chartInformation;
 
-        private void Start()
+        private async void Start()
         {
+            await UniTask.WaitUntil(()=> GlobalData.Instance.isInited);
             RefreshList();
         }
 
@@ -48,7 +51,7 @@ namespace Scenes.Select
                 newChartItem.musicName.text = newChartItem.metaData.musicName;
                 newChartItem.currentChartIndex = Path.GetFileName(chartPath);
                 newChartItem.illustrationPreview = illustrationPreview;
-                newChartItem.chartInfomation = chartInfomation;
+                newChartItem.chartInfomation = chartInformation;
                 chartItems.Add(newChartItem);
             }
         }

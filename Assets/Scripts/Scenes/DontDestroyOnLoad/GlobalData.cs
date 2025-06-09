@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
+using AssetsSync;
+using Cysharp.Threading.Tasks;
 using Data.ChartEdit;
 using Data.EaseData;
 using Data.Enumerate;
@@ -62,15 +65,24 @@ namespace Scenes.DontDestroyOnLoad
         public bool isNewEditData;
 
         public bool saveChartData;
+        public bool isInited;
         public List<Action> loopCallBacks = new();
         public int ScreenWidth => Camera.main.pixelWidth;
         public int ScreenHeight => Camera.main.pixelHeight;
 
-        private IEnumerator Start()
+        private void Start()
+        { 
+            Init();
+        }
+
+        private async void Init()
         {
+            await Applicationm.Init(Applicationm.streamingAssetsPath);
+            QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 9999;
             easeDatas = JsonConvert.DeserializeObject<List<EaseData>>(
-                File.ReadAllText(new Uri($"{Applicationm.streamingAssetsPath}/Config/EaseDatas.json").LocalPath ,Encoding.UTF8));
+                File.ReadAllText(new Uri($"{Applicationm.streamingAssetsPath}/Config/EaseDatas.json").LocalPath,
+                    Encoding.UTF8));
             if (isNewEditData)
             {
                 ChartTool.CreateNewChart(chartEditData, easeDatas);
@@ -83,16 +95,19 @@ namespace Scenes.DontDestroyOnLoad
                 {
                     chartEditData = JsonConvert.DeserializeObject<Data.ChartEdit.ChartData>(
                         File.ReadAllText(
-                            new Uri($"{Applicationm.streamingAssetsPath}/{currentChartIndex}/ChartFile/{currentHard}/Chart.json").LocalPath,Encoding.UTF8));
+                            new Uri(
+                                    $"{Applicationm.streamingAssetsPath}/{currentChartIndex}/ChartFile/{currentHard}/Chart.json")
+                                .LocalPath, Encoding.UTF8));
                     BPMManager.UpdateInfo(chartEditData.bpmList);
                 }
 
             }
 
             Disclaimer();
+            isInited = true;
             while (true)
             {
-                yield return new WaitForSeconds(.1f);
+                await UniTask.WaitForSeconds(.1f);
                 if (loopCallBacks.Count <= 0)
                 {
                     continue;

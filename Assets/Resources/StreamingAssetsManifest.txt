@@ -1,0 +1,15 @@
+﻿20250519164417/ChartFile/Easy/Chart.json
+20250519164417/ChartFile/Easy/MetaData.json
+20250519164417/ChartFile/Hard/AutoSave.0
+20250519164417/ChartFile/Hard/Chart.json
+20250519164417/ChartFile/Hard/MetaData.json
+20250519164417/ChartFile/Normal/Chart.json
+20250519164417/ChartFile/Normal/MetaData.json
+20250519164417/ChartFile/Special/Chart.json
+20250519164417/ChartFile/Special/MetaData.json
+20250519164417/ChartFile/Ultra/Chart.json
+20250519164417/ChartFile/Ultra/MetaData.json
+20250519164417/Illustration/Background.jpg
+20250519164417/Music/Music.ogg
+Config/EaseDatas.json
+Config/ShortcutKeyConfig.HuaWaterED
