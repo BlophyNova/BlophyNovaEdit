@@ -29,7 +29,11 @@ namespace Scenes.Select
                     image.color = Color.white;
                     image.type = Image.Type.Simple;
                     image.preserveAspect = true;
-                }, () => { }, PickMode.Files);
+                }, () => { }, PickMode.Files
+#if PLATFORM_ANDROID
+                ,initialPath:"/storage/emulated/0"
+#endif
+                    );
             });
         }
 
