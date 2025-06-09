@@ -103,10 +103,6 @@ namespace Proxima
             set => _instantiateConnectUI = value;
         }
 
-        // Adds the gameObject with the Proxima Inspector to the DontDestroyOnLoad scene,
-        // which keeps connections alive when transitioning between scenes.
-        [SerializeField]
-        private bool _dontDestroyOnLoad = true;
 
         // When Proxima starts, sets Application.runInBackground to true. When Proxima stops,
         // sets Application.runInBackground back to its previous value. This allows Proxima
@@ -199,11 +195,6 @@ namespace Proxima
 
         void OnEnable()
         {
-            if (_dontDestroyOnLoad)
-            {
-                DontDestroyOnLoad(gameObject);
-            }
-
             if (_runOnEnable)
             {
                 Run();

@@ -15,6 +15,17 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <category android:name="android.intent.category.BROWSABLE"></category>
+                <category android:name="android.intent.category.OPENABLE"></category>
+                <data android:scheme="file"></data>
+                <data android:scheme="content"></data>
+                <data android:mimeType="*/*"></data>
+                <data android:pathPattern=".*"></data>
+                <data android:host="*"></data>
+            </intent-filter>
             <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
         </activity>
     </application>

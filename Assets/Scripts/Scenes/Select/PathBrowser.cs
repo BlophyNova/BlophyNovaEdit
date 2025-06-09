@@ -30,7 +30,7 @@ namespace Scenes.Select
                     image.type = Image.Type.Simple;
                     image.preserveAspect = true;
                 }, () => { }, PickMode.Files
-#if PLATFORM_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
                 ,initialPath:"/storage/emulated/0"
 #endif
                     );
