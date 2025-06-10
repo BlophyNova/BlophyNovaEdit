@@ -10,6 +10,11 @@ namespace NativeCode.MacOS
         void Start()
         {
             Debug.Log("MacOS:FileOpener.Start()");
+            if(Application.platform != RuntimePlatform.OSXPlayer)
+            {
+                return;
+            }
+
             string[] args = Environment.GetCommandLineArgs();
             foreach (string arg in args)
             {
