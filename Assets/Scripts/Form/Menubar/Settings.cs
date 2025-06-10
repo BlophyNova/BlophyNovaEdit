@@ -5,6 +5,7 @@ namespace Form.Menubar
 {
     public class Settings : PublicButton
     {
+        public Scenes.Edit.Settings.Settings settingsPrefab;
         // Start is called before the first frame update
         void Start()
         {

@@ -158,6 +158,11 @@ namespace Scenes.Select
             Directory.CreateDirectory($"{ChartFilePath}/Hard");
             Directory.CreateDirectory($"{ChartFilePath}/Ultra");
             Directory.CreateDirectory($"{ChartFilePath}/Special");
+            Directory.CreateDirectory($"{ChartFilePath}/Easy/AutoSave");
+            Directory.CreateDirectory($"{ChartFilePath}/Normal/AutoSave");
+            Directory.CreateDirectory($"{ChartFilePath}/Hard/AutoSave");
+            Directory.CreateDirectory($"{ChartFilePath}/Ultra/AutoSave");
+            Directory.CreateDirectory($"{ChartFilePath}/Special/AutoSave");
             Directory.CreateDirectory($"{MusicFilePath}");
             Directory.CreateDirectory($"{IllustrationFilePath}");
         }

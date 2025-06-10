@@ -1,40 +1,59 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Hook;
 using Newtonsoft.Json;
-using Scenes.DontDestroyOnLoad;
+using Unity.VisualScripting;
 using UnityEngine;
 using UtilityCode.Singleton;
 
-public class AutoSave : MonoBehaviourSingleton<AutoSave>
+namespace Scenes.DontDestroyOnLoad
 {
-    private void Start()
+    public class AutoSave : MonoBehaviourSingleton<AutoSave>
     {
-        if (Application.platform == RuntimePlatform.WindowsEditor)
+        private void Start()
         {
-            return;
+            //if (Application.isEditor)
+            //{
+                //return;
+                //StartCoroutine(StartAutoSave());
+            //}
+
+            GlobalData.Instance.onStartEdit += () => StartCoroutine(StartAutoSave());
         }
 
-        GlobalData.Instance.onStartEdit += () => StartCoroutine(StartAutoSave());
-    }
-
-    private IEnumerator StartAutoSave()
-    {
-        int saveCount = 0;
-        while (true)
+        private IEnumerator StartAutoSave()
         {
-            yield return new WaitForSeconds(600);
-            string saveData = JsonConvert.SerializeObject(GlobalData.Instance.chartEditData);
-            File.WriteAllText(
-                new Uri(
-                        $"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/AutoSave.{saveCount++}")
-                    .LocalPath,
-                saveData, Encoding.UTF8);
-            if (saveCount >= 10)
+            while (true)
             {
-                saveCount = 0;
+                yield return new WaitForSeconds(600);
+                string saveData = JsonConvert.SerializeObject(GlobalData.Instance.chartEditData);
+                File.WriteAllText(
+                    new Uri(
+                            $"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/AutoSave/{TimeUtility.GetCurrentTime()}.json")
+                        .LocalPath,
+                    saveData, Encoding.UTF8);
+                List<string> autoSaves= 
+                    Directory.GetFiles(new Uri(
+                        $"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/AutoSave").LocalPath)
+                        .Where(t => t.EndsWith(".json"))
+                        .Select(Path.GetFullPath)
+                        //.Select(int.Parse)
+                        .ToList();
+                for (int i = 0; i < 10; i++)
+                {
+                    if(autoSaves.Count<=0)break;
+                    autoSaves.RemoveAt(autoSaves.Count-1);
+                }
+
+                foreach (string autoSave in autoSaves)
+                {
+                    Debug.Log(autoSave);
+                    File.Delete(new Uri(autoSave).LocalPath);
+                }
             }
         }
     }
