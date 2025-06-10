@@ -1,9 +1,8 @@
 using UnityEngine;
-using UtilityCode.Singleton;
 
-namespace Scenes.Edit.Settings
+namespace Scenes.Edit.Settings.Content
 {
-    public class Settings : MonoBehaviourSingleton<Settings>
+    public class RestoreFromAutosave : MonoBehaviour
     {
         // Start is called before the first frame update
         void Start()

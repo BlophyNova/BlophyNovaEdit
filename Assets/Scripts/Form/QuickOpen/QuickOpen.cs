@@ -1,7 +1,7 @@
 using Form.LabelWindow;
 using UnityEngine.UI;
 
-namespace Form.PropertyEdit
+namespace Form.QuickOpen
 {
     public class QuickOpen : LabelWindowContent
     {

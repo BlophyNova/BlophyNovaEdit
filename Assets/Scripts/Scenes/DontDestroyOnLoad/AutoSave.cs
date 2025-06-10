@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Unity.VisualScripting;
 using UnityEngine;
 using UtilityCode.Singleton;
+using UtilityCode.TimeUtility;
 
 namespace Scenes.DontDestroyOnLoad
 {

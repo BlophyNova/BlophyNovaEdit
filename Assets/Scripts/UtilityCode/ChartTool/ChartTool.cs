@@ -52,57 +52,57 @@ namespace UtilityCode.ChartTool
                     rotate = new List<Data.ChartEdit.Event>(),
                     speed = new List<Data.ChartEdit.Event>()
                 },
-                id = TimeUtility.GetCurrentTime()
+                id = TimeUtility.TimeUtility.GetCurrentTime()
             };
             chartEditBox.boxEvents.scaleX.Add(new Data.ChartEdit.Event
             {
                 startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 2.7f, endValue = 2.7f,
-                disallowDelete = true, disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+                disallowDelete = true, disallowMove = true, isSyncEvent = true, id = TimeUtility.TimeUtility.GetCurrentTime()
             });
             chartEditBox.boxEvents.scaleY.Add(new Data.ChartEdit.Event
             {
                 startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 2.7f, endValue = 2.7f,
-                disallowDelete = true, disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+                disallowDelete = true, disallowMove = true, isSyncEvent = true, id = TimeUtility.TimeUtility.GetCurrentTime()
             });
             chartEditBox.boxEvents.moveX.Add(new Data.ChartEdit.Event
             {
                 startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true,
-                disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+                disallowMove = true, isSyncEvent = true, id = TimeUtility.TimeUtility.GetCurrentTime()
             });
             chartEditBox.boxEvents.moveY.Add(new Data.ChartEdit.Event
             {
                 startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true,
-                disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+                disallowMove = true, isSyncEvent = true, id = TimeUtility.TimeUtility.GetCurrentTime()
             });
             chartEditBox.boxEvents.centerX.Add(new Data.ChartEdit.Event
             {
                 startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = .5f, endValue = .5f,
-                disallowDelete = true, disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+                disallowDelete = true, disallowMove = true, isSyncEvent = true, id = TimeUtility.TimeUtility.GetCurrentTime()
             });
             chartEditBox.boxEvents.centerY.Add(new Data.ChartEdit.Event
             {
                 startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = .5f, endValue = .5f,
-                disallowDelete = true, disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+                disallowDelete = true, disallowMove = true, isSyncEvent = true, id = TimeUtility.TimeUtility.GetCurrentTime()
             });
             chartEditBox.boxEvents.alpha.Add(new Data.ChartEdit.Event
             {
                 startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 1, endValue = 1, disallowDelete = true,
-                disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+                disallowMove = true, isSyncEvent = true, id = TimeUtility.TimeUtility.GetCurrentTime()
             });
             chartEditBox.boxEvents.lineAlpha.Add(new Data.ChartEdit.Event
             {
                 startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true,
-                disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+                disallowMove = true, isSyncEvent = true, id = TimeUtility.TimeUtility.GetCurrentTime()
             });
             chartEditBox.boxEvents.rotate.Add(new Data.ChartEdit.Event
             {
                 startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 0, endValue = 0, disallowDelete = true,
-                disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+                disallowMove = true, isSyncEvent = true, id = TimeUtility.TimeUtility.GetCurrentTime()
             });
             chartEditBox.boxEvents.speed.Add(new Data.ChartEdit.Event
             {
                 startBeats = BPM.Zero, endBeats = new BPM(1, 0, 1), startValue = 3, endValue = 3, disallowDelete = true,
-                disallowMove = true, isSyncEvent = true, id = TimeUtility.GetCurrentTime()
+                disallowMove = true, isSyncEvent = true, id = TimeUtility.TimeUtility.GetCurrentTime()
             });
             for (int i = 0; i < chartEditBox.lines.Count; i++)
             {

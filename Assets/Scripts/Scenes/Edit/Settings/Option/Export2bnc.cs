@@ -1,9 +1,9 @@
+using Scenes.PublicScripts;
 using UnityEngine;
-using UtilityCode.Singleton;
 
-namespace Scenes.Edit.Settings
+namespace Scenes.Edit.Settings.Option
 {
-    public class Settings : MonoBehaviourSingleton<Settings>
+    public class Export2bnc : PublicButton
     {
         // Start is called before the first frame update
         void Start()

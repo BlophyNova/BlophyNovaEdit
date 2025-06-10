@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UtilityCode.Extension;
 using UtilityCode.Singleton;
 
-namespace CustomSystem
+namespace CustomSystem.Steps
 {
     public class Steps : MonoBehaviourSingleton<Steps>
     {

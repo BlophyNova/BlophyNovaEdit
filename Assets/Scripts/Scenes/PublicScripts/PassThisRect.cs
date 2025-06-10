@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class PassThisRect : MonoBehaviour, ICanvasRaycastFilter
+namespace Scenes.PublicScripts
 {
-    public bool IsPass;
-
-    public bool IsRaycastLocationValid(Vector2 sp, Camera eventCamera)
+    public class PassThisRect : MonoBehaviour, ICanvasRaycastFilter
     {
-        return IsPass;
+        public bool IsPass;
+
+        public bool IsRaycastLocationValid(Vector2 sp, Camera eventCamera)
+        {
+            return IsPass;
+        }
     }
 }

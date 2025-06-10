@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Data.ChartData;
 using Manager;
+using Scenes.PublicScripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;

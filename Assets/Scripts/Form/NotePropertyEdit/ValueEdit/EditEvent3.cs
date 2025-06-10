@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CustomSystem;
+using CustomSystem.Steps;
 using Data.ChartEdit;
 using Data.Interface;
 using NCalc;
