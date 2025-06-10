@@ -10762,10 +10762,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3301443550869356610, guid: 5a1e1bd157192664fb8614689fb653bf, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3301443550869356610, guid: 5a1e1bd157192664fb8614689fb653bf, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
       objectReference: {fileID: 0}
@@ -10840,10 +10836,6 @@ PrefabInstance:
     - target: {fileID: 3301443550869356621, guid: 5a1e1bd157192664fb8614689fb653bf, type: 3}
       propertyPath: m_Name
       value: Menubar
-      objectReference: {fileID: 0}
-    - target: {fileID: 3301443550869356621, guid: 5a1e1bd157192664fb8614689fb653bf, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4915884115669873026, guid: 5a1e1bd157192664fb8614689fb653bf, type: 3}
       propertyPath: m_AnchorMax.y

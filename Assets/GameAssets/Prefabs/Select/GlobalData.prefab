@@ -537,7 +537,7 @@ MonoBehaviour:
   currentCp: {fileID: 0}
   currentCph: {fileID: 0}
   isAutoplay: 1
-  currentChartIndex: 
+  currentChartIndex: 20250519164417
   alert: {fileID: 2499663701850979086, guid: 9093c4fef1f2e6f44acb97b1f220d24c, type: 3}
   labelWindowContents:
   - {fileID: 1081773229714239820, guid: 39a795e7198ecc34ba69bf229b450612, type: 3}
@@ -698,7 +698,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3868953410871796303
 Transform:
   m_ObjectHideFlags: 0
