@@ -451,6 +451,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisButton: {fileID: 168083076263635691}
+  option: {fileID: 1611035325133815048}
+  otherOptions:
+  - {fileID: 1841346856783399630}
+  - {fileID: 7963491719070709707}
+  - {fileID: 9063330790809615903}
+  - {fileID: 7971498095825064960}
+  - {fileID: 9037930485468754313}
 --- !u!1 &977405766253882523
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,6 +593,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisButton: {fileID: 6295486807343285125}
+  option: {fileID: 9063330790809615903}
+  otherOptions:
+  - {fileID: 1841346856783399630}
+  - {fileID: 7963491719070709707}
+  - {fileID: 1611035325133815048}
+  - {fileID: 7971498095825064960}
+  - {fileID: 9037930485468754313}
 --- !u!1 &1003654801082683896
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,6 +735,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisButton: {fileID: 6223999657173967599}
+  option: {fileID: 1841346856783399630}
+  otherOptions:
+  - {fileID: 7963491719070709707}
+  - {fileID: 9063330790809615903}
+  - {fileID: 1611035325133815048}
+  - {fileID: 7971498095825064960}
+  - {fileID: 9037930485468754313}
 --- !u!1 &1763313066403889300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1373,7 +1394,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisButton: {fileID: 5517388973966963588}
-  settingsCanvas: {fileID: 1516997872358116320}
 --- !u!1 &4084983438872436115
 GameObject:
   m_ObjectHideFlags: 0
@@ -1825,6 +1845,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisButton: {fileID: 71148301670401948}
+  option: {fileID: 9037930485468754313}
+  otherOptions:
+  - {fileID: 1841346856783399630}
+  - {fileID: 7963491719070709707}
+  - {fileID: 9063330790809615903}
+  - {fileID: 1611035325133815048}
+  - {fileID: 7971498095825064960}
 --- !u!1 &4482669896891390952
 GameObject:
   m_ObjectHideFlags: 0
@@ -1960,6 +1987,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisButton: {fileID: 32857344897614698}
+  option: {fileID: 7963491719070709707}
+  otherOptions:
+  - {fileID: 1841346856783399630}
+  - {fileID: 9063330790809615903}
+  - {fileID: 1611035325133815048}
+  - {fileID: 7971498095825064960}
+  - {fileID: 9037930485468754313}
 --- !u!1 &4601581539311165027
 GameObject:
   m_ObjectHideFlags: 0
@@ -2243,6 +2277,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisButton: {fileID: 6823965288074414566}
+  option: {fileID: 7971498095825064960}
+  otherOptions:
+  - {fileID: 1841346856783399630}
+  - {fileID: 7963491719070709707}
+  - {fileID: 9063330790809615903}
+  - {fileID: 1611035325133815048}
+  - {fileID: 9037930485468754313}
 --- !u!1 &5761324578402094445
 GameObject:
   m_ObjectHideFlags: 0
