@@ -1,3 +1,5 @@
+using Data.Enumerate;
+using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,6 +13,7 @@ namespace Scenes.Edit.Settings.Option
         {
             thisButton.onClick.AddListener(() =>
             {
+                GlobalData.Instance.currentHard = Hard.Hard;
                 SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
             });
         }

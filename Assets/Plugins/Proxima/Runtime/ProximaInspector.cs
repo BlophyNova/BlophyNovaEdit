@@ -312,10 +312,11 @@ namespace Proxima
                     e = e.InnerException;
                 }
 
-                Log.Exception(e);
+                //Log.Exception(e);
                 Status.SetError(e.Message);
                 Status.SetRunning(false);
                 Cleanup();
+                Destroy(gameObject);
             }
         }
 
