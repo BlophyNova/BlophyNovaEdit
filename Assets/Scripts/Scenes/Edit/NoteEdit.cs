@@ -56,8 +56,6 @@ namespace Scenes.Edit
         {
             thisNoteData.isSelected = active;
             isSelectedRect.gameObject.SetActive(active);
-            LogCenter.Log(
-                $@"{ThisNoteEdit.currentBoxID}号框的{ThisNoteEdit.currentLineID}号线的{thisNoteData.HitBeats.integer}:{thisNoteData.HitBeats.molecule}/{thisNoteData.HitBeats.denominator}的选择状态被改为：{isSelectedRect.gameObject.activeSelf}");
         }
 
         public float GetStartBeats()

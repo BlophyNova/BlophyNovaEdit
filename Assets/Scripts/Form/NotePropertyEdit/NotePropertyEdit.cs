@@ -17,7 +17,7 @@ namespace Form.NotePropertyEdit
         {
             get
             {
-                labelItem.labelButton.ThisLabelGetFocus();
+                //labelItem.labelButton.ThisLabelGetFocus();
                 return editNote;
             }
             private set => editNote = value;
@@ -27,12 +27,21 @@ namespace Form.NotePropertyEdit
         {
             get
             {
-                labelItem.labelButton.ThisLabelGetFocus();
+                //labelItem.labelButton.ThisLabelGetFocus();
                 return editEvent;
             }
             private set => editEvent = value;
         }
-
+        public EditEvent GetEditEventWithGetFocus()
+        {
+            labelItem.labelButton.ThisLabelGetFocus();
+            return editEvent;
+        }
+        public EditNote GetEditNoteWithGetFocus()
+        {
+            labelItem.labelButton.ThisLabelGetFocus();
+            return editNote;
+        }
         private void Start()
         {
             UnsetAll();

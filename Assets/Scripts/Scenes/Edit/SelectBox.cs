@@ -172,11 +172,13 @@ namespace Scenes.Edit
 
             if (selectBoxItem.IsNoteEdit)
             {
-                NotePropertyEdit.EditNote.Set(new List<ISelectBoxItem> { selectBoxItem });
+                //NotePropertyEdit.EditNote.Set(new List<ISelectBoxItem> { selectBoxItem });
+                NotePropertyEdit.GetEditNoteWithGetFocus().Set(new List<ISelectBoxItem> { selectBoxItem });
             }
             else
             {
-                NotePropertyEdit.EditEvent.Set(new List<ISelectBoxItem> { selectBoxItem });
+                //NotePropertyEdit.EditEvent.Set(new List<ISelectBoxItem> { selectBoxItem });
+                NotePropertyEdit.GetEditEventWithGetFocus().Set(new List<ISelectBoxItem> { selectBoxItem });
             }
         }
 
@@ -195,6 +197,7 @@ namespace Scenes.Edit
         private void EndHandle()
         {
             selectBoxTexture.color = disableSelectBoxTextureColor;
+            NotePropertyEdit.labelItem.labelButton.ThisLabelGetFocus();
             SetMutliNote(NewSelectedBoxItems());
         }
 
@@ -203,10 +206,12 @@ namespace Scenes.Edit
             if (isNoteEdit)
             {
                 NotePropertyEdit.EditNote.Set(selectedBoxItems);
+                //NotePropertyEdit.GetEditNoteWithGetFocus().Set(selectedBoxItems);
             }
             else
             {
                 NotePropertyEdit.EditEvent.Set(selectedBoxItems);
+                //NotePropertyEdit.GetEditEventWithGetFocus().Set(selectedBoxItems);
             }
         }
 

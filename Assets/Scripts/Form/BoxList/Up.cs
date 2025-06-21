@@ -36,8 +36,9 @@ namespace Form.BoxList
         {
             //GlobalData.Refresh<IRefreshUI>(m=>m.RefreshUI(),new List<Type>{typeof(BoxList)});
             //GlobalData.Refresh<IRefreshPlayer>(m=>m.RefreshPlayer(-1,-1),null);
-            
-            GlobalData.Refresh<IRefreshEdit>(m=>m.RefreshEdit(-1,-1),new List<Type>{typeof(NoteEdit.NoteEdit),typeof(EventEdit.EventEdit)});
+
+            GlobalData.Refresh<IRefreshEdit>(m => m.RefreshEdit(-1, -1), new List<Type> { typeof(NoteEdit.NoteEdit), typeof(EventEdit.EventEdit) });
+            GlobalData.Refresh<IRefreshUI>(m => m.RefreshUI(), new List<Type> { typeof(BoxList) });
             GameController.Instance.RefreshChartPreview();
         }
     }
