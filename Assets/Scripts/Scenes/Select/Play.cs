@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Text;
-using Data.ChartEdit;
+using Data.ChartData;
 using Hook;
 using Manager;
 using Newtonsoft.Json;
@@ -10,6 +10,7 @@ using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using ChartData = Data.ChartEdit.ChartData;
 
 namespace Scenes.Select
 {
@@ -32,6 +33,8 @@ namespace Scenes.Select
                     new Uri(
                             $"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/Chart.json")
                         .LocalPath, Encoding.UTF8));
+
+            GlobalData.Instance.metaData = JsonConvert.DeserializeObject<MetaData>(File.ReadAllText(new Uri($"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/MetaData.json").LocalPath,Encoding.UTF8));
 
             BPMManager.UpdateInfo(GlobalData.Instance.chartEditData.bpmList);
             SceneManager.LoadSceneAsync(1, LoadSceneMode.Single).completed += Play_completed;

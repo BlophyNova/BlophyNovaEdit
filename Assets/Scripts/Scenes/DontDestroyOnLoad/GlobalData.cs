@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Cysharp.Threading.Tasks;
+using Data.ChartData;
 using Data.EaseData;
 using Data.Enumerate;
 using Form.EventEdit;
@@ -30,6 +31,7 @@ namespace Scenes.DontDestroyOnLoad
 
         public Hard currentHard;
         public ChartData chartData;
+        public MetaData metaData;
         public Data.ChartEdit.ChartData chartEditData;
         public AudioClip clip;
 

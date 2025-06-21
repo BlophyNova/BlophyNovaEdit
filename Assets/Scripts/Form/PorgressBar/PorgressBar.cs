@@ -26,7 +26,7 @@ namespace Form.PorgressBar
         {
             progressBar.onValueChanged.AddListener(theValue =>
             {
-                float result = GlobalData.Instance.chartData.metaData.musicLength * theValue;
+                float result = GlobalData.Instance.metaData.musicLength * theValue;
                 ProgressManager.Instance.SetTime(result);
 
                 GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),
@@ -37,13 +37,13 @@ namespace Form.PorgressBar
 
         private void Update()
         {
-            if (GlobalData.Instance.chartData.metaData.musicLength <= 1)
+            if (GlobalData.Instance.metaData.musicLength <= 1)
             {
                 return;
             }
 
             float currentProgress = (float)ProgressManager.Instance.CurrentTime /
-                                    GlobalData.Instance.chartData.metaData.musicLength;
+                                    GlobalData.Instance.metaData.musicLength;
             progressBar.SetValueWithoutNotify(currentProgress);
             if (currentProgress >= .9999f)
             {
@@ -57,9 +57,9 @@ namespace Form.PorgressBar
             progressInfomation.text = $"\t{(int)(ProgressManager.Instance.CurrentTime / 60):D2}:" +
                                       $"{(int)(ProgressManager.Instance.CurrentTime - (int)(ProgressManager.Instance.CurrentTime / 60) * 60):D2}:" +
                                       $"{(int)((ProgressManager.Instance.CurrentTime - (int)ProgressManager.Instance.CurrentTime) * 1000):D3} \t/\t " +
-                                      $"{(int)(GlobalData.Instance.chartData.metaData.musicLength / 60):D2}:" +
-                                      $"{(int)(GlobalData.Instance.chartData.metaData.musicLength - (int)(GlobalData.Instance.chartData.metaData.musicLength / 60) * 60):D2}:" +
-                                      $"{(int)((GlobalData.Instance.chartData.metaData.musicLength - (int)GlobalData.Instance.chartData.metaData.musicLength) * 1000):D3}\t当前BPM：" +
+                                      $"{(int)(GlobalData.Instance.metaData.musicLength / 60):D2}:" +
+                                      $"{(int)(GlobalData.Instance.metaData.musicLength - (int)(GlobalData.Instance.metaData.musicLength / 60) * 60):D2}:" +
+                                      $"{(int)((GlobalData.Instance.metaData.musicLength - (int)GlobalData.Instance.metaData.musicLength) * 1000):D3}\t当前BPM：" +
                                       $"{BPMManager.Instance.thisCurrentTotalBPM}\t当前Beats：" +
                                       $"{BPMManager.Instance.GetCurrentBeatsWithSecondsTime((float)ProgressManager.Instance.CurrentTime):F3}\t";
         }

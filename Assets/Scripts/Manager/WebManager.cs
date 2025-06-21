@@ -52,7 +52,7 @@ namespace Manager
 
         public void LoadChartData()
         {
-            ChartData.metaData.musicLength = GlobalData.Instance.chartEditData.musicLength <= 1
+            GlobalData.Instance.metaData.musicLength = GlobalData.Instance.chartEditData.musicLength <= 1
                 ? MusicClip.length + GlobalData.Instance.chartEditData.offset
                 : GlobalData.Instance.chartEditData.musicLength;
             GlobalData.Instance.chartData.boxes =

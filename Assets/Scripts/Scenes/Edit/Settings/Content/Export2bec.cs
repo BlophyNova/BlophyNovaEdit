@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
+using Data.ChartData;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -55,20 +56,35 @@ namespace Scenes.Edit.Settings.Content
             byte[] musicBinary = File.ReadAllBytes(musicFullPath);
             byte[] illustrationBinary = File.ReadAllBytes(illustrationFullPath);
 
-
-            Hard hard = Hard.Easy;
-            string chartFullPath= new Uri($"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{hard}/Chart.json").LocalPath;
-            string metaDataFullPath = new Uri($"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{hard}/MetaData.json").LocalPath;
-            Data.ChartEdit.ChartData editData = JsonConvert.DeserializeObject<Data.ChartEdit.ChartData>(File.ReadAllText(chartFullPath,Encoding.UTF8));
-            Data.ChartData.MetaData metaData= JsonConvert.DeserializeObject<Data.ChartData.MetaData>(File.ReadAllText(metaDataFullPath, Encoding.UTF8));
+            GetChartData(Hard.Easy,out Data.ChartEdit.ChartData easyChartEdit, out ChartData easyChartData, out MetaData easyMetaData);
+            GetChartData(Hard.Normal,out Data.ChartEdit.ChartData normalChartEdit, out ChartData normalChartData, out MetaData normalMetaData);
+            GetChartData(Hard.Hard,out Data.ChartEdit.ChartData hardChartEdit, out ChartData hardChartData, out MetaData hardMetaData);
+            GetChartData(Hard.Ultra,out Data.ChartEdit.ChartData ultraChartEdit, out ChartData ultraChartData, out MetaData ultraMetaData);
+            GetChartData(Hard.Special,out Data.ChartEdit.ChartData specialChartEdit, out ChartData specialChartData, out MetaData specialMetaData);
 
             Dictionary<string, byte[]> filesToZip = new()
             {
                 [$"Illustration/Background{Path.GetExtension(illustrationFullPath)}"] = illustrationBinary,
                 [$"Music/Music{Path.GetExtension(musicFullPath)}"] = musicBinary,
-                ["d/document.txt"] = Encoding.UTF8.GetBytes("这是文本文档的内容"),
-                ["data.csv"] = Encoding.UTF8.GetBytes("ID,Name\n1,张三\n2,李四"),
-                ["image.png"] = new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A } // PNG 文件头
+                ["ChartFile/Intuition/ChartEdit.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(easyChartEdit)),
+                ["ChartFile/Intuition/Chart.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(easyChartData)),
+                ["ChartFile/Intuition/MetaData.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(easyMetaData)),
+                
+                ["ChartFile/Anatomy/ChartEdit.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(normalChartEdit)),
+                ["ChartFile/Anatomy/Chart.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(normalChartData)),
+                ["ChartFile/Anatomy/MetaData.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(normalMetaData)),
+                
+                ["ChartFile/Reason/ChartEdit.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(hardChartEdit)),
+                ["ChartFile/Reason/Chart.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(hardChartData)),
+                ["ChartFile/Reason/MetaData.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(hardMetaData)),
+                
+                ["ChartFile/Schizoid/ChartEdit.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ultraChartEdit)),
+                ["ChartFile/Schizoid/Chart.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ultraChartData)),
+                ["ChartFile/Schizoid/MetaData.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(ultraMetaData)),
+                
+                ["ChartFile/Special/ChartEdit.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(specialChartEdit)),
+                ["ChartFile/Special/Chart.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(specialChartData)),
+                ["ChartFile/Special/MetaData.json"] = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(specialMetaData)),
             };
             byte[] zipFileBinary = CreateZip(filesToZip);
             File.WriteAllBytes(savePath, zipFileBinary);
@@ -79,6 +95,113 @@ namespace Scenes.Edit.Settings.Content
             pathBrowser.interactable = true;
             export.interactable = true;
         }
+
+        private static void GetChartData(Hard hard, out Data.ChartEdit.ChartData chartEdit, out ChartData chartData,
+            out MetaData metaData)
+        {
+            string chartFullPath =
+                new Uri(
+                        $"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{hard}/Chart.json")
+                    .LocalPath;
+            string metaDataFullPath =
+                new Uri(
+                        $"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{hard}/MetaData.json")
+                    .LocalPath;
+            chartEdit = JsonConvert.DeserializeObject<Data.ChartEdit.ChartData>(File.ReadAllText(chartFullPath,
+                Encoding.UTF8));
+            chartData = new()
+            {
+                boxes = ChartTool.ConvertChartEdit2ChartData(chartEdit.boxes)
+            };
+            metaData = JsonConvert.DeserializeObject<MetaData>(File.ReadAllText(metaDataFullPath, Encoding.UTF8));
+            #region 重置音符数量
+            metaData.noteCount = 0;
+            metaData.trueNoteCount = 0;
+            metaData.trueTapCount = 0;
+            metaData.trueHoldCount = 0;
+            metaData.trueDragCount = 0;
+            metaData.trueFlickCount = 0;
+            metaData.trueFullFlickCount = 0;
+            metaData.truePointCount = 0;
+            metaData.fakeNoteCount = 0;
+            metaData.fakeTapCount = 0;
+            metaData.fakeHoldCount = 0;
+            metaData.fakeDragCount = 0;
+            metaData.fakeFlickCount = 0;
+            metaData.fakeFullFlickCount = 0;
+            metaData.fakePointCount = 0;
+            #endregion
+
+            foreach (Box box in chartData.boxes)
+            {
+                foreach (Line line in box.lines)
+                {
+                    foreach (Note note in line.onlineNotes)
+                    {
+                        metaData.noteCount++;
+                        if (!note.isFakeNote)//是真音符
+                        {
+                            metaData.trueNoteCount++;
+                            switch (note.noteType)
+                            {
+                                case NoteType.Tap:
+                                    metaData.trueTapCount++;
+                                    break;
+                                case NoteType.Hold:
+                                    metaData.trueHoldCount++;
+                                    break;
+                                case NoteType.Drag:
+                                    metaData.trueDragCount++;
+                                    break;
+                                case NoteType.Flick:
+                                    metaData.trueFlickCount++;
+                                    break;
+                                case NoteType.FullFlick:
+                                case NoteType.FullFlickBlue:
+                                case NoteType.FullFlickPink:
+                                    metaData.trueFullFlickCount++;
+                                    break;
+                                case NoteType.Point:
+                                    metaData.truePointCount++;
+                                    break;
+                                default:
+                                    throw new Exception("找不到音符类型");
+                            }
+                        }
+                        else//是假音符
+                        {
+                            metaData.fakeNoteCount++;
+                            switch (note.noteType)
+                            {
+                                case NoteType.Tap:
+                                    metaData.fakeTapCount++;
+                                    break;
+                                case NoteType.Hold:
+                                    metaData.fakeHoldCount++;
+                                    break;
+                                case NoteType.Drag:
+                                    metaData.fakeDragCount++;
+                                    break;
+                                case NoteType.Flick:
+                                    metaData.fakeFlickCount++;
+                                    break;
+                                case NoteType.FullFlick:
+                                case NoteType.FullFlickBlue:
+                                case NoteType.FullFlickPink:
+                                    metaData.fakeFullFlickCount++;
+                                    break;
+                                case NoteType.Point:
+                                    metaData.fakePointCount++;
+                                    break;
+                                default:
+                                    throw new Exception("找不到音符类型");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         static string GetIllustrationFullPath()
         {
             string illustrationPath = $"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/Illustration";

@@ -11,7 +11,7 @@ namespace Data.ChartData
     [Serializable]
     public class ChartData
     {
-        public MetaData metaData;
+        //public MetaData metaData;
         public List<Box> boxes;
         public List<Text> texts;
     }
@@ -140,6 +140,10 @@ namespace Data.ChartData
         public float positionX;
         public bool isClockwise; //是逆时针
         public bool hasOther; //还有别的Note和他在统一时间被打击，简称多押标识（（
+        public float speed;
+        public bool isFakeNote;
+        public bool syncAlpha;
+        public bool newScale;
         [JsonIgnore] public float hitFloorPosition = -.1f; //打击地板上距离
         [JsonIgnore] public int currentLineID;
         [JsonIgnore] public int currentBoxID;
