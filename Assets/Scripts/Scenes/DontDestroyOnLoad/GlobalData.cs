@@ -169,7 +169,13 @@ namespace Scenes.DontDestroyOnLoad
             File.WriteAllText(new Uri($"{Applicationm.streamingAssetsPath}/Config/Disclaimer.txt").LocalPath, "True",
                 Encoding.UTF8);
         }
-
+        /// <summary>
+        /// 刷新方法
+        /// </summary>
+        /// <param name="action">刷新内容，一般是执行Refresh()方法</param>
+        /// <param name="types">需要执行的方法类，默认白名单，就是执行出现的类，如果为null就是执行所有的类</param>
+        /// <param name="isBlackList">是否为黑名单模式，默认为False，当此值为True时，执行列表中没有出现的类</param>
+        /// <typeparam name="T"></typeparam>
         public static void Refresh<T>(Action<T> action, List<Type> types, bool isBlackList = false)
         {
             List<T> foundTypes = AssemblySystem.FindAllInterfaceByTypes<T>();
