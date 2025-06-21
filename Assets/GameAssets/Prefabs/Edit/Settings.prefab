@@ -12151,6 +12151,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3081a23224cb4f3e8384ec2b5523fec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  path: {fileID: 446688487296195304}
+  pathBrowser: {fileID: 4580128917054185190}
+  export: {fileID: 6076221875124666260}
+  stateText: {fileID: 2473829894556071278}
 --- !u!1 &5246995883106228860
 GameObject:
   m_ObjectHideFlags: 0
