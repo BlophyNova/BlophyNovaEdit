@@ -20,7 +20,7 @@ namespace Form.BoxList
 
         private void OnEnable()
         {
-            UpdateAera();
+            UpdateArea();
         }
 
         public void RefreshUI()
@@ -39,9 +39,11 @@ namespace Form.BoxList
             for (int i = 0; i < GlobalData.Instance.chartEditData.boxes.Count; i++)
             {
                 BoxListItem newItem = Instantiate(boxListItemPrefabs, gridLayoutGroup.transform);
-                newItem.boxIDText.text = $"{i}号方框";
-                newItem.boxList = this;
+                newItem.currentBoxIndex = i;
                 newItem.thisBox = GlobalData.Instance.chartEditData.boxes[i];
+                newItem.boxIndexText.text = $"{i}号方框";
+                newItem.boxId.text = newItem.thisBox.id;
+                newItem.boxList = this;
                 boxListItems.Add(newItem);
             }
         }
@@ -49,10 +51,10 @@ namespace Form.BoxList
         public override void WindowSizeChanged()
         {
             base.WindowSizeChanged();
-            UpdateAera();
+            UpdateArea();
         }
 
-        public void UpdateAera()
+        public void UpdateArea()
         {
             gridLayoutGroup.cellSize =
                 new Vector2(labelWindow.labelWindowRect.sizeDelta.x * .8f, gridLayoutGroup.cellSize.y);
