@@ -15,6 +15,7 @@ namespace Manager
         public LabelWindow currentFocusWindow;
         public LabelWindow labelWindowPrefab;
         public RectTransform lineRendererParent;
+        public RectTransform labelWindowParent;
 
         public void SetFocusWindow(LabelWindow window)
         {
@@ -44,7 +45,7 @@ namespace Manager
                 return;
             }
 
-            LabelWindow newItem = Instantiate(labelWindowPrefab, transform);
+            LabelWindow newItem = Instantiate(labelWindowPrefab, labelWindowParent);
             newItem.labelColorIndex = unusedColorIndex;
             newItem.labelColor.color = GetColorWithIndex(newItem.labelColorIndex);
             newItem.labelWindowRect.anchorMin = Vector2.up;
