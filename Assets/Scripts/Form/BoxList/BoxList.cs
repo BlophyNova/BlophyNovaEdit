@@ -46,6 +46,8 @@ namespace Form.BoxList
                 newItem.boxList = this;
                 boxListItems.Add(newItem);
             }
+            Destroy(boxListItems[0].up.gameObject);
+            Destroy(boxListItems[^1].down.gameObject);
         }
 
         public override void WindowSizeChanged()

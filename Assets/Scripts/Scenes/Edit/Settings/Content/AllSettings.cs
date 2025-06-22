@@ -9,6 +9,7 @@ namespace Scenes.Edit.Settings.Content
      * 音乐大小
      * 音效大小
      * 鼠标滚轮速度
+     * 新建方框时默认隐藏新方框
      * 更改谱面元数据
      */
     public class AllSettings : MonoBehaviour
