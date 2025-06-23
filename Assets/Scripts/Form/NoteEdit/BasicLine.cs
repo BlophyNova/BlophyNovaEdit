@@ -78,6 +78,7 @@ namespace Form.NoteEdit
             }
 
             beatLines.Clear();
+            Update();
         }
 
         private void UpdateBeatLines()

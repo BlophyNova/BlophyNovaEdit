@@ -29,8 +29,7 @@ namespace ShortcutKey.Events
             if (labelWindowContentType.HasFlag(LabelWindowsManager.Instance.currentFocusWindow.currentLabelItem
                     .labelWindowContent.labelWindowContentType))
             {
-                //LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Canceled(callbackContext);
-                //ProgressManager.Instance.PausePlay();
+                
                 float offsetTime = Mathf.Sign(callbackContext.ReadValue<float>()) *
                                    GlobalData.Instance.generalData.MouseWheelSpeed;
                 Debug.Log($@"offsetTime:{offsetTime}");
@@ -44,8 +43,8 @@ namespace ShortcutKey.Events
                     ProgressManager.Instance.OffsetTime(offsetTime);
                 }
 
-                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),
-                    new List<Type> { typeof(BasicLine) });
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),new List<Type> { typeof(BasicLine) });
+                
             }
 
             Debug.Log($"MousePerformed：{callbackContext.ReadValue<float>()}");

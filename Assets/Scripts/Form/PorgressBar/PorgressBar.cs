@@ -29,8 +29,7 @@ namespace Form.PorgressBar
                 float result = GlobalData.Instance.metaData.musicLength * theValue;
                 ProgressManager.Instance.SetTime(result);
 
-                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),
-                    new List<Type> { typeof(BasicLine) });
+                GlobalData.Refresh<IRefreshUI>(interfaceMethod => interfaceMethod.RefreshUI(),new List<Type> { typeof(BasicLine) });
                 GlobalData.Refresh<IRefreshPlayer>(interfaceMethod => interfaceMethod.RefreshPlayer(-1, -1), null);
             });
         }
