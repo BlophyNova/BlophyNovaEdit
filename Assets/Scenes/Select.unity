@@ -2442,6 +2442,7 @@ MonoBehaviour:
   - {fileID: 2140879215}
   - {fileID: 1051063594}
   image: {fileID: 259449247}
+  chartInfomation: {fileID: 2135254891}
   selectedColor: {r: 0.3019608, g: 0.3019608, b: 0.3019608, a: 1}
   unselectedColor: {r: 0.227451, g: 0.227451, b: 0.227451, a: 1}
 --- !u!1 &260829313
@@ -4016,6 +4017,7 @@ MonoBehaviour:
   - {fileID: 1051063594}
   - {fileID: 259449249}
   image: {fileID: 461741674}
+  chartInfomation: {fileID: 2135254891}
   selectedColor: {r: 0.3019608, g: 0.3019608, b: 0.3019608, a: 1}
   unselectedColor: {r: 0.227451, g: 0.227451, b: 0.227451, a: 1}
 --- !u!1 &476945908
@@ -8261,6 +8263,7 @@ MonoBehaviour:
   - {fileID: 2140879215}
   - {fileID: 259449249}
   image: {fileID: 1051063592}
+  chartInfomation: {fileID: 2135254891}
   selectedColor: {r: 0.3019608, g: 0.3019608, b: 0.3019608, a: 1}
   unselectedColor: {r: 0.227451, g: 0.227451, b: 0.227451, a: 1}
 --- !u!1 &1099701823
@@ -9100,6 +9103,7 @@ MonoBehaviour:
   - {fileID: 1051063594}
   - {fileID: 259449249}
   image: {fileID: 1213387086}
+  chartInfomation: {fileID: 2135254891}
   selectedColor: {r: 0.3019608, g: 0.3019608, b: 0.3019608, a: 1}
   unselectedColor: {r: 0.227451, g: 0.227451, b: 0.227451, a: 1}
 --- !u!1 &1239816257
@@ -16438,6 +16442,7 @@ MonoBehaviour:
   - {fileID: 1051063594}
   - {fileID: 259449249}
   image: {fileID: 2140879213}
+  chartInfomation: {fileID: 2135254891}
   selectedColor: {r: 0.3019608, g: 0.3019608, b: 0.3019608, a: 1}
   unselectedColor: {r: 0.227451, g: 0.227451, b: 0.227451, a: 1}
 --- !u!1001 &3883032541297844150

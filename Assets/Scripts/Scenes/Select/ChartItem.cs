@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.IO;
+using System.Text;
 using Data.ChartData;
 using Hook;
+using Newtonsoft.Json;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
 using TMPro;
@@ -13,7 +16,6 @@ namespace Scenes.Select
 {
     public class ChartItem : PublicButton
     {
-        public MetaData metaData;
         public TMP_Text musicName;
         public Image illustrationPreview;
         public TMP_Text chartInfomation;
@@ -31,6 +33,12 @@ namespace Scenes.Select
                 illustrationPreview.color = Color.white;
                 illustrationPreview.type = Image.Type.Simple;
                 illustrationPreview.preserveAspect = true;
+                
+                string chartJsonPath = $"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/MetaData.json";
+                string rawData = File.ReadAllText(new Uri(chartJsonPath).LocalPath, Encoding.UTF8);
+                GlobalData.Instance.metaData = JsonConvert.DeserializeObject<MetaData>(rawData);
+                MetaData metaData = GlobalData.Instance.metaData;
+                
                 string chartVersion = metaData.chartVersion == 0 ? "未知" : $"{metaData.chartVersion}";
                 chartInfomation.text =
                     $"谱面版本:{chartVersion}\n" +

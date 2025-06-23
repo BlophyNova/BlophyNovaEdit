@@ -45,8 +45,8 @@ namespace Scenes.Select
 
                 string rawData = File.ReadAllText(new Uri(chartJsonPath).LocalPath, Encoding.UTF8);
                 ChartItem newChartItem = Instantiate(chartItemPrefab, transform);
-                newChartItem.metaData = JsonConvert.DeserializeObject<MetaData>(rawData);
-                newChartItem.musicName.text = newChartItem.metaData.musicName;
+                GlobalData.Instance.metaData = JsonConvert.DeserializeObject<MetaData>(rawData);
+                newChartItem.musicName.text = GlobalData.Instance.metaData.musicName;
                 newChartItem.currentChartIndex = Path.GetFileName(chartPath);
                 newChartItem.illustrationPreview = illustrationPreview;
                 newChartItem.chartInfomation = chartInformation;
