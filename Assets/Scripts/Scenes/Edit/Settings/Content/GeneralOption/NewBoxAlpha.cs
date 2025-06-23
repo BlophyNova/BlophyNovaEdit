@@ -1,3 +1,5 @@
+using System;
+using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 
 namespace Scenes.Edit.Settings.Content.GeneralOption
@@ -7,13 +9,12 @@ namespace Scenes.Edit.Settings.Content.GeneralOption
         // Start is called before the first frame update
         void Start()
         {
-        
+            thisToggle.onValueChanged.AddListener(value =>GlobalData.Instance.generalData.NewBoxAlpha=value);
         }
 
-        // Update is called once per frame
-        void Update()
+        private void OnEnable()
         {
-        
+            thisToggle.SetIsOnWithoutNotify(GlobalData.Instance.generalData.NewBoxAlpha);
         }
     }
 }

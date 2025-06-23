@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1380316066972797188}
   - component: {fileID: 4724488685292700169}
   m_Layer: 5
-  m_Name: HitVolume
+  m_Name: SoundVolume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10355,7 +10355,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9063330790809615903
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16075,7 +16075,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 485}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6301279998472749276
 MonoBehaviour:

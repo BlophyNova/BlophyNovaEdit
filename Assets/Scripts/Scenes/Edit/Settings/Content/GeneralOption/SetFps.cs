@@ -1,19 +1,25 @@
+using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 
 namespace Scenes.Edit.Settings.Content.GeneralOption
 {
     public class SetFps : ContentEdit
     {
-        // Start is called before the first frame update
         void Start()
         {
-        
+            thisButton.onClick.AddListener(() =>
+            {
+                if (int.TryParse(thisTMPInputField.text,out int result))
+                {
+                    if(result is < -1 or 0)return;
+                    GlobalData.Instance.generalData.Fps = result;
+                }
+            });
         }
 
-        // Update is called once per frame
-        void Update()
+        private void OnEnable()
         {
-        
+            thisTMPInputField.SetTextWithoutNotify($"{GlobalData.Instance.generalData.Fps}");
         }
     }
 }
