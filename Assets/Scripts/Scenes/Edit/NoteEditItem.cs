@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Scenes.Edit
 {
-    public class NoteEdit : PublicButton, ISelectBoxItem
+    public class NoteEditItem : PublicButton, ISelectBoxItem
     {
         public LabelWindow labelWindow;
         public RectTransform thisNoteRect;
@@ -41,6 +41,11 @@ namespace Scenes.Edit
         private void Start()
         {
             thisButton.onClick.AddListener(() => { ThisNoteEdit.selectBox.SetSingleNote(this); });
+            OnStart();
+        }
+
+        protected virtual void OnStart()
+        {
         }
 
         public bool IsNoteEdit => true;
@@ -54,6 +59,14 @@ namespace Scenes.Edit
 
         public void SetSelectState(bool active)
         {
+            try
+            {
+                ((HoldEdit)this).SetStartAndEndVisibility(active);
+            }
+            catch
+            {
+                // ignored
+            }
             thisNoteData.isSelected = active;
             isSelectedRect.gameObject.SetActive(active);
         }
@@ -63,7 +76,9 @@ namespace Scenes.Edit
             return thisNoteData.HitBeats.ThisStartBPM;
         }
 
-        public virtual NoteEdit Init(Note note)
+        public virtual void SetStartAndEndVisibility(bool visibility) { }
+
+        public virtual NoteEditItem Init(Note note)
         {
             thisNoteData = note;
             //SetSelectState(note.isSelected);

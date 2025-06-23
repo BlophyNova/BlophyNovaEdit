@@ -1,6 +1,6 @@
 namespace Scenes.Edit
 {
-    public class PointEdit : NoteEdit
+    public class PointEdit : NoteEditItem
     {
     }
 }

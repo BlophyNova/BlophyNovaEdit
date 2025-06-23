@@ -17,7 +17,7 @@ namespace Form.NoteEdit
     {
         public delegate void OnNotesAdded(List<Note> notes);
 
-        public delegate void OnNotesAdded2UI(List<Scenes.Edit.NoteEdit> notes);
+        public delegate void OnNotesAdded2UI(List<Scenes.Edit.NoteEditItem> notes);
 
         public delegate void OnNotesDeleted(List<Note> notes);
 
@@ -40,7 +40,7 @@ namespace Form.NoteEdit
         public TMP_Text boxAndLineIDText;
 
         public List<RectTransform> verticalLines = new();
-        public List<Scenes.Edit.NoteEdit> notes = new();
+        public List<Scenes.Edit.NoteEditItem> notes = new();
 
         public bool isFirstTime;
         public bool waitForPressureAgain;
@@ -118,11 +118,11 @@ namespace Form.NoteEdit
             currentBoxID = boxID < 0 ? currentBoxID : boxID;
             currentLineID = lineID < 0 ? currentLineID : lineID;
             DestroyNotes();
-            List<Scenes.Edit.NoteEdit> newNotes =
+            List<Scenes.Edit.NoteEditItem> newNotes =
                 AddNotes2UI(ChartEditData.boxes[currentBoxID].lines[currentLineID].onlineNotes);
             notes.AddRange(newNotes);
             List<Note> refreshedNotes = new();
-            foreach (Scenes.Edit.NoteEdit note in notes)
+            foreach (Scenes.Edit.NoteEditItem note in notes)
             {
                 refreshedNotes.Add(note.thisNoteData);
             }
@@ -148,7 +148,7 @@ namespace Form.NoteEdit
         public List<ISelectBoxItem> TransmitObjects()
         {
             List<ISelectBoxItem> res = new();
-            foreach (Scenes.Edit.NoteEdit item in notes)
+            foreach (Scenes.Edit.NoteEditItem item in notes)
             {
                 //Vector3[] corners = new Vector3[4];
                 //item.thisNoteRect.GetLocalCorners(corners);

@@ -8,7 +8,7 @@ namespace Form.NoteEdit
     //这里放所有的刷新方法
     public partial class NoteEdit
     {
-        private Scenes.Edit.NoteEdit GetNoteType(Note item)
+        private Scenes.Edit.NoteEditItem GetNoteType(Note item)
         {
             return item.noteType switch
             {

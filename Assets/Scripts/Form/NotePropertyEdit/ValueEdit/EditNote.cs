@@ -42,10 +42,10 @@ namespace Form.NotePropertyEdit.ValueEdit
             }
 
             noteEditText.text = $"音符编辑 {selectedBoxItems.Count}";
-            List<Scenes.Edit.NoteEdit> noteEdits = selectedBoxItems.Cast<Scenes.Edit.NoteEdit>().ToList();
+            List<Scenes.Edit.NoteEditItem> noteEdits = selectedBoxItems.Cast<Scenes.Edit.NoteEditItem>().ToList();
             originNotes = new List<Note>();
             notes.Clear();
-            foreach (Scenes.Edit.NoteEdit note in noteEdits)
+            foreach (Scenes.Edit.NoteEditItem note in noteEdits)
             {
                 originNotes.Add(new Note(note.thisNoteData));
                 notes.Add(note.thisNoteData);

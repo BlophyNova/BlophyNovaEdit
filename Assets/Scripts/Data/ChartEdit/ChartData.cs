@@ -334,7 +334,7 @@ namespace Data.ChartEdit
     public class Note
     {
         [JsonIgnore] public Data.ChartData.Note chartDataNote;
-        [JsonIgnore] public NoteEdit chartEditNote;
+        [JsonIgnore] public NoteEditItem chartEditNote;
         public NoteType noteType;
 
         public BPM holdBeats;

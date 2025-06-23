@@ -6,6 +6,7 @@ using Data.ChartEdit;
 using Form.PropertyEdit;
 using Manager;
 using Newtonsoft.Json;
+using Scenes.Edit;
 using UnityEngine;
 using UtilityCode.Algorithm;
 using ChartData = Data.ChartEdit.ChartData;
@@ -56,7 +57,7 @@ namespace Form.NoteEdit
         private void AddNote2NoteClipboard()
         {
             List<Note> notes = new();
-            foreach (Scenes.Edit.NoteEdit selectedNote in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>())
+            foreach (Scenes.Edit.NoteEditItem selectedNote in selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEditItem>())
             {
                 notes.Add(selectedNote.thisNoteData);
             }
@@ -129,10 +130,10 @@ namespace Form.NoteEdit
 
         private List<Note> GetSelectedNotes()
         {
-            IEnumerable<Scenes.Edit.NoteEdit> selectedNoteEdits =
-                selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEdit>();
+            IEnumerable<Scenes.Edit.NoteEditItem> selectedNoteEdits =
+                selectBox.TransmitObjects().Cast<Scenes.Edit.NoteEditItem>();
             List<Note> selectedNotes = new();
-            foreach (Scenes.Edit.NoteEdit item in selectedNoteEdits)
+            foreach (Scenes.Edit.NoteEditItem item in selectedNoteEdits)
             {
                 selectedNotes.Add(item.thisNoteData);
             }
@@ -140,12 +141,12 @@ namespace Form.NoteEdit
             return selectedNotes;
         }
 
-        private List<Scenes.Edit.NoteEdit> AddNotes2UI(List<Note> needInstNotes)
+        private List<Scenes.Edit.NoteEditItem> AddNotes2UI(List<Note> needInstNotes)
         {
-            List<Scenes.Edit.NoteEdit> notes = new();
+            List<Scenes.Edit.NoteEditItem> notes = new();
             foreach (Note item in needInstNotes)
             {
-                Scenes.Edit.NoteEdit newNoteEdit = AddNote2UI(item);
+                Scenes.Edit.NoteEditItem newNoteEdit = AddNote2UI(item);
 
                 //Debug.LogError("写到这里了，下次继续写");
                 notes.Add(newNoteEdit);
@@ -155,15 +156,17 @@ namespace Form.NoteEdit
             return notes;
         }
 
-        private Scenes.Edit.NoteEdit AddNote2UI(Note item)
+        private Scenes.Edit.NoteEditItem AddNote2UI(Note item)
         {
-            Scenes.Edit.NoteEdit noteEditType = GetNoteType(item);
+            Scenes.Edit.NoteEditItem noteEditType = GetNoteType(item);
 
             float currentSecondsTime = BPMManager.Instance.GetSecondsTimeByBeats(item.HitBeats.ThisStartBPM);
             float positionY = YScale.Instance.GetPositionYWithSecondsTime(currentSecondsTime);
 
-            Scenes.Edit.NoteEdit newNoteEdit = Instantiate(noteEditType, basicLine.noteCanvas).Init(item);
+            Scenes.Edit.NoteEditItem newNoteEdit = Instantiate(noteEditType, basicLine.noteCanvas).Init(item);
             newNoteEdit.labelWindow = labelWindow;
+            //((HoldEdit)newNoteEdit).start.noteEdit = this;
+            //((HoldEdit)newNoteEdit).end.noteEdit = this;
             newNoteEdit.transform.localPosition = new Vector3(
                 (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x -
                  (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) * item.positionX,

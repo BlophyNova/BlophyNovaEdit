@@ -1,6 +1,6 @@
 namespace Scenes.Edit
 {
-    public class TapEdit : NoteEdit
+    public class TapEdit : NoteEditItem
     {
     }
 }

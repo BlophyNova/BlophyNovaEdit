@@ -10,7 +10,7 @@ namespace Form.NoteEdit
 {
     public partial class NoteEdit
     {
-        private void FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine)
+        public void FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine)
         {
             nearBeatLine = FindNearBeatLine(MousePositionInThisRectTransform);
 
@@ -55,7 +55,7 @@ namespace Form.NoteEdit
             return nearBeatLine;
         }
 
-        public IEnumerator WaitForPressureAgain(Scenes.Edit.NoteEdit newHoldEdit, int boxID, int lineID)
+        public IEnumerator WaitForPressureAgain(Scenes.Edit.NoteEditItem newHoldEdit, int boxID, int lineID)
         {
             Note newNote = newHoldEdit.thisNoteData;
             while (true)
@@ -117,7 +117,7 @@ namespace Form.NoteEdit
 
         private void DestroyNotes()
         {
-            foreach (Scenes.Edit.NoteEdit item in notes)
+            foreach (Scenes.Edit.NoteEditItem item in notes)
             {
                 Destroy(item.gameObject);
             }
@@ -134,7 +134,7 @@ namespace Form.NoteEdit
                 return;
             }
 
-            foreach (Scenes.Edit.NoteEdit noteEdit in notes)
+            foreach (Scenes.Edit.NoteEditItem noteEdit in notes)
             {
                 noteEdit.thisNoteData.isSelected = false;
             }

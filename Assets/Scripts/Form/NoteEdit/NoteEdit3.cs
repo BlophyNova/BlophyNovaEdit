@@ -9,6 +9,7 @@ using Data.ChartEdit;
 using Form.PropertyEdit;
 using Manager;
 using Newtonsoft.Json;
+using Scenes.Edit;
 using UnityEngine;
 using GlobalData = Scenes.DontDestroyOnLoad.GlobalData;
 using Note = Data.ChartEdit.Note;
@@ -28,10 +29,10 @@ namespace Form.NoteEdit
             note.holdBeats = BPM.One;
             note.effect = noteEffect;
             note.positionX = CalculatePositionX(nearVerticalLine);
-            Scenes.Edit.NoteEdit instNewNoteEditPrefab = GetNoteType(noteType);
+            Scenes.Edit.NoteEditItem instNewNoteEditPrefab = GetNoteType(noteType);
             FullFlickSpecialHandling(noteType, note);
 
-            Scenes.Edit.NoteEdit newNoteEdit = Instantiate(instNewNoteEditPrefab, basicLine.noteCanvas).Init(note);
+            Scenes.Edit.NoteEditItem newNoteEdit = Instantiate(instNewNoteEditPrefab, basicLine.noteCanvas).Init(note);
             note.chartEditNote = newNoteEdit;
             newNoteEdit.labelWindow = labelWindow;
             newNoteEdit.transform.localPosition =
@@ -68,7 +69,7 @@ namespace Form.NoteEdit
             }
         }
 
-        private static Scenes.Edit.NoteEdit GetNoteType(NoteType noteType)
+        private static Scenes.Edit.NoteEditItem GetNoteType(NoteType noteType)
         {
             return noteType switch
             {
@@ -116,10 +117,12 @@ namespace Form.NoteEdit
                     (nearVerticalLine.localPosition.x +
                      (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) / 2) /
                     (verticalLineRight.localPosition.x - verticalLineLeft.localPosition.x) * 2 - 1;
-                Scenes.Edit.NoteEdit newHoldEdit =
+                Scenes.Edit.NoteEditItem newHoldEdit =
                     Instantiate(GlobalData.Instance.holdEditPrefab, basicLine.noteCanvas).Init(note);
                 note.chartEditNote = newHoldEdit;
                 newHoldEdit.labelWindow = labelWindow;
+                //((HoldEdit)newHoldEdit).start.noteEdit = this;
+                //((HoldEdit)newHoldEdit).end.noteEdit = this;
                 newHoldEdit.transform.localPosition = new Vector2(nearVerticalLine.transform.localPosition.x,
                     nearBeatLine.transform.localPosition.y);
                 StartCoroutine(WaitForPressureAgain(newHoldEdit, currentBoxID, currentLineID));
@@ -329,15 +332,15 @@ namespace Form.NoteEdit
 
                 //这，这对吗？还是不要频繁刷新比较好，想想别的方法吧
 
-                float firstPositionX = ((Scenes.Edit.NoteEdit)selectBox.selectedBoxItems[0]).thisNoteData.positionX;
+                float firstPositionX = ((Scenes.Edit.NoteEditItem)selectBox.selectedBoxItems[0]).thisNoteData.positionX;
                 float firstLocalPositionX =
-                    ((Scenes.Edit.NoteEdit)selectBox.selectedBoxItems[0]).thisNoteRect.localPosition.x;
-                BPM firstBpm = ((Scenes.Edit.NoteEdit)selectBox.selectedBoxItems[0]).thisNoteData.HitBeats;
+                    ((Scenes.Edit.NoteEditItem)selectBox.selectedBoxItems[0]).thisNoteRect.localPosition.x;
+                BPM firstBpm = ((Scenes.Edit.NoteEditItem)selectBox.selectedBoxItems[0]).thisNoteData.HitBeats;
 
                 float minPositionX = float.MaxValue;
                 float maxPositionX = float.MinValue;
                 newPositionX.Clear();
-                foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.selectedBoxItems.Cast<Scenes.Edit.NoteEdit>())
+                foreach (Scenes.Edit.NoteEditItem noteEdit in selectBox.selectedBoxItems.Cast<Scenes.Edit.NoteEditItem>())
                 {
                     if (noteEdit.thisNoteData.positionX > maxPositionX)
                     {
@@ -350,7 +353,7 @@ namespace Form.NoteEdit
                     }
                 }
 
-                foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.selectedBoxItems.Cast<Scenes.Edit.NoteEdit>())
+                foreach (Scenes.Edit.NoteEditItem noteEdit in selectBox.selectedBoxItems.Cast<Scenes.Edit.NoteEditItem>())
                 {
                     RectTransform rect = noteEdit.thisNoteRect;
 

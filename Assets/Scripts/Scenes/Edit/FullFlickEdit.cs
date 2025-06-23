@@ -6,13 +6,13 @@ using Note = Data.ChartEdit.Note;
 
 namespace Scenes.Edit
 {
-    public class FullFlickEdit : NoteEdit
+    public class FullFlickEdit : NoteEditItem
     {
         public Image thisTexture;
         public Texture2D fullFlickBlue;
         public Texture2D fullFlickPink;
 
-        public override NoteEdit Init(Note note)
+        public override NoteEditItem Init(Note note)
         {
             base.Init(note);
             thisTexture.sprite = note.noteType switch

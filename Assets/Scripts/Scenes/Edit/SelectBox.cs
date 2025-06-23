@@ -169,7 +169,7 @@ namespace Scenes.Edit
         public void SetSingleNote(ISelectBoxItem selectBoxItem)
         {
             ClearSelectedBoxItems();
-            ((EventEditItem)selectBoxItem).SetStartAndEndVisibility(true);
+            selectBoxItem.SetStartAndEndVisibility(true);
             selectedBoxItems.Add(selectBoxItem);
             selectBoxItem.SetSelectState(true);
 
@@ -221,7 +221,7 @@ namespace Scenes.Edit
 
         private void ClearSelectedBoxItems()
         {
-            foreach (EventEditItem item in selectedBoxItems.Cast<EventEditItem>())
+            foreach (ISelectBoxItem item in selectedBoxItems)
             {
                 item.SetStartAndEndVisibility(false);
                 item.SetSelectState(false);

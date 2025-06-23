@@ -14,5 +14,6 @@ namespace Data.Interface
         public Vector3[] GetCorners();
         public void SetSelectState(bool active);
         public float GetStartBeats();
+        public void SetStartAndEndVisibility(bool visibility);
     }
 }
