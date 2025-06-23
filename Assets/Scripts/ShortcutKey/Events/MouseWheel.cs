@@ -32,9 +32,8 @@ namespace ShortcutKey.Events
                 //LabelWindowsManager.Instance.currentFocusWindow.currentLabelWindow.Canceled(callbackContext);
                 //ProgressManager.Instance.PausePlay();
                 float offsetTime = Mathf.Sign(callbackContext.ReadValue<float>()) *
-                                   BPMManager.Instance.GetSecondsTimeByBeats(1f / GlobalData.Instance.chartEditData
-                                       .beatSubdivision);
-                Debug.Log($@"{offsetTime}");
+                                   GlobalData.Instance.generalData.MouseWheelSpeed;
+                Debug.Log($@"offsetTime:{offsetTime}");
                 StateManager.Instance.IsPause = true;
                 if (ProgressManager.Instance.CurrentTime + offsetTime < 0)
                 {

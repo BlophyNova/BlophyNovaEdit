@@ -30,7 +30,7 @@ namespace Scenes.DontDestroyOnLoad
         {
             while (true)
             {
-                yield return new WaitForSeconds(600);
+                yield return new WaitForSeconds(GlobalData.Instance.generalData.AutosaveInterval);
                 string saveData = JsonConvert.SerializeObject(GlobalData.Instance.chartEditData);
                 File.WriteAllText(
                     new Uri(

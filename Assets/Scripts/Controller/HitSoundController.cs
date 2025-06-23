@@ -1,3 +1,4 @@
+using Scenes.DontDestroyOnLoad;
 using UnityEngine;
 
 namespace Controller
@@ -15,6 +16,7 @@ namespace Controller
         public HitSoundController Play()
         {
             hitSound.Play();
+            hitSound.volume = GlobalData.Instance.generalData.SoundVolume;
             return this;
         }
     }

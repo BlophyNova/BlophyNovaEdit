@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using Hook;
+using Manager;
 using Newtonsoft.Json;
 using Scenes.DontDestroyOnLoad;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace Data.GeneralSettings
          * 新建方框时默认隐藏新方框
          * 更改谱面元数据
          */
-        [JsonProperty]float autosaveInterval;
+        [JsonProperty][SerializeField]float autosaveInterval;
 
         [JsonIgnore]public float AutosaveInterval
         {
@@ -33,20 +34,23 @@ namespace Data.GeneralSettings
             }
         }
 
-        [JsonProperty]bool verticalSync;
+        [JsonProperty][SerializeField]bool verticalSync;
 
         [JsonIgnore]public bool VerticalSync
         {
             get { return verticalSync; }
             set
             {
-                verticalSync = value; 
+                verticalSync = value;
+                QualitySettings.vSyncCount = value ? 1 : 0;
                 SaveConfig();
             }
         }
 
-        [JsonProperty]bool newBoxAlpha;
-
+        [JsonProperty][SerializeField]bool newBoxAlpha;
+        /// <summary>
+        /// 为true时，新框alpha默认为0，为false时，新框alpha默认为1
+        /// </summary>
         [JsonIgnore]public bool NewBoxAlpha
         {
             get { return newBoxAlpha; }
@@ -57,31 +61,33 @@ namespace Data.GeneralSettings
             }
         }
 
-        [JsonProperty]int fps;
+        [JsonProperty][SerializeField]int fps;
 
         [JsonIgnore]public int Fps
         {
             get { return fps; }
             set
             {
-                fps = value; 
+                fps = value;
+                Application.targetFrameRate = value;
                 SaveConfig();
             }
         }
 
-        [JsonProperty]float musicVolume;
+        [JsonProperty][SerializeField]float musicVolume;
 
         [JsonIgnore]public float MusicVolume
         {
             get { return musicVolume; }
             set
             {
-                musicVolume = value; 
+                musicVolume = value;
+                AssetManager.Instance.musicPlayer.volume = value;
                 SaveConfig();
             }
         }
 
-        [JsonProperty]float soundVolume;
+        [JsonProperty][SerializeField]float soundVolume;
 
         [JsonIgnore]public float SoundVolume
         {
@@ -93,7 +99,7 @@ namespace Data.GeneralSettings
             }
         }
 
-        [JsonProperty]float mouseWheelSpeed;
+        [JsonProperty][SerializeField]float mouseWheelSpeed;
 
         [JsonIgnore]public float MouseWheelSpeed
         {
@@ -112,7 +118,13 @@ namespace Data.GeneralSettings
 
         public void Init()
         {
-            
+            //AutosaveInterval
+            QualitySettings.vSyncCount = VerticalSync ? 1 : 0;
+            //newBoxAlpha
+            Application.targetFrameRate = Fps;
+            AssetManager.Instance.musicPlayer.volume = MusicVolume;
+            //SoundVolume
+            //MouseWheelSpeed
         }
     }
 }

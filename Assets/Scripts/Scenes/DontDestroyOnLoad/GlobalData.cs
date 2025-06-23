@@ -120,6 +120,11 @@ namespace Scenes.DontDestroyOnLoad
                 }
             }
 
+            if (SceneManager.GetActiveScene().name == "Edit")
+            {
+                generalData = JsonConvert.DeserializeObject<GeneralData>(File.ReadAllText(new Uri($"{Applicationm.streamingAssetsPath}/Config/GeneralData.json").LocalPath,Encoding.UTF8));
+                generalData.Init();
+            }
             Disclaimer();
             isInited = true;
             while (true)
