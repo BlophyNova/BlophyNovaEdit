@@ -312,6 +312,7 @@ namespace Form.NoteEdit
             FindNearBeatLineAndVerticalLine(out BeatLine nearBeatLine, out RectTransform nearVerticalLine);
 
             BPM neatBeatLineBpm = new(nearBeatLine.thisBPM);
+            List<float> newPositionX = new();
             while (this.isMoving && FocusIsMe && selectBox.selectedBoxItems.Count != 0)
             {
                 await UniTask.NextFrame(); //啊哈，没错，引入了UniTask导致的，真方便（
@@ -335,6 +336,7 @@ namespace Form.NoteEdit
 
                 float minPositionX = float.MaxValue;
                 float maxPositionX = float.MinValue;
+                newPositionX.Clear();
                 foreach (Scenes.Edit.NoteEdit noteEdit in selectBox.selectedBoxItems.Cast<Scenes.Edit.NoteEdit>())
                 {
                     if (noteEdit.thisNoteData.positionX > maxPositionX)
@@ -373,7 +375,8 @@ namespace Form.NoteEdit
                     }
                     else
                     {
-                        noteEdit.thisNoteData.positionX = currentPositionX;
+                        //noteEdit.thisNoteData.positionX = currentPositionX;
+                        newPositionX.Add(currentPositionX);
                         rect.localPosition = new Vector3(currentLocalPositionX, positionY);
                     }
                 }
@@ -383,6 +386,12 @@ namespace Form.NoteEdit
             List<Note> deletedNotes = null;
             List<Note> selectedNotes = GetSelectedNotes();
             newNotes = CopyNotes(selectedNotes, currentBoxID, currentLineID);
+            if(newNotes.Count==newPositionX.Count)
+                for (int i = 0; i < newPositionX.Count; i++)
+                {
+                    newNotes[i].positionX = newPositionX[i];
+                }
+
             BPM bpm = new(newNotes[0].HitBeats);
             BPM nearBpm = nearBeatLine.thisBPM;
             bpm = new BPM(nearBpm);
