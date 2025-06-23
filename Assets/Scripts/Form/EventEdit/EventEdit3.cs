@@ -311,6 +311,8 @@ namespace Form.EventEdit
                 EventEditItem newEventEditItem = Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
                 //WindowSizeChanged();
                 newEventEditItem.labelWindow = labelWindow;
+                newEventEditItem.start.eventEdit = this;
+                newEventEditItem.end.eventEdit = this;
                 newEventEditItem.transform.localPosition = new Vector3(nearEventVerticalLine.transform.localPosition.x,
                     nearBeatLine.transform.localPosition.y);
                 newEventEditItem.easeLine.enabled = false;
@@ -353,7 +355,7 @@ namespace Form.EventEdit
         {
             EventEditItem newEventEditItem =
                 Instantiate(GlobalData.Instance.eventEditItem, basicLine.noteCanvas);
-
+            
 
             float currentSecondsTime =
                 BPMManager.Instance.GetSecondsTimeByBeats(@event.startBeats.ThisStartBPM);
@@ -366,6 +368,8 @@ namespace Form.EventEdit
             float endBeatsPositionY = YScale.Instance.GetPositionYWithSecondsTime(endBeatsSecondsTime);
 
             newEventEditItem.labelWindow = labelWindow;
+            newEventEditItem.start.eventEdit = this;
+            newEventEditItem.end.eventEdit = this;
             newEventEditItem.thisEventEditItemRect.sizeDelta = new Vector2(
                 Vector2.Distance(verticalLines[0].localPosition, verticalLines[1].localPosition),
                 endBeatsPositionY - positionY);

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Data.Enumerate;
 using Data.Interface;
 using Form.EventEdit;
@@ -8,6 +9,7 @@ using Log;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilityCode.Algorithm;
+using EventEditItem = Form.EventEdit.EventEditItem;
 
 namespace Scenes.Edit
 {
@@ -167,6 +169,7 @@ namespace Scenes.Edit
         public void SetSingleNote(ISelectBoxItem selectBoxItem)
         {
             ClearSelectedBoxItems();
+            ((EventEditItem)selectBoxItem).SetStartAndEndVisibility(true);
             selectedBoxItems.Add(selectBoxItem);
             selectBoxItem.SetSelectState(true);
 
@@ -185,9 +188,10 @@ namespace Scenes.Edit
         public void SetMutliNote(List<ISelectBoxItem> selectBoxItems)
         {
             ClearSelectedBoxItems();
-            foreach (ISelectBoxItem selectBoxItem in selectBoxItems)
+            foreach (EventEditItem selectBoxItem in selectBoxItems.Cast<EventEditItem>())
             {
                 selectBoxItem.SetSelectState(true);
+                selectBoxItem.SetStartAndEndVisibility(true);
             }
 
             selectedBoxItems.AddRange(selectBoxItems);
@@ -217,8 +221,9 @@ namespace Scenes.Edit
 
         private void ClearSelectedBoxItems()
         {
-            foreach (ISelectBoxItem item in selectedBoxItems)
+            foreach (EventEditItem item in selectedBoxItems.Cast<EventEditItem>())
             {
+                item.SetStartAndEndVisibility(false);
                 item.SetSelectState(false);
             }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using Data.Enumerate;
 using Data.Interface;
 using Form.LabelWindow;
+using Form.NoteEdit;
 using Scenes.DontDestroyOnLoad;
 using Scenes.PublicScripts;
 using TMPro;
@@ -21,8 +22,8 @@ namespace Form.EventEdit
         public RectTransform thisEventEditItemRect;
         public RectTransform isSelectedRect;
         public RectTransform easeLineRect;
-        public Image start;
-        public Image end;
+        public LengthAdjustment start;
+        public LengthAdjustment end;
         public TextMeshProUGUI startValueText;
         public TextMeshProUGUI endValueText;
         public LineRenderer easeLine;
@@ -223,6 +224,12 @@ namespace Form.EventEdit
 
             easeLine.SetPositions(points.ToArray());
             easeLine.enabled = true;
+        }
+
+        public void SetStartAndEndVisibility(bool visibility)
+        {
+            start.gameObject.SetActive(visibility);
+            end.gameObject.SetActive(visibility);
         }
     }
 }

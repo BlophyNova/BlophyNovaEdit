@@ -61,7 +61,7 @@ namespace Form.EventEdit
             return newTexture;
         }
 
-        private void FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
+        public void FindNearBeatLineAndEventVerticalLine(out BeatLine nearBeatLine,
             out EventVerticalLine nearEventVerticalLine)
         {
             nearBeatLine = FindNearBeatLine(MousePositionInThisRectTransform);
