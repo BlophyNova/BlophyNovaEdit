@@ -3,5 +3,5 @@ using UnityEngine;
 
 namespace Scenes.Edit.Settings.Option
 {
-    public class AllSettings : SwitchLabel { }
+    public class GeneralSettings : SwitchLabel { }
 }

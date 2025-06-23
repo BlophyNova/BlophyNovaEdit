@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using Data.ChartData;
 using Data.EaseData;
 using Data.Enumerate;
+using Data.GeneralSettings;
 using Form.EventEdit;
 using Form.LabelWindow;
 using Hook;
@@ -34,6 +35,7 @@ namespace Scenes.DontDestroyOnLoad
         public MetaData metaData;
         public Data.ChartEdit.ChartData chartEditData;
         public AudioClip clip;
+        public GeneralData generalData;
 
         [FormerlySerializedAs("currentCP")] public Sprite currentCp;
 
@@ -71,6 +73,7 @@ namespace Scenes.DontDestroyOnLoad
 
         private void Start()
         {
+            //File.WriteAllText(new Uri($"{Applicationm.streamingAssetsPath}/Config/GeneralData.json").LocalPath,JsonConvert.SerializeObject(GlobalData.Instance.generalData),Encoding.UTF8);
             Init();
         }
 
