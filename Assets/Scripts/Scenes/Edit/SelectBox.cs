@@ -188,7 +188,7 @@ namespace Scenes.Edit
         public void SetMutliNote(List<ISelectBoxItem> selectBoxItems)
         {
             ClearSelectedBoxItems();
-            foreach (EventEditItem selectBoxItem in selectBoxItems.Cast<EventEditItem>())
+            foreach (ISelectBoxItem selectBoxItem in selectBoxItems)
             {
                 selectBoxItem.SetSelectState(true);
                 selectBoxItem.SetStartAndEndVisibility(true);

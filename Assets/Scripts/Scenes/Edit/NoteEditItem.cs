@@ -59,6 +59,7 @@ namespace Scenes.Edit
 
         public void SetSelectState(bool active)
         {
+            
             try
             {
                 ((HoldEdit)this).SetStartAndEndVisibility(active);
@@ -67,6 +68,7 @@ namespace Scenes.Edit
             {
                 // ignored
             }
+            
             thisNoteData.isSelected = active;
             isSelectedRect.gameObject.SetActive(active);
         }
