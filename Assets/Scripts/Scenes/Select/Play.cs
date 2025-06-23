@@ -38,7 +38,7 @@ namespace Scenes.Select
             GlobalData.Instance.metaData = JsonConvert.DeserializeObject<MetaData>(File.ReadAllText(new Uri($"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/MetaData.json").LocalPath,Encoding.UTF8));
 
             GlobalData.Instance.generalData = JsonConvert.DeserializeObject<GeneralData>(File.ReadAllText(new Uri($"{Applicationm.streamingAssetsPath}/Config/GeneralData.json").LocalPath,Encoding.UTF8));
-            GlobalData.Instance.generalData.Init();
+            GlobalData.Instance.onStartEdit += GlobalData.Instance.generalData.Init;
             
             BPMManager.UpdateInfo(GlobalData.Instance.chartEditData.bpmList);
             SceneManager.LoadSceneAsync(1, LoadSceneMode.Single).completed += Play_completed;

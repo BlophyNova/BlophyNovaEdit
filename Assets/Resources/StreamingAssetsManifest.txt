@@ -12,3 +12,4 @@
 20250519164417/Music/Music.ogg
 Config/EaseDatas.json
 Config/ShortcutKeyConfig.HuaWaterED
+Config/GeneralData.json
