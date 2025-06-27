@@ -9843,6 +9843,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisButton: {fileID: 5517388973966963588}
+  canvas:
+  - {fileID: 4601581539311165027}
+  - {fileID: 5214730781681098628}
+  - {fileID: 4084983438872436115}
+  - {fileID: 5063637563376029354}
+  - {fileID: 7935824222298938502}
+  - {fileID: 389033848820379564}
 --- !u!1 &3843251329812580043
 GameObject:
   m_ObjectHideFlags: 0
