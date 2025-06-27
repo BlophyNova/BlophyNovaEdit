@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Hook;
 using Newtonsoft.Json;
+using Scenes.PublicScripts;
 using Unity.VisualScripting;
 using UnityEngine;
 using UtilityCode.Singleton;
@@ -56,6 +57,16 @@ namespace Scenes.DontDestroyOnLoad
                     File.Delete(new Uri(autoSave).LocalPath);
                 }
             }
+        }
+        public void Save()
+        {
+
+            File.WriteAllText(
+                new Uri(
+                        $"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/ChartFile/{GlobalData.Instance.currentHard}/Chart.json")
+                    .LocalPath,
+                JsonConvert.SerializeObject(GlobalData.Instance.chartEditData), Encoding.UTF8);
+            Alert.EnableAlert("喵~保存成功~");
         }
     }
 }

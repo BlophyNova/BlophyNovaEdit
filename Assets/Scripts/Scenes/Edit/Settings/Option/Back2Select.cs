@@ -13,6 +13,7 @@ namespace Scenes.Edit.Settings.Option
         {
             thisButton.onClick.AddListener(() =>
             {
+                AutoSave.Instance.Save();
                 GlobalData.Instance.currentHard = Hard.Hard;
                 GlobalData.Instance.chartData.boxes.Clear();
                 SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
