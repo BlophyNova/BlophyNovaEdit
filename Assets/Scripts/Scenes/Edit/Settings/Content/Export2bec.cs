@@ -200,8 +200,45 @@ namespace Scenes.Edit.Settings.Content
                     }
                 }
             }
+            metaData.musicLength = GlobalData.Instance.clip.length;
+            List<Data.ChartData.Note> notes = new();
+            foreach (var box in chartData.boxes)
+            {
+                foreach (var line in box.lines)
+                {
+                    foreach (Data.ChartData.Note note in line.onlineNotes)
+                    {
+                        notes.Add(note);
+                    }
+                }
+            }
+            BubbleSort(notes);
+            for (int i = 1; i < notes.Count; i++)
+            {
+                if (Mathf.Abs(notes[i].hitTime - notes[i - 1].hitTime) < .01f)
+                {
+                    notes[i].hasOther = true;
+                    notes[i - 1].hasOther = true;
+                }
+            }
         }
-
+        /// <summary>  
+        /// 整型数组的冒泡排序  
+        /// </summary>  
+        /// <param name="arr"></param>  
+        public static void BubbleSort(List<Data.ChartData.Note> notes)
+        {
+            for (int i = 0; i < notes.Count - 1; i++)
+            {
+                for (int j = 0; j < notes.Count - 1 - i; j++)
+                {
+                    if (notes[j].hitTime < notes[j + 1].hitTime)
+                    {
+                        (notes[j + 1], notes[j]) = (notes[j], notes[j + 1]);
+                    }
+                }
+            }
+        }
         static string GetIllustrationFullPath()
         {
             string illustrationPath = $"{Applicationm.streamingAssetsPath}/{GlobalData.Instance.currentChartIndex}/Illustration";
