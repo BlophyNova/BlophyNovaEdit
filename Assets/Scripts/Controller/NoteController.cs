@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Data.ChartData;
 using Data.Enumerate;
 using Manager;
@@ -51,8 +52,72 @@ namespace Controller
             MultiOrCommon();
             ChangeColor(Color.white); //初始化为白色
             isJudged = false; //重置isJudged
+            //syncAlpha
+            if (thisNote.syncAlpha && thisNote.isFakeNote) return;
+            VisualTime();
+            Offset();
         } //初始化方法
 
+        public virtual void Hide()
+        {
+            if (thisNote.noteType is NoteType.FullFlickPink or NoteType.FullFlickBlue or NoteType.Hold or NoteType.Point) return;
+            texture.color = Color.clear;
+        }
+        public virtual void Show()
+        {
+            if (thisNote.noteType is NoteType.FullFlickPink or NoteType.FullFlickBlue or NoteType.Hold or NoteType.Point) return;
+            texture.color = Color.white;
+        }
+
+        public virtual async void Offset()
+        {
+            if (thisNote.visualTime > 0) return;
+            if (thisNote.offset == 0)
+            {
+                Show();
+                return;
+            }
+            Hide();
+            float offsetCanvas = noteCanvas.localPosition.y - thisNote.offset;
+            while (noteCanvas.localPosition.y >= offsetCanvas)
+            {
+                transform.localPosition = new(thisNote.positionX, PointNoteCurrentOffset + 2);
+                await UniTask.NextFrame();
+            }
+            //await UniTask.WaitUntil(()=> noteCanvas.localPosition.y <= offsetCanvas);
+            Vector2 before = new(thisNote.positionX, thisNote.hitFloorPosition);
+            //Vector2 after = Vector2.up * (thisNote.hitFloorPosition + thisNote.offset);
+            float showTime = (float)ProgressManager.Instance.CurrentTime;
+            Show();
+            while (true)
+            {
+                float currentTime = (float)ProgressManager.Instance.CurrentTime;
+                if (currentTime >= thisNote.hitTime)
+                {
+                    break;
+                }
+
+                float percentage = (currentTime - showTime) / (thisNote.hitTime - showTime);
+                transform.localPosition = before + (1 - percentage) * thisNote.offset * Vector2.up;
+                await UniTask.NextFrame();
+            }
+        }
+        public virtual async void VisualTime()
+        {
+            if (thisNote.visualTime <= 0)
+            {
+                Show();
+                return;
+            }
+            Hide();
+            await UniTask.WaitUntil(() => ProgressManager.Instance.CurrentTime > thisNote.hitTime - thisNote.visualTime);
+            Show();
+        }
+        public virtual void SetAlpha(Color color)
+        {
+            if (thisNote.noteType is NoteType.FullFlickPink or NoteType.FullFlickBlue or NoteType.Hold or NoteType.Point) return;
+            texture.color = color;
+        }
         protected virtual void MultiOrCommon()
         {
             texture.sprite = thisNote.hasOther switch

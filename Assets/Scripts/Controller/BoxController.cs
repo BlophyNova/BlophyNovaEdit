@@ -280,10 +280,14 @@ namespace Controller
                     spriteRenderers[2].color =
                         spriteRenderers[3].color = alpha; //1234根线赋值，这里的0，0，0就是黑色的线
 
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    spriteRenderers[i].color = new(spriteRenderers[i].color.r, spriteRenderers[i].color.g, spriteRenderers[i].color.b, currentAlpha);
-            //}
+            foreach (DecideLineController decideLineController in decideLineControllers)
+            {
+                foreach (NoteController noteController in decideLineController.lineNoteController.ariseOnlineNotes)
+                {
+                    if (!noteController.thisNote.isFakeNote || !noteController.thisNote.syncAlpha) continue;
+                    noteController.SetAlpha(alpha);
+                }
+            }
         }
 
         private void UpdateLineAlpha()

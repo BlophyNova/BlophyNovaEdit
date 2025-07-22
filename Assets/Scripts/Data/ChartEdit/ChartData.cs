@@ -346,6 +346,11 @@ namespace Data.ChartEdit
         public bool hasOther; //还有别的Note和他在统一时间被打击，简称多押标识（（
         [JsonIgnore] public bool isSelected;
         private BPM hitBeats; //打击时间
+        public float offset;
+        public float visualTime;
+        public bool isFakeNote;
+        public bool syncAlpha;
+        public bool newScale;
 
         public Note()
         {
