@@ -2,7 +2,7 @@
 
 为Blophy Nova设计的全新制谱器
 
-（注：本仓库以及Blophy本家仓库均已转为私有仓库，本仓库以及Blophy本家开源仓库不再更新，BlophyNova开源仓库由其他人维护）
+（注：本仓库以及Blophy本家仓库均已转为私有仓库，接下来的任何更新、commit，都会在私有仓库中进行，本仓库以及Blophy本家开源仓库不再更新，BlophyNova开源仓库由其他人维护）
 
 [**🇨🇳中文**](./README.md) **|** [**🌐官网**](https://blophy.net) | **[📖在线文档](https://blophy.net/start/judge/judge.html)** **|** **[❓提问](https://github.com/BlophyNova/BlophyNovaEdit/issues)**
 
